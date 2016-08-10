@@ -153,6 +153,6 @@ projects/notes.txt
 
 **/proj.android/AndroidManifest.xml
 **/proj.android/src/org/cocos2dx/cpp/GameServices.java
-
+/cocos_studio/
 .idea/
 

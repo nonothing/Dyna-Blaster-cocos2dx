@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>animations</key>
+    <dict>
+        <key>frog_move_down</key>
+        <dict>
+            <key>delay</key>
+            <real>0.2</real>
+            <key>frames</key>
+            <array>
+                <string>frog_5.png</string>
+				<string>frog_4.png</string>
+				<string>frog_6.png</string>
+				<string>frog_4.png</string>
+            </array>
+        </dict>
+		
+		<key>frog_move_left</key>
+        <dict>
+            <key>delay</key>
+            <real>0.2</real>
+            <key>frames</key>
+            <array>
+                <string>frog_7.png</string>
+				<string>frog_8.png</string>
+				<string>frog_9.png</string>
+				<string>frog_8.png</string>
+            </array>
+        </dict>
+		
+		<key>frog_move_up</key>
+        <dict>
+            <key>delay</key>
+            <real>0.2</real>
+            <key>frames</key>
+            <array>
+				<string>frog_1.png</string>
+				<string>frog_2.png</string>
+				<string>frog_3.png</string>
+				<string>frog_2.png</string>
+            </array>
+        </dict>
+		
+		<key>frog_dead</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>frog_10.png</string>
+				<string>frog_11.png</string>
+				<string>frog_12.png</string>
+				<string>neal_6.png</string>
+				<string>neal_7.png</string>
+				<string>neal_8.png</string>
+				<string>neal_9.png</string>
+            </array>
+        </dict>
+    </dict>
+</dict>
+</plist>

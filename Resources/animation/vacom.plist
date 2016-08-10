@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>animations</key>
+    <dict>
+        <key>move</key>
+        <dict>
+            <key>delay</key>
+            <real>0.5</real>
+            <key>frames</key>
+            <array>
+                <string>vacom_1.png</string>
+				<string>vacom_2.png</string>
+				<string>vacom_3.png</string>
+				<string>vacom_2.png</string>
+            </array>
+        </dict>
+		<key>dead</key>
+        <dict>
+            <key>delay</key>
+            <real>0.1</real>
+            <key>frames</key>
+            <array>
+                <string>vacom_4.png</string>
+				<string>vacom_5.png</string>
+				<string>vacom_6.png</string>
+				<string>vacom_7.png</string>
+            </array>
+        </dict>
+    </dict>
+</dict>
+</plist>

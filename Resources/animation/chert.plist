@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>animations</key>
+    <dict>
+        <key>chert_move_down</key>
+        <dict>
+            <key>delay</key>
+            <real>0.1</real>
+            <key>frames</key>
+            <array>
+                <string>chert_1.png</string>
+				<string>chert_2.png</string>
+				<string>chert_3.png</string>
+				<string>chert_2.png</string>
+            </array>
+        </dict>
+		
+		<key>chert_move_left</key>
+        <dict>
+            <key>delay</key>
+            <real>0.1</real>
+            <key>frames</key>
+            <array>
+                <string>chert_7.png</string>
+				<string>chert_8.png</string>
+				<string>chert_9.png</string>
+				<string>chert_8.png</string>
+            </array>
+        </dict>
+		
+		<key>chert_move_up</key>
+        <dict>
+            <key>delay</key>
+            <real>0.1</real>
+            <key>frames</key>
+            <array>
+                <string>chert_4.png</string>
+				<string>chert_5.png</string>
+				<string>chert_6.png</string>
+				<string>chert_5.png</string>
+            </array>
+        </dict>
+		
+		<key>chert_dead</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>chert_10.png</string>
+				<string>chert_11.png</string>
+				<string>chert_12.png</string>
+				<string>chert_13.png</string>
+				<string>neal_7.png</string>
+				<string>neal_8.png</string>
+				<string>neal_9.png</string>
+            </array>
+        </dict>
+    </dict>
+</dict>
+</plist>
