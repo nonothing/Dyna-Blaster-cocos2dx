@@ -1,0 +1,158 @@
+# Ignore thumbnails created by windows
+Thumbs.db
+
+# Ignore files build by Visual Studio
+*.obj
+*.exe
+*.pdb
+*.aps
+*.vspscc
+*_i.c
+*.i
+*.icf
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+Bb]in
+[Dd]ebug*/
+*.sbr
+*.sdf
+obj/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*
+ipch/
+*.opensdf
+Generated Files
+AppPackages
+SubmissionInfo
+*.hps
+
+# Ignore files build by ndk and eclipse
+bin/
+obj/
+gen/
+#assets/
+local.properties
+**/proj.android/assets
+**/proj.android/assets_obb
+**/proj.android/assets_obb_out
+**/proj.android/obb
+**/proj.android/libs
+**/proj.android/tmp*
+**/proj.android/temp*
+**/proj.android/build.properties
+
+
+# Ignore specific winrt files
+cocos2dx/platform/third_party/winrt/freetype/src
+cocos2dx/platform/third_party/winrt/libpng/lpng142
+cocos2dx/platform/third_party/winrt/libjpeg/jpeg-8b
+cocos2dx/platform/third_party/winrt/libtiff/tiff-4.0.1
+cocos2dx/platform/third_party/winrt/zlib/zlib-1.2.5
+cocos2dx/platform/third_party/wp8/freetype/src
+cocos2dx/platform/third_party/wp8/libpng/lpng142
+cocos2dx/platform/third_party/wp8/libjpeg/jpeg-8b
+cocos2dx/platform/third_party/wp8/libtiff/tiff-4.0.1
+cocos2dx/platform/third_party/wp8/zlib/zlib-1.2.5
+
+#*.vcxproj.user
+
+# Ignore python compiled files
+*.pyc
+
+# Ignore files build by airplay and marmalade
+build_*_xcode/
+build_*_vc10/
+
+# Ignore files build by xcode
+*.mode*v*
+*.pbxuser
+*.xcbkptlist
+*.xcworkspacedata
+*.xcuserstate
+xcschememanagement.plist
+#build/
+.DS_Store
+._.*
+xcuserdata/
+DerivedData/
+*.xccheckout
+
+# Ignore files built by bada
+.Simulator-Debug/
+.Target-Debug/
+.Target-Release/
+
+# Ignore files built by blackberry
+Simulator/
+Device-Debug/
+Device-Release/
+local.test.win32
+
+# Ignore vim swaps
+*.swp
+
+# Ignore config files in javascript bindings generator
+tools/tojs/user.cfg
+# ... userconf.ini generated if running from tools/tojs
+tools/tojs/userconf.ini
+# ... userconf.ini generated if running from tools/jenkins_scripts/mac/android/
+tools/jenkins_scripts/mac/android/userconf.ini
+
+# CTags
+tags
+/external/emscripten/
+/external/sqlite3/
+/scripting/javascript/spidermonkey-android/
+/scripting/javascript/spidermonkey-ios/
+/scripting/javascript/spidermonkey-win32/
+/scripting/lua/luajit/
+/tools/tojs/win32/
+/tools/tolua++/tolua++.Mac.zip
+/tools/tolua++/tolua++.rar
+/v*-deps-*.zip
+/external/version.json
+
+#ignore generated resources
+projects/ignore/
+
+*.vcxproj.user
+local.test
+war.log
+projects/iaf_server/srs/main/resources/db.properties
+
+.gradle
+projects/iaf_server/build/
+
+#ignore SVN
+.svn/
+UISources.udf
+editor.win32
+/projects/Build/Win32
+/projects/iaf/libs/libuuid/.deps
+/projects/notes.txt
+.svnignore
+
+#ignore resources
+/projects/iaf/Assets
+/projects/iaf/Resources*
+
+/projects/iaf/build.xml
+/projects/iaf/copy_csb_resources.bat
+/projects/iaf/copy_gamedata.bat
+
+#ignore tmp
+tmp.*tmp.*projects/iaf/libs/libuuid/.deps
+projects/notes.txt
+
+**/proj.android/AndroidManifest.xml
+**/proj.android/src/org/cocos2dx/cpp/GameServices.java
+
+.idea/
+
