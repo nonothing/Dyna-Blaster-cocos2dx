@@ -30,7 +30,12 @@ bool Brick::init(int level, int posX, int posY)
 
 void Brick::destroy()
 {
-	//todo animate
+	runAction(CCSequence::create(CCDelayTime::create(0.01f), CallFunc::create(CC_CALLBACK_0(Brick::animationDestroy, this)), nullptr));
+}
+
+
+void Brick::animationDestroy()
+{
 	if (_type == EWALL)
 	{
 		changeTexture(_sprite, EBACKGROUND, _level);

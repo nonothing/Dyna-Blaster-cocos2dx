@@ -17,6 +17,7 @@ public:
     virtual bool init(int level, int posX, int posY);
 	static Brick* create(int level, int posX, int posY);
 	void destroy();
+	void animationDestroy();
 	void createWall();
 	BrickType getType();
 };
