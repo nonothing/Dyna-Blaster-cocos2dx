@@ -16,7 +16,6 @@ private:
 	void move();
 	void animate(Direction dir);
 	std::string dirToString(Direction dir);
-	std::queue<Bomb*> bombs;
 
 public:
     virtual bool init();
@@ -25,8 +24,6 @@ public:
 	void update(float dt);
 	bool hasBomb();
 	bool isRemote();
-	void addBomb(Bomb* bomb);
-	void explodeBomb();
 };
 
 #endif // __PLAYER_H__

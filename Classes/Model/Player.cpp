@@ -27,6 +27,7 @@ bool Player::init()
 	schedule(schedule_selector(Player::update), 0.03f);
 	_sprite = Sprite::create("whiteHuman/player_down_3.png");
 	addChild(_sprite);
+	_isRemote = true;
     return true;
 }
 
@@ -98,29 +99,10 @@ std::string Player::dirToString(Direction dir)
 
 bool Player::hasBomb()
 {
-	return _countBomb;
+	return _countBomb != 0;
 }
 
 bool Player::isRemote()
 {
-	return true;// _isRemote;
+	return _isRemote;
 }
-
-void Player::addBomb(Bomb* bomb)
-{
-	bombs.push(bomb);
-}
-
-void Player::explodeBomb()
-{
-	if (!bombs.empty())
-	{
-		auto bomb = bombs.front();
-		bombs.pop();
-		if (bomb && bomb->isRemote())
-		{
-			bomb->explode();
-		}
-	}
-}
-

@@ -20,11 +20,13 @@ bool WorldScene::init()
     {
         return false;
     }
-	//I will be back in 5 minutes
+
 	_keyboardListener = EventListenerKeyboard::create();
 	_keyboardListener->onKeyPressed = CC_CALLBACK_2(WorldScene::onKeyPressed, this);
 	_keyboardListener->onKeyReleased = CC_CALLBACK_2(WorldScene::onKeyReleased, this);
 	getEventDispatcher()->addEventListenerWithFixedPriority(_keyboardListener, 100);
+
+	schedule(schedule_selector(WorldScene::update), 0.01f);
 
 	auto rootNode = CSLoader::createNode("WorldScene.csb");
 	BricksVec bricks;
@@ -70,7 +72,10 @@ void WorldScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_CTRL && _player->isRemote())
 	{
-		_player->explodeBomb();
+		if (!_bombs.empty())
+		{
+			_bombs.at(0)->explode();
+		}
 	}
 }
 
@@ -100,7 +105,6 @@ void WorldScene::createBomb(const Point& point)
 	bomb->setPosition(point);
 	addChild(bomb, 2);
 	_bombs.push_back(bomb);
-	_player->addBomb(bomb);
 }
 
 bool WorldScene::isMoveKey(cocos2d::EventKeyboard::KeyCode keyCode)
@@ -109,5 +113,59 @@ bool WorldScene::isMoveKey(cocos2d::EventKeyboard::KeyCode keyCode)
 		keyCode == EventKeyboard::KeyCode::KEY_S || keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW ||
 		keyCode == EventKeyboard::KeyCode::KEY_A || keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW ||
 		keyCode == EventKeyboard::KeyCode::KEY_D || keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW;
+}
+
+void WorldScene::update(float dt)
+{
+	checkCollisionBombs();
+}
+
+void WorldScene::checkCollisionBombs()
+{
+	//todo need optimization?
+	for (auto it = _bombs.begin(); it != _bombs.end();)
+	{
+		auto bomb = *it;
+		if (bomb->isFire())
+		{
+			_expBomb = bomb;
+			it = _bombs.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
+
+	if (_expBomb)
+	{
+		for (auto bomb : _bombs)
+		{
+			Point bombPos = bomb->convertToWorldSpace(bomb->getBoundingBox().origin);
+			Rect bombRect = Rect(bombPos.x, bombPos.y, bomb->getRect().size.width, bomb->getRect().size.height);
+
+			Point firePos = _expBomb->convertToWorldSpace(_expBomb->getBoundingBox().origin);
+			Rect fireRect = Rect(firePos.x, firePos.y, _expBomb->getRect().size.width, _expBomb->getRect().size.height);
+
+			if (isCollisionFire(fireRect, bombRect))
+			{
+				bomb->explode();
+			}
+		}
+	}
+}
+
+bool WorldScene::isCollisionFire(const cocos2d::Rect& rectFire, const cocos2d::Rect& rect)
+{
+	float w = rectFire.size.width;
+	float h = rectFire.size.height;
+	float x = rectFire.origin.x - w / 2;
+	float y = rectFire.origin.y - h / 2;
+	float size = _expBomb->getSize();
+
+	Rect rectFireHorizontal = Rect(x - size * w, y, (size * 2 + 1) * w, h);
+	Rect rectFireVertical =   Rect(x, y - size * h, w, (size * 2 + 1) * h);
+
+	return rectFireHorizontal.intersectsRect(rect) || rectFireVertical.intersectsRect(rect);
 }
 

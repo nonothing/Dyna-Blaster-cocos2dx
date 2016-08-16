@@ -34,6 +34,7 @@ bool Bomb::init(bool isRemote)
 	addChild(_sprite);
 	_tick = 0;
 	_size = 5;
+	_isFire = false;
     return true;
 }
 
@@ -131,6 +132,7 @@ void Bomb::destroy()
 
 void Bomb::explode()
 {
+	_isFire = true;
 	_isRemote = false;
 	_tick = 9999;
 	animate(_sprite, NONE, FCENTER);
@@ -152,3 +154,17 @@ bool Bomb::isRemote()
 	return _isRemote;
 }
 
+cocos2d::Rect Bomb::getRect()
+{
+	return _sprite->getTextureRect();
+}
+
+int Bomb::getSize()
+{
+	return _size;
+}
+
+bool Bomb::isFire()
+{
+	return _isFire;
+}
