@@ -2,13 +2,13 @@
 #define __BRICK_H__
 
 #include "cocos2d.h"
+#include "Model/WorldObject.h"
 
 enum BrickType { EBACKGROUND = 0, EBRICK, EWALL, ENONE};
 
-class Brick : public cocos2d::Layer
+class Brick : public WorldObject
 {
 private:
-	cocos2d::Sprite*	_sprite;
 	int					_level;
 	BrickType			_type;
 	std::string getPathNameBrick(BrickType type, int level);

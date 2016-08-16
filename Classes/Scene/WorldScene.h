@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "Model/Player.h"
 #include "Model/Bomb.h"
+#include "Model/Brick.h"
 
 class WorldScene : public cocos2d::Layer
 {
@@ -11,13 +12,14 @@ private:
 	Player*					_player;
 	std::vector<Bomb*>      _bombs;
 	Bomb*					_expBomb = nullptr;
-
+	BricksVec				_bricks;
 	cocos2d::EventListenerKeyboard*	_keyboardListener;
 
 	Direction KeyCodeToDiretion(cocos2d::EventKeyboard::KeyCode keyCode);
 	bool isMoveKey(cocos2d::EventKeyboard::KeyCode keyCode);
 	void checkCollisionBombs();
 	bool isCollisionFire(const cocos2d::Rect& rectFire, const cocos2d::Rect& rect);
+	bool isCollision(WorldObject* obj1, WorldObject* obj2);
 
 public:
     static cocos2d::Scene* createScene();

@@ -69,23 +69,11 @@ void Bomb::changeTexture(cocos2d::Sprite* sprite, const std::string& str )
 	}
 }
 
-void Bomb::animate(Sprite* sprite, Direction dir, FireType type)
+void Bomb::animate(Sprite* sprite, FireType type)
 {
 	auto animation = AnimationCache::getInstance()->getAnimation(typeToStr(type));
 	if (animation)
 	{
-		if (dir == RIGHT)
-		{
-			sprite->setRotation(90);
-		}
-		else if (dir == LEFT)
-		{
-			sprite->setRotation(270);
-		}
-		else if (dir == DOWN)
-		{
-			sprite->setFlippedY(true);
-		}
 		sprite->stopActionByTag(ANIM_TAG);
 		auto action = Sequence::create(Animate::create(animation), CallFunc::create(CC_CALLBACK_0(Bomb::destroy, this)) , nullptr);
 		action->setTag(ANIM_TAG);
@@ -135,16 +123,31 @@ void Bomb::explode()
 	_isFire = true;
 	_isRemote = false;
 	_tick = 9999;
-	animate(_sprite, NONE, FCENTER);
+	animate(_sprite, FCENTER);
 	for (auto p : sPoints)
 	{
 		for (int i = 1; i <= _size; i++)
 		{
-			auto sprite = Sprite::create("bomb/bomb_1.png");
-			sprite->setPosition(_sprite->getPosition() + p * i);
-			addChild(sprite);
 			FireType type = i == _size ? FTAIL : FBODY;
-			animate(sprite, pointToDir(p), type);
+			auto sprite = Sprite::create("bomb/" + typeToStr(type) + "_1.png");
+			sprite->setPosition(_sprite->getPosition() + p * i);
+
+			Direction dir = pointToDir(p);
+			if (dir == RIGHT)
+			{
+				sprite->setRotation(90);
+			}
+			else if (dir == LEFT)
+			{
+				sprite->setRotation(270);
+			}
+			else if (dir == DOWN)
+			{
+				sprite->setFlippedY(true);
+			}
+
+			animate(sprite, type);
+			addChild(sprite);
 		}
 	}
 }
@@ -152,11 +155,6 @@ void Bomb::explode()
 bool Bomb::isRemote()
 {
 	return _isRemote;
-}
-
-cocos2d::Rect Bomb::getRect()
-{
-	return _sprite->getTextureRect();
 }
 
 int Bomb::getSize()

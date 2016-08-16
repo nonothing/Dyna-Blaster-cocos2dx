@@ -1,7 +1,5 @@
 #include "WorldScene.h"
-#include "Model/Brick.h"
 #include "cocostudio/CocoStudio.h"
-#include "Model/Bomb.h"
 
 USING_NS_CC;
 
@@ -29,7 +27,6 @@ bool WorldScene::init()
 	schedule(schedule_selector(WorldScene::update), 0.01f);
 
 	auto rootNode = CSLoader::createNode("WorldScene.csb");
-	BricksVec bricks;
 	int size = 74; // todo delete magic nubmer
 	Point position;
 	for (int i = 0; i <= 12; i++)
@@ -39,15 +36,15 @@ bool WorldScene::init()
 			auto brick = Brick::create(1, i, j);
 			brick->setPosition(Point(i * size + 148, j * size + 112));
 			if (brick->getType() == EBACKGROUND) position = brick->getPosition();
-			bricks.push_back(brick);
+			_bricks.push_back(brick);
 			addChild(brick, 1);
 		}
 	}
 
 	for (int i = 0; i < 60; i++)
 	{
-		int randomNumber = rand() % bricks.size();
-		bricks.at(randomNumber)->createWall();
+		int randomNumber = rand() % _bricks.size();
+		_bricks.at(randomNumber)->createWall();
 	}
 
 	addChild(rootNode, 0);
@@ -102,9 +99,35 @@ Direction WorldScene::KeyCodeToDiretion(EventKeyboard::KeyCode keyCode)
 void WorldScene::createBomb(const Point& point)
 {
 	auto bomb = Bomb::create(_player->isRemote());
-	bomb->setPosition(point);
-	addChild(bomb, 2);
-	_bombs.push_back(bomb);
+		 bomb->setPosition(point);
+	bool hasBomb = false;
+	for (auto elem : _bombs)
+	{
+		if (isCollision(elem, bomb))
+		{
+			hasBomb = true;
+			break;
+		}
+	}
+	bool isCorrect = false;
+	if (!hasBomb)
+	{
+		for (auto brick : _bricks)
+		{
+			if (isCollision(brick, bomb) && brick->getType() == EBACKGROUND)
+			{
+				bomb->setPosition(brick->getPosition());
+				isCorrect = true;
+				break;
+			}
+		}
+	}
+
+	if (isCorrect)
+	{
+		addChild(bomb, 2);
+		_bombs.push_back(bomb);
+	}
 }
 
 bool WorldScene::isMoveKey(cocos2d::EventKeyboard::KeyCode keyCode)
@@ -152,6 +175,7 @@ void WorldScene::checkCollisionBombs()
 				bomb->explode();
 			}
 		}
+		_expBomb = nullptr;
 	}
 }
 
@@ -164,8 +188,19 @@ bool WorldScene::isCollisionFire(const cocos2d::Rect& rectFire, const cocos2d::R
 	float size = _expBomb->getSize();
 
 	Rect rectFireHorizontal = Rect(x - size * w, y, (size * 2 + 1) * w, h);
-	Rect rectFireVertical =   Rect(x, y - size * h, w, (size * 2 + 1) * h);
+	Rect rectFireVertical = Rect(x, y - size * h, w, (size * 2 + 1) * h);
 
 	return rectFireHorizontal.intersectsRect(rect) || rectFireVertical.intersectsRect(rect);
+}
+
+bool WorldScene::isCollision(WorldObject* obj1, WorldObject* obj2)
+{
+	Point obj1Pos = obj1->convertToWorldSpace(obj1->getBoundingBox().origin);
+	Rect obj1Rect = Rect(obj1Pos.x, obj1Pos.y, obj1->getRect().size.width, obj1->getRect().size.height);
+
+	Point obj2Pos = obj2->convertToWorldSpace(obj2->getBoundingBox().origin);
+	Rect obj2Rect = Rect(obj2Pos.x, obj2Pos.y, obj2->getRect().size.width, obj2->getRect().size.height);
+
+	return obj1Rect.intersectsRect(obj2Rect);
 }
 
