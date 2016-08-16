@@ -3,6 +3,9 @@
 
 USING_NS_CC;
 
+const static int m_WIDTH = 1180;
+const static int m_HEIGHT = 1100;
+
 AppDelegate::AppDelegate() {
 
 }
@@ -26,7 +29,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     }
 
     director->setDisplayStats(false);
-	glview->setDesignResolutionSize(1180, 1100, ResolutionPolicy::EXACT_FIT);
+	glview->setDesignResolutionSize(m_WIDTH, m_HEIGHT, ResolutionPolicy::EXACT_FIT);
+	glview->setFrameSize(m_WIDTH, m_HEIGHT);
 
     director->setAnimationInterval(1.0 / 60);
 
