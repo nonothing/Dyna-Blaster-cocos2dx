@@ -14,6 +14,7 @@ private:
 	Bomb*					_expBomb = nullptr;
 	BricksVec				_bricks;
 	cocos2d::EventListenerKeyboard*	_keyboardListener;
+	Layer*					_debugLayer;
 
 	Direction KeyCodeToDiretion(cocos2d::EventKeyboard::KeyCode keyCode);
 	bool isMoveKey(cocos2d::EventKeyboard::KeyCode keyCode);

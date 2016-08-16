@@ -35,7 +35,6 @@ bool Bomb::init(bool isRemote)
 	_tick = 0;
 	_size = 5;
 	_isFire = false;
-	drawDebugRect(_sprite->getBoundingBox());
     return true;
 }
 
@@ -162,7 +161,7 @@ void Bomb::explode()
 		for (int i = 1; i <= _size; i++)
 		{
 			FireType type = i == _size ? FTAIL : FBODY;
-			auto sprite = Sprite::create("bomb/" + typeToStr(type) + "_1.png");
+			auto sprite = Sprite::createWithSpriteFrameName(typeToStr(type) + "_1.png");
 			sprite->setPosition(_sprite->getPosition() + p * i);
 
 			Direction dir = pointToDir(p);

@@ -3,27 +3,34 @@
 
 #include "cocos2d.h"
 #include "Model/Direction.h"
-#include "Model/Bomb.h"
-
-class Player : public cocos2d::Layer
+#include "Model/WorldObject.h"
+#include "Model/Brick.h"
+class Player : public WorldObject
 {
 private:
-	cocos2d::Sprite*	_sprite;
 	Direction			_dir;
-	int					_speed;
+	cocos2d::Point		_speed;
 	int					_countBomb;
 	bool				_isRemote;
+	BricksVec			_bricks;
+
 	void move();
 	void animate(Direction dir);
 	std::string dirToString(Direction dir);
+	bool	isCollision(const cocos2d::Point& point);
 
 public:
-    virtual bool init();
-	static Player* create();
+	cocos2d::Vector<Node*> _collisions;
+    virtual bool init(BricksVec vec);
+	static Player* create(BricksVec vec);
 	void setDirection(Direction dir);
+	Direction getDirection();
 	void update(float dt);
 	bool hasBomb();
+	void putBomb();
+	void explodeBomb();
 	bool isRemote();
+	virtual cocos2d::Rect getRect() override;
 };
 
 #endif // __PLAYER_H__

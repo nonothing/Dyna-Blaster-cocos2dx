@@ -19,6 +19,8 @@ bool WorldScene::init()
         return false;
     }
 
+	_debugLayer = Layer::create();
+
 	_keyboardListener = EventListenerKeyboard::create();
 	_keyboardListener->onKeyPressed = CC_CALLBACK_2(WorldScene::onKeyPressed, this);
 	_keyboardListener->onKeyReleased = CC_CALLBACK_2(WorldScene::onKeyReleased, this);
@@ -49,9 +51,12 @@ bool WorldScene::init()
 
 	addChild(rootNode, 0);
 
-	_player = Player::create();
+	_player = Player::create(_bricks);
 	_player->setPosition(position);
+	_player->debugLayer = _debugLayer;
+	_player->_collisions = rootNode->getChildren();
 	addChild(_player, 3);
+	addChild(_debugLayer, 100);
     
     return true;
 }
@@ -80,7 +85,10 @@ void WorldScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 {
 	if (isMoveKey(keyCode))
 	{
-		_player->setDirection(NONE);
+		if (_player->getDirection() == KeyCodeToDiretion(keyCode))
+		{
+			_player->setDirection(NONE);
+		}
 	}
 }
 
@@ -128,6 +136,7 @@ void WorldScene::createBomb(const Point& point)
 	if (isCorrect)
 	{
 		addChild(bomb, 2);
+		_player->putBomb();
 		_bombs.push_back(bomb);
 	}
 }
@@ -154,6 +163,7 @@ void WorldScene::checkCollisionBombs()
 		if (bomb->isFire())
 		{
 			_expBomb = bomb;
+			_player->explodeBomb();
 			it = _bombs.erase(it);
 		}
 		else
@@ -171,7 +181,7 @@ void WorldScene::checkCollisionBombs()
 				bomb->explode();
 			}
 		}
-
+		
 		_expBomb = nullptr;
 	}
 }
