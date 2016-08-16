@@ -35,6 +35,7 @@ bool Bomb::init(bool isRemote)
 	_tick = 0;
 	_size = 5;
 	_isFire = false;
+	drawDebugRect(_sprite->getBoundingBox());
     return true;
 }
 
@@ -118,12 +119,44 @@ void Bomb::destroy()
 	removeAllChildren();
 }
 
+bool Bomb::checkCollision(cocos2d::Sprite* sprite)
+{
+	Size size = Size(74, 74);
+	for (auto brick : _bricks)
+	{
+		Point bombPos = brick->convertToWorldSpace(brick->getPosition());
+		Rect rect = Rect(bombPos.x, bombPos.y, size.width, size.height);
+
+		Point fp = sprite->getPosition();
+		Point firePos = this->convertToWorldSpace(this->getPosition() + fp + fp); //todo why two fire position?
+		Rect rectFire = Rect(firePos.x, firePos.y, size.width, size.height);
+
+		if (rectFire.intersectsRect(rect))
+		{
+			if (brick->getType() == EWALL)
+			{
+				brick->destroy();
+				_fires.push_back(sprite);
+				addChild(sprite);
+				return true;
+			}
+			if (brick->getType() == EBACKGROUND)
+			{
+				return false;
+			}
+		}
+
+	}
+	return true;
+}
+
 void Bomb::explode()
 {
 	_isFire = true;
 	_isRemote = false;
 	_tick = 9999;
 	animate(_sprite, FCENTER);
+	_fires.push_back(_sprite);
 	for (auto p : sPoints)
 	{
 		for (int i = 1; i <= _size; i++)
@@ -147,6 +180,8 @@ void Bomb::explode()
 			}
 
 			animate(sprite, type);
+			if (checkCollision(sprite)) break;
+			_fires.push_back(sprite);
 			addChild(sprite);
 		}
 	}
@@ -165,4 +200,14 @@ int Bomb::getSize()
 bool Bomb::isFire()
 {
 	return _isFire;
+}
+
+void Bomb::setBricks(BricksVec vec)
+{
+	_bricks = vec;
+}
+
+std::vector<cocos2d::Sprite*> Bomb::getFires()
+{
+	return _fires;
 }

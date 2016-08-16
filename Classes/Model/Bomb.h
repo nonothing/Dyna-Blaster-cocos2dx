@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "Model/WorldObject.h"
 #include "Model/Direction.h"
+#include "Model/Brick.h"
 
 enum FireType { FCENTER, FBODY, FTAIL};
 class Bomb : public WorldObject
@@ -19,6 +20,8 @@ private:
 	int					_size;
 	std::vector<cocos2d::Sprite*> _fires;
 	bool				_isFire;
+	BricksVec			_bricks;
+	bool				checkCollision(cocos2d::Sprite* sprite);
 public:
 	virtual bool init(bool isRemote);
 	static Bomb* create(bool isRemote);
@@ -27,6 +30,8 @@ public:
 	void update(float dt);
 	int getSize();
 	bool isFire();
+	void setBricks(BricksVec vec);
+	std::vector<cocos2d::Sprite*> getFires();
 };
 
 #endif // __BOMB_H__

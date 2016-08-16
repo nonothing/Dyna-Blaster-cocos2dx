@@ -10,6 +10,7 @@ protected:
 
 public:
 	cocos2d::Rect getRect();
+	void drawDebugRect(const cocos2d::Rect& rect);
 };
 
 #endif // __WORDL_OBJECT_H__

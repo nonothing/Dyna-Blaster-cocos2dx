@@ -18,7 +18,7 @@ private:
 	Direction KeyCodeToDiretion(cocos2d::EventKeyboard::KeyCode keyCode);
 	bool isMoveKey(cocos2d::EventKeyboard::KeyCode keyCode);
 	void checkCollisionBombs();
-	bool isCollisionFire(const cocos2d::Rect& rectFire, const cocos2d::Rect& rect);
+	bool isCollisionFire(Bomb* bomb, WorldObject* obj);
 	bool isCollision(WorldObject* obj1, WorldObject* obj2);
 
 public:

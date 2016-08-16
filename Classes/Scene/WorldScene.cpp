@@ -100,6 +100,7 @@ void WorldScene::createBomb(const Point& point)
 {
 	auto bomb = Bomb::create(_player->isRemote());
 		 bomb->setPosition(point);
+		 bomb->setBricks(_bricks);
 	bool hasBomb = false;
 	for (auto elem : _bombs)
 	{
@@ -109,6 +110,7 @@ void WorldScene::createBomb(const Point& point)
 			break;
 		}
 	}
+
 	bool isCorrect = false;
 	if (!hasBomb)
 	{
@@ -164,33 +166,37 @@ void WorldScene::checkCollisionBombs()
 	{
 		for (auto bomb : _bombs)
 		{
-			Point bombPos = bomb->convertToWorldSpace(bomb->getBoundingBox().origin);
-			Rect bombRect = Rect(bombPos.x, bombPos.y, bomb->getRect().size.width, bomb->getRect().size.height);
-
-			Point firePos = _expBomb->convertToWorldSpace(_expBomb->getBoundingBox().origin);
-			Rect fireRect = Rect(firePos.x, firePos.y, _expBomb->getRect().size.width, _expBomb->getRect().size.height);
-
-			if (isCollisionFire(fireRect, bombRect))
+			if (isCollisionFire(_expBomb, bomb))
 			{
 				bomb->explode();
 			}
 		}
+
 		_expBomb = nullptr;
 	}
 }
 
-bool WorldScene::isCollisionFire(const cocos2d::Rect& rectFire, const cocos2d::Rect& rect)
+bool WorldScene::isCollisionFire(Bomb* bomb, WorldObject* obj)
 {
-	float w = rectFire.size.width;
-	float h = rectFire.size.height;
-	float x = rectFire.origin.x - w / 2;
-	float y = rectFire.origin.y - h / 2;
-	float size = _expBomb->getSize();
+	//Todo need optimization?
+	Size objSize = Size(74, 74);
+	Point bombPos = obj->convertToWorldSpace(obj->getPosition());
+	Rect rect = Rect(bombPos.x, bombPos.y, objSize.width, objSize.height);
+	for (auto fire : bomb->getFires())
+	{
+		Point fp = fire->getPosition();
+		Size size = Size(74, 74);
+		
+		Point firePos = bomb->convertToWorldSpace(bomb->getPosition() + fp + fp); //todo why two fire position?
+		Rect rectFire = Rect(firePos.x, firePos.y, size.width, size.height);
+//		CCLOG("bomb x=%f y=%f, fire x=%f y=%f origin x=%f y=%f", bombPos.x, bombPos.y, firePos.x, firePos.y, fp.x, fp.y);
+		if (rectFire.intersectsRect(rect)) 
+		{
+			return true;
+		}
+	}
 
-	Rect rectFireHorizontal = Rect(x - size * w, y, (size * 2 + 1) * w, h);
-	Rect rectFireVertical = Rect(x, y - size * h, w, (size * 2 + 1) * h);
-
-	return rectFireHorizontal.intersectsRect(rect) || rectFireVertical.intersectsRect(rect);
+	return false;
 }
 
 bool WorldScene::isCollision(WorldObject* obj1, WorldObject* obj2)
