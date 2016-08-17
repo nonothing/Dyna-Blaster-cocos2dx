@@ -11,6 +11,7 @@ class Brick : public WorldObject
 private:
 	int					_level;
 	BrickType			_type;
+	bool				_hasBomb;
 	std::string getPathNameBrick(BrickType type, int level);
 	void changeTexture(cocos2d::Sprite* sprite, BrickType type, int level);
 public:
@@ -20,6 +21,9 @@ public:
 	void animationDestroy();
 	void createWall();
 	BrickType getType();
+	void		putBomb();
+	void		explodeBomb();
+	bool		hasBomb();
 };
 
 typedef std::vector<Brick*> BricksVec;

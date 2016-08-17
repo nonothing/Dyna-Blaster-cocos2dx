@@ -22,6 +22,7 @@ bool Brick::init(int level, int posX, int posY)
         return false;
     }
 	_level = level;
+	_hasBomb = false;
 	BrickType type = (posX % 2 == 1 && posY % 2 == 1) ? EBRICK : EBACKGROUND;
 	_sprite = Sprite::create(getPathNameBrick(type, _level));
 	addChild(_sprite);
@@ -74,6 +75,21 @@ void Brick::changeTexture(cocos2d::Sprite* sprite, BrickType type, int level)
 BrickType Brick::getType()
 {
 	return _type;
+}
+
+void Brick::putBomb()
+{
+	_hasBomb = true;
+}
+
+void Brick::explodeBomb()
+{
+	_hasBomb = false;
+}
+
+bool Brick::hasBomb()
+{
+	return _hasBomb;
 }
 
 

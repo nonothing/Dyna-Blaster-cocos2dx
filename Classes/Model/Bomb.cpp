@@ -6,30 +6,35 @@ USING_NS_CC;
 
 const static Point sPoints[] = { Point(74, 0), Point(-74, 0), Point(0, -74), Point(0, 74) };
 
-Bomb* Bomb::create(bool isRemote)
+Bomb* Bomb::create(Player* player)
 {
-	Bomb* brick = new Bomb();
-	if (brick && brick->init(isRemote))
+	Bomb* bomb = new Bomb();
+	if (bomb && bomb->init(player))
 	{
-		return (Bomb*)brick->autorelease();
+		return (Bomb*)bomb->autorelease();
 	}
 
-	CC_SAFE_DELETE(brick);
+	CC_SAFE_DELETE(bomb);
 
-	return brick;
+	return bomb;
 }
 
-bool Bomb::init(bool isRemote)
+bool Bomb::init(Player* player)
 {
     if ( !Layer::init() )
     {
         return false;
     }
-	_isRemote = isRemote;
+
+	_brick = nullptr;
+	_player = player;
+	_isRemote = player->isRemote();
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("bomb/fire.plist", "bomb/fire.png");
 	AnimationCache::getInstance()->addAnimationsWithFile("bomb/fireAnim.plist");
 
 	schedule(schedule_selector(Bomb::update), 0.3f);
+	schedule(schedule_selector(Bomb::updateCollision), 0.05f);
+
 	_sprite = Sprite::create("bomb/bomb_1.png");
 	addChild(_sprite);
 	_tick = 0;
@@ -60,7 +65,27 @@ void Bomb::update(float dt)
 	}
 }
 
-void Bomb::changeTexture(cocos2d::Sprite* sprite, const std::string& str )
+void Bomb::updateCollision(float dt)
+{
+	if (_brick)
+	{
+		Point point = _player->getPosition();
+		Size size = _player->getRect().size;
+		Rect obj2Rect = Rect(point.x - size.width / 2, point.y - size.height / 2, size.width, size.height);
+
+		Size bSize = _brick->getRect().size;
+		Point obj1Pos = _brick->convertToWorldSpace(_brick->getRect().origin);
+		Rect obj1Rect = Rect(obj1Pos.x - bSize.width / 2, obj1Pos.y - bSize.height / 2, bSize.width, bSize.height);
+
+		if (!obj1Rect.intersectsRect(obj2Rect))
+		{
+			_brick->putBomb();
+			unscheduleAllSelectors();
+		}
+	}
+}
+
+void Bomb::changeTexture(cocos2d::Sprite* sprite, const std::string& str)
 {
 	auto texture = Director::getInstance()->getTextureCache()->addImage("bomb/" + str + ".png");
 	if (texture)
@@ -154,6 +179,7 @@ void Bomb::explode()
 	_isFire = true;
 	_isRemote = false;
 	_tick = 9999;
+	_brick->explodeBomb();
 	animate(_sprite, FCENTER);
 	_fires.push_back(_sprite);
 	for (auto p : sPoints)
@@ -204,6 +230,11 @@ bool Bomb::isFire()
 void Bomb::setBricks(BricksVec vec)
 {
 	_bricks = vec;
+}
+
+void Bomb::setBrick(Brick* brick)
+{
+	_brick = brick;
 }
 
 std::vector<cocos2d::Sprite*> Bomb::getFires()

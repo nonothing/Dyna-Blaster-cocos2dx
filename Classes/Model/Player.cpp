@@ -28,6 +28,7 @@ bool Player::init(BricksVec vec)
 
 	schedule(schedule_selector(Player::update), 0.03f);
 	_sprite = Sprite::createWithSpriteFrameName("player_down_3.png");
+	_sprite->setPositionY(12);
 	addChild(_sprite);
 
 	_bricks = vec;
@@ -140,7 +141,7 @@ bool Player::isCollision(const Point& point)
 
 	for (auto brick : _bricks)
 	{
-		if (brick->getType() == EBRICK || brick->getType() == EWALL)
+		if (brick->getType() == EBRICK || brick->getType() == EWALL || brick->hasBomb())
 		{
 			Size bSize = brick->getRect().size;
 			Point obj1Pos = brick->convertToWorldSpace(brick->getRect().origin);

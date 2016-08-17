@@ -106,7 +106,7 @@ Direction WorldScene::KeyCodeToDiretion(EventKeyboard::KeyCode keyCode)
 
 void WorldScene::createBomb(const Point& point)
 {
-	auto bomb = Bomb::create(_player->isRemote());
+	auto bomb = Bomb::create(_player);
 		 bomb->setPosition(point);
 		 bomb->setBricks(_bricks);
 	bool hasBomb = false;
@@ -127,6 +127,7 @@ void WorldScene::createBomb(const Point& point)
 			if (isCollision(brick, bomb) && brick->getType() == EBACKGROUND)
 			{
 				bomb->setPosition(brick->getPosition());
+				bomb->setBrick(brick);
 				isCorrect = true;
 				break;
 			}
@@ -219,4 +220,3 @@ bool WorldScene::isCollision(WorldObject* obj1, WorldObject* obj2)
 
 	return obj1Rect.intersectsRect(obj2Rect);
 }
-
