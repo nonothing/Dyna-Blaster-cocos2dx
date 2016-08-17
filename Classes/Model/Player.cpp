@@ -5,15 +5,15 @@ USING_NS_CC;
 
 Player* Player::create(BricksVec vec)
 {
-	Player* brick = new Player();
-	if (brick && brick->init(vec))
+	Player* player = new Player();
+	if (player && player->init(vec))
 	{
-		return (Player*)brick->autorelease();
+		return (Player*)player->autorelease();
 	}
 
-	CC_SAFE_DELETE(brick);
+	CC_SAFE_DELETE(player);
 
-	return brick;
+	return player;
 }
 
 bool Player::init(BricksVec vec)
@@ -33,6 +33,7 @@ bool Player::init(BricksVec vec)
 
 	_bricks = vec;
 	_isRemote = true;
+	_life = 3;
 	_speed = Point(5, 7);
 	_countBomb = 5;
 	_dir = NONE;
@@ -188,6 +189,11 @@ void Player::explodeBomb()
 bool Player::isRemote()
 {
 	return _isRemote;
+}
+
+int Player::getLife()
+{
+	return _life;
 }
 
 cocos2d::Rect Player::getRect()

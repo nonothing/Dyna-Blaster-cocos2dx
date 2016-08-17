@@ -5,6 +5,7 @@
 #include "Model/Player.h"
 #include "Model/Bomb.h"
 #include "Model/Brick.h"
+#include "ui/UIText.h"
 
 class WorldScene : public cocos2d::Layer
 {
@@ -14,7 +15,14 @@ private:
 	Bomb*					_expBomb = nullptr;
 	BricksVec				_bricks;
 	cocos2d::EventListenerKeyboard*	_keyboardListener;
-	Layer*					_debugLayer;
+	cocos2d::Layer*			_debugLayer;
+	int						_score;
+	int						_record;
+
+	cocos2d::ui::Text*			_labelLife;
+	cocos2d::ui::Text*			_labelTime;
+	cocos2d::ui::Text*			_labelScore;
+	cocos2d::ui::Text*			_labelRecord;
 
 	Direction KeyCodeToDiretion(cocos2d::EventKeyboard::KeyCode keyCode);
 	bool isMoveKey(cocos2d::EventKeyboard::KeyCode keyCode);

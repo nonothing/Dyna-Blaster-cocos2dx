@@ -80,7 +80,7 @@ void Bomb::updateCollision(float dt)
 		if (!obj1Rect.intersectsRect(obj2Rect))
 		{
 			_brick->putBomb();
-			unscheduleAllSelectors();
+			unschedule(schedule_selector(Bomb::updateCollision));
 		}
 	}
 }

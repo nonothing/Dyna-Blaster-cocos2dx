@@ -1,5 +1,6 @@
 #include "WorldScene.h"
 #include "cocostudio/CocoStudio.h"
+#include "Model/Timer.h"
 
 USING_NS_CC;
 
@@ -28,7 +29,20 @@ bool WorldScene::init()
 
 	schedule(schedule_selector(WorldScene::update), 0.01f);
 
+	_record = 110; //todo need read memory
+	_score = 0;
+
 	auto rootNode = CSLoader::createNode("WorldScene.csb");
+	_labelLife = static_cast<ui::Text*>(rootNode->getChildByName("labelLife"));
+	_labelTime = static_cast<ui::Text*>(rootNode->getChildByName("labelTime"));
+	_labelRecord = static_cast<ui::Text*>(rootNode->getChildByName("labelHigh"));
+	_labelRecord->setString(std::to_string(_record));
+	_labelScore = static_cast<ui::Text*>(rootNode->getChildByName("labelScore"));
+	_labelScore->setString(std::to_string(_score));
+
+	auto timer = dyna::Timer::create(_labelTime);
+	timer->setTime(61);
+
 	int size = 74; // todo delete magic nubmer
 	Point position;
 	for (int i = 0; i <= 12; i++)
@@ -55,8 +69,10 @@ bool WorldScene::init()
 	_player->setPosition(position);
 	_player->debugLayer = _debugLayer;
 	_player->_collisions = rootNode->getChildren();
+	_labelLife->setString(std::to_string(_player->getLife()));
 	addChild(_player, 3);
 	addChild(_debugLayer, 100);
+	addChild(timer, -1);
     
     return true;
 }

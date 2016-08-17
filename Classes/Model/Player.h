@@ -11,6 +11,7 @@ private:
 	Direction			_dir;
 	cocos2d::Point		_speed;
 	int					_countBomb;
+	int					_life;
 	bool				_isRemote;
 	BricksVec			_bricks;
 
@@ -30,6 +31,7 @@ public:
 	void putBomb();
 	void explodeBomb();
 	bool isRemote();
+	int  getLife();
 	virtual cocos2d::Rect getRect() override;
 };
 
