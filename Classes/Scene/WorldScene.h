@@ -6,10 +6,12 @@
 #include "Model/Bomb.h"
 #include "Model/Brick.h"
 #include "ui/UIText.h"
+#include "Model/NPC.h"
 
 class WorldScene : public cocos2d::Layer
 {
 private:
+	NPCVec					_npcs;
 	Player*					_player;
 	std::vector<Bomb*>      _bombs;
 	Bomb*					_expBomb = nullptr;
@@ -29,11 +31,15 @@ private:
 	void checkCollisionBombs();
 	bool isCollisionFire(Bomb* bomb, WorldObject* obj);
 	bool isCollision(WorldObject* obj1, WorldObject* obj2);
+	cocos2d::Point createBricks();
+	void createNPC();
 
 public:
     static cocos2d::Scene* createScene();
     virtual bool init();
-    CREATE_FUNC(WorldScene);
+
+
+	CREATE_FUNC(WorldScene);
 
 	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);

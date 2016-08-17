@@ -140,10 +140,12 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\Model\Bomb.cpp" />
     <ClCompile Include="..\Classes\Model\Brick.cpp" />
+    <ClCompile Include="..\Classes\Model\NPC.cpp" />
     <ClCompile Include="..\Classes\Model\Player.cpp" />
     <ClCompile Include="..\Classes\Model\Timer.cpp" />
     <ClCompile Include="..\Classes\Model\WorldObject.cpp" />
     <ClCompile Include="..\Classes\Scene\WorldScene.cpp" />
+    <ClCompile Include="..\Classes\utils\CSVReader.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -151,10 +153,15 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Model\Bomb.h" />
     <ClInclude Include="..\Classes\Model\Brick.h" />
     <ClInclude Include="..\Classes\Model\Direction.h" />
+    <ClInclude Include="..\Classes\Model\EBonus.h" />
+    <ClInclude Include="..\Classes\Model\ENPC.h" />
+    <ClInclude Include="..\Classes\Model\NPC.h" />
     <ClInclude Include="..\Classes\Model\Player.h" />
     <ClInclude Include="..\Classes\Model\Timer.h" />
     <ClInclude Include="..\Classes\Model\WorldObject.h" />
     <ClInclude Include="..\Classes\Scene\WorldScene.h" />
+    <ClInclude Include="..\Classes\utils\CSVReader.h" />
+    <ClInclude Include="..\Classes\utils\Utils.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>

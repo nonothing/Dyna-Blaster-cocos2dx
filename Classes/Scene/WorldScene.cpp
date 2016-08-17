@@ -43,26 +43,7 @@ bool WorldScene::init()
 	auto timer = dyna::Timer::create(_labelTime);
 	timer->setTime(61);
 
-	int size = 74; // todo delete magic nubmer
-	Point position;
-	for (int i = 0; i <= 12; i++)
-	{
-		for (int j = 0; j <= 10; j++)
-		{
-			auto brick = Brick::create(1, i, j);
-			brick->setPosition(Point(i * size + 148, j * size + 112));
-			if (brick->getType() == EBACKGROUND) position = brick->getPosition();
-			_bricks.push_back(brick);
-			addChild(brick, 1);
-		}
-	}
-
-	for (int i = 0; i < 60; i++)
-	{
-		int randomNumber = rand() % _bricks.size();
-		_bricks.at(randomNumber)->createWall();
-	}
-
+	auto position = createBricks();
 	addChild(rootNode, 0);
 
 	_player = Player::create(_bricks);
@@ -73,7 +54,7 @@ bool WorldScene::init()
 	addChild(_player, 3);
 	addChild(_debugLayer, 100);
 	addChild(timer, -1);
-    
+	createNPC();
     return true;
 }
 
@@ -235,4 +216,49 @@ bool WorldScene::isCollision(WorldObject* obj1, WorldObject* obj2)
 	Rect obj2Rect = Rect(obj2Pos.x, obj2Pos.y, obj2->getRect().size.width, obj2->getRect().size.height);
 
 	return obj1Rect.intersectsRect(obj2Rect);
+}
+
+Point WorldScene::createBricks()
+{
+	int size = 74; // todo delete magic nubmer
+	Point position;
+	for (int i = 0; i <= 12; i++)
+	{
+		for (int j = 0; j <= 10; j++)
+		{
+			auto brick = Brick::create(1, i, j);
+			brick->setPosition(Point(i * size + 148, j * size + 112));
+			if (brick->getType() == EBACKGROUND) position = brick->getPosition();
+			_bricks.push_back(brick);
+			addChild(brick, 1);
+		}
+	}
+
+	for (int i = 0; i < 60; i++)
+	{
+		int randomNumber = rand() % _bricks.size();
+		_bricks.at(randomNumber)->createWall();
+	}
+
+	BricksVec bricks;
+	std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(bricks), [](Brick* brick) { return brick->getType() == EWALL; });
+	std::random_shuffle(bricks.begin(), bricks.end());
+
+	bricks.at(0)->addDoor();
+
+	return position;
+}
+
+void WorldScene::createNPC()
+{
+	BricksVec bricks;
+	std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(bricks), [](Brick* brick) { return brick->getType() == EBACKGROUND;});
+	std::random_shuffle(bricks.begin(), bricks.end());
+	for (int i = 0; i < 5; i++)
+	{
+		NPC* npc = NPC::create(_bricks);
+		npc->setPosition(bricks.at(i)->getPosition());
+		addChild(npc, 2);
+		npc->move();
+	}
 }

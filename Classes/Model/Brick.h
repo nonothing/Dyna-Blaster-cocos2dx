@@ -12,6 +12,7 @@ private:
 	int					_level;
 	BrickType			_type;
 	bool				_hasBomb;
+	bool				_hasDoor;
 	std::string getPathNameBrick(BrickType type, int level);
 	void changeTexture(cocos2d::Sprite* sprite, BrickType type, int level);
 public:
@@ -24,6 +25,7 @@ public:
 	void		putBomb();
 	void		explodeBomb();
 	bool		hasBomb();
+	void		addDoor();
 };
 
 typedef std::vector<Brick*> BricksVec;

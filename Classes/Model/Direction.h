@@ -5,7 +5,7 @@
 
 enum  Direction
 {
-	LEFT, RIGHT, UP, DOWN, NONE
+	LEFT = 0, DOWN, RIGHT, UP, NONE
 };
 
 #endif // __DIRETION_H__

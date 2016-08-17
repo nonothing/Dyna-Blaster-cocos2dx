@@ -180,6 +180,7 @@ void Bomb::explode()
 	_isRemote = false;
 	_tick = 9999;
 	_brick->explodeBomb();
+	_brick = nullptr;
 	animate(_sprite, FCENTER);
 	_fires.push_back(_sprite);
 	for (auto p : sPoints)

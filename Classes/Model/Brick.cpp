@@ -23,6 +23,7 @@ bool Brick::init(int level, int posX, int posY)
     }
 	_level = level;
 	_hasBomb = false;
+	_hasDoor = false;
 	BrickType type = (posX % 2 == 1 && posY % 2 == 1) ? EBRICK : EBACKGROUND;
 	_sprite = Sprite::create(getPathNameBrick(type, _level));
 	addChild(_sprite);
@@ -34,12 +35,15 @@ void Brick::destroy()
 	runAction(CCSequence::create(CCDelayTime::create(0.01f), CallFunc::create(CC_CALLBACK_0(Brick::animationDestroy, this)), nullptr));
 }
 
-
 void Brick::animationDestroy()
 {
 	if (_type == EWALL)
 	{
 		changeTexture(_sprite, EBACKGROUND, _level);
+	}
+	if (_hasDoor)
+	{
+		addChild(Sprite::create("bricks/mirror_2.png"));
 	}
 }
 
@@ -90,6 +94,11 @@ void Brick::explodeBomb()
 bool Brick::hasBomb()
 {
 	return _hasBomb;
+}
+
+void Brick::addDoor()
+{
+	_hasDoor = true;
 }
 
 
