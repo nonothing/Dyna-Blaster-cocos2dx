@@ -24,6 +24,7 @@ private:
 	BricksVec			_bricks;
 	Brick*				_brick;
 	Player*				_player;
+
 	bool				checkCollision(cocos2d::Sprite* sprite);
 public:
 	virtual bool init(Player* player);
@@ -37,6 +38,7 @@ public:
 	void setBricks(BricksVec vec);
 	void setBrick(Brick* brick);
 	std::vector<cocos2d::Sprite*> getFires();
+	bool isRemove();
 };
 
 #endif // __BOMB_H__

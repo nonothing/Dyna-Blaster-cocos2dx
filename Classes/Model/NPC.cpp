@@ -24,6 +24,7 @@ bool NPC::init(BricksVec vec)
     }
 
 	_name = "brush";
+	_isDead = false;
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("npc.plist", "npc.png");
 	AnimationCache::getInstance()->addAnimationsWithFile("animation/" + _name + ".plist");
@@ -37,39 +38,30 @@ bool NPC::init(BricksVec vec)
 	return true;
 }
 
+const static Point sPoints[] = { Point(0, -74), Point(74, 0), Point(-74, 0), Point(0, 74) };
+
 void NPC::move()
 {
 	Point point;
-	switch (_dir)
+	std::vector<Point> freePoints;
+	for (auto p : sPoints)
 	{
-	case LEFT: point = getPosition() + Point(-74, 0);
-		break;
-	case RIGHT:point = getPosition() + Point(74, 0);
-		break;
-	case UP:   point = getPosition() + Point(0, 74);
-		break;
-	case DOWN: point = getPosition() + Point(0, -74);
-		break;
-	case NONE:
-		break;
+		point = getPosition() + p;
+		if (isCollisionEmpty(point))
+		{
+			freePoints.push_back(point);
+		}
 	}
-
-	if (!isCollision(point))
+	if (!freePoints.empty())
 	{
+		std::random_shuffle(freePoints.begin(), freePoints.end());
+		point = freePoints.at(0);
 		runAction(Sequence::create(MoveTo::create(0.5f, point), CallFunc::create(CC_CALLBACK_0(NPC::nextDir, this)), nullptr));
-	} 
-	else
-	{
-		nextDir();
 	}
 }
 
 void NPC::nextDir() //todo rewrite
 {
-	int dir = _dir;
-	dir++;
-	if (dir == NONE) dir = 0;
-	_dir = (Direction)dir;
 	move();
 }
 
@@ -88,6 +80,45 @@ void NPC::animate(Direction dir) // todo rewrite method
 			runAnimate(animation);
 		}
 	}
+}
+
+void NPC::dead()
+{
+	if (!_isDead)
+	{
+		_isDead = true;
+		stopAllActions();
+		_sprite->stopAllActions();
+		auto animation = AnimationCache::getInstance()->getAnimation(_name + "_dead");
+		if (animation)
+		{
+			auto action = CCSequence::create(Animate::create(animation), CallFunc::create(CC_CALLBACK_0(NPC::destroy, this)), nullptr);
+			action->setTag(ANIM_TAG);
+			_sprite->runAction(action);
+		}
+	}
+}
+
+void NPC::destroy()
+{
+	stopAllActions();
+	_sprite->stopAllActions();
+	_sprite->setOpacity(0);
+}
+
+cocos2d::Rect NPC::getRect()
+{
+	return Rect(0, 0, 60, 60);
+}
+
+bool NPC::isDead()
+{
+	return _isDead;
+}
+
+bool NPC::isRemove()
+{
+	return _sprite->getOpacity() == 0;
 }
 
 std::string NPC::dirToString(Direction dir)
@@ -109,27 +140,27 @@ void NPC::runAnimate(cocos2d::Animation* animation)
 	_sprite->runAction(action);
 }
 
-bool NPC::isCollision(const cocos2d::Point& point)//todo rewrite
+bool NPC::isCollisionEmpty(const cocos2d::Point& point)//todo rewrite
 {
 	Size size = getRect().size;
 	Rect obj2Rect = Rect(point.x - size.width / 2, point.y - size.height / 2, size.width, size.height);
 	drawDebugRect(obj2Rect, debugLayer);
 
-// 	for (auto brick : _bricks)
-// 	{
-// 		if (brick->getType() == EBRICK)
-// 		{
-// 			Size bSize = brick->getRect().size;
-// 			Point obj1Pos = brick->convertToWorldSpace(brick->getRect().origin);
-// 			Rect obj1Rect = Rect(obj1Pos.x - bSize.width / 2, obj1Pos.y - bSize.height / 2, bSize.width, bSize.height);
-// 			brick->drawDebugRect(obj1Rect, debugLayer);
-// 
-// 			if (obj1Rect.intersectsRect(obj2Rect))
-// 			{
-// 				return true;
-// 			}
-// 		}
-// 	}
+	for (auto brick : _bricks)
+	{
+		if (brick->getType() == EBACKGROUND || brick->getType() == EWALL)
+		{
+			Size bSize = brick->getRect().size;
+			Point obj1Pos = brick->convertToWorldSpace(brick->getRect().origin);
+			Rect obj1Rect = Rect(obj1Pos.x - bSize.width / 2, obj1Pos.y - bSize.height / 2, bSize.width, bSize.height);
+			brick->drawDebugRect(obj1Rect, debugLayer);
+
+			if (obj1Rect.intersectsRect(obj2Rect))
+			{
+				return true;
+			}
+		}
+	}
 
 	return false;
 }

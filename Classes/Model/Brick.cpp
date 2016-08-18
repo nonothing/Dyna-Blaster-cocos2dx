@@ -1,6 +1,7 @@
 #include "Model/Brick.h"
 
 USING_NS_CC;
+#define ANIM_TAG 225 
 
 Brick* Brick::create( int level, int posX, int posY)
 {
@@ -21,9 +22,15 @@ bool Brick::init(int level, int posX, int posY)
     {
         return false;
     }
+	_doorSprite = nullptr;
 	_level = level;
 	_hasBomb = false;
 	_hasDoor = false;
+	_isAnimate = false;
+	//todo need preloader for plists
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("bricks.plist", "bricks.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("bricks/mirrorAnim.plist");
+
 	BrickType type = (posX % 2 == 1 && posY % 2 == 1) ? EBRICK : EBACKGROUND;
 	_sprite = Sprite::create(getPathNameBrick(type, _level));
 	addChild(_sprite);
@@ -43,7 +50,8 @@ void Brick::animationDestroy()
 	}
 	if (_hasDoor)
 	{
-		addChild(Sprite::create("bricks/mirror_2.png"));
+		_doorSprite = Sprite::create("bricks/mirror_2.png");
+		addChild(_doorSprite);
 	}
 }
 
@@ -76,6 +84,22 @@ void Brick::changeTexture(cocos2d::Sprite* sprite, BrickType type, int level)
 	}
 }
 
+void Brick::animateDoor()
+{
+	if (_doorSprite)
+	{
+		auto animation = AnimationCache::getInstance()->getAnimation("openDoor");
+		if (animation)
+		{
+			_doorSprite->stopActionByTag(ANIM_TAG);
+			auto action = RepeatForever::create(Animate::create(animation));
+			action->setTag(ANIM_TAG);
+			_doorSprite->runAction(action);
+			_isAnimate = true;
+		}
+	}
+}
+
 BrickType Brick::getType()
 {
 	return _type;
@@ -101,4 +125,22 @@ void Brick::addDoor()
 	_hasDoor = true;
 }
 
+void Brick::openDoor(bool var)
+{
+	if (var)
+	{
+		if (!_isAnimate)
+		{
+			animateDoor();
+		}
+	}
+	else
+	{
+		if (_doorSprite && _isAnimate)
+		{
+			_doorSprite->stopActionByTag(ANIM_TAG);
+			_isAnimate = false;
+		}
+	}
+}
 

@@ -140,7 +140,7 @@ Direction Bomb::pointToDir(const Point& point)
 
 void Bomb::destroy()
 {
-	removeAllChildren();
+	setOpacity(0);
 }
 
 bool Bomb::checkCollision(cocos2d::Sprite* sprite)
@@ -179,8 +179,11 @@ void Bomb::explode()
 	_isFire = true;
 	_isRemote = false;
 	_tick = 9999;
-	_brick->explodeBomb();
-	_brick = nullptr;
+	if (_brick)
+	{
+		_brick->explodeBomb();
+		_brick = nullptr;
+	}
 	animate(_sprite, FCENTER);
 	_fires.push_back(_sprite);
 	for (auto p : sPoints)
@@ -241,4 +244,9 @@ void Bomb::setBrick(Brick* brick)
 std::vector<cocos2d::Sprite*> Bomb::getFires()
 {
 	return _fires;
+}
+
+bool Bomb::isRemove()
+{
+	return getOpacity() == 0;
 }

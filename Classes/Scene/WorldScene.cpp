@@ -21,6 +21,7 @@ bool WorldScene::init()
     }
 
 	_debugLayer = Layer::create();
+	_doorBrick = nullptr;
 
 	_keyboardListener = EventListenerKeyboard::create();
 	_keyboardListener->onKeyPressed = CC_CALLBACK_2(WorldScene::onKeyPressed, this);
@@ -28,6 +29,7 @@ bool WorldScene::init()
 	getEventDispatcher()->addEventListenerWithFixedPriority(_keyboardListener, 100);
 
 	schedule(schedule_selector(WorldScene::update), 0.01f);
+	schedule(schedule_selector(WorldScene::testUpdate), 1.0f);
 
 	_record = 110; //todo need read memory
 	_score = 0;
@@ -74,6 +76,7 @@ void WorldScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 		if (!_bombs.empty())
 		{
 			_bombs.at(0)->explode();
+			_player->explodeBomb();
 		}
 	}
 }
@@ -109,7 +112,7 @@ void WorldScene::createBomb(const Point& point)
 	bool hasBomb = false;
 	for (auto elem : _bombs)
 	{
-		if (isCollision(elem, bomb))
+		if (!elem->isFire() && isCollision(elem, bomb))
 		{
 			hasBomb = true;
 			break;
@@ -150,6 +153,7 @@ bool WorldScene::isMoveKey(cocos2d::EventKeyboard::KeyCode keyCode)
 void WorldScene::update(float dt)
 {
 	checkCollisionBombs();
+	checkOpenDoor();
 }
 
 void WorldScene::checkCollisionBombs()
@@ -161,8 +165,15 @@ void WorldScene::checkCollisionBombs()
 		if (bomb->isFire())
 		{
 			_expBomb = bomb;
-			_player->explodeBomb();
-			it = _bombs.erase(it);
+			if (bomb->isRemove())
+			{
+				bomb->removeFromParentAndCleanup(true);
+				it = _bombs.erase(it);
+			}
+			else
+			{
+				++it;
+			}
 		}
 		else
 		{
@@ -172,14 +183,15 @@ void WorldScene::checkCollisionBombs()
 
 	if (_expBomb)
 	{
-		for (auto bomb : _bombs)
+		for (auto b : _bombs)
 		{
-			if (isCollisionFire(_expBomb, bomb))
+			if (!b->isFire() && isCollisionFire(_expBomb, b))
 			{
-				bomb->explode();
+				_player->explodeBomb();
+				b->explode();
 			}
 		}
-		
+		checkFireWithNPC();
 		_expBomb = nullptr;
 	}
 }
@@ -187,7 +199,7 @@ void WorldScene::checkCollisionBombs()
 bool WorldScene::isCollisionFire(Bomb* bomb, WorldObject* obj)
 {
 	//Todo need optimization?
-	Size objSize = Size(74, 74);
+	Size objSize = Size(70, 70);
 	Point bombPos = obj->convertToWorldSpace(obj->getPosition());
 	Rect rect = Rect(bombPos.x, bombPos.y, objSize.width, objSize.height);
 	for (auto fire : bomb->getFires())
@@ -244,7 +256,8 @@ Point WorldScene::createBricks()
 	std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(bricks), [](Brick* brick) { return brick->getType() == EWALL; });
 	std::random_shuffle(bricks.begin(), bricks.end());
 
-	bricks.at(0)->addDoor();
+	_doorBrick = bricks.at(0);
+	_doorBrick->addDoor();
 
 	return position;
 }
@@ -260,5 +273,48 @@ void WorldScene::createNPC()
 		npc->setPosition(bricks.at(i)->getPosition());
 		addChild(npc, 2);
 		npc->move();
+		_npcs.push_back(npc);
+	}
+}
+
+void WorldScene::checkOpenDoor()
+{
+	if (_doorBrick)
+	{
+		_doorBrick->openDoor(_npcs.empty());
+	}
+}
+
+void WorldScene::testUpdate(float dt)
+{
+ 	_testVar = !_testVar;
+}
+
+void WorldScene::checkFireWithNPC()
+{
+
+	for (auto it = _npcs.begin(); it != _npcs.end();)
+	{
+		auto npc = *it;
+		if (npc->isDead())
+		{
+			if (npc->isRemove())
+			{
+				npc->removeFromParentAndCleanup(true);
+				it = _npcs.erase(it);
+			}
+			else
+			{
+				++it;
+			}
+		}
+		else
+		{
+			if (isCollisionFire(_expBomb, npc))
+			{
+				npc->dead();
+			}
+			++it;
+		}
 	}
 }

@@ -9,12 +9,15 @@ enum BrickType { EBACKGROUND = 0, EBRICK, EWALL, ENONE};
 class Brick : public WorldObject
 {
 private:
+	cocos2d::Sprite*	_doorSprite;
 	int					_level;
 	BrickType			_type;
 	bool				_hasBomb;
 	bool				_hasDoor;
+	bool				_isAnimate;
 	std::string getPathNameBrick(BrickType type, int level);
 	void changeTexture(cocos2d::Sprite* sprite, BrickType type, int level);
+	void animateDoor();
 public:
     virtual bool init(int level, int posX, int posY);
 	static Brick* create(int level, int posX, int posY);
@@ -26,6 +29,7 @@ public:
 	void		explodeBomb();
 	bool		hasBomb();
 	void		addDoor();
+	void		openDoor(bool var);
 };
 
 typedef std::vector<Brick*> BricksVec;
