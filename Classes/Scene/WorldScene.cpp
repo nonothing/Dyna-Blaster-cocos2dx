@@ -45,18 +45,23 @@ bool WorldScene::init()
 	auto timer = dyna::Timer::create(_labelTime);
 	timer->setTime(61);
 
-	auto position = createBricks();
+	_startPosition = createBricks();
 	addChild(rootNode, 0);
 
+	_currentIndexLevel = 1;
+
 	_player = Player::create(_bricks);
-	_player->setPosition(position);
+	_player->setPosition(_startPosition);
 	_player->debugLayer = _debugLayer;
 	_player->_collisions = rootNode->getChildren();
 	_labelLife->setString(std::to_string(_player->getLife()));
 	addChild(_player, 3);
 	addChild(_debugLayer, 100);
 	addChild(timer, -1);
+
+	createWalls();
 	createNPC();
+	_player->setBricks(_bricks);
     return true;
 }
 
@@ -155,6 +160,11 @@ void WorldScene::update(float dt)
 	removeNPC();
 	checkCollisionBombs();
 	checkOpenDoor();
+	if (_doorBrick && _doorBrick->isOpenDoor() && isCollision(_doorBrick, _player))
+	{
+		_doorBrick->openDoor(false);
+		nextLevel();
+	}
 }
 
 void WorldScene::checkCollisionBombs()
@@ -247,19 +257,6 @@ Point WorldScene::createBricks()
 		}
 	}
 
-	for (int i = 0; i < 60; i++)
-	{
-		int randomNumber = rand() % _bricks.size();
-		_bricks.at(randomNumber)->createWall();
-	}
-
-	BricksVec bricks;
-	std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(bricks), [](Brick* brick) { return brick->getType() == EWALL; });
-	std::random_shuffle(bricks.begin(), bricks.end());
-
-	_doorBrick = bricks.at(0);
-	_doorBrick->addDoor();
-
 	return position;
 }
 
@@ -268,7 +265,7 @@ void WorldScene::createNPC()
 	BricksVec bricks;
 	std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(bricks), [](Brick* brick) { return brick->getType() == EBACKGROUND;});
 	std::random_shuffle(bricks.begin(), bricks.end());
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		NPC* npc = NPC::create(_bricks);
 		npc->setPosition(bricks.at(i)->getPosition());
@@ -318,4 +315,96 @@ void WorldScene::removeNPC()
 	});
 
 	_npcs.erase(end, _npcs.end());
+}
+
+void WorldScene::nextLevel()
+{
+	removeBombs();
+	_currentIndexLevel++;
+	_player->setPosition(_startPosition);
+	createWalls();
+	createNPC();
+	_player->setBricks(_bricks);
+}
+
+void WorldScene::removeBricks()
+{
+	for (auto brick : _bricks)
+	{
+		brick->removeFromParentAndCleanup(true);
+	}
+	_bricks.clear();
+}
+
+void WorldScene::createWalls()
+{
+
+	for (auto brick : _bricks)
+	{
+		brick->destroyWall();
+	}
+
+	for (int i = 0; i < 60; i++)
+	{
+		int randomNumber = rand() % _bricks.size();
+		auto brick = _bricks.at(randomNumber);
+		if (!isCollision(brick, _player))
+		{
+			brick->createWall();
+		}
+	}
+
+	createDoor();
+}
+
+void WorldScene::createDoor()
+{
+	BricksVec bricks;
+	std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(bricks), [](Brick* brick) { return brick->getType() == EWALL; });
+	std::random_shuffle(bricks.begin(), bricks.end());
+
+	Brick* foo = bricks.at(0);
+
+	if (_doorBrick)
+	{
+		Brick* brick = Brick::create(_doorBrick->getLevel(), _doorBrick->getPos().x, _doorBrick->getPos().y);
+		brick->setPosition(_doorBrick->getPosition());
+		removeBrick(_doorBrick);
+		_bricks.push_back(brick);
+		addChild(brick, 1);
+	}
+
+	_doorBrick = BrickDoor::create(foo);
+	_doorBrick->setPosition(foo->getPosition());
+	addChild(_doorBrick, 1);
+	
+	removeBrick(foo);
+
+ 	_bricks.push_back(_doorBrick);
+
+}
+
+void WorldScene::removeBrick(Brick* brick)
+{
+	Point point = brick->getPos();
+	_bricks.erase(std::remove_if(_bricks.begin(), _bricks.end(),
+		[point](Brick* b)
+	{
+		bool is = point.equals(b->getPos());
+		if (is)
+		{
+			b->removeFromParentAndCleanup(true);
+		}
+		return is;
+	}),
+		_bricks.end());
+}
+
+void WorldScene::removeBombs()
+{
+	for (auto bomb : _bombs)
+	{
+		bomb->removeFromParentAndCleanup(true);
+	}
+	_bombs.clear();
 }

@@ -5,23 +5,26 @@
 #include "Model/Player.h"
 #include "Model/Bomb.h"
 #include "Model/Brick.h"
+#include "Model/BrickDoor.h"
 #include "ui/UIText.h"
 #include "Model/NPC.h"
 
 class WorldScene : public cocos2d::Layer
 {
 private:
+	cocos2d::Point			_startPosition;
 	NPCVec					_npcs;
 	Player*					_player;
 	std::vector<Bomb*>      _bombs;
 	Bomb*					_expBomb = nullptr;
 	BricksVec				_bricks;
-	Brick*					_doorBrick;
+	BrickDoor*				_doorBrick;
 	cocos2d::EventListenerKeyboard*	_keyboardListener;
 	cocos2d::Layer*			_debugLayer;
 	int						_score;
 	int						_record;
 	bool					_testVar;
+	int						_currentIndexLevel;
 
 	cocos2d::ui::Text*			_labelLife;
 	cocos2d::ui::Text*			_labelTime;
@@ -38,6 +41,12 @@ private:
 	cocos2d::Point createBricks();
 	void createNPC();
 	void removeNPC();
+	void nextLevel();
+	void removeBricks();
+	void createWalls();
+	void createDoor();
+	void removeBrick(Brick* brick);
+	void removeBombs();
 
 public:
     static cocos2d::Scene* createScene();

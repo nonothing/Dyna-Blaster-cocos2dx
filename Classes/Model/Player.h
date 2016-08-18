@@ -21,6 +21,7 @@ private:
 	bool	isCollision(const cocos2d::Point& point);
 
 public:
+	void setBricks(BricksVec vec);
 	cocos2d::Vector<Node*> _collisions;
     virtual bool init(BricksVec vec);
 	static Player* create(BricksVec vec);

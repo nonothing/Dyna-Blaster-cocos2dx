@@ -22,10 +22,10 @@ bool Brick::init(int level, int posX, int posY)
     {
         return false;
     }
-	_doorSprite = nullptr;
 	_level = level;
+	_pos = Point(posX, posY);
+
 	_hasBomb = false;
-	_hasDoor = false;
 	_isAnimate = false;
 	//todo need preloader for plists
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("bricks.plist", "bricks.png");
@@ -39,20 +39,21 @@ bool Brick::init(int level, int posX, int posY)
 
 void Brick::destroy()
 {
-	runAction(CCSequence::create(CCDelayTime::create(0.01f), CallFunc::create(CC_CALLBACK_0(Brick::animationDestroy, this)), nullptr));
+  	runAction(CCSequence::create(CCDelayTime::create(0.01f), CallFunc::create(CC_CALLBACK_0(Brick::animationDestroy, this)), nullptr));
 }
 
-void Brick::animationDestroy()
+void Brick::destroyWall()
 {
 	if (_type == EWALL)
 	{
 		changeTexture(_sprite, EBACKGROUND, _level);
 	}
-	if (_hasDoor)
-	{
-		_doorSprite = Sprite::create("bricks/mirror_2.png");
-		addChild(_doorSprite);
-	}
+}
+
+void Brick::animationDestroy()
+{
+	//todo
+	destroyWall();
 }
 
 void Brick::createWall()
@@ -84,22 +85,6 @@ void Brick::changeTexture(cocos2d::Sprite* sprite, BrickType type, int level)
 	}
 }
 
-void Brick::animateDoor()
-{
-	if (_doorSprite)
-	{
-		auto animation = AnimationCache::getInstance()->getAnimation("openDoor");
-		if (animation)
-		{
-			_doorSprite->stopActionByTag(ANIM_TAG);
-			auto action = RepeatForever::create(Animate::create(animation));
-			action->setTag(ANIM_TAG);
-			_doorSprite->runAction(action);
-			_isAnimate = true;
-		}
-	}
-}
-
 BrickType Brick::getType()
 {
 	return _type;
@@ -120,27 +105,13 @@ bool Brick::hasBomb()
 	return _hasBomb;
 }
 
-void Brick::addDoor()
+int Brick::getLevel()
 {
-	_hasDoor = true;
+	return _level;
 }
 
-void Brick::openDoor(bool var)
+cocos2d::Point Brick::getPos()
 {
-	if (var)
-	{
-		if (!_isAnimate)
-		{
-			animateDoor();
-		}
-	}
-	else
-	{
-		if (_doorSprite && _isAnimate)
-		{
-			_doorSprite->stopActionByTag(ANIM_TAG);
-			_isAnimate = false;
-		}
-	}
+	return _pos;
 }
 

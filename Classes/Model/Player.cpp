@@ -16,6 +16,11 @@ Player* Player::create(BricksVec vec)
 	return player;
 }
 
+void Player::setBricks(BricksVec vec)
+{
+	_bricks = vec;
+}
+
 bool Player::init(BricksVec vec)
 {
     if ( !Layer::init() )

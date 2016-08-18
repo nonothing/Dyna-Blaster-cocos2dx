@@ -54,6 +54,9 @@
     <ClCompile Include="..\Classes\utils\CSVReader.cpp">
       <Filter>src\utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Model\BrickDoor.cpp">
+      <Filter>src\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -96,6 +99,9 @@
       <Filter>src\utils</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Model\EBonus.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\BrickDoor.h">
       <Filter>src\Model</Filter>
     </ClInclude>
   </ItemGroup>
