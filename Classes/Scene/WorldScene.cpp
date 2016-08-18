@@ -152,6 +152,7 @@ bool WorldScene::isMoveKey(cocos2d::EventKeyboard::KeyCode keyCode)
 
 void WorldScene::update(float dt)
 {
+	removeNPC();
 	checkCollisionBombs();
 	checkOpenDoor();
 }
@@ -292,29 +293,29 @@ void WorldScene::testUpdate(float dt)
 
 void WorldScene::checkFireWithNPC()
 {
-
-	for (auto it = _npcs.begin(); it != _npcs.end();)
+	for (auto npc: _npcs)
 	{
-		auto npc = *it;
+		if (!npc->isDead() && isCollisionFire(_expBomb, npc))
+		{
+			npc->dead();
+		}
+	}
+}
+
+void WorldScene::removeNPC()
+{
+	auto end = std::remove_if(_npcs.begin(), _npcs.end(), [](NPC* npc)
+	{
 		if (npc->isDead())
 		{
 			if (npc->isRemove())
 			{
 				npc->removeFromParentAndCleanup(true);
-				it = _npcs.erase(it);
-			}
-			else
-			{
-				++it;
+				return true;
 			}
 		}
-		else
-		{
-			if (isCollisionFire(_expBomb, npc))
-			{
-				npc->dead();
-			}
-			++it;
-		}
-	}
+		return false;
+	});
+
+	_npcs.erase(end, _npcs.end());
 }

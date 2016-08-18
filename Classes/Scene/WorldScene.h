@@ -37,6 +37,7 @@ private:
 	bool isCollision(WorldObject* obj1, WorldObject* obj2);
 	cocos2d::Point createBricks();
 	void createNPC();
+	void removeNPC();
 
 public:
     static cocos2d::Scene* createScene();
