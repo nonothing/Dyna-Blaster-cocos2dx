@@ -280,10 +280,11 @@ void WorldScene::createNPC()
 	BricksVec bricks;
 	std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(bricks), [](Brick* brick) { return brick->getType() == EBACKGROUND;});
 	std::random_shuffle(bricks.begin(), bricks.end());
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		NPC* npc = NPC::create(_bricks);
 		npc->debugLayer = _debugLayer;
+		npc->setMapLayer(_mapLayer);
 		npc->setPosition(bricks.at(i)->getPosition());
 		_mapLayer->addChild(npc, 2);
 		npc->move();

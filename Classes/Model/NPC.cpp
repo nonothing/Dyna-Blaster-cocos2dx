@@ -16,6 +16,11 @@ NPC* NPC::create(BricksVec vec)
 	return npc;
 }
 
+void NPC::setMapLayer(cocos2d::Layer* layer)
+{
+	_mapLayer = layer;
+}
+
 bool NPC::init(BricksVec vec)
 {
     if ( !Layer::init() )
@@ -155,16 +160,14 @@ bool NPC::isCollisionEmpty(const cocos2d::Point& point)//todo rewrite
 {
 	Size size = getRect().size;
 	Rect obj2Rect = Rect(point.x - size.width / 2, point.y - size.height / 2, size.width, size.height);
-	drawDebugRect(obj2Rect, debugLayer);
 
 	for (auto brick : _bricks)
 	{
 		if (brick->getType() == EBACKGROUND || brick->getType() == EWALL)
 		{
 			Size bSize = brick->getRect().size;
-			Point obj1Pos = brick->convertToWorldSpace(brick->getRect().origin);
+			Point obj1Pos = brick->convertToWorldSpace(brick->getRect().origin) - _mapLayer->getPosition();
 			Rect obj1Rect = Rect(obj1Pos.x - bSize.width / 2, obj1Pos.y - bSize.height / 2, bSize.width, bSize.height);
-			brick->drawDebugRect(obj1Rect, debugLayer);
 
 			if (obj1Rect.intersectsRect(obj2Rect))
 			{

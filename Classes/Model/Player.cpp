@@ -160,11 +160,11 @@ std::string Player::dirToString(Direction dir)
 
 bool Player::isCollision(const Point& point)
 {
-	debugLayer->removeAllChildren();
+	//debugLayer->removeAllChildren();
 
 	Size size = getRect().size;
 	Rect obj2Rect = Rect(point.x - size.width / 2, point.y - size.height / 2, size.width, size.height);
-	drawDebugRect(obj2Rect, debugLayer);
+	//drawDebugRect(obj2Rect, debugLayer);
 
 	for (auto brick : _bricks)
 	{

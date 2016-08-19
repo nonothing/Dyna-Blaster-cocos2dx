@@ -16,6 +16,7 @@ private:
 	bool			_isDead;
 	bool			_isChangeAnimation;
 	unsigned int	_createTime;
+	cocos2d::Layer* _mapLayer;
 
 	Direction _dir;
 	BricksVec _bricks;
@@ -28,6 +29,7 @@ public:
 
     virtual bool init(BricksVec vec);
 	static NPC* create(BricksVec vec);
+	void setMapLayer(cocos2d::Layer* layer);
 	void move();
 	void nextDir();
 	void animate(Direction dir);
