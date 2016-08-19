@@ -29,3 +29,13 @@ cocos2d::Rect WorldObject::getRectWorldSpace(const cocos2d::Size& size)
 	Point obj1Pos = convertToWorldSpace(getBoundingBox().origin);
 	return Rect(obj1Pos.x, obj1Pos.y, size.width, size.height);
 }
+
+cocos2d::Rect WorldObject::getRectSpace()
+{
+	return getRectSpace(getRect().size);
+}
+
+cocos2d::Rect WorldObject::getRectSpace(const cocos2d::Size& size, const Point& offset)
+{
+	return Rect(getPosition().x + offset.x, getPosition().y + offset.y, size.width, size.height);
+}

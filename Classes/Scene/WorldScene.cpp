@@ -116,35 +116,27 @@ Direction WorldScene::KeyCodeToDiretion(EventKeyboard::KeyCode keyCode)
 
 void WorldScene::createBomb()
 {
-	Point point = Point::ZERO;
-	for (auto brick : _bricks)
-	{
-		if (isCollision(brick, _player) && brick->getType() == EBACKGROUND)
-		{
-			point = brick->getPosition();
-			break;
-		}
-	}
-
+	Size size = Size(60, 60);
 	auto bomb = Bomb::create(_player);
-		 bomb->setPosition(point);
+		 bomb->setPosition(_player->getPosition() - _mapLayer->getPosition());
 		 bomb->setBricks(_bricks);
-	bool hasBomb = false;
+ 	bool hasBomb = false;
 	for (auto elem : _bombs)
 	{
-		if (!elem->isFire() && isCollision(elem, bomb))
+		if (!elem->isFire() && isCollision(bomb, elem, size))
 		{
 			hasBomb = true;
 			break;
 		}
 	}
 
-	bool isCorrect = false;
+ 	bool isCorrect = false;
+
 	if (!hasBomb)
 	{
 		for (auto brick : _bricks)
 		{
-			if (isCollision(brick, bomb) && brick->getType() == EBACKGROUND)
+			if (brick->getType() == EBACKGROUND && isCollision(bomb, brick, size))
 			{
 				bomb->setPosition(brick->getPosition());
 				bomb->setBrick(brick);
@@ -180,7 +172,7 @@ void WorldScene::update(float dt)
 		_doorBrick->changeCreateNPC();
 		createNPC(_doorBrick);
 	}
-	if (_doorBrick && _doorBrick->isOpenDoor() && isCollision(_doorBrick, _player))
+	if (_doorBrick && _doorBrick->isOpenDoor() && isCollision(_doorBrick, _player, Size(60,60), -_mapLayer->getPosition()))
 	{
 		_doorBrick->openDoor(false);
 		nextLevel();
@@ -246,9 +238,9 @@ bool WorldScene::isCollisionFire(Bomb* bomb, WorldObject* obj)
 	return false;
 }
 
-bool WorldScene::isCollision(WorldObject* obj1, WorldObject* obj2)
+bool WorldScene::isCollision(WorldObject* obj1, WorldObject* obj2, const Size& size, const cocos2d::Point& point)
 {
-	return obj1->getRectWorldSpace().intersectsRect(obj2->getRectWorldSpace());
+	return obj1->getRectSpace(size).intersectsRect(obj2->getRectSpace(size, point));
 }
 
 Point WorldScene::createBricks()
@@ -298,6 +290,7 @@ void WorldScene::createNPC(Brick* brick)
 	{
 		NPC* npc = NPC::create(_bricks);
 		npc->debugLayer = _debugLayer;
+		npc->setMapLayer(_mapLayer);
 		npc->setPosition(brick->getPosition());
 		_mapLayer->addChild(npc, 2);
 		npc->move();
@@ -351,6 +344,7 @@ void WorldScene::nextLevel()
 {
 	removeBombs();
 	_currentIndexLevel++;
+	_mapLayer->setPosition(Point::ZERO);
 	_player->setPosition(_startPosition);
 	createWalls();
 	createNPC();
@@ -378,7 +372,7 @@ void WorldScene::createWalls()
 	{
 		int randomNumber = rand() % _bricks.size();
 		auto brick = _bricks.at(randomNumber);
-		if (!isCollision(brick, _player))
+		if (!isCollision(brick, _player, Size(60, 60)))
 		{
 			brick->createWall();
 		}

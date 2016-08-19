@@ -44,7 +44,7 @@ private:
 	void checkFireWithNPC();
 	void checkOpenDoor();
 	bool isCollisionFire(Bomb* bomb, WorldObject* obj);
-	bool isCollision(WorldObject* obj1, WorldObject* obj2);
+	bool isCollision(WorldObject* obj1, WorldObject* obj2, const cocos2d::Size& size, const cocos2d::Point& point = cocos2d::Point::ZERO);
 	cocos2d::Point createBricks();
 	void createNPC();
 	void createNPC(Brick* brick);
