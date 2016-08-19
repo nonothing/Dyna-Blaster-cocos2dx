@@ -23,7 +23,8 @@ bool NPC::init(BricksVec vec)
         return false;
     }
 
-	_name = "brush";
+	_name = random() % 2 ? "brush" : "chert";
+	_isChangeAnimation = false;
 	_isDead = false;
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("npc.plist", "npc.png");
@@ -43,19 +44,21 @@ const static Point sPoints[] = { Point(0, -74), Point(74, 0), Point(-74, 0), Poi
 void NPC::move()
 {
 	Point point;
-	std::vector<Point> freePoints;
+	std::vector< std::pair< Point, Direction> > freePoints;
 	for (auto p : sPoints)
 	{
 		point = getPosition() + p;
 		if (isCollisionEmpty(point))
 		{
-			freePoints.push_back(point);
+			freePoints.push_back(std::make_pair(point, PointToDir(p)));
 		}
 	}
 	if (!freePoints.empty())
 	{
 		std::random_shuffle(freePoints.begin(), freePoints.end());
-		point = freePoints.at(0);
+		point = freePoints.at(0).first;
+		_dir = freePoints.at(0).second;
+		if (_isChangeAnimation) animate(_dir);
 		runAction(Sequence::create(MoveTo::create(0.5f, point), CallFunc::create(CC_CALLBACK_0(NPC::nextDir, this)), nullptr));
 	}
 }
@@ -65,11 +68,13 @@ void NPC::nextDir() //todo rewrite
 	move();
 }
 
-void NPC::animate(Direction dir) // todo rewrite method
+void NPC::animate(Direction dir) 
 {
 	auto animation = AnimationCache::getInstance()->getAnimation(_name + "_move_" + dirToString(dir));
 	if (animation)
 	{
+		_sprite->setFlippedX(_dir == RIGHT);
+		_isChangeAnimation = true;
 		runAnimate(animation);
 	} 
 	else
@@ -163,5 +168,18 @@ bool NPC::isCollisionEmpty(const cocos2d::Point& point)//todo rewrite
 	}
 
 	return false;
+}
+
+Direction NPC::PointToDir(const cocos2d::Point& point)
+{
+	if (point.x != 0)
+	{
+		return point.x > 0 ? RIGHT : LEFT;
+	}
+	if (point.y != 0)
+	{
+		return point.y > 0 ? UP : DOWN;
+	}
+	return NONE;
 }
 

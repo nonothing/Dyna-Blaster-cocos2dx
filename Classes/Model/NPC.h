@@ -14,12 +14,14 @@ private:
 	ID_NPC			_id;
 	std::string		_name;
 	bool			_isDead;
+	bool			_isChangeAnimation;
 
 	Direction _dir;
 	BricksVec _bricks;
 	std::string dirToString(Direction dir);
 	void runAnimate(cocos2d::Animation* animation);
 	bool isCollisionEmpty(const cocos2d::Point& point);
+	Direction PointToDir(const cocos2d::Point& point);
 
 public:
 
