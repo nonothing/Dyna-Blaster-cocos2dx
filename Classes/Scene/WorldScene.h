@@ -9,9 +9,16 @@
 #include "ui/UIText.h"
 #include "Model/NPC.h"
 
+enum TypeMap
+{
+	SIMPLE, HORIZONTAL, VERTICAL
+};
+
 class WorldScene : public cocos2d::Layer
 {
 private:
+	TypeMap					_type;
+	cocos2d::Layer*			_mapLayer;
 	cocos2d::Point			_startPosition;
 	NPCVec					_npcs;
 	Player*					_player;
@@ -48,6 +55,7 @@ private:
 	void createDoor();
 	void removeBrick(Brick* brick);
 	void removeBombs();
+	void createBomb();
 
 public:
     static cocos2d::Scene* createScene();
@@ -57,7 +65,6 @@ public:
 
 	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
-	void createBomb(const cocos2d::Point& point);
 	void update(float dt);
 	void testUpdate(float dt);
 };

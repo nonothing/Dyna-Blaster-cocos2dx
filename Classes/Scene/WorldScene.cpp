@@ -19,7 +19,7 @@ bool WorldScene::init()
     {
         return false;
     }
-
+	_mapLayer = Layer::create();
 	_debugLayer = Layer::create();
 	_doorBrick = nullptr;
 
@@ -34,34 +34,39 @@ bool WorldScene::init()
 	_record = 110; //todo need read memory
 	_score = 0;
 
-	auto rootNode = CSLoader::createNode("WorldScene.csb");
-	_labelLife = static_cast<ui::Text*>(rootNode->getChildByName("labelLife"));
-	_labelTime = static_cast<ui::Text*>(rootNode->getChildByName("labelTime"));
-	_labelRecord = static_cast<ui::Text*>(rootNode->getChildByName("labelHigh"));
+	_type = HORIZONTAL;
+	auto rootNode = CSLoader::createNode("WorldSceneHorizontal.csb");
+	auto tableNode = CSLoader::createNode("Table.csb");
+	_labelLife = static_cast<ui::Text*>(tableNode->getChildByName("labelLife"));
+	_labelTime = static_cast<ui::Text*>(tableNode->getChildByName("labelTime"));
+	_labelRecord = static_cast<ui::Text*>(tableNode->getChildByName("labelHigh"));
 	_labelRecord->setString(std::to_string(_record));
-	_labelScore = static_cast<ui::Text*>(rootNode->getChildByName("labelScore"));
+	_labelScore = static_cast<ui::Text*>(tableNode->getChildByName("labelScore"));
 	_labelScore->setString(std::to_string(_score));
 
 	auto timer = dyna::Timer::create(_labelTime);
 	timer->setTime(61);
 
-	_startPosition = createBricks();
-	addChild(rootNode, 0);
+	_startPosition = createBricks(); 
+	_startPosition.x = _startPosition.x - 74 * 28;
+	_mapLayer->addChild(rootNode, 0);
 
 	_currentIndexLevel = 1;
 
-	_player = Player::create(_bricks);
+	_player = Player::create(_mapLayer);
 	_player->setPosition(_startPosition);
 	_player->debugLayer = _debugLayer;
 	_player->_collisions = rootNode->getChildren();
 	_labelLife->setString(std::to_string(_player->getLife()));
 	addChild(_player, 3);
-	addChild(_debugLayer, 100);
+	_mapLayer->addChild(_debugLayer, 100);
 	addChild(timer, -1);
 
 	createWalls();
 	createNPC();
 	_player->setBricks(_bricks);
+	addChild(tableNode);
+	addChild(_mapLayer);
     return true;
 }
 
@@ -74,12 +79,12 @@ void WorldScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_SPACE && _player->hasBomb())
 	{
-		createBomb(_player->getPosition());
+		createBomb();
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_CTRL && _player->isRemote())
 	{
-		if (!_bombs.empty())
 		{
+		if (!_bombs.empty())
 			_bombs.at(0)->explode();
 			_player->explodeBomb();
 		}
@@ -109,8 +114,18 @@ Direction WorldScene::KeyCodeToDiretion(EventKeyboard::KeyCode keyCode)
 	}
 }
 
-void WorldScene::createBomb(const Point& point)
+void WorldScene::createBomb()
 {
+	Point point = Point::ZERO;
+	for (auto brick : _bricks)
+	{
+		if (isCollision(brick, _player) && brick->getType() == EBACKGROUND)
+		{
+			point = brick->getPosition();
+			break;
+		}
+	}
+
 	auto bomb = Bomb::create(_player);
 		 bomb->setPosition(point);
 		 bomb->setBricks(_bricks);
@@ -141,7 +156,7 @@ void WorldScene::createBomb(const Point& point)
 
 	if (isCorrect)
 	{
-		addChild(bomb, 2);
+		_mapLayer->addChild(bomb, 2);
 		_player->putBomb();
 		_bombs.push_back(bomb);
 	}
@@ -238,17 +253,22 @@ bool WorldScene::isCollision(WorldObject* obj1, WorldObject* obj2)
 
 Point WorldScene::createBricks()
 {
+	//simple 6x5
+	//horizontal 14x5
+	//vertical 6x14
+	int w = 14;
+	int h = 5;
 	int size = 74; // todo delete magic nubmer
 	Point position;
-	for (int i = 0; i <= 12; i++)
+	for (int i = 0; i <= w * 2; i++)
 	{
-		for (int j = 0; j <= 10; j++)
+		for (int j = 0; j <= h * 2; j++)
 		{
 			auto brick = Brick::create(1, i, j);
 			brick->setPosition(Point(i * size + 148, j * size + 112));
 			if (brick->getType() == EBACKGROUND) position = brick->getPosition();
 			_bricks.push_back(brick);
-			addChild(brick, 1);
+			_mapLayer->addChild(brick, 1);
 		}
 	}
 
@@ -260,11 +280,12 @@ void WorldScene::createNPC()
 	BricksVec bricks;
 	std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(bricks), [](Brick* brick) { return brick->getType() == EBACKGROUND;});
 	std::random_shuffle(bricks.begin(), bricks.end());
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		NPC* npc = NPC::create(_bricks);
+		npc->debugLayer = _debugLayer;
 		npc->setPosition(bricks.at(i)->getPosition());
-		addChild(npc, 2);
+		_mapLayer->addChild(npc, 2);
 		npc->move();
 		_npcs.push_back(npc);
 	}
@@ -275,8 +296,9 @@ void WorldScene::createNPC(Brick* brick)
 	for (int i = 0; i < 5; i++)
 	{
 		NPC* npc = NPC::create(_bricks);
+		npc->debugLayer = _debugLayer;
 		npc->setPosition(brick->getPosition());
-		addChild(npc, 2);
+		_mapLayer->addChild(npc, 2);
 		npc->move();
 		_npcs.push_back(npc);
 	}
@@ -378,12 +400,12 @@ void WorldScene::createDoor()
 		brick->setPosition(_doorBrick->getPosition());
 		removeBrick(_doorBrick);
 		_bricks.push_back(brick);
-		addChild(brick, 1);
+		_mapLayer->addChild(brick, 1);
 	}
 
 	_doorBrick = BrickDoor::create(foo);
 	_doorBrick->setPosition(foo->getPosition());
-	addChild(_doorBrick, 1);
+	_mapLayer->addChild(_doorBrick, 1);
 	
 	removeBrick(foo);
 

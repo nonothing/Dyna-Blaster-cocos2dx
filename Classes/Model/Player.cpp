@@ -3,10 +3,10 @@
 USING_NS_CC;
 #define ANIM_TAG 225 
 
-Player* Player::create(BricksVec vec)
+Player* Player::create(cocos2d::Layer* layer)
 {
 	Player* player = new Player();
-	if (player && player->init(vec))
+	if (player && player->init(layer))
 	{
 		return (Player*)player->autorelease();
 	}
@@ -21,7 +21,7 @@ void Player::setBricks(BricksVec vec)
 	_bricks = vec;
 }
 
-bool Player::init(BricksVec vec)
+bool Player::init(cocos2d::Layer* layer)
 {
     if ( !Layer::init() )
     {
@@ -36,13 +36,26 @@ bool Player::init(BricksVec vec)
 	_sprite->setPositionY(12);
 	addChild(_sprite);
 
-	_bricks = vec;
+	_mapLayer = layer;
 	_isRemote = true;
 	_life = 3;
-	_speed = Point(5, 7);
+	_speed = Point(6, 8);
 	_countBomb = 5;
 	_dir = NONE;
     return true;
+}
+
+Direction Player::poinToDir(const cocos2d::Point& point)
+{
+	if (point.x != 0)
+	{
+		return point.x > 0 ? RIGHT : LEFT;
+	}
+	if (point.y != 0)
+	{
+		return point.y > 0 ? UP : DOWN;
+	}
+	return NONE;
 }
 
 void Player::move()
@@ -50,21 +63,29 @@ void Player::move()
 	Point point = getPosition();
 	switch (_dir)
 	{
-	case LEFT: point = getPosition() + Point(-_speed.x, 0);
+	case LEFT: point = Point(-_speed.x, 0);
 		break;
-	case RIGHT:point = getPosition() + Point(_speed.x, 0);
+	case RIGHT:point = Point(_speed.x, 0);
 		break;
-	case UP:   point = getPosition() + Point(0, _speed.y);
+	case UP:   point = Point(0, _speed.y);
 		break;
-	case DOWN: point = getPosition() + Point(0, -_speed.y);
+	case DOWN: point = Point(0, -_speed.y);
 		break;
 	case NONE:
 		break;
 	}
+	Point nextPoint = getPosition() + point;
 
-	if (!isCollision(point))
+	if (!isCollision(nextPoint))
 	{
-		setPosition(point);
+		if (isMapMove(nextPoint))
+		{
+			moveMap(point);
+		}
+		else
+		{
+			setPosition(nextPoint);
+		}
 	}
 }
 
@@ -152,7 +173,7 @@ bool Player::isCollision(const Point& point)
 			Size bSize = brick->getRect().size;
 			Point obj1Pos = brick->convertToWorldSpace(brick->getRect().origin);
 			Rect obj1Rect = Rect(obj1Pos.x - bSize.width / 2, obj1Pos.y - bSize.height / 2, bSize.width, bSize.height);
-			brick->drawDebugRect(obj1Rect, debugLayer);
+		//	brick->drawDebugRect(obj1Rect, debugLayer);
 
 			if (obj1Rect.intersectsRect(obj2Rect))
 			{
@@ -164,15 +185,34 @@ bool Player::isCollision(const Point& point)
 	for (auto child : _collisions)
 	{
 		Size bSize = child->getContentSize();
-		Point obj1Pos = child->getPosition();
+		Point obj1Pos = _mapLayer->convertToWorldSpace(child->getPosition());
 		Rect obj1Rect = Rect(obj1Pos.x - bSize.width / 2, obj1Pos.y - bSize.height / 2, bSize.width, bSize.height);
-		drawDebugRect(obj1Rect, debugLayer);
+		//drawDebugRect(obj1Rect, debugLayer);
 		if (obj1Rect.intersectsRect(obj2Rect))
 		{
 			return true;
 		}
 	}
 
+	return false;
+}
+
+void Player::moveMap(const cocos2d::Point& point)
+{
+	Point n = Point(-point.x, -point.y);
+	_mapLayer->setPosition(_mapLayer->getPosition() + n);
+}
+
+bool Player::isMapMove(const Point& point)
+{
+	Size size = Director::getInstance()->getWinSize();
+	if (_dir == RIGHT && point.x > size.width / 2 && _mapLayer->getPositionX() > -_mapLayer->getContentSize().width
+		|| _dir == LEFT && point.x < size.width / 2 && _mapLayer->getPositionX() < 0)
+	{
+		return true;
+	}
+
+	//todo check vertical
 	return false;
 }
 
