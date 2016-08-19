@@ -160,6 +160,11 @@ void WorldScene::update(float dt)
 	removeNPC();
 	checkCollisionBombs();
 	checkOpenDoor();
+	if (_doorBrick && _doorBrick->canCreate())
+	{
+		_doorBrick->changeCreateNPC();
+		createNPC(_doorBrick);
+	}
 	if (_doorBrick && _doorBrick->isOpenDoor() && isCollision(_doorBrick, _player))
 	{
 		_doorBrick->openDoor(false);
@@ -209,10 +214,7 @@ void WorldScene::checkCollisionBombs()
 
 bool WorldScene::isCollisionFire(Bomb* bomb, WorldObject* obj)
 {
-	//Todo need optimization?
-	Size objSize = Size(70, 70);
-	Point bombPos = obj->convertToWorldSpace(obj->getPosition());
-	Rect rect = Rect(bombPos.x, bombPos.y, objSize.width, objSize.height);
+	Rect rect = obj->getRectWorldSpace(Size(70, 70));
 	for (auto fire : bomb->getFires())
 	{
 		Point fp = fire->getPosition();
@@ -220,7 +222,6 @@ bool WorldScene::isCollisionFire(Bomb* bomb, WorldObject* obj)
 		
 		Point firePos = bomb->convertToWorldSpace(bomb->getPosition() + fp + fp); //todo why two fire position?
 		Rect rectFire = Rect(firePos.x, firePos.y, size.width, size.height);
-//		CCLOG("bomb x=%f y=%f, fire x=%f y=%f origin x=%f y=%f", bombPos.x, bombPos.y, firePos.x, firePos.y, fp.x, fp.y);
 		if (rectFire.intersectsRect(rect)) 
 		{
 			return true;
@@ -232,13 +233,7 @@ bool WorldScene::isCollisionFire(Bomb* bomb, WorldObject* obj)
 
 bool WorldScene::isCollision(WorldObject* obj1, WorldObject* obj2)
 {
-	Point obj1Pos = obj1->convertToWorldSpace(obj1->getBoundingBox().origin);
-	Rect obj1Rect = Rect(obj1Pos.x, obj1Pos.y, obj1->getRect().size.width, obj1->getRect().size.height);
-
-	Point obj2Pos = obj2->convertToWorldSpace(obj2->getBoundingBox().origin);
-	Rect obj2Rect = Rect(obj2Pos.x, obj2Pos.y, obj2->getRect().size.width, obj2->getRect().size.height);
-
-	return obj1Rect.intersectsRect(obj2Rect);
+	return obj1->getRectWorldSpace().intersectsRect(obj2->getRectWorldSpace());
 }
 
 Point WorldScene::createBricks()
@@ -275,6 +270,18 @@ void WorldScene::createNPC()
 	}
 }
 
+void WorldScene::createNPC(Brick* brick)
+{
+	for (int i = 0; i < 5; i++)
+	{
+		NPC* npc = NPC::create(_bricks);
+		npc->setPosition(brick->getPosition());
+		addChild(npc, 2);
+		npc->move();
+		_npcs.push_back(npc);
+	}
+}
+
 void WorldScene::checkOpenDoor()
 {
 	if (_doorBrick)
@@ -292,7 +299,7 @@ void WorldScene::checkFireWithNPC()
 {
 	for (auto npc: _npcs)
 	{
-		if (!npc->isDead() && isCollisionFire(_expBomb, npc))
+		if (!npc->isDead() && npc->getCreateTime() < _expBomb->getExplodeTime() && isCollisionFire(_expBomb, npc))
 		{
 			npc->dead();
 		}
@@ -381,7 +388,6 @@ void WorldScene::createDoor()
 	removeBrick(foo);
 
  	_bricks.push_back(_doorBrick);
-
 }
 
 void WorldScene::removeBrick(Brick* brick)

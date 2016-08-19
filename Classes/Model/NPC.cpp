@@ -26,6 +26,7 @@ bool NPC::init(BricksVec vec)
 	_name = random() % 2 ? "brush" : "chert";
 	_isChangeAnimation = false;
 	_isDead = false;
+	_createTime = Director::getInstance()->getTotalFrames();
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("npc.plist", "npc.png");
 	AnimationCache::getInstance()->addAnimationsWithFile("animation/" + _name + ".plist");
@@ -124,6 +125,11 @@ bool NPC::isDead()
 bool NPC::isRemove()
 {
 	return _sprite->getOpacity() == 0;
+}
+
+unsigned int NPC::getCreateTime()
+{
+	return _createTime;
 }
 
 std::string NPC::dirToString(Direction dir)

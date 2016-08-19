@@ -15,6 +15,7 @@ private:
 	std::string		_name;
 	bool			_isDead;
 	bool			_isChangeAnimation;
+	unsigned int	_createTime;
 
 	Direction _dir;
 	BricksVec _bricks;
@@ -35,6 +36,7 @@ public:
 	virtual cocos2d::Rect getRect() override;
 	bool isDead();
 	bool isRemove();
+	unsigned int getCreateTime();
 };
 
 typedef std::vector<NPC*> NPCVec;

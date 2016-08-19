@@ -11,6 +11,8 @@ protected:
 public:
 	cocos2d::Layer* debugLayer;
 	virtual cocos2d::Rect getRect();
+	cocos2d::Rect getRectWorldSpace();
+	cocos2d::Rect getRectWorldSpace(const cocos2d::Size& size);
 	void drawDebugRect(const cocos2d::Rect& rect, cocos2d::Layer* layer);
 };
 

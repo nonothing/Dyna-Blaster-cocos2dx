@@ -1,4 +1,5 @@
 #include "Model/Bomb.h"
+#include "Model/BrickDoor.h"
 
 USING_NS_CC;
 #define ANIM_TAG 225
@@ -148,8 +149,7 @@ bool Bomb::checkCollision(cocos2d::Sprite* sprite)
 	Size size = Size(74, 74);
 	for (auto brick : _bricks)
 	{
-		Point bombPos = brick->convertToWorldSpace(brick->getPosition());
-		Rect rect = Rect(bombPos.x, bombPos.y, size.width, size.height);
+		Rect rect = brick->getRectWorldSpace(size);
 
 		Point fp = sprite->getPosition();
 		Point firePos = this->convertToWorldSpace(this->getPosition() + fp + fp); //todo why two fire position?
@@ -166,6 +166,12 @@ bool Bomb::checkCollision(cocos2d::Sprite* sprite)
 			}
 			if (brick->getType() == EBACKGROUND)
 			{
+				auto door = dynamic_cast<BrickDoor*>(brick);
+				if (door)
+				{
+					door->changeCreateNPC(true);
+				}
+
 				return false;
 			}
 		}
@@ -176,6 +182,7 @@ bool Bomb::checkCollision(cocos2d::Sprite* sprite)
 
 void Bomb::explode()
 {
+	_explodeTime = Director::getInstance()->getTotalFrames();
 	_isFire = true;
 	_isRemote = false;
 	_tick = 9999;
@@ -249,4 +256,9 @@ std::vector<cocos2d::Sprite*> Bomb::getFires()
 bool Bomb::isRemove()
 {
 	return getOpacity() == 0;
+}
+
+unsigned int Bomb::getExplodeTime()
+{
+	return _explodeTime;
 }

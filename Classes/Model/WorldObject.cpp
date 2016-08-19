@@ -22,3 +22,14 @@ void WorldObject::drawDebugRect(const cocos2d::Rect& rect, Layer* layer)
 #endif // DEBUG
 
 }
+
+cocos2d::Rect WorldObject::getRectWorldSpace()
+{
+	return getRectWorldSpace(getRect().size);
+}
+
+cocos2d::Rect WorldObject::getRectWorldSpace(const cocos2d::Size& size)
+{
+	Point obj1Pos = convertToWorldSpace(getBoundingBox().origin);
+	return Rect(obj1Pos.x, obj1Pos.y, size.width, size.height);
+}

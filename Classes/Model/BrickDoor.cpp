@@ -24,6 +24,7 @@ bool BrickDoor::init(Brick* brick)
 	}
 
 	createWall();
+	_canCreate = false;
 
 	return true;
 }
@@ -91,5 +92,15 @@ void BrickDoor::openDoor(bool var)
 			_isOpenDoor = false;
 		}
 	}
+}
+
+void BrickDoor::changeCreateNPC(bool var)
+{
+	_canCreate = var;
+}
+
+bool BrickDoor::canCreate()
+{
+	return _canCreate;
 }
 
