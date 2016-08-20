@@ -57,6 +57,9 @@
     <ClCompile Include="..\Classes\Model\BrickDoor.cpp">
       <Filter>src\Model</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Model\NPCData.cpp">
+      <Filter>src\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -102,6 +105,9 @@
       <Filter>src\Model</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Model\BrickDoor.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\NPCData.h">
       <Filter>src\Model</Filter>
     </ClInclude>
   </ItemGroup>

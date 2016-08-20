@@ -6,7 +6,7 @@ enum  ID_NPC
 	acc	= 0,
 	accordion,	
 	bear,	
-	rush,	
+	brush,	
 	chert,	
 	coin,	
 	ball,	

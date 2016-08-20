@@ -5,14 +5,13 @@
 #include "Model/Direction.h"
 #include "Model/Brick.h"
 #include "Model/WorldObject.h"
-#include "Model/ENPC.h"
+#include "Model/NPCData.h"
 
 class NPC : public WorldObject
 {
 private:
-
-	ID_NPC			_id;
-	std::string		_name;
+	
+	NPCData			_data;
 	bool			_isDead;
 	bool			_isChangeAnimation;
 	unsigned int	_createTime;
@@ -20,15 +19,15 @@ private:
 
 	Direction _dir;
 	BricksVec _bricks;
-	std::string dirToString(Direction dir);
 	void runAnimate(cocos2d::Animation* animation);
 	bool isCollisionEmpty(const cocos2d::Point& point);
 	Direction PointToDir(const cocos2d::Point& point);
+	bool	isMove(BrickType type);
 
 public:
 
-    virtual bool init(BricksVec vec);
-	static NPC* create(BricksVec vec);
+    virtual bool init(const NPCData& data, BricksVec vec);
+	static NPC* create(const NPCData& data, BricksVec vec);
 	void setMapLayer(cocos2d::Layer* layer);
 	void move();
 	void nextDir();

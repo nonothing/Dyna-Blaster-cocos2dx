@@ -3,10 +3,10 @@
 USING_NS_CC;
 #define ANIM_TAG 225 
 
-NPC* NPC::create(BricksVec vec)
+NPC* NPC::create(const NPCData& data, BricksVec vec)
 {
 	NPC* npc = new NPC();
-	if (npc && npc->init(vec))
+	if (npc && npc->init(data, vec))
 	{
 		return (NPC*)npc->autorelease();
 	}
@@ -21,23 +21,22 @@ void NPC::setMapLayer(cocos2d::Layer* layer)
 	_mapLayer = layer;
 }
 
-bool NPC::init(BricksVec vec)
+bool NPC::init(const NPCData& data, BricksVec vec)
 {
     if ( !Layer::init() )
     {
         return false;
     }
-
-	_name = random() % 2 ? "brush" : "chert";
+	_data = data;
 	_isChangeAnimation = false;
 	_isDead = false;
 	_createTime = Director::getInstance()->getTotalFrames();
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("npc.plist", "npc.png");
-	AnimationCache::getInstance()->addAnimationsWithFile("animation/" + _name + ".plist");
+	AnimationCache::getInstance()->addAnimationsWithFile("animation/" + _data._name + ".plist");
 
 	schedule(schedule_selector(NPC::update), 0.03f);
-	_sprite = Sprite::createWithSpriteFrameName(_name + "_1.png");
+	_sprite = Sprite::createWithSpriteFrameName(_data._name + "_1.png");
 	addChild(_sprite);
 	_bricks = vec;
 	_dir = RIGHT;
@@ -65,7 +64,7 @@ void NPC::move()
 		point = freePoints.at(0).first;
 		_dir = freePoints.at(0).second;
 		if (_isChangeAnimation) animate(_dir);
-		runAction(Sequence::create(MoveTo::create(0.5f, point), CallFunc::create(CC_CALLBACK_0(NPC::nextDir, this)), nullptr));
+		runAction(Sequence::create(MoveTo::create(_data._speed, point), CallFunc::create(CC_CALLBACK_0(NPC::nextDir, this)), nullptr));
 	}
 }
 
@@ -76,7 +75,7 @@ void NPC::nextDir() //todo rewrite
 
 void NPC::animate(Direction dir) 
 {
-	auto animation = AnimationCache::getInstance()->getAnimation(_name + "_move_" + dirToString(dir));
+	auto animation = AnimationCache::getInstance()->getAnimation(_data.getAnimationNameMove(_dir));
 	if (animation)
 	{
 		_sprite->setFlippedX(_dir == RIGHT);
@@ -85,7 +84,7 @@ void NPC::animate(Direction dir)
 	} 
 	else
 	{
-		animation = AnimationCache::getInstance()->getAnimation(_name + "_move");
+		animation = AnimationCache::getInstance()->getAnimation(_data.getAnimationNameMove());
 		if (animation)
 		{
 			runAnimate(animation);
@@ -100,7 +99,7 @@ void NPC::dead()
 		_isDead = true;
 		stopAllActions();
 		_sprite->stopAllActions();
-		auto animation = AnimationCache::getInstance()->getAnimation(_name + "_dead");
+		auto animation = AnimationCache::getInstance()->getAnimation(_data.getAnimationNameDead());
 		if (animation)
 		{
 			auto action = CCSequence::create(Animate::create(animation), CallFunc::create(CC_CALLBACK_0(NPC::destroy, this)), nullptr);
@@ -137,17 +136,6 @@ unsigned int NPC::getCreateTime()
 	return _createTime;
 }
 
-std::string NPC::dirToString(Direction dir)
-{
-	switch (dir)
-	{
-	case LEFT:	case RIGHT: return "left";
-	case UP: return "up";
-	case DOWN: return "down";
-	default: return "";
-	}
-}
-
 void NPC::runAnimate(cocos2d::Animation* animation)
 {
 	_sprite->stopActionByTag(ANIM_TAG);
@@ -163,7 +151,7 @@ bool NPC::isCollisionEmpty(const cocos2d::Point& point)//todo rewrite
 
 	for (auto brick : _bricks)
 	{
-		if (brick->getType() == EBACKGROUND || brick->getType() == EWALL)
+		if (isMove(brick->getType()))
 		{
 			Size bSize = brick->getRect().size;
 			Point obj1Pos = brick->convertToWorldSpace(brick->getRect().origin) - _mapLayer->getPosition();
@@ -190,5 +178,10 @@ Direction NPC::PointToDir(const cocos2d::Point& point)
 		return point.y > 0 ? UP : DOWN;
 	}
 	return NONE;
+}
+
+bool NPC::isMove(BrickType type)
+{
+	return type == EBACKGROUND || ( type == EWALL && _data._type == 1 );
 }
 

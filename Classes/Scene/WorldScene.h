@@ -8,6 +8,7 @@
 #include "Model/BrickDoor.h"
 #include "ui/UIText.h"
 #include "Model/NPC.h"
+#include "Model/NPCData.h"
 
 enum TypeMap
 {
@@ -17,6 +18,7 @@ enum TypeMap
 class WorldScene : public cocos2d::Layer
 {
 private:
+	NPCDataLoader*			_loaderNPC;
 	TypeMap					_type;
 	cocos2d::Layer*			_mapLayer;
 	cocos2d::Point			_startPosition;

@@ -31,10 +31,11 @@ bool WorldScene::init()
 	schedule(schedule_selector(WorldScene::update), 0.01f);
 	schedule(schedule_selector(WorldScene::testUpdate), 1.0f);
 
+	_loaderNPC = new NPCDataLoader();
 	_record = 110; //todo need read memory
 	_score = 0;
 
-	_type = HORIZONTAL;
+	_type = SIMPLE;
 	std::string nameNode = "WorldSceneSimple.csb";
 	_width = 6;
 	_height = 5;
@@ -288,9 +289,10 @@ void WorldScene::createNPC()
 	BricksVec bricks;
 	std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(bricks), [](Brick* brick) { return brick->getType() == EBACKGROUND;});
 	std::random_shuffle(bricks.begin(), bricks.end());
-	for (int i = 0; i < 5; i++)
+	auto data = _loaderNPC->getNPCs();
+	for (int i = 5; i < 9; i++)
 	{
-		NPC* npc = NPC::create(_bricks);
+		NPC* npc = NPC::create(data.at(i), _bricks);
 		npc->debugLayer = _debugLayer;
 		npc->setMapLayer(_mapLayer);
 		npc->setPosition(bricks.at(i)->getPosition());
@@ -302,9 +304,10 @@ void WorldScene::createNPC()
 
 void WorldScene::createNPC(Brick* brick)
 {
+	auto data = _loaderNPC->getNPCs();
 	for (int i = 0; i < 5; i++)
 	{
-		NPC* npc = NPC::create(_bricks);
+		NPC* npc = NPC::create(data.at(i), _bricks);
 		npc->debugLayer = _debugLayer;
 		npc->setMapLayer(_mapLayer);
 		npc->setPosition(brick->getPosition());
