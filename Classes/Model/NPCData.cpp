@@ -14,6 +14,13 @@ NPCDataVec NPCDataLoader::getNPCs()
 	return _npcs;
 }
 
+NPCData NPCDataLoader::getNPC(ID_NPC id)
+{
+	NPCData result;
+	auto it = std::find_if(_npcs.begin(), _npcs.end(), [id](NPCData data){ return data._id == id; });
+	return (it == _npcs.end()) ? result : *it;
+}
+
 void NPCDataLoader::parse()
 {
 	for (auto value : _map)

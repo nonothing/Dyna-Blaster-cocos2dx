@@ -4,6 +4,8 @@
 
 USING_NS_CC;
 
+#define BOSS_LEVEL 8
+
 Scene* WorldScene::createScene()
 {
     auto scene = Scene::create();
@@ -12,6 +14,8 @@ Scene* WorldScene::createScene()
 
     return scene;
 }
+
+const std::string sRootNodeName[] = { "WorldSceneSimple.csb", "WorldSceneHorizontal.csb", "WorldSceneVertical.csb" };
 
 bool WorldScene::init()
 {
@@ -30,30 +34,15 @@ bool WorldScene::init()
 
 	schedule(schedule_selector(WorldScene::update), 0.01f);
 	schedule(schedule_selector(WorldScene::testUpdate), 1.0f);
+	_loaderMap = new MapDataLoader();
+	_data = _loaderMap->getMaps().at(30);
 
 	_loaderNPC = new NPCDataLoader();
 	_record = 110; //todo need read memory
 	_score = 0;
 
-	_type = SIMPLE;
-	std::string nameNode = "WorldSceneSimple.csb";
-	_width = 6;
-	_height = 5;
-	
-	if (_type == HORIZONTAL)
-	{
-		_width = 14;
-		_height = 5;
-		nameNode = "WorldSceneHorizontal.csb";
-	}
-	if (_type == VERTICAL)
-	{
-		_height = 14;
-		_width = 6;
-		nameNode = "WorldSceneVertical.csb";
-	}
-	_mapLayer->setTag(_type);
-	auto rootNode = CSLoader::createNode(nameNode);
+	_mapLayer->setTag(_data.getTypeMap());
+	auto rootNode = CSLoader::createNode(sRootNodeName[_data.getTypeMap()]);
 	auto tableNode = CSLoader::createNode("Table.csb");
 	_labelLife = static_cast<ui::Text*>(tableNode->getChildByName("labelLife"));
 	_labelTime = static_cast<ui::Text*>(tableNode->getChildByName("labelTime"));
@@ -66,7 +55,7 @@ bool WorldScene::init()
 	timer->setTime(61);
 
 	_startPosition = createBricks(); 
-	_startPosition.x = _startPosition.x - 74 * _width * 2;
+	_startPosition.x = _startPosition.x - 74 * _data._width * 2;
 	_startPosition.y = Director::getInstance()->getWinSize().height - 252;
 	_mapLayer->addChild(rootNode, 0);
 
@@ -263,17 +252,14 @@ bool WorldScene::isCollision(WorldObject* obj1, WorldObject* obj2, const Size& s
 
 Point WorldScene::createBricks()
 {
-	//simple 6x5
-	//horizontal 14x5
-	//vertical 6x14
 	int size = 74; // todo delete magic nubmer
 	Size winSize = Director::getInstance()->getWinSize();
 	Point position;
-	for (int i = 0; i <= _width * 2; i++)
+	for (int i = 0; i <= _data._width * 2; i++)
 	{
-		for (int j = 0; j <= _height * 2; j++)
+		for (int j = 0; j <= _data._height * 2; j++)
 		{
-			auto brick = Brick::create(1, i, j);
+			auto brick = Brick::create(_data._stage, i, j);
 			brick->setPosition(Point(i * size + 148, winSize.height - j * size - 252));
 			if (brick->getType() == EBACKGROUND) position = brick->getPosition();
 			_bricks.push_back(brick);
@@ -289,16 +275,25 @@ void WorldScene::createNPC()
 	BricksVec bricks;
 	std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(bricks), [](Brick* brick) { return brick->getType() == EBACKGROUND;});
 	std::random_shuffle(bricks.begin(), bricks.end());
-	auto data = _loaderNPC->getNPCs();
-	for (int i = 5; i < 9; i++)
+	auto npcVec = _data._npcVec;
+	int index = 0;
+	for (auto p : npcVec)
 	{
-		NPC* npc = NPC::create(data.at(i), _bricks);
-		npc->debugLayer = _debugLayer;
-		npc->setMapLayer(_mapLayer);
-		npc->setPosition(bricks.at(i)->getPosition());
-		_mapLayer->addChild(npc, 2);
-		npc->move();
-		_npcs.push_back(npc);
+		for (int i = 0; i < p.second; i++)
+		{
+			auto dataNPC = _loaderNPC->getNPC(ID_NPC(p.first));
+			if (dataNPC._id != NPC_NONE)
+			{
+				NPC* npc = NPC::create(dataNPC, _bricks);
+				npc->debugLayer = _debugLayer;
+				npc->setMapLayer(_mapLayer);
+				npc->setPosition(bricks.at(index)->getPosition());
+				_mapLayer->addChild(npc, 2);
+				npc->move();
+				_npcs.push_back(npc);
+				index++;
+			}
+		}
 	}
 }
 
@@ -386,18 +381,20 @@ void WorldScene::createWalls()
 	{
 		brick->destroyWall();
 	}
-
-	for (int i = 0; i < 60; i++)
+	if (_data._level != BOSS_LEVEL)
 	{
-		int randomNumber = rand() % _bricks.size();
-		auto brick = _bricks.at(randomNumber);
-		if (!isCollision(brick, _player, Size(60, 60)))
+		for (int i = 0; i < 60; i++)
 		{
-			brick->createWall();
+			int randomNumber = rand() % _bricks.size();
+			auto brick = _bricks.at(randomNumber);
+			if (!isCollision(brick, _player, Size(60, 60)))
+			{
+				brick->createWall();
+			}
 		}
+		createDoor();
 	}
-
-	createDoor();
+	//todo create door for boss
 }
 
 void WorldScene::createDoor()

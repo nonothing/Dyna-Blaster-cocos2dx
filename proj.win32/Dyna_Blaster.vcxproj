@@ -141,6 +141,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\Model\Bomb.cpp" />
     <ClCompile Include="..\Classes\Model\Brick.cpp" />
     <ClCompile Include="..\Classes\Model\BrickDoor.cpp" />
+    <ClCompile Include="..\Classes\Model\MapData.cpp" />
     <ClCompile Include="..\Classes\Model\NPC.cpp" />
     <ClCompile Include="..\Classes\Model\NPCData.cpp" />
     <ClCompile Include="..\Classes\Model\Player.cpp" />
@@ -158,6 +159,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Model\Direction.h" />
     <ClInclude Include="..\Classes\Model\EBonus.h" />
     <ClInclude Include="..\Classes\Model\ENPC.h" />
+    <ClInclude Include="..\Classes\Model\MapData.h" />
     <ClInclude Include="..\Classes\Model\NPC.h" />
     <ClInclude Include="..\Classes\Model\NPCData.h" />
     <ClInclude Include="..\Classes\Model\Player.h" />

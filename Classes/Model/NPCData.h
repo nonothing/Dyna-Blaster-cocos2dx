@@ -14,6 +14,20 @@ struct NPCData
 	int				_score;
 	int				_type;
 
+	NPCData()
+	{
+		_id = ID_NPC::NPC_NONE;
+	}
+
+	NPCData(const NPCData& data)
+	{
+		_id = data._id;
+		_name = data._name;
+		_speed = data._speed;
+		_score = data._score;
+		_type = data._type;
+	}
+
 	std::string getAnimationNameMove(Direction dir = Direction::NONE)
 	{
 		return _name + "_move" + dirToString(dir);
@@ -47,7 +61,7 @@ private:
 public:
 	NPCDataLoader();
 	NPCDataVec getNPCs();
-
+	NPCData getNPC(ID_NPC id);
 };
 
 #endif // __NPC_DATA_H__

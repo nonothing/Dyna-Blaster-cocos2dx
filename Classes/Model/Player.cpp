@@ -208,9 +208,9 @@ bool Player::isMapMove(const Point& point)
 	Size mapSize = _mapLayer->getContentSize();
 	// todo delete tag
 
-	return _dir == DOWN && point.y < size.height / 2 && _mapLayer->getPositionY() < mapSize.height + 230 && _mapLayer->getTag() == 3
+	return _dir == DOWN && point.y < size.height / 2 && _mapLayer->getPositionY() < mapSize.height + 230 && _mapLayer->getTag() == 2
 		|| _dir == UP && point.y > size.height / 2 && _mapLayer->getPositionY() > 0
-		|| _dir == RIGHT && point.x > size.width / 2 && _mapLayer->getPositionX() > -mapSize.width && _mapLayer->getTag() == 2
+		|| _dir == RIGHT && point.x > size.width / 2 && _mapLayer->getPositionX() > -mapSize.width && _mapLayer->getTag() == 1
 		|| _dir == LEFT && point.x < size.width / 2 && _mapLayer->getPositionX() < 0;
 }
 

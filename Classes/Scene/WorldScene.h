@@ -9,17 +9,15 @@
 #include "ui/UIText.h"
 #include "Model/NPC.h"
 #include "Model/NPCData.h"
-
-enum TypeMap
-{
-	SIMPLE = 1, HORIZONTAL = 2, VERTICAL = 3
-};
+#include "Model/MapData.h"
 
 class WorldScene : public cocos2d::Layer
 {
 private:
-	NPCDataLoader*			_loaderNPC;
-	TypeMap					_type;
+	NPCDataLoader*			_loaderNPC;//todo delete
+	MapDataLoader*			_loaderMap;//todo delete
+	MapData					_data;
+
 	cocos2d::Layer*			_mapLayer;
 	cocos2d::Point			_startPosition;
 	NPCVec					_npcs;
@@ -30,12 +28,11 @@ private:
 	BrickDoor*				_doorBrick;
 	cocos2d::EventListenerKeyboard*	_keyboardListener;
 	cocos2d::Layer*			_debugLayer;
+
 	int						_score;
 	int						_record;
 	bool					_testVar;
 	int						_currentIndexLevel;
-	int						_width;
-	int						_height;
 
 	cocos2d::ui::Text*			_labelLife;
 	cocos2d::ui::Text*			_labelTime;

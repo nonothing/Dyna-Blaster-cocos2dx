@@ -3,15 +3,15 @@
 
 enum  ID_BONUS
 {
-	Fire = 0,
-	Bomb,
-	Speed,
-	Heart,
-	Life,
-	Wall,
-	TBomb, 
-	Immortal,
-	None
+	BFire = 0,
+	BBomb,
+	BSpeed,
+	BHeart,
+	BLife,
+	BWall,
+	BEBomb, 
+	BImmortal,
+	BNone
 
 };
 
