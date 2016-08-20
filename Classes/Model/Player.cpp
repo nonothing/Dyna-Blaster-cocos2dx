@@ -199,21 +199,19 @@ bool Player::isCollision(const Point& point)
 
 void Player::moveMap(const cocos2d::Point& point)
 {
-	Point n = Point(-point.x, -point.y);
-	_mapLayer->setPosition(_mapLayer->getPosition() + n);
+	_mapLayer->setPosition(_mapLayer->getPosition() + Point(-point.x, -point.y));
 }
 
 bool Player::isMapMove(const Point& point)
 {
 	Size size = Director::getInstance()->getWinSize();
-	if (_dir == RIGHT && point.x > size.width / 2 && _mapLayer->getPositionX() > -_mapLayer->getContentSize().width
-		|| _dir == LEFT && point.x < size.width / 2 && _mapLayer->getPositionX() < 0)
-	{
-		return true;
-	}
+	Size mapSize = _mapLayer->getContentSize();
+	// todo delete tag
 
-	//todo check vertical
-	return false;
+	return _dir == DOWN && point.y < size.height / 2 && _mapLayer->getPositionY() < mapSize.height + 230 && _mapLayer->getTag() == 3
+		|| _dir == UP && point.y > size.height / 2 && _mapLayer->getPositionY() > 0
+		|| _dir == RIGHT && point.x > size.width / 2 && _mapLayer->getPositionX() > -mapSize.width && _mapLayer->getTag() == 2
+		|| _dir == LEFT && point.x < size.width / 2 && _mapLayer->getPositionX() < 0;
 }
 
 bool Player::hasBomb()

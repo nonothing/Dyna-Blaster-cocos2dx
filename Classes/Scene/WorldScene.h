@@ -11,7 +11,7 @@
 
 enum TypeMap
 {
-	SIMPLE, HORIZONTAL, VERTICAL
+	SIMPLE = 1, HORIZONTAL = 2, VERTICAL = 3
 };
 
 class WorldScene : public cocos2d::Layer
@@ -32,6 +32,8 @@ private:
 	int						_record;
 	bool					_testVar;
 	int						_currentIndexLevel;
+	int						_width;
+	int						_height;
 
 	cocos2d::ui::Text*			_labelLife;
 	cocos2d::ui::Text*			_labelTime;

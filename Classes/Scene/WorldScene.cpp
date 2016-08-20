@@ -35,7 +35,24 @@ bool WorldScene::init()
 	_score = 0;
 
 	_type = HORIZONTAL;
-	auto rootNode = CSLoader::createNode("WorldSceneHorizontal.csb");
+	std::string nameNode = "WorldSceneSimple.csb";
+	_width = 6;
+	_height = 5;
+	
+	if (_type == HORIZONTAL)
+	{
+		_width = 14;
+		_height = 5;
+		nameNode = "WorldSceneHorizontal.csb";
+	}
+	if (_type == VERTICAL)
+	{
+		_height = 14;
+		_width = 6;
+		nameNode = "WorldSceneVertical.csb";
+	}
+	_mapLayer->setTag(_type);
+	auto rootNode = CSLoader::createNode(nameNode);
 	auto tableNode = CSLoader::createNode("Table.csb");
 	_labelLife = static_cast<ui::Text*>(tableNode->getChildByName("labelLife"));
 	_labelTime = static_cast<ui::Text*>(tableNode->getChildByName("labelTime"));
@@ -48,7 +65,8 @@ bool WorldScene::init()
 	timer->setTime(61);
 
 	_startPosition = createBricks(); 
-	_startPosition.x = _startPosition.x - 74 * 28;
+	_startPosition.x = _startPosition.x - 74 * _width * 2;
+	_startPosition.y = Director::getInstance()->getWinSize().height - 252;
 	_mapLayer->addChild(rootNode, 0);
 
 	_currentIndexLevel = 1;
@@ -61,11 +79,10 @@ bool WorldScene::init()
 	addChild(_player, 3);
 	_mapLayer->addChild(_debugLayer, 100);
 	addChild(timer, -1);
-
 	createWalls();
 	createNPC();
 	_player->setBricks(_bricks);
-	addChild(tableNode);
+	addChild(tableNode, 10);
 	addChild(_mapLayer);
     return true;
 }
@@ -248,16 +265,15 @@ Point WorldScene::createBricks()
 	//simple 6x5
 	//horizontal 14x5
 	//vertical 6x14
-	int w = 14;
-	int h = 5;
 	int size = 74; // todo delete magic nubmer
+	Size winSize = Director::getInstance()->getWinSize();
 	Point position;
-	for (int i = 0; i <= w * 2; i++)
+	for (int i = 0; i <= _width * 2; i++)
 	{
-		for (int j = 0; j <= h * 2; j++)
+		for (int j = 0; j <= _height * 2; j++)
 		{
 			auto brick = Brick::create(1, i, j);
-			brick->setPosition(Point(i * size + 148, j * size + 112));
+			brick->setPosition(Point(i * size + 148, winSize.height - j * size - 252));
 			if (brick->getType() == EBACKGROUND) position = brick->getPosition();
 			_bricks.push_back(brick);
 			_mapLayer->addChild(brick, 1);
