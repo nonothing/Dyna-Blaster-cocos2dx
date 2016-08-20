@@ -4,7 +4,7 @@
 <dict>
     <key>animations</key>
     <dict>
-        <key>move</key>
+        <key>vacom_move</key>
         <dict>
             <key>delay</key>
             <real>0.5</real>
@@ -16,7 +16,7 @@
 				<string>vacom_2.png</string>
             </array>
         </dict>
-		<key>dead</key>
+		<key>vacom_dead</key>
         <dict>
             <key>delay</key>
             <real>0.1</real>

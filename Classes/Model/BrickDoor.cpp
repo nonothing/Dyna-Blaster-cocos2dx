@@ -3,10 +3,10 @@
 USING_NS_CC;
 #define ANIM_TAG 225 
 
-BrickDoor* BrickDoor::create(Brick* brick)
+BrickDoor* BrickDoor::create(Brick* brick, bool isBoss)
 {
 	BrickDoor* door = new BrickDoor();
-	if (door && door->init(brick))
+	if (door && door->init(brick, isBoss))
 	{
 		return (BrickDoor*)door->autorelease();
 	}
@@ -16,14 +16,17 @@ BrickDoor* BrickDoor::create(Brick* brick)
 	return door;
 }
 
-bool BrickDoor::init(Brick* brick)
+bool BrickDoor::init(Brick* brick, bool isBoss)
 {
 	if (!Brick::init(brick->getLevel(), brick->getPos().x, brick->getPos().y))
 	{
 		return false;
 	}
-
-	createWall();
+	_isBoss = isBoss;
+	if (!isBoss)
+	{
+		createWall();
+	}
 	_canCreate = false;
 
 	return true;
@@ -35,13 +38,8 @@ void BrickDoor::animationDestroy()
 	{
 		changeTexture(_sprite, EBACKGROUND, _level);
 	}
-	if (!_doorSprite)
-	{
-		_doorSprite = Sprite::create("bricks/mirror_2.png");
-		addChild(_doorSprite);
-	}
-	else
-	{
+	if (!createDoor())
+	{	
 		_doorSprite->removeFromParent();
 		_doorSprite = nullptr;
 	}
@@ -69,6 +67,17 @@ void BrickDoor::animateDoor()
 	}
 }
 
+bool BrickDoor::createDoor()
+{
+	if (!_doorSprite)
+	{
+		_doorSprite = Sprite::create("bricks/mirror_2.png");
+		addChild(_doorSprite);
+		return true;
+	}
+	return false;
+}
+
 bool BrickDoor::isOpenDoor()
 {
 	return _isOpenDoor;
@@ -78,6 +87,10 @@ void BrickDoor::openDoor(bool var)
 {
 	if (var)
 	{
+		if (_isBoss)
+		{
+			createDoor();
+		}
 		if (!_isAnimate)
 		{
 			animateDoor();
@@ -96,7 +109,7 @@ void BrickDoor::openDoor(bool var)
 
 void BrickDoor::changeCreateNPC(bool var)
 {
-	_canCreate = var;
+	_canCreate = _doorSprite ? var : false;
 }
 
 bool BrickDoor::canCreate()

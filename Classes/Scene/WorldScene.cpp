@@ -35,7 +35,7 @@ bool WorldScene::init()
 	schedule(schedule_selector(WorldScene::update), 0.01f);
 	schedule(schedule_selector(WorldScene::testUpdate), 1.0f);
 	_loaderMap = new MapDataLoader();
-	_data = _loaderMap->getMaps().at(30);
+	_data = _loaderMap->getMaps().at(1);
 
 	_loaderNPC = new NPCDataLoader();
 	_record = 110; //todo need read memory
@@ -376,12 +376,12 @@ void WorldScene::removeBricks()
 
 void WorldScene::createWalls()
 {
-
+	bool isBoss = _data._level == BOSS_LEVEL;
 	for (auto brick : _bricks)
 	{
 		brick->destroyWall();
 	}
-	if (_data._level != BOSS_LEVEL)
+	if (!isBoss)
 	{
 		for (int i = 0; i < 60; i++)
 		{
@@ -392,15 +392,15 @@ void WorldScene::createWalls()
 				brick->createWall();
 			}
 		}
-		createDoor();
 	}
-	//todo create door for boss
+	createDoor(isBoss);
 }
 
-void WorldScene::createDoor()
+void WorldScene::createDoor(bool isBoss)
 {
+	BrickType type = isBoss ? EBACKGROUND : EWALL;
 	BricksVec bricks;
-	std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(bricks), [](Brick* brick) { return brick->getType() == EWALL; });
+	std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(bricks), [type](Brick* brick) { return brick->getType() == type; });
 	std::random_shuffle(bricks.begin(), bricks.end());
 
 	Brick* foo = bricks.at(0);
@@ -414,7 +414,7 @@ void WorldScene::createDoor()
 		_mapLayer->addChild(brick, 1);
 	}
 
-	_doorBrick = BrickDoor::create(foo);
+	_doorBrick = BrickDoor::create(foo, isBoss);
 	_doorBrick->setPosition(foo->getPosition());
 	_mapLayer->addChild(_doorBrick, 1);
 	

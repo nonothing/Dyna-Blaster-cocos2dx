@@ -12,10 +12,12 @@ private:
 	bool				_isAnimate = false;
 	bool				_isOpenDoor = false;
 	bool				_canCreate;
+	bool				_isBoss;
 	void				animateDoor();
+	bool				createDoor();
 public:
-	virtual bool		init(Brick* brick);
-	static BrickDoor*	create(Brick* brick);
+	virtual bool		init(Brick* brick, bool isBoss);
+	static BrickDoor*	create(Brick* brick, bool isBoss);
 	virtual void		animationDestroy();
 	virtual void		destroy();
 	bool				isOpenDoor();

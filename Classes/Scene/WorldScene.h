@@ -53,7 +53,7 @@ private:
 	void nextLevel();
 	void removeBricks();
 	void createWalls();
-	void createDoor();
+	void createDoor(bool isBoss);
 	void removeBrick(Brick* brick);
 	void removeBombs();
 	void createBomb();
