@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "Model/WorldObject.h"
 
-enum BrickType { EBACKGROUND = 0, EBRICK, EWALL, ENONE};
+enum BrickType { EBACKGROUND = 0, EBRICK, EWALL, EBONUS, ENONE};
 
 class Brick : public WorldObject
 {

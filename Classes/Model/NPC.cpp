@@ -182,6 +182,6 @@ Direction NPC::PointToDir(const cocos2d::Point& point)
 
 bool NPC::isMove(BrickType type)
 {
-	return type == EBACKGROUND || ( type == EWALL && _data._type == 1 );
+	return type == EBACKGROUND || type == EBONUS || ( type == EWALL && _data._type == FLY );
 }
 

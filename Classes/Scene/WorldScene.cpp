@@ -25,7 +25,9 @@ bool WorldScene::init()
     }
 	_mapLayer = Layer::create();
 	_debugLayer = Layer::create();
+
 	_doorBrick = nullptr;
+	_bonusBrick = nullptr;
 
 	_keyboardListener = EventListenerKeyboard::create();
 	_keyboardListener->onKeyPressed = CC_CALLBACK_2(WorldScene::onKeyPressed, this);
@@ -93,7 +95,6 @@ void WorldScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 		{
 		if (!_bombs.empty())
 			_bombs.at(0)->explode();
-			_player->explodeBomb();
 		}
 	}
 }
@@ -217,7 +218,6 @@ void WorldScene::checkCollisionBombs()
 		{
 			if (!b->isFire() && isCollisionFire(_expBomb, b))
 			{
-				_player->explodeBomb();
 				b->explode();
 			}
 		}
@@ -381,22 +381,25 @@ void WorldScene::createWalls()
 	{
 		brick->destroyWall();
 	}
+		BricksVec freeBricks;
 	if (!isBoss)
 	{
+		std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(freeBricks), [](Brick* brick) { return brick->getType() == EBACKGROUND; });
 		for (int i = 0; i < 60; i++)
 		{
-			int randomNumber = rand() % _bricks.size();
-			auto brick = _bricks.at(randomNumber);
+			int randomNumber = rand() % freeBricks.size();
+			auto brick = freeBricks.at(randomNumber);
 			if (!isCollision(brick, _player, Size(60, 60)))
 			{
 				brick->createWall();
 			}
 		}
+		createBonus(freeBricks);
 	}
-	createDoor(isBoss);
+	createDoor(freeBricks, isBoss);
 }
 
-void WorldScene::createDoor(bool isBoss)
+void WorldScene::createDoor(BricksVec freeBricks, bool isBoss)
 {
 	BrickType type = isBoss ? EBACKGROUND : EWALL;
 	BricksVec bricks;
@@ -423,6 +426,29 @@ void WorldScene::createDoor(bool isBoss)
  	_bricks.push_back(_doorBrick);
 }
 
+void WorldScene::createBonus(BricksVec freeBricks)
+{
+	std::random_shuffle(freeBricks.begin(), freeBricks.end());
+	Brick* foo = freeBricks.at(1);
+
+	if (_bonusBrick)
+	{
+		Brick* brick = Brick::create(_bonusBrick->getLevel(), _bonusBrick->getPos().x, _bonusBrick->getPos().y);
+		brick->setPosition(_bonusBrick->getPosition());
+		removeBrick(_bonusBrick);
+		_bricks.push_back(brick);
+		_mapLayer->addChild(brick, 1);
+	}
+
+	_bonusBrick = BrickBonus::create(foo, _data._bonus);
+	_bonusBrick->setPosition(foo->getPosition());
+	_mapLayer->addChild(_bonusBrick, 1);
+
+	removeBrick(foo);
+
+	_bricks.push_back(_bonusBrick);
+}
+
 void WorldScene::removeBrick(Brick* brick)
 {
 	Point point = brick->getPos();
@@ -447,3 +473,4 @@ void WorldScene::removeBombs()
 	}
 	_bombs.clear();
 }
+

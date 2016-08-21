@@ -1,5 +1,6 @@
 #include "Model/Bomb.h"
 #include "Model/BrickDoor.h"
+#include "Model/BrickBonus.h"
 
 USING_NS_CC;
 #define ANIM_TAG 225
@@ -39,7 +40,7 @@ bool Bomb::init(Player* player)
 	_sprite = Sprite::create("bomb/bomb_1.png");
 	addChild(_sprite);
 	_tick = 0;
-	_size = 5;
+	_size = player->getSizeBomb();
 	_isFire = false;
     return true;
 }
@@ -171,6 +172,11 @@ bool Bomb::checkCollision(cocos2d::Sprite* sprite)
 				{
 					door->changeCreateNPC(true);
 				}
+				auto bonus = dynamic_cast<BrickBonus*>(brick);
+				if (bonus)
+				{
+					bonus->destroy();
+				}
 
 				return false;
 			}
@@ -188,6 +194,7 @@ void Bomb::explode()
 	_tick = 9999;
 	if (_brick)
 	{
+		_player->explodeBomb();
 		_brick->explodeBomb();
 		_brick = nullptr;
 	}

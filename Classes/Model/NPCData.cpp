@@ -39,7 +39,7 @@ void NPCDataLoader::parse()
 				case 0: data._name = value; break;
 				case 1: data._speed = atof(value.c_str()); break;
 				case 2: data._score = atoi(value.c_str()); break;
-				case 3: data._type = atoi(value.c_str()); break;
+				case 3: data._type = NPC_TYRE(atoi(value.c_str())); break;
 				default:break;
 				}
 			}

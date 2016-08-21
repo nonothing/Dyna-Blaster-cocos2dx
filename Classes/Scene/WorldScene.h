@@ -6,6 +6,7 @@
 #include "Model/Bomb.h"
 #include "Model/Brick.h"
 #include "Model/BrickDoor.h"
+#include "Model/BrickBonus.h"
 #include "ui/UIText.h"
 #include "Model/NPC.h"
 #include "Model/NPCData.h"
@@ -26,6 +27,7 @@ private:
 	Bomb*					_expBomb = nullptr;
 	BricksVec				_bricks;
 	BrickDoor*				_doorBrick;
+	BrickBonus*				_bonusBrick;
 	cocos2d::EventListenerKeyboard*	_keyboardListener;
 	cocos2d::Layer*			_debugLayer;
 
@@ -53,10 +55,11 @@ private:
 	void nextLevel();
 	void removeBricks();
 	void createWalls();
-	void createDoor(bool isBoss);
+	void createDoor(BricksVec vec, bool isBoss);
 	void removeBrick(Brick* brick);
 	void removeBombs();
 	void createBomb();
+	void createBonus(BricksVec vec);
 
 public:
     static cocos2d::Scene* createScene();

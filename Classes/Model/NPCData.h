@@ -6,13 +6,18 @@
 #include "Model/Direction.h"
 #include "utils/CSVReader.h"
 
+enum NPC_TYRE
+{
+	GROUND = 0, FLY
+};
+
 struct NPCData
 {
 	ID_NPC			_id;
 	std::string		_name;
 	float			_speed;
 	int				_score;
-	int				_type;
+	NPC_TYRE		_type;
 
 	NPCData()
 	{

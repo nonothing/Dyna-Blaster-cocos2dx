@@ -1,4 +1,5 @@
 #include "Model/Player.h"
+#include "Model/BrickBonus.h"
 
 USING_NS_CC;
 #define ANIM_TAG 225 
@@ -35,27 +36,20 @@ bool Player::init(cocos2d::Layer* layer)
 	_sprite = Sprite::createWithSpriteFrameName("player_down_3.png");
 	_sprite->setPositionY(12);
 	addChild(_sprite);
+	
+	//todo load with memory
+	_sizeBomb = 1;
+	_isRemote = false;
+	_countBomb = 1;
+	_isMoveWall = false;
+	_isThroughBomb = true;
+	_isImmortal = false;
 
 	_mapLayer = layer;
-	_isRemote = true;
 	_life = 3;
-	_speed = Point(6, 8);
-	_countBomb = 5;
+	_speed = Point(6, 8);//4 6
 	_dir = NONE;
     return true;
-}
-
-Direction Player::poinToDir(const cocos2d::Point& point)
-{
-	if (point.x != 0)
-	{
-		return point.x > 0 ? RIGHT : LEFT;
-	}
-	if (point.y != 0)
-	{
-		return point.y > 0 ? UP : DOWN;
-	}
-	return NONE;
 }
 
 void Player::move()
@@ -168,7 +162,7 @@ bool Player::isCollision(const Point& point)
 
 	for (auto brick : _bricks)
 	{
-		if (brick->getType() == EBRICK || brick->getType() == EWALL || brick->hasBomb())
+		if (canMove(brick->getType()) || (brick->hasBomb() && !_isThroughBomb))
 		{
 			Size bSize = brick->getRect().size;
 			Point obj1Pos = brick->convertToWorldSpace(brick->getRect().origin);
@@ -177,9 +171,22 @@ bool Player::isCollision(const Point& point)
 
 			if (obj1Rect.intersectsRect(obj2Rect))
 			{
-				return true;
+				if (brick->getType() == EBONUS)
+				{
+					auto bonus = dynamic_cast<BrickBonus*>(brick);
+					if (bonus)
+					{
+						getBonus(bonus->getID());
+						bonus->destroy();
+					}
+					return false;
+				}
+				else
+				{
+					return true;
+				}
 			}
-		}
+		} 
 	}
 
 	for (auto child : _collisions)
@@ -214,6 +221,45 @@ bool Player::isMapMove(const Point& point)
 		|| _dir == LEFT && point.x < size.width / 2 && _mapLayer->getPositionX() < 0;
 }
 
+void Player::getBonus(ID_BONUS idBonus)
+{
+	switch (idBonus)
+	{
+	case BFire:
+		_sizeBomb++;
+		break;
+	case BBomb:
+		_countBomb++;
+		break;
+	case BSpeed:
+		_speed += Point(2, 2);
+		break;
+	case BHeart:
+		_isRemote = true;
+		break;
+	case BLife:
+		_life++;
+		//todo need update label
+		break;
+	case BWall:
+		_isMoveWall = true;
+		break;
+	case BEBomb:
+		_isThroughBomb = true;
+		break;
+	case BImmortal:
+		_isImmortal = true;//todo need check
+		break;
+	default:break;
+	}
+	
+}
+
+bool Player::canMove(BrickType type)
+{
+	return type == EBRICK || (type == EWALL  && !_isMoveWall)|| type == EBONUS;
+}
+
 bool Player::hasBomb()
 {
 	return _countBomb != 0;
@@ -237,6 +283,16 @@ bool Player::isRemote()
 int Player::getLife()
 {
 	return _life;
+}
+
+int Player::getSizeBomb()
+{
+	return _sizeBomb;
+}
+
+bool Player::isImmortal()
+{
+	return _isImmortal;
 }
 
 cocos2d::Rect Player::getRect()
