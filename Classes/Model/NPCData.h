@@ -35,22 +35,11 @@ struct NPCData
 
 	std::string getAnimationNameMove(Direction dir = Direction::NONE)
 	{
-		return _name + "_move" + dirToString(dir);
+		return _name + "_move" + sDirName[dir];
 	}
 	std::string getAnimationNameDead()
 	{
 		return _name + "_dead";
-	}
-private:
-	std::string dirToString(Direction dir)
-	{
-		switch (dir)
-		{
-		case LEFT:	case RIGHT: return "_left";
-		case UP: return "_up";
-		case DOWN: return "_down";
-		default: return "";
-		}
 	}
 };
 

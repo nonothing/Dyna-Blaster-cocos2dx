@@ -28,7 +28,6 @@ private:
 
 	void move();
 	void animate(Direction dir);
-	std::string dirToString(Direction dir);
 	bool isCollision(const cocos2d::Point& point);
 	void moveMap(const cocos2d::Point& point);
 	bool isMapMove(const cocos2d::Point& point);

@@ -131,24 +131,13 @@ Direction Player::getDirection()
 
 void Player::animate(Direction dir)
 {
-	auto animation = AnimationCache::getInstance()->getAnimation("player_move_" + dirToString(dir));
+	auto animation = AnimationCache::getInstance()->getAnimation("player_move_" + sDirName[dir]);
 	if (animation)
 	{
 		_sprite->stopActionByTag(ANIM_TAG);
 		auto action = RepeatForever::create(Animate::create(animation));
 		action->setTag(ANIM_TAG);
 		_sprite->runAction(action);
-	}
-}
-
-std::string Player::dirToString(Direction dir)
-{
-	switch (dir)
-	{
-	case LEFT:	case RIGHT: return "left";
-	case UP: return "up";
-	case DOWN: return "down";
-	default: return "";
 	}
 }
 
@@ -225,31 +214,14 @@ void Player::getBonus(ID_BONUS idBonus)
 {
 	switch (idBonus)
 	{
-	case BFire:
-		_sizeBomb++;
-		break;
-	case BBomb:
-		_countBomb++;
-		break;
-	case BSpeed:
-		_speed += Point(2, 2);
-		break;
-	case BHeart:
-		_isRemote = true;
-		break;
-	case BLife:
-		_life++;
-		//todo need update label
-		break;
-	case BWall:
-		_isMoveWall = true;
-		break;
-	case BEBomb:
-		_isThroughBomb = true;
-		break;
-	case BImmortal:
-		_isImmortal = true;//todo need check
-		break;
+	case BFire:		_sizeBomb++;				break;
+	case BBomb:		_countBomb++;				break;
+	case BSpeed:	_speed += Point(2, 2);		break;
+	case BHeart:	_isRemote = true;			break;
+	case BLife:		_life++;					break;//todo need update label	
+	case BWall:		_isMoveWall = true;			break;
+	case BEBomb:	_isThroughBomb = true;		break;
+	case BImmortal:	_isImmortal = true;			break;//todo need check	
 	default:break;
 	}
 	

@@ -96,26 +96,17 @@ void Bomb::changeTexture(cocos2d::Sprite* sprite, const std::string& str)
 	}
 }
 
+const static std::string typeStr[] = { "fire_center", "fire_body", "fire_tail" };
+
 void Bomb::animate(Sprite* sprite, FireType type)
 {
-	auto animation = AnimationCache::getInstance()->getAnimation(typeToStr(type));
+	auto animation = AnimationCache::getInstance()->getAnimation(typeStr[type]);
 	if (animation)
 	{
 		sprite->stopActionByTag(ANIM_TAG);
 		auto action = Sequence::create(Animate::create(animation), CallFunc::create(CC_CALLBACK_0(Bomb::destroy, this)) , nullptr);
 		action->setTag(ANIM_TAG);
 		sprite->runAction(action);
-	}
-}
-
-std::string Bomb::typeToStr(FireType type)
-{
-	switch (type)
-	{
-	case FCENTER: return "fire_center";
-	case FBODY: return "fire_body";
-	case FTAIL: return "fire_tail";
-	default: return "";
 	}
 }
 
@@ -205,7 +196,7 @@ void Bomb::explode()
 		for (int i = 1; i <= _size; i++)
 		{
 			FireType type = i == _size ? FTAIL : FBODY;
-			auto sprite = Sprite::createWithSpriteFrameName(typeToStr(type) + "_1.png");
+			auto sprite = Sprite::createWithSpriteFrameName(typeStr[type] + "_1.png");
 			sprite->setPosition(_sprite->getPosition() + p * i);
 
 			Direction dir = pointToDir(p);

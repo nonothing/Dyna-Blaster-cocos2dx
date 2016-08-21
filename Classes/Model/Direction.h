@@ -8,4 +8,6 @@ enum  Direction
 	LEFT = 0, DOWN, RIGHT, UP, NONE
 };
 
+const static std::string sDirName[] = { "left", "down", "left", "up", "" };
+
 #endif // __DIRETION_H__
