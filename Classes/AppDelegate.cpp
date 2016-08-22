@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "Scene/WorldScene.h"
+#include "Scene/MenuScene.h"
 
 USING_NS_CC;
 
@@ -30,11 +30,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     director->setDisplayStats(false);
 	glview->setDesignResolutionSize(m_WIDTH, m_HEIGHT, ResolutionPolicy::EXACT_FIT);
-	glview->setFrameSize(m_WIDTH, m_HEIGHT);
+//	glview->setFrameSize(m_WIDTH, m_HEIGHT);
 
     director->setAnimationInterval(1.0 / 60);
-
-	director->runWithScene(WorldScene::createScene());
+	director->runWithScene(MenuScene::createScene());
 
     return true;
 }

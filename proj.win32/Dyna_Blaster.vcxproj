@@ -149,6 +149,8 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\Model\Player.cpp" />
     <ClCompile Include="..\Classes\Model\Timer.cpp" />
     <ClCompile Include="..\Classes\Model\WorldObject.cpp" />
+    <ClCompile Include="..\Classes\Scene\LoadLevelScene.cpp" />
+    <ClCompile Include="..\Classes\Scene\MenuScene.cpp" />
     <ClCompile Include="..\Classes\Scene\WorldScene.cpp" />
     <ClCompile Include="..\Classes\utils\CSVReader.cpp" />
     <ClCompile Include="main.cpp" />
@@ -169,6 +171,8 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Model\Player.h" />
     <ClInclude Include="..\Classes\Model\Timer.h" />
     <ClInclude Include="..\Classes\Model\WorldObject.h" />
+    <ClInclude Include="..\Classes\Scene\LoadLevelScene.h" />
+    <ClInclude Include="..\Classes\Scene\MenuScene.h" />
     <ClInclude Include="..\Classes\Scene\WorldScene.h" />
     <ClInclude Include="..\Classes\utils\CSVReader.h" />
     <ClInclude Include="..\Classes\utils\Events.h" />

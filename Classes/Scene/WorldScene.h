@@ -11,13 +11,13 @@
 #include "Model/NPC.h"
 #include "Model/NPCData.h"
 #include "Model/MapData.h"
+#include "scene/LoadLevelScene.h"
 
 class WorldScene : public cocos2d::Layer
 {
 private:
-	NPCDataLoader*			_loaderNPC;//todo delete
-	MapDataLoader*			_loaderMap;//todo delete
 	MapData					_data;
+	LoadLevelScene*			_levelScene;
 
 	cocos2d::Node*			_borderNode;
 	cocos2d::Layer*			_mapLayer;
@@ -71,10 +71,9 @@ private:
 	void restartMap();
 
 public:
-    static cocos2d::Scene* createScene();
-    virtual bool init();
-
-	CREATE_FUNC(WorldScene);
+	static cocos2d::Scene* createScene(LoadLevelScene* levelScene);
+	virtual bool init(LoadLevelScene* levelScene);
+	static WorldScene* create(LoadLevelScene* levelScene);
 
 	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);

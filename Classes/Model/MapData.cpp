@@ -18,7 +18,7 @@ MapDataVec MapDataLoader::getMaps()
 MapData MapDataLoader::getMap(size_t number)
 {
 	MapData result;
-	if (number < _maps.size())
+	if (number < _maps.size() && number != 0)
 	{
 		result = *std::find_if(_maps.begin(), _maps.end(), [number](MapData data) { return data._id == number; });
 	}

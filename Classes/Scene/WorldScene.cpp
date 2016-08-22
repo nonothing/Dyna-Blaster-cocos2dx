@@ -7,10 +7,23 @@ USING_NS_CC;
 
 #define BOSS_LEVEL 8
 
-Scene* WorldScene::createScene()
+WorldScene* WorldScene::create(LoadLevelScene* levelScene)
+{
+	WorldScene* scene = new WorldScene();
+	if (scene && scene->init(levelScene))
+	{
+		return (WorldScene*)scene->autorelease();
+	}
+
+	CC_SAFE_DELETE(scene);
+
+	return scene;
+}
+
+Scene* WorldScene::createScene(LoadLevelScene* levelScene)
 {
     auto scene = Scene::create();
-    auto layer = WorldScene::create();
+	auto layer = WorldScene::create(levelScene);
     scene->addChild(layer);
 
     return scene;
@@ -18,14 +31,18 @@ Scene* WorldScene::createScene()
 
 const std::string sRootNodeName[] = { "WorldSceneSimple.csb", "WorldSceneHorizontal.csb", "WorldSceneVertical.csb" };
 
-bool WorldScene::init()
+bool WorldScene::init(LoadLevelScene* levelScene)
 {
     if ( !Layer::init() )
     {
         return false;
     }
+
 	_mapLayer = Layer::create();
 	_debugLayer = Layer::create();
+
+	_levelScene = levelScene;
+	_data = levelScene->getCurrentMap();
 
 	_doorBrick = nullptr;
 	_bonusBrick = nullptr;
@@ -37,10 +54,7 @@ bool WorldScene::init()
 
 	schedule(schedule_selector(WorldScene::update), 0.01f);
 	schedule(schedule_selector(WorldScene::testUpdate), 1.0f);
-	_loaderMap = new MapDataLoader();
-	_data = _loaderMap->getMap(1);
-
-	_loaderNPC = new NPCDataLoader();
+	
 	_record = GameSettings::Instance().getRecord();
 	_score = 0;
 
@@ -103,7 +117,9 @@ void WorldScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_TAB) //for test
 	{
-		nextLevel();
+		getEventDispatcher()->removeEventListener(_keyboardListener);
+		_levelScene->nextLevel();
+		Director::getInstance()->popScene();
 	}
 }
 
@@ -295,7 +311,7 @@ void WorldScene::createNPC()
 	{
 		for (int i = 0; i < p.second; i++)
 		{
-			auto dataNPC = _loaderNPC->getNPC(ID_NPC(p.first));
+			auto dataNPC = _levelScene->getNPC(ID_NPC(p.first));
 			if (dataNPC._id != NPC_NONE)
 			{
 				NPC* npc = NPC::create(dataNPC, _bricks);
@@ -314,7 +330,7 @@ void WorldScene::createNPC()
 
 void WorldScene::createNPC(Brick* brick)
 {
-	auto data = _loaderNPC->getNPCs();
+	auto data = _levelScene->getNPCs();
 	for (int i = 0; i < 5; i++)
 	{
 		NPC* npc = NPC::create(data.at(i), _bricks);
@@ -372,7 +388,7 @@ void WorldScene::removeNPC()
 void WorldScene::nextLevel()
 {
 	_currentIndexLevel++;
-	_data = _loaderMap->getMap(_currentIndexLevel);
+	//_data = _loaderMap->getMap(_currentIndexLevel); //todo
 	_borderNode->removeFromParent();
 	_borderNode = CSLoader::createNode(sRootNodeName[_data.getTypeMap()]);
 	_mapLayer->addChild(_borderNode, 0);
