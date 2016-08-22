@@ -96,6 +96,7 @@ void NPC::dead()
 {
 	if (!_isDead)
 	{
+		deadEvent(_data._score);
 		_isDead = true;
 		stopAllActions();
 		_sprite->stopAllActions();

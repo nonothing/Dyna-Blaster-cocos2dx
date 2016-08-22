@@ -6,6 +6,10 @@
 #include "Model/Brick.h"
 #include "Model/WorldObject.h"
 #include "Model/NPCData.h"
+#include "utils/Events.h"
+
+class NPC;
+typedef EventTempl<int>					NPCEvent;
 
 class NPC : public WorldObject
 {
@@ -25,7 +29,7 @@ private:
 	bool	isMove(BrickType type);
 
 public:
-
+	NPCEvent	deadEvent;
     virtual bool init(const NPCData& data, BricksVec vec);
 	static NPC* create(const NPCData& data, BricksVec vec);
 	void setMapLayer(cocos2d::Layer* layer);

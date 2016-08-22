@@ -218,7 +218,7 @@ void Player::getBonus(ID_BONUS idBonus)
 	case BBomb:		_countBomb++;				break;
 	case BSpeed:	_speed += Point(2, 2);		break;
 	case BHeart:	_isRemote = true;			break;
-	case BLife:		_life++;					break;//todo need update label	
+	case BLife:		_life++; lifeEvent(this);   break;
 	case BWall:		_isMoveWall = true;			break;
 	case BEBomb:	_isThroughBomb = true;		break;
 	case BImmortal:	_isImmortal = true;			break;//todo need check	

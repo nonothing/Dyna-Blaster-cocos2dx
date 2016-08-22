@@ -60,7 +60,7 @@ bool WorldScene::init()
 	_startPosition.x = _startPosition.x - 74 * _data._width * 2;
 	_startPosition.y = Director::getInstance()->getWinSize().height - 252;
 	_mapLayer->addChild(rootNode, 0);
-
+	_npcListener = std::bind(&WorldScene::updateScoreLabel, this, std::placeholders::_1);
 	_currentIndexLevel = 1;
 
 	_player = Player::create(_mapLayer);
@@ -76,6 +76,9 @@ bool WorldScene::init()
 	_player->setBricks(_bricks);
 	addChild(tableNode, 10);
 	addChild(_mapLayer);
+
+	_lifeListener.set(_player->lifeEvent, std::bind(&WorldScene::updateLifeLabel, this));
+
     return true;
 }
 
@@ -288,6 +291,7 @@ void WorldScene::createNPC()
 				npc->debugLayer = _debugLayer;
 				npc->setMapLayer(_mapLayer);
 				npc->setPosition(bricks.at(index)->getPosition());
+				_npcListener += npc->deadEvent;
 				_mapLayer->addChild(npc, 2);
 				npc->move();
 				_npcs.push_back(npc);
@@ -472,5 +476,22 @@ void WorldScene::removeBombs()
 		bomb->removeFromParentAndCleanup(true);
 	}
 	_bombs.clear();
+}
+
+void WorldScene::updateLifeLabel()
+{
+	_labelLife->setString(std::to_string(_player->getLife()));
+}
+
+void WorldScene::updateScoreLabel(int value)
+{
+	//todo added label value
+	_score += value;
+	if (_record < _score)
+	{
+		_record = _score;
+		_labelRecord->setString(std::to_string(_record));
+	}
+	_labelScore->setString(std::to_string(_score));
 }
 

@@ -6,7 +6,10 @@
 #include "Model/WorldObject.h"
 #include "Model/Brick.h"
 #include "Model/EBonus.h"
+#include "utils/Events.h"
 
+class Player;
+typedef EventTempl<Player*>					PlayerEvent;
 class Player : public WorldObject
 {
 private:
@@ -34,6 +37,7 @@ private:
 	void getBonus(ID_BONUS idBonus);
 	bool canMove(BrickType type);
 public:
+	PlayerEvent			lifeEvent;
 	void setBricks(BricksVec vec);
 	cocos2d::Vector<Node*> _collisions;
     virtual bool init(cocos2d::Layer* layer);

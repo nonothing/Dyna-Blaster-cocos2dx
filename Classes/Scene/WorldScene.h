@@ -41,6 +41,9 @@ private:
 	cocos2d::ui::Text*			_labelScore;
 	cocos2d::ui::Text*			_labelRecord;
 
+	PlayerEvent::Listener		_lifeListener;
+	NPCEvent::Listener			_npcListener;
+
 	Direction KeyCodeToDiretion(cocos2d::EventKeyboard::KeyCode keyCode);
 	bool isMoveKey(cocos2d::EventKeyboard::KeyCode keyCode);
 	void checkCollisionBombs();
@@ -60,6 +63,8 @@ private:
 	void removeBombs();
 	void createBomb();
 	void createBonus(BricksVec vec);
+	void updateLifeLabel();
+	void updateScoreLabel(int value);
 
 public:
     static cocos2d::Scene* createScene();

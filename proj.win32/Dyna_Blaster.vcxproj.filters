@@ -122,6 +122,9 @@
     <ClInclude Include="..\Classes\Model\BrickBonus.h">
       <Filter>src\Model</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\utils\Events.h">
+      <Filter>src\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
