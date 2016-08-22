@@ -66,6 +66,9 @@
     <ClCompile Include="..\Classes\Model\BrickBonus.cpp">
       <Filter>src\Model</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Model\GameSettings.cpp">
+      <Filter>src\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -124,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\utils\Events.h">
       <Filter>src\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\GameSettings.h">
+      <Filter>src\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

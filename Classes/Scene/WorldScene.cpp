@@ -1,6 +1,7 @@
 #include "WorldScene.h"
 #include "cocostudio/CocoStudio.h"
 #include "Model/Timer.h"
+#include "Model/GameSettings.h"
 
 USING_NS_CC;
 
@@ -40,7 +41,7 @@ bool WorldScene::init()
 	_data = _loaderMap->getMap(1);
 
 	_loaderNPC = new NPCDataLoader();
-	_record = 110; //todo need read memory
+	_record = GameSettings::Instance().getRecord();
 	_score = 0;
 
 	_mapLayer->setTag(_data.getTypeMap());
@@ -517,6 +518,7 @@ void WorldScene::updateScoreLabel(int value)
 	if (_record < _score)
 	{
 		_record = _score;
+		GameSettings::Instance().saveRecord(_record);
 		_labelRecord->setString(std::to_string(_record));
 	}
 	_labelScore->setString(std::to_string(_score));
