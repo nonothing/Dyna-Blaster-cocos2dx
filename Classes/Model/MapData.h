@@ -21,6 +21,11 @@ struct MapData
 	std::string		_cheatName;
 	std::vector< std::pair<int, int > > _npcVec;
 
+	MapData() 
+	{
+		_id = 0;
+	}
+
 	TypeMap getTypeMap() //todo rewrite
 	{
 		if (_width == 14)
@@ -51,7 +56,7 @@ private:
 public:
 	MapDataLoader();
 	MapDataVec getMaps();
-
+	MapData	getMap(size_t number);
 };
 
 #endif // __MAP_DATA_H__

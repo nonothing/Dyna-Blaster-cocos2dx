@@ -15,6 +15,16 @@ MapDataVec MapDataLoader::getMaps()
 	return _maps;
 }
 
+MapData MapDataLoader::getMap(size_t number)
+{
+	MapData result;
+	if (number < _maps.size())
+	{
+		result = *std::find_if(_maps.begin(), _maps.end(), [number](MapData data) { return data._id == number; });
+	}
+	return result;
+}
+
 void MapDataLoader::parse()
 {
 	for (auto value : _mapVec)

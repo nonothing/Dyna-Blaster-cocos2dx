@@ -19,6 +19,7 @@ private:
 	MapDataLoader*			_loaderMap;//todo delete
 	MapData					_data;
 
+	cocos2d::Node*			_borderNode;
 	cocos2d::Layer*			_mapLayer;
 	cocos2d::Point			_startPosition;
 	NPCVec					_npcs;
@@ -55,8 +56,10 @@ private:
 	void createNPC();
 	void createNPC(Brick* brick);
 	void removeNPC();
-	void nextLevel();
+	void removeAllNPC();
 	void removeBricks();
+	void removeBricksAll();
+	void nextLevel();
 	void createWalls();
 	void createDoor(BricksVec vec, bool isBoss);
 	void removeBrick(Brick* brick);
@@ -65,6 +68,7 @@ private:
 	void createBonus(BricksVec vec);
 	void updateLifeLabel();
 	void updateScoreLabel(int value);
+	void restartMap();
 
 public:
     static cocos2d::Scene* createScene();

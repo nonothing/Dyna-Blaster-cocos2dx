@@ -42,7 +42,7 @@ bool Player::init(cocos2d::Layer* layer)
 	_isRemote = false;
 	_countBomb = 1;
 	_isMoveWall = false;
-	_isThroughBomb = true;
+	_isThroughBomb = false;
 	_isImmortal = false;
 
 	_mapLayer = layer;
@@ -265,6 +265,12 @@ int Player::getSizeBomb()
 bool Player::isImmortal()
 {
 	return _isImmortal;
+}
+
+void Player::dead()
+{
+	_life--;
+	lifeEvent(this);
 }
 
 cocos2d::Rect Player::getRect()

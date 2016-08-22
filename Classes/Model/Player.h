@@ -52,6 +52,7 @@ public:
 	int  getLife();
 	int  getSizeBomb();
 	bool isImmortal();
+	void dead();
 	virtual cocos2d::Rect getRect() override;
 };
 

@@ -37,14 +37,14 @@ bool WorldScene::init()
 	schedule(schedule_selector(WorldScene::update), 0.01f);
 	schedule(schedule_selector(WorldScene::testUpdate), 1.0f);
 	_loaderMap = new MapDataLoader();
-	_data = _loaderMap->getMaps().at(1);
+	_data = _loaderMap->getMap(1);
 
 	_loaderNPC = new NPCDataLoader();
 	_record = 110; //todo need read memory
 	_score = 0;
 
 	_mapLayer->setTag(_data.getTypeMap());
-	auto rootNode = CSLoader::createNode(sRootNodeName[_data.getTypeMap()]);
+	_borderNode = CSLoader::createNode(sRootNodeName[_data.getTypeMap()]);
 	auto tableNode = CSLoader::createNode("Table.csb");
 	_labelLife = static_cast<ui::Text*>(tableNode->getChildByName("labelLife"));
 	_labelTime = static_cast<ui::Text*>(tableNode->getChildByName("labelTime"));
@@ -59,14 +59,14 @@ bool WorldScene::init()
 	_startPosition = createBricks(); 
 	_startPosition.x = _startPosition.x - 74 * _data._width * 2;
 	_startPosition.y = Director::getInstance()->getWinSize().height - 252;
-	_mapLayer->addChild(rootNode, 0);
+	_mapLayer->addChild(_borderNode, 0);
 	_npcListener = std::bind(&WorldScene::updateScoreLabel, this, std::placeholders::_1);
 	_currentIndexLevel = 1;
 
 	_player = Player::create(_mapLayer);
 	_player->setPosition(_startPosition);
 	_player->debugLayer = _debugLayer;
-	_player->_collisions = rootNode->getChildren();
+	_player->_collisions = _borderNode->getChildren();
 	_labelLife->setString(std::to_string(_player->getLife()));
 	addChild(_player, 3);
 	_mapLayer->addChild(_debugLayer, 100);
@@ -99,6 +99,10 @@ void WorldScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 		if (!_bombs.empty())
 			_bombs.at(0)->explode();
 		}
+	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_TAB) //for test
+	{
+		nextLevel();
 	}
 }
 
@@ -225,6 +229,12 @@ void WorldScene::checkCollisionBombs()
 			}
 		}
 		checkFireWithNPC();
+
+		if (isCollisionFire(_expBomb, _player))//todo bug collision on horizontal map
+		{
+			_player->dead();
+		}
+
 		_expBomb = nullptr;
 	}
 }
@@ -360,13 +370,29 @@ void WorldScene::removeNPC()
 
 void WorldScene::nextLevel()
 {
-	removeBombs();
 	_currentIndexLevel++;
+	_data = _loaderMap->getMap(_currentIndexLevel);
+	_borderNode->removeFromParent();
+	_borderNode = CSLoader::createNode(sRootNodeName[_data.getTypeMap()]);
+	_mapLayer->addChild(_borderNode, 0);
+	_mapLayer->setTag(_data.getTypeMap());
+	removeAllNPC();
+	removeBombs();
+	removeBricksAll();
+	createBricks();
 	_mapLayer->setPosition(Point::ZERO);
 	_player->setPosition(_startPosition);
 	createWalls();
 	createNPC();
 	_player->setBricks(_bricks);
+	_player->_collisions = _borderNode->getChildren();
+}
+
+void WorldScene::removeBricksAll()
+{
+	removeBricks();
+	_bonusBrick = nullptr;
+	_doorBrick = nullptr;
 }
 
 void WorldScene::removeBricks()
@@ -374,6 +400,7 @@ void WorldScene::removeBricks()
 	for (auto brick : _bricks)
 	{
 		brick->removeFromParentAndCleanup(true);
+		brick = nullptr;
 	}
 	_bricks.clear();
 }
@@ -389,7 +416,7 @@ void WorldScene::createWalls()
 	if (!isBoss)
 	{
 		std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(freeBricks), [](Brick* brick) { return brick->getType() == EBACKGROUND; });
-		for (int i = 0; i < 60; i++)
+		for (size_t i = 0; i < freeBricks.size() / 3; i++)
 		{
 			int randomNumber = rand() % freeBricks.size();
 			auto brick = freeBricks.at(randomNumber);
@@ -493,5 +520,27 @@ void WorldScene::updateScoreLabel(int value)
 		_labelRecord->setString(std::to_string(_record));
 	}
 	_labelScore->setString(std::to_string(_score));
+}
+
+void WorldScene::restartMap()
+{
+	removeAllNPC();
+	removeBombs();
+	removeBricksAll();
+	createBricks();
+	_mapLayer->setPosition(Point::ZERO);
+	_player->setPosition(_startPosition);
+	createWalls();
+	createNPC();
+	_player->setBricks(_bricks);
+}
+
+void WorldScene::removeAllNPC()
+{
+	for (auto npc : _npcs)
+	{
+		npc->removeFromParentAndCleanup(true);
+	}
+	_npcs.clear();
 }
 
