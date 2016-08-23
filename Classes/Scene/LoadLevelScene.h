@@ -12,9 +12,14 @@ private:
 	NPCDataLoader*			_npcLoader;
 	int						_currentLevel;
 	MapData					_currentData;
-	cocos2d::Node*			_rootNode;
+	cocos2d::Node*			_rootLevelNode;
+	cocos2d::Node*			_rootStageNode;
 	cocos2d::Sprite*		_stageNumber;
 	cocos2d::Sprite*		_levelNumber;
+	std::vector<cocos2d::Point> _points;
+	cocos2d::Sprite*		_headSprite;
+
+	void	runLevelAction();
 
 public:
 	static cocos2d::Scene* createScene(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec);

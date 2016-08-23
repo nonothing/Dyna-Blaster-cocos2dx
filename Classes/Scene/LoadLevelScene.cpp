@@ -39,19 +39,40 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader)
 	_currentData = _mapLoader->getMap(_currentLevel);
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("numbers.plist", "numbers.png");
-	_rootNode = CSLoader::createNode("LoadLevelScene.csb");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("head.plist", "head.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("headAnim.plist");
+
+	_rootLevelNode = CSLoader::createNode("LoadLevelScene.csb");
+	_rootStageNode = CSLoader::createNode("loadStageScene.csb");
 	_stageNumber = nullptr;
 	_levelNumber = nullptr;
-	
+	_headSprite = Sprite::createWithSpriteFrameName("head_1.png");
+	_rootStageNode->addChild(_headSprite);
+
+	auto animation = AnimationCache::getInstance()->getAnimation("head_anim");
+	if (animation)
+	{
+		_headSprite->runAction(RepeatForever::create(Animate::create(animation)));
+	}
+
+	for (auto node : _rootStageNode->getChildren())
+	{
+		if (node->getTag() == 75)
+		{
+			_points.push_back(node->getPosition());
+		}
+	}
 
 	_keyboardListener = EventListenerKeyboard::create();
 	_keyboardListener->onKeyPressed = CC_CALLBACK_2(LoadLevelScene::onKeyPressed, this);
 	_keyboardListener->onKeyReleased = CC_CALLBACK_2(LoadLevelScene::onKeyReleased, this);
 	getEventDispatcher()->addEventListenerWithFixedPriority(_keyboardListener, 100);
 
-	_rootNode->setOpacity(0);
+	_rootLevelNode->setOpacity(0);
+	_rootStageNode->setOpacity(0);
 
-	addChild(_rootNode);
+	addChild(_rootStageNode);
+	addChild(_rootLevelNode);
 
 	nextLevel();
 
@@ -101,19 +122,39 @@ void LoadLevelScene::nextLevel()
 		_levelNumber->removeFromParentAndCleanup(true);
 		_levelNumber = nullptr;
 	}
+
+	if (_currentData._level == 1)
+	{
+		_headSprite->setPosition(_points.at(_currentData._stage - 1));
+	}
+
 	_stageNumber = Sprite::createWithSpriteFrameName("number_" + std::to_string(_currentData._stage));
-	auto stageNode = _rootNode->getChildByName("stageNode");
+	auto stageNode = _rootLevelNode->getChildByName("stageNode");
 	_stageNumber->setPosition(stageNode->getPosition());
 
 	_levelNumber = Sprite::createWithSpriteFrameName("number_" + std::to_string(_currentData._level));
-	auto levelNode = _rootNode->getChildByName("levelNode");
+	auto levelNode = _rootLevelNode->getChildByName("levelNode");
 	_levelNumber->setPosition(levelNode->getPosition());
 
-	_rootNode->addChild(_stageNumber);
-	_rootNode->addChild(_levelNumber);
+	_rootLevelNode->addChild(_stageNumber);
+	_rootLevelNode->addChild(_levelNumber);
 
+	if (_currentData._level == 1)
+	{
+		auto action = CCSequence::create(FadeIn::create(0.5f), CCDelayTime::create(3.0f), CCFadeOut::create(0.5f),
+			CallFunc::create(CC_CALLBACK_0(LoadLevelScene::runLevelAction, this)), nullptr);
+		_rootStageNode->runAction(action);
+	}
+	else
+	{
+		runLevelAction();
+	}
+}
+
+void LoadLevelScene::runLevelAction()
+{
 	auto action = CCSequence::create(FadeIn::create(0.5f), CCDelayTime::create(1.0f), CCFadeOut::create(0.5f),
-		CallFunc::create(CC_CALLBACK_0(LoadLevelScene::loadWordScene, this)), nullptr);
-	_rootNode->runAction(action);
+		 		CallFunc::create(CC_CALLBACK_0(LoadLevelScene::loadWordScene, this)), nullptr);
+	 	_rootLevelNode->runAction(action);
 }
 
