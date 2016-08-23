@@ -53,7 +53,6 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	getEventDispatcher()->addEventListenerWithSceneGraphPriority(_keyboardListener, this);
 
 	schedule(schedule_selector(WorldScene::update), 0.01f);
-	schedule(schedule_selector(WorldScene::testUpdate), 1.0f);
 	
 	_record = GameSettings::Instance().getRecord();
 	_score = 0;
@@ -69,7 +68,7 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	_labelScore->setString(std::to_string(_score));
 
 	auto timer = dyna::Timer::create(_labelTime);
-	timer->setTime(61);
+	timer->setTime(240);
 
 	_startPosition = createBricks(); 
 	_startPosition.x = _startPosition.x - 74 * _data._width * 2;
@@ -370,11 +369,6 @@ void WorldScene::checkOpenDoor()
 	}
 }
 
-void WorldScene::testUpdate(float dt)
-{
- 	_testVar = !_testVar;
-}
-
 void WorldScene::checkFireWithNPC()
 {
 	for (auto npc: _npcs)
@@ -402,23 +396,6 @@ void WorldScene::removeNPC()
 	});
 
 	_npcs.erase(end, _npcs.end());
-}
-
-void WorldScene::removeBricksAll()
-{
-	removeBricks();
-	_bonusBrick = nullptr;
-	_doorBrick = nullptr;
-}
-
-void WorldScene::removeBricks()
-{
-	for (auto brick : _bricks)
-	{
-		brick->removeFromParentAndCleanup(true);
-		brick = nullptr;
-	}
-	_bricks.clear();
 }
 
 void WorldScene::createWalls()
@@ -512,15 +489,6 @@ void WorldScene::removeBrick(Brick* brick)
 		_bricks.end());
 }
 
-void WorldScene::removeBombs()
-{
-	for (auto bomb : _bombs)
-	{
-		bomb->removeFromParentAndCleanup(true);
-	}
-	_bombs.clear();
-}
-
 void WorldScene::updateLifeLabel()
 {
 	_labelLife->setString(std::to_string(_player->getLife()));
@@ -537,28 +505,6 @@ void WorldScene::updateScoreLabel(int value)
 		_labelRecord->setString(std::to_string(_record));
 	}
 	_labelScore->setString(std::to_string(_score));
-}
-
-void WorldScene::restartMap()
-{
-	removeAllNPC();
-	removeBombs();
-	removeBricksAll();
-	createBricks();
-	_mapLayer->setPosition(Point::ZERO);
-	_player->setPosition(_startPosition);
-	createWalls();
-	createNPC();
-	_player->setBricks(_bricks);
-}
-
-void WorldScene::removeAllNPC()
-{
-	for (auto npc : _npcs)
-	{
-		npc->removeFromParentAndCleanup(true);
-	}
-	_npcs.clear();
 }
 
 bool WorldScene::checkPlayerWithFire(Bomb* bomb)

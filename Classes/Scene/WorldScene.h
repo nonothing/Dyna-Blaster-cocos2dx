@@ -57,18 +57,13 @@ private:
 	void createNPC();
 	void createNPC(Brick* brick);
 	void removeNPC();
-	void removeAllNPC();
-	void removeBricks();
-	void removeBricksAll();
 	void createWalls();
 	void createDoor(BricksVec vec, bool isBoss);
 	void removeBrick(Brick* brick);
-	void removeBombs();
 	void createBomb();
 	void createBonus(BricksVec vec);
 	void updateLifeLabel();
 	void updateScoreLabel(int value);
-	void restartMap();
 	bool checkPlayerWithFire(Bomb* bomb);
 	bool collisionNPCwithPlayer();
 	void gameOver();
@@ -80,7 +75,6 @@ public:
 	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void update(float dt);
-	void testUpdate(float dt);
 };
 
 #endif // __WORLD_SCENE_H__
