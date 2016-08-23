@@ -247,12 +247,25 @@ void WorldScene::checkCollisionBombs()
 		}
 		checkFireWithNPC();
 
-		if (isCollisionFire(_expBomb, _player))//todo bug collision on horizontal map
+		if (checkPlayerWithFire(_expBomb))
 		{
+			//todo
 			_player->dead();
+			getEventDispatcher()->removeEventListener(_keyboardListener);
+			_levelScene->restart();
+			Director::getInstance()->popScene();
 		}
 
 		_expBomb = nullptr;
+	}
+
+	if (collisionNPCwithPlayer())
+	{
+		//todo
+		_player->dead();
+		getEventDispatcher()->removeEventListener(_keyboardListener);
+		_levelScene->restart();
+		Director::getInstance()->popScene();
 	}
 }
 
@@ -560,5 +573,44 @@ void WorldScene::removeAllNPC()
 		npc->removeFromParentAndCleanup(true);
 	}
 	_npcs.clear();
+}
+
+bool WorldScene::checkPlayerWithFire(Bomb* bomb)
+{
+	Rect rect = _player->getRectWorldSpace(Size(70, 70));
+ 	Point p = rect.origin - _mapLayer->getPosition();
+ 	rect = Rect(p.x, p.y, rect.size.width, rect.size.height);
+	for (auto fire : bomb->getFires())
+	{
+		Point fp = fire->getPosition();
+		Size size = Size(74, 74);
+
+		Point firePos = bomb->convertToWorldSpace(bomb->getPosition() + fp + fp); //todo why two fire position?
+		Rect rectFire = Rect(firePos.x, firePos.y, size.width, size.height);
+		if (rectFire.intersectsRect(rect))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+bool WorldScene::collisionNPCwithPlayer()
+{
+	Rect rect = _player->getRectWorldSpace(Size(70, 70));
+	Point p = rect.origin - _mapLayer->getPosition();
+	rect = Rect(p.x, p.y, rect.size.width, rect.size.height);
+	for (auto npc : _npcs)
+	{
+		Size size = Size(74, 74);
+
+		Point firePos = npc->convertToWorldSpace(npc->getPosition());
+		Rect rectFire = Rect(firePos.x, firePos.y, size.width, size.height);
+		if (rectFire.intersectsRect(rect))
+		{
+			return true;
+		}
+	}
+	return false;
 }
 

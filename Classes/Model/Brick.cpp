@@ -27,9 +27,6 @@ bool Brick::init(int level, int posX, int posY)
 
 	_hasBomb = false;
 	_isAnimate = false;
-	//todo need preloader for plists
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("bricks.plist", "bricks.png");
-	AnimationCache::getInstance()->addAnimationsWithFile("bricks/mirrorAnim.plist");
 
 	BrickType type = (posX % 2 == 1 && posY % 2 == 1) ? EBRICK : EBACKGROUND;
 	_sprite = Sprite::create(getPathNameBrick(type, _level));

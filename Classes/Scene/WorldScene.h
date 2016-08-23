@@ -69,7 +69,8 @@ private:
 	void updateLifeLabel();
 	void updateScoreLabel(int value);
 	void restartMap();
-
+	bool checkPlayerWithFire(Bomb* bomb);
+	bool collisionNPCwithPlayer();
 public:
 	static cocos2d::Scene* createScene(LoadLevelScene* levelScene);
 	virtual bool init(LoadLevelScene* levelScene);

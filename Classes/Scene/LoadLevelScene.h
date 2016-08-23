@@ -33,7 +33,9 @@ public:
 	NPCDataVec getNPCs();
 	NPCData getNPC(ID_NPC id);
 	MapData getCurrentMap();
+
 	void nextLevel();
+	void restart();
 };
 
 #endif // __LOAD_LEVEL_SCENE_H__

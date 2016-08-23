@@ -35,12 +35,15 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader)
 
 	_mapLoader = loaderMap;
 	_npcLoader = npcLoader;
-	_currentLevel = 1;
+	_currentLevel = 6;
 	_currentData = _mapLoader->getMap(_currentLevel);
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("numbers.plist", "numbers.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("head.plist", "head.png");
 	AnimationCache::getInstance()->addAnimationsWithFile("headAnim.plist");
+
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("bricks.plist", "bricks.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("bricks/mirrorAnim.plist");
 
 	_rootLevelNode = CSLoader::createNode("LoadLevelScene.csb");
 	_rootStageNode = CSLoader::createNode("loadStageScene.csb");
@@ -156,5 +159,10 @@ void LoadLevelScene::runLevelAction()
 	auto action = CCSequence::create(FadeIn::create(0.5f), CCDelayTime::create(1.0f), CCFadeOut::create(0.5f),
 		 		CallFunc::create(CC_CALLBACK_0(LoadLevelScene::loadWordScene, this)), nullptr);
 	 	_rootLevelNode->runAction(action);
+}
+
+void LoadLevelScene::restart()
+{
+	runLevelAction();
 }
 
