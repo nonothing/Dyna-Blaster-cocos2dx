@@ -37,7 +37,7 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader)
 
 	_mapLoader = loaderMap;
 	_npcLoader = npcLoader;
-	_currentLevel = 2;
+	_currentLevel = 1;
 	_currentData = _mapLoader->getMap(_currentLevel);
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("numbers.plist", "numbers.png");
@@ -182,7 +182,18 @@ void LoadLevelScene::restartLevel()
 
 	if (_currentData._level == 1)
 	{
-		auto action = CCSequence::create(FadeIn::create(0.5f), CCDelayTime::create(3.0f), CCFadeOut::create(0.5f),
+		auto label = static_cast<ui::Text*>(_rootStageNode->getChildByName("text"));
+		label->setString("ROUND " + std::to_string(_currentData._stage));
+		label->setFontName("5px2bus.ttf");
+		label->setFontSize(14.f);
+
+		auto labelAction = RepeatForever::create(Sequence::create(
+			TintTo::create(0.1f, 255, 0, 0),
+			TintTo::create(0.1f, 255, 255, 0),
+			nullptr));
+		label->runAction(labelAction);
+
+		auto action = CCSequence::create(FadeIn::create(0.5f), CCDelayTime::create(4.0f), CCFadeOut::create(0.5f),
 			CallFunc::create(CC_CALLBACK_0(LoadLevelScene::runLevelAction, this)), nullptr);
 		_rootStageNode->runAction(action);
 	}
