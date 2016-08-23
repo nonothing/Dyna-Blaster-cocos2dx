@@ -413,7 +413,7 @@ void WorldScene::createWalls()
 		{
 			int randomNumber = rand() % freeBricks.size();
 			auto brick = freeBricks.at(randomNumber);
-			if (!isCollision(brick, _player, Size(60, 60)))
+			if (!isCollision(brick, _player, Size(120, 120)))
 			{
 				brick->createWall();
 			}
