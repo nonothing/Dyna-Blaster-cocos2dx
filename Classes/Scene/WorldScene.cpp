@@ -110,9 +110,13 @@ void WorldScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_CTRL && _player->isRemote())
 	{
+		for (auto bomb : _bombs)
 		{
-		if (!_bombs.empty())
-			_bombs.at(0)->explode();
+			if (!bomb->isFire())
+			{
+				bomb->explode();
+				break;
+			}
 		}
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_TAB) //for test
