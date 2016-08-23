@@ -21,7 +21,7 @@ bool MenuScene::init()
         return false;
     }
 
-	auto rootNode = CSLoader::createNode("MenuScene.csb");
+	auto rootNode = CSLoader::createNode("nodes/MenuScene.csb");
 	for (auto node : rootNode->getChildren())
 	{
 		if (node->getTag() == 70)

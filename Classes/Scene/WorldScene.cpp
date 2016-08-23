@@ -59,8 +59,8 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	_score = 0;
 
 	_mapLayer->setTag(_data.getTypeMap());
-	_borderNode = CSLoader::createNode(sRootNodeName[_data.getTypeMap()]);
-	auto tableNode = CSLoader::createNode("Table.csb");
+	_borderNode = CSLoader::createNode("nodes/" + sRootNodeName[_data.getTypeMap()]);
+	auto tableNode = CSLoader::createNode("nodes/Table.csb");
 	_labelLife = static_cast<ui::Text*>(tableNode->getChildByName("labelLife"));
 	_labelTime = static_cast<ui::Text*>(tableNode->getChildByName("labelTime"));
 	_labelRecord = static_cast<ui::Text*>(tableNode->getChildByName("labelHigh"));
@@ -216,7 +216,8 @@ void WorldScene::update(float dt)
 	if (_doorBrick && _doorBrick->isOpenDoor() && isCollision(_doorBrick, _player, Size(60,60), -_mapLayer->getPosition()))
 	{
 		_doorBrick->openDoor(false);
-		nextLevel();
+		_levelScene->nextLevel();
+		Director::getInstance()->popScene();
 	}
 	if (_bonusBrick && _npcs.empty())
 	{
@@ -401,26 +402,6 @@ void WorldScene::removeNPC()
 	});
 
 	_npcs.erase(end, _npcs.end());
-}
-
-void WorldScene::nextLevel()
-{
-	_currentIndexLevel++;
-	//_data = _loaderMap->getMap(_currentIndexLevel); //todo
-	_borderNode->removeFromParent();
-	_borderNode = CSLoader::createNode(sRootNodeName[_data.getTypeMap()]);
-	_mapLayer->addChild(_borderNode, 0);
-	_mapLayer->setTag(_data.getTypeMap());
-	removeAllNPC();
-	removeBombs();
-	removeBricksAll();
-	createBricks();
-	_mapLayer->setPosition(Point::ZERO);
-	_player->setPosition(_startPosition);
-	createWalls();
-	createNPC();
-	_player->setBricks(_bricks);
-	_player->_collisions = _borderNode->getChildren();
 }
 
 void WorldScene::removeBricksAll()

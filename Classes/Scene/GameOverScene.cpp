@@ -36,7 +36,7 @@ bool GameOverScene::init(LoadLevelScene* loadLevelScene)
     }
 
 	_loadLevelScene = loadLevelScene;
-	_rootNode = CSLoader::createNode("GameOverScene.csb");
+	_rootNode = CSLoader::createNode("nodes/GameOverScene.csb");
 	for (auto node : _rootNode->getChildren())
 	{
 		if (node->getTag() == 70)

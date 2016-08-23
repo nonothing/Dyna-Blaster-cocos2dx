@@ -60,7 +60,6 @@ private:
 	void removeAllNPC();
 	void removeBricks();
 	void removeBricksAll();
-	void nextLevel();
 	void createWalls();
 	void createDoor(BricksVec vec, bool isBoss);
 	void removeBrick(Brick* brick);

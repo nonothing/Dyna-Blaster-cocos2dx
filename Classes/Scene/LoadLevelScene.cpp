@@ -47,8 +47,8 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader)
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("bricks.plist", "bricks.png");
 	AnimationCache::getInstance()->addAnimationsWithFile("bricks/mirrorAnim.plist");
 
-	_rootLevelNode = CSLoader::createNode("LoadLevelScene.csb");
-	_rootStageNode = CSLoader::createNode("loadStageScene.csb");
+	_rootLevelNode = CSLoader::createNode("nodes/LoadLevelScene.csb");
+	_rootStageNode = CSLoader::createNode("nodes/loadStageScene.csb");
 	_stageNumber = nullptr;
 	_levelNumber = nullptr;
 	_headSprite = Sprite::createWithSpriteFrameName("head_1.png");
