@@ -156,6 +156,15 @@ bool Bomb::checkCollision(cocos2d::Sprite* sprite)
 				addChild(sprite);
 				return true;
 			}
+			if (brick->getType() == EBONUS)
+			{
+				auto bonus = dynamic_cast<BrickBonus*>(brick);
+				if (bonus)
+				{
+					bonus->destroy();
+				}
+				return false;
+			}
 			if (brick->getType() == EBACKGROUND)
 			{
 				auto door = dynamic_cast<BrickDoor*>(brick);
@@ -163,12 +172,6 @@ bool Bomb::checkCollision(cocos2d::Sprite* sprite)
 				{
 					door->changeCreateNPC(true);
 				}
-				auto bonus = dynamic_cast<BrickBonus*>(brick);
-				if (bonus)
-				{
-					bonus->destroy();
-				}
-
 				return false;
 			}
 		}

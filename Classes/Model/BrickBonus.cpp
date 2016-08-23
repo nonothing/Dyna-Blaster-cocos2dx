@@ -32,6 +32,7 @@ bool BrickBonus::init(Brick* brick, ID_BONUS id)
 	}
 
 	_id = id;
+	_oldColor = _sprite->getColor();
 	createWall();
 	_canCreate = false;
 	_isBlink = false;
@@ -94,7 +95,6 @@ void BrickBonus::blinkWall()
 	if (_type == EWALL && !_isBlink)
 	{
 		_isBlink = true;
-		_oldColor = _sprite->getColor();
 		auto action = RepeatForever::create(Sequence::create(
 			TintTo::create(0.5, 155, 155, 155),
 			TintTo::create(0.5, 242, 229, 85),

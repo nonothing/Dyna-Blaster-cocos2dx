@@ -34,15 +34,10 @@ int GameSettings::getRecord() const
 void GameSettings::savePlayer(Player* player)
 {
 	UserDefault::getInstance()->setIntegerForKey(SIZE_BOMB_KEY, player->getSizeBomb());
-	UserDefault::getInstance()->flush();
 	UserDefault::getInstance()->setIntegerForKey(COUNT_BOMB_KEY, player->getCountBomb());
-	UserDefault::getInstance()->flush();
 	UserDefault::getInstance()->setIntegerForKey(PLAYER_LIFE_KEY, player->getLife());
-	UserDefault::getInstance()->flush();
 	UserDefault::getInstance()->setBoolForKey(RADIO_KEY, player->isRemote());
-	UserDefault::getInstance()->flush();
 	UserDefault::getInstance()->setBoolForKey(TROUGH_BOMB_KEY, player->isThroughBomb());
-	UserDefault::getInstance()->flush();
 	UserDefault::getInstance()->setBoolForKey(MOVE_WALL_KEY, player->isMoveWall());
 	UserDefault::getInstance()->flush();
 }
