@@ -494,10 +494,14 @@ void WorldScene::updateLifeLabel()
 	_labelLife->setString(std::to_string(_player->getLife()));
 }
 
-void WorldScene::updateScoreLabel(int value)
+void WorldScene::updateScoreLabel(NPC* npc)
 {
-	//todo added label value
-	_score += value;
+	auto text = ui::Text::create(std::to_string(npc->getScore()), "5px2bus.ttf", 18.f);
+	text->setPosition(npc->getPosition());
+	_mapLayer->addChild(text, 3);
+	runAction(Sequence::create(DelayTime::create(3.f), CallFunc::create(CC_CALLBACK_0(WorldScene::removeText, this, text)), nullptr));
+
+	_score += npc->getScore();
 	if (_record < _score)
 	{
 		_record = _score;
@@ -556,5 +560,10 @@ WorldScene::~WorldScene()
 {
 	getEventDispatcher()->removeEventListener(_keyboardListener);
 	CCLOG("WorldScene::~WorldScene()");
+}
+
+void WorldScene::removeText(cocos2d::ui::Text* text)
+{
+	text->removeFromParent();
 }
 

@@ -9,7 +9,7 @@
 #include "utils/Events.h"
 
 class NPC;
-typedef EventTempl<int>					NPCEvent;
+typedef EventTempl<NPC*>					NPCEvent;
 
 class NPC : public WorldObject
 {
@@ -42,6 +42,7 @@ public:
 	bool isDead();
 	bool isRemove();
 	unsigned int getCreateTime();
+	int getScore();
 };
 
 typedef std::vector<NPC*> NPCVec;

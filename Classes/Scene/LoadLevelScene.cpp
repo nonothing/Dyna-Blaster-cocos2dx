@@ -3,6 +3,7 @@
 #include "cocostudio/CocoStudio.h"
 #include "Scene/GameOverScene.h"
 #include "Model/GameSettings.h"
+#include "Scene/MenuScene.h"
 
 USING_NS_CC;
 
@@ -37,7 +38,7 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader)
 
 	_mapLoader = loaderMap;
 	_npcLoader = npcLoader;
-	_currentLevel = 1;
+	_currentLevel = 2;
 	_currentData = _mapLoader->getMap(_currentLevel);
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("numbers.plist", "numbers.png");
@@ -92,7 +93,7 @@ void LoadLevelScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 
 void LoadLevelScene::loadWordScene()
 {
-	Director::getInstance()->pushScene(WorldScene::createScene(this));
+	Director::getInstance()->pushScene(TransitionFade::create(0.5f, WorldScene::createScene(this)));
 }
 
 NPCDataVec LoadLevelScene::getNPCs()
@@ -139,8 +140,7 @@ void LoadLevelScene::restart()
 
 void LoadLevelScene::backMenu()
 {
-	Director::getInstance()->popScene();
-	Director::getInstance()->popScene();
+	Director::getInstance()->replaceScene(TransitionFade::create(0.5, MenuScene::createScene()));
 }
 
 LoadLevelScene::~LoadLevelScene()

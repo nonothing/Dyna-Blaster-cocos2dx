@@ -1,4 +1,5 @@
-#include "Model/NPC.h"
+﻿#include "Model/NPC.h"
+#include "ui/UIText.h"
 
 USING_NS_CC;
 #define ANIM_TAG 225 
@@ -96,7 +97,7 @@ void NPC::dead()
 {
 	if (!_isDead)
 	{
-		deadEvent(_data._score);
+		deadEvent(this);
 		_isDead = true;
 		stopAllActions();
 		_sprite->stopAllActions();
@@ -107,6 +108,7 @@ void NPC::dead()
 			action->setTag(ANIM_TAG);
 			_sprite->runAction(action);
 		}
+
 	}
 }
 
@@ -135,6 +137,11 @@ bool NPC::isRemove()
 unsigned int NPC::getCreateTime()
 {
 	return _createTime;
+}
+
+int NPC::getScore()
+{
+	return _data._score;
 }
 
 void NPC::runAnimate(cocos2d::Animation* animation)

@@ -63,10 +63,11 @@ private:
 	void createBomb();
 	void createBonus(BricksVec vec);
 	void updateLifeLabel();
-	void updateScoreLabel(int value);
+	void updateScoreLabel(NPC* npc);
 	bool checkPlayerWithFire(Bomb* bomb);
 	bool collisionNPCwithPlayer();
 	void gameOver();
+	void removeText(cocos2d::ui::Text* text);
 public:
 	static cocos2d::Scene* createScene(LoadLevelScene* levelScene);
 	virtual bool init(LoadLevelScene* levelScene);

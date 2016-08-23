@@ -94,6 +94,5 @@ void MenuScene::setPos(MenuEnum e)
 
 void MenuScene::startGame()
 {
-	Director::getInstance()->pushScene(LoadLevelScene::createScene(_loaderMap, _loaderNPC));
+	Director::getInstance()->pushScene(TransitionFade::create(0.5f, LoadLevelScene::createScene(_loaderMap, _loaderNPC)));
 }
-
