@@ -152,7 +152,7 @@ bool NPC::isCollisionEmpty(const cocos2d::Point& point)//todo rewrite
 
 	for (auto brick : _bricks)
 	{
-		if (isMove(brick->getType()))
+		if (isMove(brick->getType()) && !brick->hasBomb())
 		{
 			Size bSize = brick->getRect().size;
 			Point obj1Pos = brick->convertToWorldSpace(brick->getRect().origin) - _mapLayer->getPosition();
