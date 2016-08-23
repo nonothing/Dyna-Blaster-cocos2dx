@@ -2,6 +2,7 @@
 
 USING_NS_CC;
 #define ANIM_TAG 225 
+#define BLINK_TAG 105
 
 const static std::string sBonusName[] = {"bonus_fire","bonus_bomb","bonus_speed","bonus_heart","bonus_life","bonus_wall","bonus_ebomb","bonus_immortal"};
 
@@ -33,7 +34,7 @@ bool BrickBonus::init(Brick* brick, ID_BONUS id)
 	_id = id;
 	createWall();
 	_canCreate = false;
-
+	_isBlink = false;
 	return true;
 }
 
@@ -41,6 +42,8 @@ void BrickBonus::animationDestroy()
 {
 	if (_type == EWALL)
 	{
+		_sprite->stopActionByTag(BLINK_TAG);
+		_sprite->setColor(_oldColor);
 		changeTexture(_sprite, EBACKGROUND, _level);
 		_type = EBONUS;
 	}
@@ -84,4 +87,19 @@ bool BrickBonus::createDoor()
 		return true;
 	}
 	return false;
+}
+
+void BrickBonus::blinkWall()
+{
+	if (_type == EWALL && !_isBlink)
+	{
+		_isBlink = true;
+		_oldColor = _sprite->getColor();
+		auto action = RepeatForever::create(Sequence::create(
+			TintTo::create(0.5, 155, 155, 155),
+			TintTo::create(0.5, 242, 229, 85),
+			nullptr));
+		action->setTag(BLINK_TAG);
+		_sprite->runAction(action);
+	}
 }

@@ -1,5 +1,6 @@
 #include "Model/MapData.h"
 #include "Model/ENPC.h"
+#include "utils/Utils.h"
 
 USING_NS_CC;
 
@@ -67,7 +68,7 @@ const static std::string sBonus[] = {"F", "B", "S", "H", "L", "W", "E", "I"};
 
 ID_BONUS MapDataLoader::stringToBonus(const std::string& str)
 {
-	for (size_t i = 0; i < sBonus->size(); i++)
+	for (size_t i = 0; i < myUtils::array_size(sBonus); i++)
 	{
 		if (sBonus[i] == str) return ID_BONUS(i);
 	}

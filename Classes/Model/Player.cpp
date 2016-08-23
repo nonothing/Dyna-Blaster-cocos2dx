@@ -38,9 +38,9 @@ bool Player::init(cocos2d::Layer* layer)
 	addChild(_sprite);
 	
 	//todo load with memory
-	_sizeBomb = 1;
-	_isRemote = false;
-	_countBomb = 1;
+	_sizeBomb = 3;
+	_isRemote = true;
+	_countBomb = 4;
 	_isMoveWall = false;
 	_isThroughBomb = false;
 	_isImmortal = false;

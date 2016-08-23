@@ -213,6 +213,10 @@ void WorldScene::update(float dt)
 		_doorBrick->openDoor(false);
 		nextLevel();
 	}
+	if (_bonusBrick && _npcs.empty())
+	{
+		_bonusBrick->blinkWall();
+	}
 }
 
 void WorldScene::checkCollisionBombs()

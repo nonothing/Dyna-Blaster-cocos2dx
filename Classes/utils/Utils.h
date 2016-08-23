@@ -7,6 +7,11 @@
 
 namespace myUtils
 {
+	template<typename T, size_t N>
+	size_t array_size(T(&const)[N])
+	{
+		return N;
+	}
 
 	std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
 		std::stringstream ss(s);
