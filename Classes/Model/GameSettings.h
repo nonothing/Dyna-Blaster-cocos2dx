@@ -2,6 +2,7 @@
 #define __GAME_SETTINGS_H__
 
 #include "cocos2d.h"
+#include "Model/Player.h"
 
 class GameSettings 
 {
@@ -19,6 +20,14 @@ public:
 
 	void saveRecord(int value);
 	int getRecord() const;
+
+	void savePlayer(Player* player);
+	int getSizeBomb();
+	int getCountBomb();
+	int getPlayerLife();
+	bool isRadioBomb();
+	bool isMoveWall();
+	bool isTroughBomb();
 };
 
 

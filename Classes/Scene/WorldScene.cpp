@@ -50,7 +50,7 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	_keyboardListener = EventListenerKeyboard::create();
 	_keyboardListener->onKeyPressed = CC_CALLBACK_2(WorldScene::onKeyPressed, this);
 	_keyboardListener->onKeyReleased = CC_CALLBACK_2(WorldScene::onKeyReleased, this);
-	getEventDispatcher()->addEventListenerWithFixedPriority(_keyboardListener, 100);
+	getEventDispatcher()->addEventListenerWithSceneGraphPriority(_keyboardListener, this);
 
 	schedule(schedule_selector(WorldScene::update), 0.01f);
 	schedule(schedule_selector(WorldScene::testUpdate), 1.0f);
@@ -121,9 +121,14 @@ void WorldScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_TAB) //for test
 	{
-		getEventDispatcher()->removeEventListener(_keyboardListener);
 		_levelScene->nextLevel();
 		Director::getInstance()->popScene();
+	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_CAPS_LOCK) //for test
+	{
+		Director::getInstance()->popScene();
+		_levelScene->restart();
+		
 	}
 }
 
@@ -257,11 +262,7 @@ void WorldScene::checkCollisionBombs()
 
 		if (checkPlayerWithFire(_expBomb))
 		{
-			//todo
-			_player->dead();
-			getEventDispatcher()->removeEventListener(_keyboardListener);
-			_levelScene->restart();
-			Director::getInstance()->popScene();
+			gameOver();
 		}
 
 		_expBomb = nullptr;
@@ -269,11 +270,7 @@ void WorldScene::checkCollisionBombs()
 
 	if (collisionNPCwithPlayer())
 	{
-		//todo
-		_player->dead();
-		getEventDispatcher()->removeEventListener(_keyboardListener);
-		_levelScene->restart();
-		Director::getInstance()->popScene();
+		gameOver();
 	}
 }
 
@@ -620,5 +617,17 @@ bool WorldScene::collisionNPCwithPlayer()
 		}
 	}
 	return false;
+}
+
+void WorldScene::gameOver()
+{
+	_player->dead();
+	_levelScene->restart();
+}
+
+WorldScene::~WorldScene()
+{
+	getEventDispatcher()->removeEventListener(_keyboardListener);
+	CCLOG("WorldScene::~WorldScene()");
 }
 

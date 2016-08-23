@@ -19,13 +19,16 @@ private:
 	std::vector<cocos2d::Point> _points;
 	cocos2d::Sprite*		_headSprite;
 
+	~LoadLevelScene();
 	void	runLevelAction();
+	void    restartLevel();
 
 public:
 	static cocos2d::Scene* createScene(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec);
 	virtual bool init(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec);
 	static LoadLevelScene* create(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec);
 	void loadWordScene();
+	void countinueFunc();
 
 	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
@@ -36,6 +39,7 @@ public:
 
 	void nextLevel();
 	void restart();
+	void backMenu();
 };
 
 #endif // __LOAD_LEVEL_SCENE_H__

@@ -45,6 +45,7 @@ private:
 	PlayerEvent::Listener		_lifeListener;
 	NPCEvent::Listener			_npcListener;
 
+	~WorldScene();
 	Direction KeyCodeToDiretion(cocos2d::EventKeyboard::KeyCode keyCode);
 	bool isMoveKey(cocos2d::EventKeyboard::KeyCode keyCode);
 	void checkCollisionBombs();
@@ -71,6 +72,7 @@ private:
 	void restartMap();
 	bool checkPlayerWithFire(Bomb* bomb);
 	bool collisionNPCwithPlayer();
+	void gameOver();
 public:
 	static cocos2d::Scene* createScene(LoadLevelScene* levelScene);
 	virtual bool init(LoadLevelScene* levelScene);

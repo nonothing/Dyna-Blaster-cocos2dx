@@ -35,7 +35,7 @@ bool MenuScene::init()
 	_keyboardListener = EventListenerKeyboard::create();
 	_keyboardListener->onKeyPressed = CC_CALLBACK_2(MenuScene::onKeyPressed, this);
 	_keyboardListener->onKeyReleased = CC_CALLBACK_2(MenuScene::onKeyReleased, this);
-	getEventDispatcher()->addEventListenerWithFixedPriority(_keyboardListener, 100);
+	getEventDispatcher()->addEventListenerWithSceneGraphPriority(_keyboardListener, this);
 
 	addChild(rootNode);
 	addChild(_arrow);

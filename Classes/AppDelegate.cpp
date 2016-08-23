@@ -1,6 +1,5 @@
 #include "AppDelegate.h"
 #include "Scene/MenuScene.h"
-
 USING_NS_CC;
 
 const static int m_WIDTH = 1180;
@@ -33,7 +32,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 //	glview->setFrameSize(m_WIDTH, m_HEIGHT);
 
     director->setAnimationInterval(1.0 / 60);
-	director->runWithScene(MenuScene::createScene());
+	director->pushScene(MenuScene::createScene());
 
     return true;
 }

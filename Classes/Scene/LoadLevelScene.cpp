@@ -1,6 +1,8 @@
 #include "Scene/LoadLevelScene.h"
 #include "Scene/WorldScene.h"
 #include "cocostudio/CocoStudio.h"
+#include "Scene/GameOverScene.h"
+#include "Model/GameSettings.h"
 
 USING_NS_CC;
 
@@ -69,10 +71,7 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader)
 	_keyboardListener = EventListenerKeyboard::create();
 	_keyboardListener->onKeyPressed = CC_CALLBACK_2(LoadLevelScene::onKeyPressed, this);
 	_keyboardListener->onKeyReleased = CC_CALLBACK_2(LoadLevelScene::onKeyReleased, this);
-	getEventDispatcher()->addEventListenerWithFixedPriority(_keyboardListener, 100);
-
-	_rootLevelNode->setOpacity(0);
-	_rootStageNode->setOpacity(0);
+	getEventDispatcher()->addEventListenerWithSceneGraphPriority(_keyboardListener, this);
 
 	addChild(_rootStageNode);
 	addChild(_rootLevelNode);
@@ -114,7 +113,46 @@ MapData LoadLevelScene::getCurrentMap()
 void LoadLevelScene::nextLevel()
 {
 	_currentData = _mapLoader->getMap(_currentLevel++);
+	restartLevel();
+}
 
+void LoadLevelScene::runLevelAction()
+{
+	auto action = CCSequence::create(FadeIn::create(0.5f), CCDelayTime::create(1.0f), CCFadeOut::create(0.5f),
+		 		CallFunc::create(CC_CALLBACK_0(LoadLevelScene::loadWordScene, this)), nullptr);
+	 	_rootLevelNode->runAction(action);
+}
+
+void LoadLevelScene::restart()
+{
+	if (GameSettings::Instance().getPlayerLife() < 0)
+	{
+		Director::getInstance()->popScene();
+		Director::getInstance()->pushScene(GameOverScene::createScene(this));
+	}
+	else
+	{
+		runLevelAction();
+	}
+
+}
+
+void LoadLevelScene::backMenu()
+{
+	Director::getInstance()->popScene();
+	Director::getInstance()->popScene();
+}
+
+LoadLevelScene::~LoadLevelScene()
+{
+	CCLOG("LoadLevelScene::~LoadLevelScene()");
+	getEventDispatcher()->removeEventListener(_keyboardListener);
+}
+
+void LoadLevelScene::restartLevel()
+{
+	_rootLevelNode->setOpacity(0);
+	_rootStageNode->setOpacity(0);
 	if (_stageNumber)
 	{
 		_stageNumber->removeFromParentAndCleanup(true);
@@ -154,15 +192,9 @@ void LoadLevelScene::nextLevel()
 	}
 }
 
-void LoadLevelScene::runLevelAction()
+void LoadLevelScene::countinueFunc()
 {
-	auto action = CCSequence::create(FadeIn::create(0.5f), CCDelayTime::create(1.0f), CCFadeOut::create(0.5f),
-		 		CallFunc::create(CC_CALLBACK_0(LoadLevelScene::loadWordScene, this)), nullptr);
-	 	_rootLevelNode->runAction(action);
-}
-
-void LoadLevelScene::restart()
-{
-	runLevelAction();
+	Director::getInstance()->popScene();
+	restartLevel();
 }
 

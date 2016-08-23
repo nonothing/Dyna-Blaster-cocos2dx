@@ -36,6 +36,8 @@ private:
 	bool isMapMove(const cocos2d::Point& point);
 	void getBonus(ID_BONUS idBonus);
 	bool canMove(BrickType type);
+	void clearBonus();
+
 public:
 	PlayerEvent			lifeEvent;
 	void setBricks(BricksVec vec);
@@ -50,9 +52,12 @@ public:
 	void explodeBomb();
 	bool isRemote();
 	int  getLife();
+	int  getCountBomb();
 	int  getSizeBomb();
 	bool isImmortal();
 	void dead();
+	bool isMoveWall();
+	bool isThroughBomb();
 	virtual cocos2d::Rect getRect() override;
 };
 

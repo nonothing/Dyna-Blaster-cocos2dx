@@ -1,5 +1,6 @@
 #include "Model/Player.h"
 #include "Model/BrickBonus.h"
+#include "Model/GameSettings.h"
 
 USING_NS_CC;
 #define ANIM_TAG 225 
@@ -37,16 +38,15 @@ bool Player::init(cocos2d::Layer* layer)
 	_sprite->setPositionY(12);
 	addChild(_sprite);
 	
-	//todo load with memory
-	_sizeBomb = 3;
-	_isRemote = true;
-	_countBomb = 4;
-	_isMoveWall = false;
-	_isThroughBomb = false;
+	_sizeBomb = GameSettings::Instance().getSizeBomb();
+	_isRemote = GameSettings::Instance().isRadioBomb();
+	_countBomb = GameSettings::Instance().getCountBomb();
+	_isMoveWall = GameSettings::Instance().isMoveWall();
+	_isThroughBomb = GameSettings::Instance().isTroughBomb();
+	_life = GameSettings::Instance().getPlayerLife();
 	_isImmortal = false;
 
 	_mapLayer = layer;
-	_life = 3;
 	_speed = Point(6, 8);//4 6
 	_dir = NONE;
     return true;
@@ -232,6 +232,11 @@ bool Player::canMove(BrickType type)
 	return type == EBRICK || (type == EWALL  && !_isMoveWall)|| type == EBONUS;
 }
 
+void Player::clearBonus()
+{
+
+}
+
 bool Player::hasBomb()
 {
 	return _countBomb != 0;
@@ -257,6 +262,11 @@ int Player::getLife()
 	return _life;
 }
 
+int Player::getCountBomb()
+{
+	return _countBomb;
+}
+
 int Player::getSizeBomb()
 {
 	return _sizeBomb;
@@ -269,8 +279,23 @@ bool Player::isImmortal()
 
 void Player::dead()
 {
+	_isThroughBomb = false;
+	_isMoveWall = false;
+	_isRemote = false;
+	_isImmortal = false;
 	_life--;
+	GameSettings::Instance().savePlayer(this);
 	lifeEvent(this);
+}
+
+bool Player::isMoveWall()
+{
+	return _isMoveWall;
+}
+
+bool Player::isThroughBomb()
+{
+	return _isThroughBomb;
 }
 
 cocos2d::Rect Player::getRect()
