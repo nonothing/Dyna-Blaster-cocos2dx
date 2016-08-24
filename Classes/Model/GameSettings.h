@@ -22,6 +22,7 @@ public:
 	int getRecord() const;
 
 	void savePlayer(Player* player);
+	void setPlayerLife(int value);
 	int getSizeBomb();
 	int getCountBomb();
 	int getPlayerLife();

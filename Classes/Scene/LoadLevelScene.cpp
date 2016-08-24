@@ -38,7 +38,7 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader)
 
 	_mapLoader = loaderMap;
 	_npcLoader = npcLoader;
-	_currentLevel = 2;
+	_currentLevel = 6;
 	_currentData = _mapLoader->getMap(_currentLevel);
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("numbers.plist", "numbers.png");
@@ -126,9 +126,9 @@ void LoadLevelScene::runLevelAction()
 
 void LoadLevelScene::restart()
 {
+	Director::getInstance()->popScene();
 	if (GameSettings::Instance().getPlayerLife() < 0)
 	{
-		Director::getInstance()->popScene();
 		Director::getInstance()->pushScene(GameOverScene::createScene(this));
 	}
 	else

@@ -42,6 +42,13 @@ void GameSettings::savePlayer(Player* player)
 	UserDefault::getInstance()->flush();
 }
 
+
+void GameSettings::setPlayerLife(int value)
+{
+	UserDefault::getInstance()->setIntegerForKey(PLAYER_LIFE_KEY, value);
+	UserDefault::getInstance()->flush();
+}
+
 int GameSettings::getSizeBomb()
 {
 	return UserDefault::getInstance()->getIntegerForKey(SIZE_BOMB_KEY, 1);

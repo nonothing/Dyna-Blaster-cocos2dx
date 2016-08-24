@@ -1,6 +1,7 @@
 #include "Scene/GameOverScene.h"
 #include "cocostudio/CocoStudio.h"
 #include "Scene/LoadLevelScene.h"
+#include "Model/GameSettings.h"
 #include "ui/UIText.h"
 
 USING_NS_CC;
@@ -109,6 +110,7 @@ void GameOverScene::setPos(MenuGameOverEnum e)
 
 void GameOverScene::continueFunc()
 {
+	GameSettings::Instance().setPlayerLife(3);
 	_rootNode->runAction(CCSequence::create(CCFadeOut::create(0.5f), CallFunc::create(CC_CALLBACK_0(LoadLevelScene::countinueFunc, _loadLevelScene)), nullptr));
 }
 
