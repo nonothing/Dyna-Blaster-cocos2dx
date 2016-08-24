@@ -14,10 +14,12 @@ class Player : public WorldObject
 {
 private:
 	Direction			_dir;
+	Direction			_oldDir;
 	cocos2d::Point		_speed;
 
 	int					_countBomb;
 	int					_life;
+	Brick*				_collisionBrick;
 
 	//bonus
 	int					_sizeBomb;
@@ -29,7 +31,9 @@ private:
 	BricksVec			_bricks;
 	cocos2d::Layer*		_mapLayer;
 
+	cocos2d::Point		getOffsetToDir();
 	void move();
+	bool nextMove();
 	void animate(Direction dir);
 	bool isCollision(const cocos2d::Point& point);
 	void moveMap(const cocos2d::Point& point);

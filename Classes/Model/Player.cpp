@@ -45,6 +45,7 @@ bool Player::init(cocos2d::Layer* layer)
 	_isThroughBomb = GameSettings::Instance().isTroughBomb();
 	_life = GameSettings::Instance().getPlayerLife();
 	_isImmortal = false;
+	_collisionBrick = nullptr;
 
 	_mapLayer = layer;
 	_speed = Point(6, 8);//4 6
@@ -52,22 +53,52 @@ bool Player::init(cocos2d::Layer* layer)
     return true;
 }
 
-void Player::move()
+cocos2d::Point Player::getOffsetToDir()
 {
-	Point point = getPosition();
 	switch (_dir)
 	{
-	case LEFT: point = Point(-_speed.x, 0);
-		break;
-	case RIGHT:point = Point(_speed.x, 0);
-		break;
-	case UP:   point = Point(0, _speed.y);
-		break;
-	case DOWN: point = Point(0, -_speed.y);
-		break;
-	case NONE:
-		break;
+	case LEFT: return Point(-_speed.x, 0);
+	case RIGHT:return Point(_speed.x, 0);
+	case UP:   return Point(0, _speed.y);
+	case DOWN: return Point(0, -_speed.y);
+	default:	return Point::ZERO;
 	}
+}
+
+void Player::move()
+{
+
+	if (!nextMove())
+	{
+		if (_collisionBrick)
+		{
+			_oldDir = _dir;
+			Point pointBrick = _collisionBrick->convertToWorldSpace(_collisionBrick->getRect().origin);
+			if (_dir == DOWN || _dir == UP)
+			{
+				if (abs(pointBrick.x - getPositionX()) > 20) 
+				{
+					_dir = (pointBrick.x > getPositionX()) ? LEFT : RIGHT;
+				}
+			}
+			else if (_dir == LEFT || _dir == RIGHT)
+			{
+				if (abs(pointBrick.y - getPositionY()) > 20)
+				{
+					_dir = (pointBrick.y > getPositionY()) ? DOWN : UP;
+				}
+			}
+
+			nextMove();
+
+			_dir = _oldDir;
+		}
+	}
+}
+
+bool Player::nextMove()
+{
+	Point point = getOffsetToDir();
 	Point nextPoint = getPosition() + point;
 
 	if (!isCollision(nextPoint))
@@ -80,7 +111,9 @@ void Player::move()
 		{
 			setPosition(nextPoint);
 		}
+		return true;
 	}
+	return false;
 }
 
 void Player::update(float dt)
@@ -90,6 +123,7 @@ void Player::update(float dt)
 		move();
 	}
 }
+const static std::string sDirAnimName[] = { "player_left_3.png", "player_down_3.png", "player_left_3.png", "player_up_3.png", "" };
 
 void Player::setDirection(Direction dir)
 {
@@ -100,21 +134,7 @@ void Player::setDirection(Direction dir)
 	if (dir == NONE)
 	{
 		_sprite->stopActionByTag(ANIM_TAG);
-		std::string name;
-		switch (_dir)
-		{
-		case LEFT:
-		case RIGHT:
-			name = "player_left_3.png";
-			break;
-		case UP:
-			name = "player_up_3.png";
-			break;
-		case DOWN:
-			name = "player_down_3.png";
-			break;
-		}
-		_sprite->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(name));
+		_sprite->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(sDirAnimName[_dir]));
 	}
 	else
 	{
@@ -172,6 +192,10 @@ bool Player::isCollision(const Point& point)
 				}
 				else
 				{
+					if (brick->getType() == EBRICK)
+					{
+						_collisionBrick = brick;
+					}
 					return true;
 				}
 			}
