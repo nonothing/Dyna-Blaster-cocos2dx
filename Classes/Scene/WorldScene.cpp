@@ -67,8 +67,8 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	_labelScore = static_cast<ui::Text*>(tableNode->getChildByName("labelScore"));
 	_labelScore->setString(std::to_string(_score));
 
-	auto timer = dyna::Timer::create(_labelTime);
-	timer->setTime(240);
+	_timer = dyna::Timer::create(_labelTime);
+	_timer->setTime(240);
 
 	_startPosition = createBricks(); 
 	_startPosition.x = _startPosition.x - 74 * _data._width * 2;
@@ -84,9 +84,9 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	_labelLife->setString(std::to_string(_player->getLife()));
 	addChild(_player, 3);
 	_mapLayer->addChild(_debugLayer, 100);
-	addChild(timer, -1);
+	addChild(_timer, -1);
 	createWalls();
-	createNPC();
+	createNPCs();
 	_player->setBricks(_bricks);
 	addChild(tableNode, 10);
 	addChild(_mapLayer);
@@ -123,11 +123,9 @@ void WorldScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 		_levelScene->nextLevel();
 		Director::getInstance()->popScene();
 	}
-	if (keyCode == EventKeyboard::KeyCode::KEY_CAPS_LOCK) //for test
+	if (keyCode == EventKeyboard::KeyCode::KEY_1) //for test
 	{
-		Director::getInstance()->popScene();
 		_levelScene->restart();
-		
 	}
 }
 
@@ -210,7 +208,8 @@ void WorldScene::update(float dt)
 	if (_doorBrick && _doorBrick->canCreate())
 	{
 		_doorBrick->changeCreateNPC();
-		createNPC(_doorBrick);
+		ID_NPC id = ID_NPC(rand() % 18);
+		createNPCs(_doorBrick, id, 6);
 	}
 	if (_doorBrick && _doorBrick->isOpenDoor() && isCollision(_doorBrick, _player, Size(60,60), -_mapLayer->getPosition()))
 	{
@@ -221,6 +220,10 @@ void WorldScene::update(float dt)
 	if (_bonusBrick && _npcs.empty())
 	{
 		_bonusBrick->blinkWall();
+	}
+	if (_timer->canCreateNPC())
+	{
+		createNPCs(_doorBrick, ball, 8);
 	}
 }
 
@@ -318,7 +321,7 @@ Point WorldScene::createBricks()
 	return position;
 }
 
-void WorldScene::createNPC()
+void WorldScene::createNPCs()
 {
 	BricksVec bricks;
 	std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(bricks), [](Brick* brick) { return brick->getType() == EBACKGROUND;});
@@ -329,35 +332,36 @@ void WorldScene::createNPC()
 	{
 		for (int i = 0; i < p.second; i++)
 		{
-			auto dataNPC = _levelScene->getNPC(ID_NPC(p.first));
-			if (dataNPC._id != NPC_NONE)
+			if (createNPC(bricks.at(index), ID_NPC(p.first)))
 			{
-				NPC* npc = NPC::create(dataNPC, _bricks);
-				npc->debugLayer = _debugLayer;
-				npc->setMapLayer(_mapLayer);
-				npc->setPosition(bricks.at(index)->getPosition());
-				_npcListener += npc->deadEvent;
-				_mapLayer->addChild(npc, 2);
-				npc->move();
-				_npcs.push_back(npc);
 				index++;
 			}
 		}
 	}
 }
 
-void WorldScene::createNPC(Brick* brick)
+bool WorldScene::createNPC(Brick* brick, ID_NPC id)
 {
-	auto data = _levelScene->getNPCs();
-	for (int i = 0; i < 5; i++)
-	{
-		NPC* npc = NPC::create(data.at(i), _bricks);
+	auto dataNPC = _levelScene->getNPC(id);
+	if (dataNPC._id != NPC_NONE){
+		NPC* npc = NPC::create(dataNPC, _bricks);
+		_npcListener += npc->deadEvent;
 		npc->debugLayer = _debugLayer;
 		npc->setMapLayer(_mapLayer);
 		npc->setPosition(brick->getPosition());
 		_mapLayer->addChild(npc, 2);
 		npc->move();
 		_npcs.push_back(npc);
+		return true;
+	}
+	return false;
+}
+
+void WorldScene::createNPCs(Brick* brick, ID_NPC id, int count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		createNPC(brick, id);
 	}
 }
 
@@ -566,4 +570,16 @@ void WorldScene::removeText(cocos2d::ui::Text* text)
 {
 	text->removeFromParent();
 }
+
+void WorldScene::onEnter()
+{
+	CCLayer::onEnter();
+	CCLOG("asd");
+}
+
+void WorldScene::onExit()
+{
+	CCLayer::onExit();
+}
+
 

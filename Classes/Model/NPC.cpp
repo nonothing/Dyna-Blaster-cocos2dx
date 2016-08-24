@@ -97,7 +97,6 @@ void NPC::dead()
 {
 	if (!_isDead)
 	{
-		deadEvent(this);
 		_isDead = true;
 		stopAllActions();
 		_sprite->stopAllActions();
@@ -114,6 +113,7 @@ void NPC::dead()
 
 void NPC::destroy()
 {
+	deadEvent(this);
 	stopAllActions();
 	_sprite->stopAllActions();
 	_sprite->setOpacity(0);

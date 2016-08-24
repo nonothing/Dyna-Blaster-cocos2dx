@@ -23,6 +23,7 @@ bool dyna::Timer::init(Text* text)
 	_text = text;
 	_defaultTicks = 180;
 	_ticks = 0;
+	_isCreated = false;
 	schedule(schedule_selector(Timer::update), 0.5f);
 	return true;
 }
@@ -81,7 +82,7 @@ std::string dyna::Timer::getDigitalStr(int sec)
 	return sec < 10 ? "0" + std::to_string(sec) : std::to_string(sec);
 }
 
-bool dyna::Timer::isGameOver()
+bool dyna::Timer::canCreateNPC()
 {
-	return _ticks == 0;
+	return _isCreated ? false: _isCreated = _ticks == 0;
 }

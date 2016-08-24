@@ -12,6 +12,7 @@
 #include "Model/NPCData.h"
 #include "Model/MapData.h"
 #include "scene/LoadLevelScene.h"
+#include "Model/Timer.h"
 
 class WorldScene : public cocos2d::Layer
 {
@@ -31,6 +32,7 @@ private:
 	BrickBonus*				_bonusBrick;
 	cocos2d::EventListenerKeyboard*	_keyboardListener;
 	cocos2d::Layer*			_debugLayer;
+	dyna::Timer*			_timer;
 
 	int						_score;
 	int						_record;
@@ -54,8 +56,9 @@ private:
 	bool isCollisionFire(Bomb* bomb, WorldObject* obj);
 	bool isCollision(WorldObject* obj1, WorldObject* obj2, const cocos2d::Size& size, const cocos2d::Point& point = cocos2d::Point::ZERO);
 	cocos2d::Point createBricks();
-	void createNPC();
-	void createNPC(Brick* brick);
+	void createNPCs();
+	bool createNPC(Brick* brick, ID_NPC id);
+	void createNPCs(Brick* brick, ID_NPC, int count);
 	void removeNPC();
 	void createWalls();
 	void createDoor(BricksVec vec, bool isBoss);
@@ -71,6 +74,8 @@ private:
 public:
 	static cocos2d::Scene* createScene(LoadLevelScene* levelScene);
 	virtual bool init(LoadLevelScene* levelScene);
+	virtual void onEnter();
+	virtual void onExit();
 	static WorldScene* create(LoadLevelScene* levelScene);
 
 	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);

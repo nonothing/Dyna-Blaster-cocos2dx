@@ -13,6 +13,7 @@ namespace dyna
 		int					_ticks;
 		int					_defaultTicks;
 		bool				_point;
+		bool				_isCreated;
 
 		std::string  intToTimeStr(int ticks, bool isPoint);
 		std::string  getDigitalStr(int sec);
@@ -25,7 +26,7 @@ namespace dyna
 		void start();
 		void reset();
 		void pause();
-		bool isGameOver();
+		bool canCreateNPC();
 	};
 };
 
