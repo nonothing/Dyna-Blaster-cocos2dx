@@ -19,3 +19,5 @@ id;name;speed;score;type
 17;triangle;0.5;100;0
 18;vacom;0.5;100;0
 19;snake;0.5;10000;0
+23;iron;0.5;10000;0
+25;iron_child;0.5;100;0

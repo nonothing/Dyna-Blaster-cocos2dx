@@ -269,7 +269,7 @@ void Player::TintToWhite()
 	_light += _lightDelta;
 	if (_light < 0 || _light > 1) _lightDelta = -_lightDelta;
 	auto p = getWhiteShader();
-	_sprite->setShaderProgram(p);
+	_sprite->setGLProgram(p);
 	auto glProgramState = GLProgramState::getOrCreateWithGLProgram(p);
 	setGLProgramState(glProgramState);
 	getGLProgramState()->setUniformFloat("t", _light);

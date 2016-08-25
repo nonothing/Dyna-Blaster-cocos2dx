@@ -19,7 +19,7 @@
 		<key>vacom_dead</key>
         <dict>
             <key>delay</key>
-            <real>0.1</real>
+            <real>0.3</real>
             <key>frames</key>
             <array>
                 <string>vacom_4.png</string>

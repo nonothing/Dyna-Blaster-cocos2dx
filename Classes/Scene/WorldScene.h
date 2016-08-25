@@ -13,6 +13,7 @@
 #include "Model/MapData.h"
 #include "scene/LoadLevelScene.h"
 #include "Model/Timer.h"
+#include "Boss/Iron.h"
 
 class WorldScene : public cocos2d::Layer
 {
@@ -46,6 +47,7 @@ private:
 
 	PlayerEvent::Listener		_lifeListener;
 	NPCEvent::Listener			_npcListener;
+	ChildCreateEvent::Listener  _childCreateListener;
 
 	~WorldScene();
 	Direction KeyCodeToDiretion(cocos2d::EventKeyboard::KeyCode keyCode);
@@ -71,7 +73,8 @@ private:
 	bool collisionNPCwithPlayer();
 	void gameOver();
 	void removeText(cocos2d::ui::Text* text);
-	void setDefaultParametrNpc(NPC* npc, const cocos2d::Point& point);
+	void setDefaultParametrNpc(NPC* npc, const cocos2d::Point& point, int order = 2);
+	void createIronChild(const cocos2d::Point& point);
 
 public:
 	static cocos2d::Scene* createScene(LoadLevelScene* levelScene);

@@ -5,7 +5,7 @@
 
 USING_NS_CC;
 
-const char* kVSertexShader = "attribute vec4 a_position;"\
+const static char* kVSertexShader = "attribute vec4 a_position;"\
 "attribute vec2 a_texCoord;"\
 "attribute vec4 a_color;"\
 ""\
@@ -24,7 +24,7 @@ const char* kVSertexShader = "attribute vec4 a_position;"\
 "    v_texCoord = a_texCoord;"\
 "}";
 
-const char* kFragmetShader = ""\
+const static char* kFragmetShader = ""\
 "\n#ifdef GL_ES\n"\
 "precision lowp float;"\
 "\n#endif\n"\

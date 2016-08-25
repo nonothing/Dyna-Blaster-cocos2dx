@@ -3,6 +3,7 @@
 #include "Model/Timer.h"
 #include "Model/GameSettings.h"
 #include "Boss/Snake.h"
+#include "Boss/Iron.h"
 
 USING_NS_CC;
 
@@ -76,6 +77,7 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	_startPosition.y = Director::getInstance()->getWinSize().height - 252;
 	_mapLayer->addChild(_borderNode, 0);
 	_npcListener = std::bind(&WorldScene::updateScoreLabel, this, std::placeholders::_1);
+	_childCreateListener = std::bind(&WorldScene::createIronChild, this, std::placeholders::_1);
 	_currentIndexLevel = 1;
 
 	_player = Player::create(_mapLayer);
@@ -362,6 +364,13 @@ bool WorldScene::createNPC(Brick* brick, ID_NPC id)
 			}
 		}
 			break;
+		case iron:
+		{
+			auto iron = Iron::create(dataNPC, _bricks);
+			_childCreateListener += iron->childCreateEvent;
+			setDefaultParametrNpc(iron, brick->getPosition(), 3);
+		}
+			break;
 		default:
 			setDefaultParametrNpc(NPC::create(dataNPC, _bricks), brick->getPosition());
 			break;
@@ -517,7 +526,7 @@ void WorldScene::updateScoreLabel(NPC* npc)
 {
 	auto text = ui::Text::create(std::to_string(npc->getScore()), "5px2bus.ttf", 18.f);
 	text->setPosition(npc->getPosition());
-	_mapLayer->addChild(text, 3);
+	_mapLayer->addChild(text, 100);
 	runAction(Sequence::create(DelayTime::create(3.f), CallFunc::create(CC_CALLBACK_0(WorldScene::removeText, this, text)), nullptr));
 
 	_score += npc->getScore();
@@ -592,7 +601,6 @@ void WorldScene::removeText(cocos2d::ui::Text* text)
 void WorldScene::onEnter()
 {
 	CCLayer::onEnter();
-	CCLOG("asd");
 }
 
 void WorldScene::onExit()
@@ -600,14 +608,19 @@ void WorldScene::onExit()
 	CCLayer::onExit();
 }
 
-void WorldScene::setDefaultParametrNpc(NPC* npc, const cocos2d::Point& point)
+void WorldScene::setDefaultParametrNpc(NPC* npc, const cocos2d::Point& point, int order /* = 2 */)
 {
 	_npcListener += npc->deadEvent;
 	npc->debugLayer = _debugLayer;
 	npc->setMapLayer(_mapLayer);
 	npc->setPosition(point);
-	_mapLayer->addChild(npc, 2);
+	_mapLayer->addChild(npc, order);
 	npc->move();
 	_npcs.push_back(npc);
+}
+
+void WorldScene::createIronChild(const cocos2d::Point& point)
+{
+	setDefaultParametrNpc(IronChild::create(_levelScene->getNPC(ironChild), _bricks), point);
 }
 

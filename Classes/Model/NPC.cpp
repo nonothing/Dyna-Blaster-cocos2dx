@@ -1,5 +1,4 @@
 ﻿#include "Model/NPC.h"
-#include "ui/UIText.h"
 
 USING_NS_CC;
 #define ANIM_TAG 225 
@@ -33,7 +32,6 @@ bool NPC::init(const NPCData& data, BricksVec vec)
 	_isDead = false;
 	_createTime = Director::getInstance()->getTotalFrames();
 
-	schedule(schedule_selector(NPC::update), 0.03f);
 	_bricks = vec;
 
 	if (data._id <= vacom)

@@ -38,7 +38,7 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader)
 
 	_mapLoader = loaderMap;
 	_npcLoader = npcLoader;
-	_currentLevel = 10;
+	_currentLevel = 16;
 	_currentData = _mapLoader->getMap(_currentLevel);
 
 	loadAnimations();
@@ -217,6 +217,10 @@ void LoadLevelScene::loadAnimations()
 	AnimationCache::getInstance()->addAnimationsWithFile("snakeAnim.plist");
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("npc.plist", "npc.png");
+
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("iron.plist", "iron.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("ironAnim.plist");
+
 	for (auto data : _npcLoader->getNPCs())
 	{
 		if (data._id <= vacom)

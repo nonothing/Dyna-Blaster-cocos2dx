@@ -39,7 +39,7 @@ public:
 	void nextDir();
 	virtual void animate(Direction dir);
 	virtual bool isThroughBomb(Brick* brick);
-	void dead();
+	virtual void dead();
 	void destroy();
 	virtual cocos2d::Rect getRect() override;
 	bool isDead();

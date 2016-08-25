@@ -27,8 +27,9 @@ enum  ID_NPC
 	// 	cyclopeL,
 	// 	cyclopeB,
 	// 	electro,
-	// 	iron,
+	 	iron = 23,
 	// 	human,
+		ironChild = 25,
 	NPC_NONE = 99999
 };
 

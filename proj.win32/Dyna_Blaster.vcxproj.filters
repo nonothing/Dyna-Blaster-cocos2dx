@@ -87,6 +87,9 @@
     <ClCompile Include="..\Classes\Boss\Snake.cpp">
       <Filter>src\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Boss\Iron.cpp">
+      <Filter>src\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -163,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\utils\WhiteShader.h">
       <Filter>src\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Boss\Iron.h">
+      <Filter>src\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
