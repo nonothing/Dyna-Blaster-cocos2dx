@@ -1,6 +1,7 @@
 #include "Model/Player.h"
 #include "Model/BrickBonus.h"
 #include "Model/GameSettings.h"
+#include "utils/WhiteShader.h"
 
 USING_NS_CC;
 #define ANIM_TAG 225 
@@ -46,10 +47,12 @@ bool Player::init(cocos2d::Layer* layer)
 	_life = GameSettings::Instance().getPlayerLife();
 	_isImmortal = false;
 	_collisionBrick = nullptr;
-
+	_oldColor = _sprite->getColor();
 	_mapLayer = layer;
 	_speed = Point(6, 8);//4 6
 	_dir = NONE;
+	_light = 0;
+	_lightDelta = 0.1f;
     return true;
 }
 
@@ -245,7 +248,7 @@ void Player::getBonus(ID_BONUS idBonus)
 	case BLife:		_life++; lifeEvent(this);   break;
 	case BWall:		_isMoveWall = true;			break;
 	case BEBomb:	_isThroughBomb = true;		break;
-	case BImmortal:	_isImmortal = true;			break;//todo need check	
+	case BImmortal:	immortal();					break;
 	default:break;
 	}
 	
@@ -259,6 +262,26 @@ bool Player::canMove(BrickType type)
 void Player::clearBonus()
 {
 
+}
+
+void Player::TintToWhite()
+{
+	_light += _lightDelta;
+	if (_light < 0 || _light > 1) _lightDelta = -_lightDelta;
+	auto p = getWhiteShader();
+	_sprite->setShaderProgram(p);
+	auto glProgramState = GLProgramState::getOrCreateWithGLProgram(p);
+	setGLProgramState(glProgramState);
+	getGLProgramState()->setUniformFloat("t", _light);
+	_sprite->setGLProgramState(glProgramState);
+}
+
+void Player::immortal()
+{
+	_isImmortal = true;
+	auto action = RepeatForever::create(Sequence::create(DelayTime::create(0.05f),
+		CallFunc::create(CC_CALLBACK_0(Player::TintToWhite, this)), nullptr));
+	_sprite->runAction(action);
 }
 
 bool Player::hasBomb()

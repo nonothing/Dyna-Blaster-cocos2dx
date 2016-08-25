@@ -38,7 +38,7 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader)
 
 	_mapLoader = loaderMap;
 	_npcLoader = npcLoader;
-	_currentLevel = 8;
+	_currentLevel = 10;
 	_currentData = _mapLoader->getMap(_currentLevel);
 
 	loadAnimations();
@@ -211,7 +211,7 @@ void LoadLevelScene::loadAnimations()
 	AnimationCache::getInstance()->addAnimationsWithFile("headAnim.plist");
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("bricks.plist", "bricks.png");
-	AnimationCache::getInstance()->addAnimationsWithFile("bricks/mirrorAnim.plist");
+	AnimationCache::getInstance()->addAnimationsWithFile("mirrorAnim.plist");
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("snake.plist", "snake.png");
 	AnimationCache::getInstance()->addAnimationsWithFile("snakeAnim.plist");

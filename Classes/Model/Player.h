@@ -16,10 +16,13 @@ private:
 	Direction			_dir;
 	Direction			_oldDir;
 	cocos2d::Point		_speed;
+	float				_light;
+	float				_lightDelta;
 
 	int					_countBomb;
 	int					_life;
 	Brick*				_collisionBrick;
+	cocos2d::Color3B	_oldColor;
 
 	//bonus
 	int					_sizeBomb;
@@ -41,8 +44,9 @@ private:
 	void getBonus(ID_BONUS idBonus);
 	bool canMove(BrickType type);
 	void clearBonus();
-
+	void TintToWhite();
 public:
+	void immortal();
 	PlayerEvent			lifeEvent;
 	void setBricks(BricksVec vec);
 	cocos2d::Vector<Node*> _collisions;

@@ -161,6 +161,9 @@
     <ClInclude Include="..\Classes\enumerate\ENPC.h">
       <Filter>src\enumerate</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\utils\WhiteShader.h">
+      <Filter>src\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

@@ -126,7 +126,8 @@ void WorldScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_1) //for test
 	{
-		_levelScene->restart();
+		//_levelScene->restart();
+		_player->immortal();
 	}
 }
 
@@ -264,7 +265,7 @@ void WorldScene::checkCollisionBombs()
 		}
 		checkFireWithNPC();
 
-		if (checkPlayerWithFire(_expBomb))
+		if (!_player->isImmortal() && checkPlayerWithFire(_expBomb))
 		{
 			gameOver();
 		}
@@ -556,13 +557,16 @@ bool WorldScene::collisionNPCwithPlayer()
 	rect = Rect(p.x, p.y, rect.size.width, rect.size.height);
 	for (auto npc : _npcs)
 	{
-		Size size = Size(74, 74);
-
-		Point firePos = npc->convertToWorldSpace(npc->getPosition());
-		Rect rectFire = Rect(firePos.x, firePos.y, size.width, size.height);
-		if (rectFire.intersectsRect(rect))
+		if (!npc->isDead())
 		{
-			return true;
+			Size size = Size(74, 74);
+
+			Point firePos = npc->convertToWorldSpace(npc->getPosition());
+			Rect rectFire = Rect(firePos.x, firePos.y, size.width, size.height);
+			if (rectFire.intersectsRect(rect))
+			{
+				return true;
+			}
 		}
 	}
 	return false;

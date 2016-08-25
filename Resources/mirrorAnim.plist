@@ -10,8 +10,8 @@
             <real>0.3</real>
             <key>frames</key>
             <array>
-                <string>mirror_1.png</string>
-                <string>mirror_2.png</string>
+                <string>mirror_1</string>
+                <string>mirror_2</string>
             </array>
         </dict>
     </dict>
