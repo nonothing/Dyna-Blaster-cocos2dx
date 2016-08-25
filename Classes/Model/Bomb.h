@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 #include "Model/WorldObject.h"
-#include "Model/Direction.h"
+#include "enumerate/Direction.h"
 #include "Model/Brick.h"
 #include "Model/Player.h"
 

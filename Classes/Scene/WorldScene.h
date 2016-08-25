@@ -71,6 +71,8 @@ private:
 	bool collisionNPCwithPlayer();
 	void gameOver();
 	void removeText(cocos2d::ui::Text* text);
+	void setDefaultParametrNpc(NPC* npc, const cocos2d::Point& point);
+
 public:
 	static cocos2d::Scene* createScene(LoadLevelScene* levelScene);
 	virtual bool init(LoadLevelScene* levelScene);

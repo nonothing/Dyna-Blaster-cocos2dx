@@ -27,6 +27,8 @@ public:
 	static cocos2d::Scene* createScene(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec);
 	virtual bool init(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec);
 	static LoadLevelScene* create(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec);
+
+	void loadAnimations();
 	void loadWordScene();
 	void countinueFunc();
 

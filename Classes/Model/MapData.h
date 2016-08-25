@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 #include "utils/CSVReader.h"
-#include "Model/EBonus.h"
+#include "enumerate/EBonus.h"
 
 enum TypeMap
 {

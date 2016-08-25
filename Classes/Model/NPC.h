@@ -2,7 +2,7 @@
 #define __NPC_H__
 
 #include "cocos2d.h"
-#include "Model/Direction.h"
+#include "enumerate/Direction.h"
 #include "Model/Brick.h"
 #include "Model/WorldObject.h"
 #include "Model/NPCData.h"
@@ -11,9 +11,11 @@
 class NPC;
 typedef EventTempl<NPC*>					NPCEvent;
 
+const static cocos2d::Point sPoints[] = { cocos2d::Point(0, -74), cocos2d::Point(74, 0), cocos2d::Point(-74, 0), cocos2d::Point(0, 74) };
+
 class NPC : public WorldObject
 {
-private:
+	protected:
 	
 	NPCData			_data;
 	bool			_isDead;
@@ -33,9 +35,10 @@ public:
     virtual bool init(const NPCData& data, BricksVec vec);
 	static NPC* create(const NPCData& data, BricksVec vec);
 	void setMapLayer(cocos2d::Layer* layer);
-	void move();
+	virtual void move();
 	void nextDir();
-	void animate(Direction dir);
+	virtual void animate(Direction dir);
+	virtual bool isThroughBomb(Brick* brick);
 	void dead();
 	void destroy();
 	virtual cocos2d::Rect getRect() override;

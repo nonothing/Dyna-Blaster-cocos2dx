@@ -23,7 +23,7 @@ enum  ID_NPC
 	triangle,
 	vacom,
 	//BOSS
-	// 	snake,
+	 	snake,
 	// 	cyclopeL,
 	// 	cyclopeB,
 	// 	electro,

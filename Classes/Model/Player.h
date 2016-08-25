@@ -2,10 +2,10 @@
 #define __PLAYER_H__
 
 #include "cocos2d.h"
-#include "Model/Direction.h"
+#include "enumerate/Direction.h"
 #include "Model/WorldObject.h"
 #include "Model/Brick.h"
-#include "Model/EBonus.h"
+#include "enumerate/EBonus.h"
 #include "utils/Events.h"
 
 class Player;

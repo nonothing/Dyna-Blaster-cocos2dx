@@ -138,6 +138,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\Boss\Snake.cpp" />
     <ClCompile Include="..\Classes\Model\Bomb.cpp" />
     <ClCompile Include="..\Classes\Model\Brick.cpp" />
     <ClCompile Include="..\Classes\Model\BrickBonus.cpp" />
@@ -158,13 +159,14 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
+    <ClInclude Include="..\Classes\Boss\Snake.h" />
+    <ClInclude Include="..\Classes\enumerate\Direction.h" />
+    <ClInclude Include="..\Classes\enumerate\EBonus.h" />
+    <ClInclude Include="..\Classes\enumerate\ENPC.h" />
     <ClInclude Include="..\Classes\Model\Bomb.h" />
     <ClInclude Include="..\Classes\Model\Brick.h" />
     <ClInclude Include="..\Classes\Model\BrickBonus.h" />
     <ClInclude Include="..\Classes\Model\BrickDoor.h" />
-    <ClInclude Include="..\Classes\Model\Direction.h" />
-    <ClInclude Include="..\Classes\Model\EBonus.h" />
-    <ClInclude Include="..\Classes\Model\ENPC.h" />
     <ClInclude Include="..\Classes\Model\GameSettings.h" />
     <ClInclude Include="..\Classes\Model\MapData.h" />
     <ClInclude Include="..\Classes\Model\NPC.h" />

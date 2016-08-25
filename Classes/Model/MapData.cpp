@@ -1,5 +1,5 @@
 #include "Model/MapData.h"
-#include "Model/ENPC.h"
+#include "enumerate/ENPC.h"
 #include "utils/Utils.h"
 
 USING_NS_CC;

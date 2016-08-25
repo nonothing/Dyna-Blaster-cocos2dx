@@ -2,6 +2,7 @@
 #include "cocostudio/CocoStudio.h"
 #include "Model/Timer.h"
 #include "Model/GameSettings.h"
+#include "Boss/Snake.h"
 
 USING_NS_CC;
 
@@ -344,14 +345,27 @@ bool WorldScene::createNPC(Brick* brick, ID_NPC id)
 {
 	auto dataNPC = _levelScene->getNPC(id);
 	if (dataNPC._id != NPC_NONE){
-		NPC* npc = NPC::create(dataNPC, _bricks);
-		_npcListener += npc->deadEvent;
-		npc->debugLayer = _debugLayer;
-		npc->setMapLayer(_mapLayer);
-		npc->setPosition(brick->getPosition());
-		_mapLayer->addChild(npc, 2);
-		npc->move();
-		_npcs.push_back(npc);
+		switch (dataNPC._id)
+		{
+		case snake:
+		{
+			Snake* npc = Snake::create(dataNPC, _bricks, SNAKE_HEAD);
+			setDefaultParametrNpc(npc, brick->getPosition());
+			Snake* npcNext;
+			for (int i = 0; i <= 4; i++)
+			{
+				npcNext = Snake::create(dataNPC, _bricks, i == 4 ? SNAKE_TAIL : SNAKE_BODY);
+				setDefaultParametrNpc(npcNext, brick->getPosition());
+				npcNext->setSnake(npc);
+				npc = npcNext;
+			}
+		}
+			break;
+		default:
+			setDefaultParametrNpc(NPC::create(dataNPC, _bricks), brick->getPosition());
+			break;
+		}
+		
 		return true;
 	}
 	return false;
@@ -582,4 +596,14 @@ void WorldScene::onExit()
 	CCLayer::onExit();
 }
 
+void WorldScene::setDefaultParametrNpc(NPC* npc, const cocos2d::Point& point)
+{
+	_npcListener += npc->deadEvent;
+	npc->debugLayer = _debugLayer;
+	npc->setMapLayer(_mapLayer);
+	npc->setPosition(point);
+	_mapLayer->addChild(npc, 2);
+	npc->move();
+	_npcs.push_back(npc);
+}
 

@@ -2,7 +2,7 @@
 #define __BRICK__BONUS_H__
 
 #include "Model/Brick.h"
-#include "Model/EBonus.h"
+#include "enumerate/EBonus.h"
 #include "Bomb.h"
 
 class BrickBonus : public Brick

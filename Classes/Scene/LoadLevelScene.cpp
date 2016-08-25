@@ -38,15 +38,10 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader)
 
 	_mapLoader = loaderMap;
 	_npcLoader = npcLoader;
-	_currentLevel = 6;
+	_currentLevel = 8;
 	_currentData = _mapLoader->getMap(_currentLevel);
 
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("numbers.plist", "numbers.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("head.plist", "head.png");
-	AnimationCache::getInstance()->addAnimationsWithFile("headAnim.plist");
-
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("bricks.plist", "bricks.png");
-	AnimationCache::getInstance()->addAnimationsWithFile("bricks/mirrorAnim.plist");
+	loadAnimations();
 
 	_rootLevelNode = CSLoader::createNode("nodes/LoadLevelScene.csb");
 	_rootStageNode = CSLoader::createNode("nodes/loadStageScene.csb");
@@ -209,3 +204,24 @@ void LoadLevelScene::countinueFunc()
 	restartLevel();
 }
 
+void LoadLevelScene::loadAnimations()
+{
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("numbers.plist", "numbers.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("head.plist", "head.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("headAnim.plist");
+
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("bricks.plist", "bricks.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("bricks/mirrorAnim.plist");
+
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("snake.plist", "snake.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("snakeAnim.plist");
+
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("npc.plist", "npc.png");
+	for (auto data : _npcLoader->getNPCs())
+	{
+		if (data._id <= vacom)
+		{
+			AnimationCache::getInstance()->addAnimationsWithFile("animation/" + data._name + ".plist");
+		}
+	}
+}

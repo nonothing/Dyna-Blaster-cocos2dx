@@ -2,8 +2,8 @@
 #define __NPC_DATA_H__
 
 #include "cocos2d.h"
-#include "Model/ENPC.h"
-#include "Model/Direction.h"
+#include "enumerate/ENPC.h"
+#include "enumerate/Direction.h"
 #include "utils/CSVReader.h"
 
 enum NPC_TYRE

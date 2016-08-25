@@ -22,6 +22,12 @@
     <Filter Include="src\utils">
       <UniqueIdentifier>{6ce52e63-28f0-4eeb-ab3e-4ec88bd7b0f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Boss">
+      <UniqueIdentifier>{b2e44bef-c563-49ae-9899-9245dc737284}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\enumerate">
+      <UniqueIdentifier>{05abf0bd-7f7d-47cc-83c0-483e298e52bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -78,6 +84,9 @@
     <ClCompile Include="..\Classes\Scene\GameOverScene.cpp">
       <Filter>src\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Boss\Snake.cpp">
+      <Filter>src\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -98,9 +107,6 @@
     <ClInclude Include="..\Classes\Model\Bomb.h">
       <Filter>src\Model</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Model\Direction.h">
-      <Filter>src\Model</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Model\WorldObject.h">
       <Filter>src\Model</Filter>
     </ClInclude>
@@ -110,17 +116,11 @@
     <ClInclude Include="..\Classes\utils\Utils.h">
       <Filter>src\utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Model\ENPC.h">
-      <Filter>src\Model</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Model\NPC.h">
       <Filter>src\Model</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\utils\CSVReader.h">
       <Filter>src\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Model\EBonus.h">
-      <Filter>src\Model</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Model\BrickDoor.h">
       <Filter>src\Model</Filter>
@@ -148,6 +148,18 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Scene\GameOverScene.h">
       <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Boss\Snake.h">
+      <Filter>src\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\enumerate\Direction.h">
+      <Filter>src\enumerate</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\enumerate\EBonus.h">
+      <Filter>src\enumerate</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\enumerate\ENPC.h">
+      <Filter>src\enumerate</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

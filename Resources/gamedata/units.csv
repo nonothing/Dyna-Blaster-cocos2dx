@@ -18,3 +18,4 @@ id;name;speed;score;type
 16;snuff;0.5;100;0
 17;triangle;0.5;100;0
 18;vacom;0.5;100;0
+19;snake;0.5;10000;0

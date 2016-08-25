@@ -42,7 +42,6 @@ void GameSettings::savePlayer(Player* player)
 	UserDefault::getInstance()->flush();
 }
 
-
 void GameSettings::setPlayerLife(int value)
 {
 	UserDefault::getInstance()->setIntegerForKey(PLAYER_LIFE_KEY, value);

@@ -33,19 +33,19 @@ bool NPC::init(const NPCData& data, BricksVec vec)
 	_isDead = false;
 	_createTime = Director::getInstance()->getTotalFrames();
 
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("npc.plist", "npc.png");
-	AnimationCache::getInstance()->addAnimationsWithFile("animation/" + _data._name + ".plist");
-
 	schedule(schedule_selector(NPC::update), 0.03f);
-	_sprite = Sprite::createWithSpriteFrameName(_data._name + "_1.png");
-	addChild(_sprite);
 	_bricks = vec;
-	_dir = RIGHT;
-	animate(_dir);
+
+	if (data._id <= vacom)
+	{
+		_sprite = Sprite::createWithSpriteFrameName(_data._name + "_1.png");
+		addChild(_sprite);
+		_dir = RIGHT;
+		animate(_dir);
+	}
+
 	return true;
 }
-
-const static Point sPoints[] = { Point(0, -74), Point(74, 0), Point(-74, 0), Point(0, 74) };
 
 void NPC::move()
 {
@@ -91,6 +91,11 @@ void NPC::animate(Direction dir)
 			runAnimate(animation);
 		}
 	}
+}
+
+bool NPC::isThroughBomb(Brick* brick)
+{
+	return brick->hasBomb();
 }
 
 void NPC::dead()
@@ -159,7 +164,7 @@ bool NPC::isCollisionEmpty(const cocos2d::Point& point)//todo rewrite
 
 	for (auto brick : _bricks)
 	{
-		if (isMove(brick->getType()) && !brick->hasBomb())
+		if (isMove(brick->getType()) && !isThroughBomb(brick))
 		{
 			Size bSize = brick->getRect().size;
 			Point obj1Pos = brick->convertToWorldSpace(brick->getRect().origin) - _mapLayer->getPosition();
