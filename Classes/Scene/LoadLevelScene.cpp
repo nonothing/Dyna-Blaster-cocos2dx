@@ -38,7 +38,7 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader)
 
 	_mapLoader = loaderMap;
 	_npcLoader = npcLoader;
-	_currentLevel = 32;
+	_currentLevel = 56;
 	_currentData = _mapLoader->getMap(_currentLevel);
 
 	loadAnimations();
@@ -223,6 +223,9 @@ void LoadLevelScene::loadAnimations()
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("cyclop.plist", "cyclop.png");
 	AnimationCache::getInstance()->addAnimationsWithFile("cyclopAnim.plist");
+
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("electro.plist", "electro.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("electroAnim.plist");
 
 	for (auto data : _npcLoader->getNPCs())
 	{

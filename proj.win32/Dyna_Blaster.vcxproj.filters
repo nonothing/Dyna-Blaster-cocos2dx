@@ -93,6 +93,9 @@
     <ClCompile Include="..\Classes\Boss\Cyclop.cpp">
       <Filter>src\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Boss\Electro.cpp">
+      <Filter>src\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -174,6 +177,9 @@
       <Filter>src\Boss</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Boss\Cyclop.h">
+      <Filter>src\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Boss\Electro.h">
       <Filter>src\Boss</Filter>
     </ClInclude>
   </ItemGroup>

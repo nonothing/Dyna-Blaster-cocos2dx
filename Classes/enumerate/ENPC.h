@@ -26,8 +26,8 @@ enum  ID_NPC
 	snake,
 	cyclopeL,
 	cyclopeB,
-	// 	electro,
-	 	iron = 23,
+	electro,
+	iron,
 	// 	human,
 		ironChild = 25,
 	NPC_NONE = 99999

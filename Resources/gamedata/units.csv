@@ -20,6 +20,7 @@ id;name;speed;score;type;life
 18;vacom;0.5;100;0;1
 19;snake;0.5;10000;0;3
 20;cyclope_litle;0.5;1000;0;2
-21;cyclope_big;1.0;1000;0;3
+21;cyclope_big;1;1000;0;3
+22;electro;0.5;1000;0;3
 23;iron;0.5;10000;0;3
 25;iron_child;0.5;100;0;1

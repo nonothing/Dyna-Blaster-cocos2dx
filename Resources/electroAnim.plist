@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>animations</key>
+    <dict>
+        <key>electro_move_3</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>electro_blue_move_1.png</string>
+                <string>electro_blue_move_2.png</string>
+				<string>electro_blue_move_3.png</string>
+				<string>electro_blue_move_2.png</string>
+            </array>
+        </dict>
+
+		<key>electro_move_2</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>electro_yellow_move_1.png</string>
+                <string>electro_yellow_move_2.png</string>
+				<string>electro_yellow_move_3.png</string>
+				<string>electro_yellow_move_2.png</string>
+            </array>
+        </dict>
+		
+		<key>electro_move</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>electro_red_move_1.png</string>
+                <string>electro_red_move_2.png</string>
+				<string>electro_red_move_3.png</string>
+				<string>electro_red_move_2.png</string>
+            </array>
+        </dict>
+		
+		<key>electro_dead</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>electro_dead_1.png</string>
+				<string>electro_dead_2.png</string>
+				<string>electro_dead_3.png</string>
+				<string>electro_dead_4.png</string>
+				<string>electro_dead_5.png</string>
+				<string>electro_dead_6.png</string>
+            </array>
+        </dict>
+		
+		<key>electro_plazma</key>
+        <dict>
+            <key>delay</key>
+            <real>0.01</real>
+            <key>frames</key>
+            <array>
+                <string>plazma_field_1.png</string>
+				<string>plazma_field_2.png</string>
+            </array>
+        </dict>
+    </dict>
+</dict>
+</plist>
