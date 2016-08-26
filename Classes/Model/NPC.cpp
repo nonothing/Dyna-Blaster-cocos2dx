@@ -196,3 +196,8 @@ bool NPC::isMove(BrickType type)
 	return type == EBACKGROUND || type == EBONUS || ( type == EWALL && _data._type == FLY );
 }
 
+int NPC::getLife()
+{
+	return _data._life;
+}
+

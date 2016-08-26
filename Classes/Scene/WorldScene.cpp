@@ -77,7 +77,7 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	_startPosition.y = Director::getInstance()->getWinSize().height - 252;
 	_mapLayer->addChild(_borderNode, 0);
 	_npcListener = std::bind(&WorldScene::updateScoreLabel, this, std::placeholders::_1);
-	_childCreateListener = std::bind(&WorldScene::createIronChild, this, std::placeholders::_1);
+	_childCreateListener = std::bind(&WorldScene::createIronChild, this, std::placeholders::_1, std::placeholders::_2);
 	_currentIndexLevel = 1;
 
 	_player = Player::create(_mapLayer);
@@ -619,8 +619,8 @@ void WorldScene::setDefaultParametrNpc(NPC* npc, const cocos2d::Point& point, in
 	_npcs.push_back(npc);
 }
 
-void WorldScene::createIronChild(const cocos2d::Point& point)
+void WorldScene::createIronChild(const cocos2d::Point& point, unsigned int createTime)
 {
-	setDefaultParametrNpc(IronChild::create(_levelScene->getNPC(ironChild), _bricks), point);
+	setDefaultParametrNpc(IronChild::create(_levelScene->getNPC(ironChild), _bricks, createTime), point);
 }
 

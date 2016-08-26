@@ -25,7 +25,6 @@ bool Snake::init(const NPCData& data, BricksVec vec, ESnakeType type)
 	}
 	_type = type;
 	_snake = nullptr;
-	_life = 2;
 	if (_type == SNAKE_HEAD)
 	{
 		_sprite = Sprite::createWithSpriteFrameName("snake_blue_head_2.png");
@@ -63,7 +62,7 @@ std::string Snake::getAnimationName()
 		default: return result;
 		}
 	}
-	return result + std::to_string(_life);
+	return result + std::to_string(getLife());
 }
 
 bool Snake::isVertical(Direction dir)

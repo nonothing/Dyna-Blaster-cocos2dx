@@ -18,6 +18,7 @@ struct NPCData
 	float			_speed;
 	int				_score;
 	NPC_TYRE		_type;
+	int				_life;
 
 	NPCData()
 	{
@@ -31,6 +32,7 @@ struct NPCData
 		_speed = data._speed;
 		_score = data._score;
 		_type = data._type;
+		_life = data._life;
 	}
 
 	std::string getAnimationNameMove(Direction dir = Direction::NONE)

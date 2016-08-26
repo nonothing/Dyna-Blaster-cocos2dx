@@ -4,16 +4,16 @@
 #include "cocos2d.h"
 #include "Model/NPC.h"
 
-typedef EventTempl<cocos2d::Point>					ChildCreateEvent;
+typedef EventTempl<cocos2d::Point, unsigned int>					ChildCreateEvent;
 
 class Iron : public NPC
 {
 private:
-	int					_life;
 	float				_light;
 	float				_lightDelta;
 	int					_countLight;
 	int					_countCreate;
+	unsigned int		_firstCreate;
 
 	std::string getAnimationName();
 	void TintToWhite();
@@ -35,8 +35,8 @@ private:
 	void		created();
 	void		startAnimCreated();
 public:
-	virtual bool init(const NPCData& data, BricksVec vec);
-	static IronChild* create(const NPCData& data, BricksVec vec);
+	virtual bool init(const NPCData& data, BricksVec vec, unsigned int createTime);
+	static IronChild* create(const NPCData& data, BricksVec vec, unsigned int createTime);
 	virtual void move();
 };
 

@@ -24,7 +24,7 @@ bool Iron::init(const NPCData& data, BricksVec vec)
 	{
 		return false;
 	}
-	_life = 3;
+	_firstCreate = _createTime;
 	_sprite = Sprite::createWithSpriteFrameName("iron_blue_1.png");
 	_dir = RIGHT;
 	animate();
@@ -38,7 +38,7 @@ bool Iron::init(const NPCData& data, BricksVec vec)
 
 std::string Iron::getAnimationName()
 {
-	return "iron_move_" + std::to_string(_life);
+	return "iron_move_" + std::to_string(getLife());
 }
 
 void Iron::createChild()
@@ -46,9 +46,9 @@ void Iron::createChild()
 	_countCreate++;
 	if (_countCreate <= MAX_CREATE)
 	{
-		childCreateEvent(getPosition());
+		childCreateEvent(getPosition(), _firstCreate);
 	}
-	else if (_countCreate > MAX_CREATE * 2)
+	else if (_countCreate > MAX_CREATE * 3)
 	{
 		_countCreate = 0;
 	}
@@ -67,7 +67,7 @@ void Iron::dead()
 {
 	if (!_isDead)
 	{
-		auto life =	_life - 1;
+		auto life =	getLife() - 1;
 		if (life == 0)
 		{
 			_isDead = true;
@@ -108,7 +108,7 @@ void Iron::TintToWhite()
 		if (_countLight == 8)
 		{
 			_sprite->stopActionByTag(BLINK_TAG);
-			_life--;
+			_data._life--;
 			_light = 0;
 			_lightDelta = 0.2f;
 			_countLight = 0;
@@ -123,10 +123,10 @@ void Iron::TintToWhite()
 	_sprite->setGLProgramState(glProgramState);
 }
 
-IronChild* IronChild::create(const NPCData& data, BricksVec vec)
+IronChild* IronChild::create(const NPCData& data, BricksVec vec, unsigned int createTime)
 {
 	IronChild* npc = new IronChild();
-	if (npc && npc->init(data, vec))
+	if (npc && npc->init(data, vec, createTime))
 	{
 		return (IronChild*)npc->autorelease();
 	}
@@ -135,12 +135,13 @@ IronChild* IronChild::create(const NPCData& data, BricksVec vec)
 	return npc;
 }
 
-bool IronChild::init(const NPCData& data, BricksVec vec)
+bool IronChild::init(const NPCData& data, BricksVec vec, unsigned int createTime)
 {
 	if (!NPC::init(data, vec))
 	{
 		return false;
 	}
+	_createTime = createTime;
 	_isCreated = false;
 	_sprite = Sprite::createWithSpriteFrameName(_data._name + "_1.png");
 	addChild(_sprite);

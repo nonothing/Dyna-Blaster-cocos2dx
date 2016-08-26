@@ -29,6 +29,7 @@ class NPC : public WorldObject
 	bool isCollisionEmpty(const cocos2d::Point& point);
 	Direction PointToDir(const cocos2d::Point& point);
 	bool	isMove(BrickType type);
+	int		getLife();
 
 public:
 	NPCEvent	deadEvent;

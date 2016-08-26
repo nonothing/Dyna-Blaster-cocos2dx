@@ -18,7 +18,6 @@ private:
 	bool		_isFirst;
 	bool		_isFirstDir;
 	ESnakeType	_type;
-	int			_life;
 	std::string getAnimationName();
 	bool isVertical(Direction dir);
 	bool isHorizontal(Direction dir);
