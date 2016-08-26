@@ -126,7 +126,6 @@ void WorldScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 	if (keyCode == EventKeyboard::KeyCode::KEY_TAB) //for test
 	{
 		_levelScene->nextLevel();
-		Director::getInstance()->popScene();
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_1) //for test
 	{
@@ -219,6 +218,7 @@ void WorldScene::update(float dt)
 	}
 	if (_doorBrick && _doorBrick->isOpenDoor() && isCollision(_doorBrick, _player, Size(60,60), -_mapLayer->getPosition()))
 	{
+		_player->setPosition(_startPosition);
 		_doorBrick->openDoor(false);
 		_levelScene->nextLevel();
 		Director::getInstance()->popScene();

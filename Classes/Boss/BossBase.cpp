@@ -31,10 +31,10 @@ bool BossBase::init(const NPCData& data, BricksVec vec)
 
 void BossBase::dead()
 {
-	if (!canDead())
+  	if (!canDead())
 	{
 		auto life =	getLife() - 1;
-		if (life == 0)
+		if (life <= 0)
 		{
 			_isDead = true;
 			stopAllActions();

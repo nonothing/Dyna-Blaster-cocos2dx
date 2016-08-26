@@ -32,4 +32,4 @@ public:
 	virtual void move();
 };
 
-#endif // __BOSS_SNAKE_H__
+#endif // __BOSS_IRON_H__
