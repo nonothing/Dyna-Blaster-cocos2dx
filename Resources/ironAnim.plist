@@ -28,7 +28,7 @@
                 <string>iron_yellow_2.png</string>
             </array>
         </dict>
-		<key>iron_move_1</key>
+		<key>iron_move</key>
         <dict>
             <key>delay</key>
             <real>0.3</real>

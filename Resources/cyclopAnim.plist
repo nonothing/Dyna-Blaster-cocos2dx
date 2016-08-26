@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>animations</key>
+    <dict>
+        <key>cyclope_big_move_left_3</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>cyclop_big_blue_left_3.png</string>
+                <string>cyclop_big_blue_left_1.png</string>
+				<string>cyclop_big_blue_left_2.png</string>
+				<string>cyclop_big_blue_left_1.png</string>
+            </array>
+        </dict>
+		
+		<key>cyclope_big_move_up_3</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>cyclop_big_blue_up_1.png</string>
+                <string>cyclop_big_blue_up_2.png</string>
+				<string>cyclop_big_blue_up_3.png</string>
+				<string>cyclop_big_blue_up_2.png</string>
+            </array>
+        </dict>
+		
+		<key>cyclope_big_move_down_3</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>cyclop_big_blue_down_3.png</string>
+                <string>cyclop_big_blue_down_1.png</string>
+				<string>cyclop_big_blue_down_2.png</string>
+				<string>cyclop_big_blue_down_1.png</string>
+            </array>
+        </dict>
+		
+		
+		
+		
+		<key>cyclope_big_move_left_2</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>cyclop_big_green_left_3.png</string>
+                <string>cyclop_big_green_left_1.png</string>
+				<string>cyclop_big_green_left_2.png</string>
+				<string>cyclop_big_green_left_1.png</string>
+            </array>
+        </dict>
+		
+		<key>cyclope_big_move_up_2</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>cyclop_big_green_up_1.png</string>
+                <string>cyclop_big_green_up_2.png</string>
+				<string>cyclop_big_green_up_3.png</string>
+				<string>cyclop_big_green_up_2.png</string>
+            </array>
+        </dict>
+		
+		<key>cyclope_big_move_down_2</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>cyclop_big_green_down_3.png</string>
+                <string>cyclop_big_green_down_1.png</string>
+				<string>cyclop_big_green_down_2.png</string>
+				<string>cyclop_big_green_down_1.png</string>
+            </array>
+        </dict>
+		
+				<key>cyclope_big_move_left</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>cyclop_big_red_left_3.png</string>
+                <string>cyclop_big_red_left_1.png</string>
+				<string>cyclop_big_red_left_2.png</string>
+				<string>cyclop_big_red_left_1.png</string>
+            </array>
+        </dict>
+		
+		<key>cyclope_big_move_up</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>cyclop_big_red_up_1.png</string>
+                <string>cyclop_big_red_up_2.png</string>
+				<string>cyclop_big_red_up_3.png</string>
+				<string>cyclop_big_red_up_2.png</string>
+            </array>
+        </dict>
+		
+		<key>cyclope_big_move_down</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>cyclop_big_red_down_3.png</string>
+                <string>cyclop_big_red_down_1.png</string>
+				<string>cyclop_big_red_down_2.png</string>
+				<string>cyclop_big_red_down_1.png</string>
+            </array>
+        </dict>
+		
+		<key>cyclope_big_dead</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>cyclop_big_dead_1.png</string>
+				<string>cyclop_big_dead_2.png</string>
+				<string>cyclop_big_dead_3.png</string>
+				<string>cyclop_big_dead_4.png</string>
+				<string>cyclop_big_dead_5.png</string>
+				<string>cyclop_big_dead_6.png</string>
+				<string>cyclop_big_dead_7.png</string>
+				<string>cyclop_big_dead_8.png</string>
+				<string>cyclop_big_dead_9.png</string>
+            </array>
+        </dict>
+		
+		<key>cyclope_litle_move_2</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>cyclop_litle_purpure_1.png</string>
+                <string>cyclop_litle_purpure_2.png</string>
+				<string>cyclop_litle_purpure_3.png</string>
+				<string>cyclop_litle_purpure_2.png</string>
+            </array>
+        </dict>
+		
+		<key>cyclope_litle_move</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>cyclop_litle_red_1.png</string>
+                <string>cyclop_litle_red_2.png</string>
+				<string>cyclop_litle_red_3.png</string>
+				<string>cyclop_litle_red_2.png</string>
+            </array>
+        </dict>
+		
+		<key>cyclope_litle_dead</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>cyclop_litle_dead_1.png</string>
+				<string>cyclop_litle_dead_2.png</string>
+				<string>cyclop_litle_dead_3.png</string>
+				<string>cyclop_litle_dead_4.png</string>
+				<string>cyclop_litle_dead_5.png</string>
+				<string>cyclop_litle_dead_6.png</string>
+				<string>cyclop_litle_dead_7.png</string>
+            </array>
+        </dict>
+		
+    </dict>
+</dict>
+</plist>

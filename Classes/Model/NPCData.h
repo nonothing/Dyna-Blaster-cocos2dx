@@ -37,8 +37,9 @@ struct NPCData
 
 	std::string getAnimationNameMove(Direction dir = Direction::NONE)
 	{
-		return _name + (dir == Direction::NONE ? "_move" : "_move_") + sDirName[dir];
+		return _name + (dir == Direction::NONE ? "_move" : "_move_") + sDirName[dir] + (_life == 1 ? "" : ( "_" + std::to_string(_life)));
 	}
+
 	std::string getAnimationNameDead()
 	{
 		return _name + "_dead";

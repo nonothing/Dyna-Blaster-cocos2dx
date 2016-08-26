@@ -15,7 +15,6 @@ private:
 	int					_countCreate;
 	unsigned int		_firstCreate;
 
-	std::string getAnimationName();
 	void TintToWhite();
 	void createChild();
 
@@ -23,7 +22,6 @@ public:
 	ChildCreateEvent  childCreateEvent;
     virtual bool init(const NPCData& data, BricksVec vec);
 	static Iron* create(const NPCData& data, BricksVec vec);
-	virtual void animate();
 	virtual void dead();
 	virtual void move();
 };

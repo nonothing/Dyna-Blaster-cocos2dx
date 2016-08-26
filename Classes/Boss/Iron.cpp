@@ -27,18 +27,13 @@ bool Iron::init(const NPCData& data, BricksVec vec)
 	_firstCreate = _createTime;
 	_sprite = Sprite::createWithSpriteFrameName("iron_blue_1.png");
 	_dir = RIGHT;
-	animate();
+	NPC::animate(_dir);
 	addChild(_sprite);
 	_light = 0;
 	_lightDelta = 0.2f;
 	_countLight = 0;
 	_countCreate = 0;
 	return true;
-}
-
-std::string Iron::getAnimationName()
-{
-	return "iron_move_" + std::to_string(getLife());
 }
 
 void Iron::createChild()
@@ -51,15 +46,6 @@ void Iron::createChild()
 	else if (_countCreate > MAX_CREATE * 3)
 	{
 		_countCreate = 0;
-	}
-}
-
-void Iron::animate()
-{
-	auto animation = AnimationCache::getInstance()->getAnimation(getAnimationName());
-	if (animation)
-	{
-		runAnimate(animation);
 	}
 }
 
@@ -85,7 +71,7 @@ void Iron::dead()
 		{
 			_createTime = Director::getInstance()->getTotalFrames();
 			auto action = RepeatForever::create(Sequence::create(DelayTime::create(0.01f),
-				CallFunc::create(CC_CALLBACK_0(Iron::TintToWhite, this)), CallFunc::create(CC_CALLBACK_0(Iron::animate, this)), nullptr));
+				CallFunc::create(CC_CALLBACK_0(Iron::TintToWhite, this)), CallFunc::create(CC_CALLBACK_0(NPC::animate, this, Direction::NONE)), nullptr));
 			action->setTag(BLINK_TAG);
 			_sprite->runAction(action);
 		}

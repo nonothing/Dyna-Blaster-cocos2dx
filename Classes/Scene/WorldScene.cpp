@@ -4,6 +4,7 @@
 #include "Model/GameSettings.h"
 #include "Boss/Snake.h"
 #include "Boss/Iron.h"
+#include "Boss/Cyclop.h"
 
 USING_NS_CC;
 
@@ -370,6 +371,10 @@ bool WorldScene::createNPC(Brick* brick, ID_NPC id)
 			_childCreateListener += iron->childCreateEvent;
 			setDefaultParametrNpc(iron, brick->getPosition(), 3);
 		}
+			break;
+		case cyclopeB:
+		case cyclopeL:
+			setDefaultParametrNpc(Cyclop::create(dataNPC, _bricks), brick->getPosition());
 			break;
 		default:
 			setDefaultParametrNpc(NPC::create(dataNPC, _bricks), brick->getPosition());
