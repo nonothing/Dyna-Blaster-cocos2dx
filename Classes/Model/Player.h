@@ -23,6 +23,8 @@ private:
 	int					_life;
 	Brick*				_collisionBrick;
 	cocos2d::Color3B	_oldColor;
+	bool				_isDead;
+	bool				_isDestroy;
 
 	//bonus
 	int					_sizeBomb;
@@ -43,7 +45,7 @@ private:
 	bool isMapMove(const cocos2d::Point& point);
 	void getBonus(ID_BONUS idBonus);
 	bool canMove(BrickType type);
-	void clearBonus();
+	void destroy();
 	void TintToWhite();
 public:
 	void immortal();
@@ -63,6 +65,7 @@ public:
 	int  getCountBomb();
 	int  getSizeBomb();
 	bool isImmortal();
+	bool isDestroy();
 	void dead();
 	bool isMoveWall();
 	bool isThroughBomb();

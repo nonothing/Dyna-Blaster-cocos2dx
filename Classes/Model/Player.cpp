@@ -31,9 +31,6 @@ bool Player::init(cocos2d::Layer* layer)
         return false;
     }
 
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("player.plist", "player.png");
-	AnimationCache::getInstance()->addAnimationsWithFile("playerAnim.plist");
-
 	schedule(schedule_selector(Player::update), 0.03f);
 	_sprite = Sprite::createWithSpriteFrameName("player_down_3.png");
 	_sprite->setPositionY(12);
@@ -53,11 +50,14 @@ bool Player::init(cocos2d::Layer* layer)
 	_dir = NONE;
 	_light = 0;
 	_lightDelta = 0.1f;
+	_isDestroy = false;
+	_isDead = false;
     return true;
 }
 
 cocos2d::Point Player::getOffsetToDir()
 {
+	if (_isDead) return Point::ZERO;
 	switch (_dir)
 	{
 	case LEFT: return Point(-_speed.x, 0);
@@ -130,6 +130,7 @@ const static std::string sDirAnimName[] = { "player_left_3.png", "player_down_3.
 
 void Player::setDirection(Direction dir)
 {
+	if (_isDead) return;
 	if (dir != _dir)
 	{
 		animate(dir);
@@ -154,13 +155,16 @@ Direction Player::getDirection()
 
 void Player::animate(Direction dir)
 {
-	auto animation = AnimationCache::getInstance()->getAnimation("player_move_" + sDirName[dir]);
-	if (animation)
+	if (!_isDead)
 	{
-		_sprite->stopActionByTag(ANIM_TAG);
-		auto action = RepeatForever::create(Animate::create(animation));
-		action->setTag(ANIM_TAG);
-		_sprite->runAction(action);
+		auto animation = AnimationCache::getInstance()->getAnimation("player_move_" + sDirName[dir]);
+		if (animation)
+		{
+			_sprite->stopActionByTag(ANIM_TAG);
+			auto action = RepeatForever::create(Animate::create(animation));
+			action->setTag(ANIM_TAG);
+			_sprite->runAction(action);
+		}
 	}
 }
 
@@ -259,9 +263,16 @@ bool Player::canMove(BrickType type)
 	return type == EBRICK || (type == EWALL  && !_isMoveWall)|| type == EBONUS;
 }
 
-void Player::clearBonus()
+void Player::destroy()
 {
-
+	_isThroughBomb = false;
+	_isMoveWall = false;
+	_isRemote = false;
+	_isImmortal = false;
+	_life--;
+	GameSettings::Instance().savePlayer(this);
+	lifeEvent(this);
+	_isDestroy = true;
 }
 
 void Player::TintToWhite()
@@ -324,15 +335,26 @@ bool Player::isImmortal()
 	return _isImmortal;
 }
 
+bool Player::isDestroy()
+{
+	return _isDestroy;
+}
+
 void Player::dead()
 {
-	_isThroughBomb = false;
-	_isMoveWall = false;
-	_isRemote = false;
-	_isImmortal = false;
-	_life--;
-	GameSettings::Instance().savePlayer(this);
-	lifeEvent(this);
+	if (!_isDead)
+	{
+		_isDead = true;
+		stopAllActions();
+		_sprite->stopAllActions();
+		auto animation = AnimationCache::getInstance()->getAnimation("player_dead");
+		if (animation)
+		{
+			auto action = CCSequence::create(Animate::create(animation), CallFunc::create(CC_CALLBACK_0(Player::destroy, this)), nullptr);
+			action->setTag(ANIM_TAG);
+			_sprite->runAction(action);
+		}
+	}
 }
 
 bool Player::isMoveWall()

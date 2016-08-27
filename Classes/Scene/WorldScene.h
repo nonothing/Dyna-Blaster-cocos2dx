@@ -21,6 +21,7 @@ private:
 	MapData					_data;
 	LoadLevelScene*			_levelScene;
 
+	cocos2d::LayerColor*    _blackLayer;
 	cocos2d::Node*			_borderNode;
 	cocos2d::Layer*			_mapLayer;
 	cocos2d::Point			_startPosition;
@@ -37,7 +38,7 @@ private:
 
 	int						_score;
 	int						_record;
-	bool					_testVar;
+	bool					_fadeLevel;
 	int						_currentIndexLevel;
 
 	cocos2d::ui::Text*			_labelLife;

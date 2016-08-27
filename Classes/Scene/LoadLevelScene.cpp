@@ -206,6 +206,9 @@ void LoadLevelScene::countinueFunc()
 
 void LoadLevelScene::loadAnimations()
 {
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("players.plist", "players.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("playersAnim.plist");
+
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("numbers.plist", "numbers.png");
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("head.plist", "head.png");
 	AnimationCache::getInstance()->addAnimationsWithFile("headAnim.plist");

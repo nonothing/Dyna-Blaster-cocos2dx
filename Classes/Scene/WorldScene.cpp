@@ -42,6 +42,7 @@ bool WorldScene::init(LoadLevelScene* levelScene)
         return false;
     }
 
+	_blackLayer = LayerColor::create(Color4B(0,0,0,0));
 	_mapLayer = Layer::create();
 	_debugLayer = Layer::create();
 
@@ -81,6 +82,7 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	_npcListener = std::bind(&WorldScene::updateScoreLabel, this, std::placeholders::_1);
 	_childCreateListener = std::bind(&WorldScene::createIronChild, this, std::placeholders::_1, std::placeholders::_2);
 	_currentIndexLevel = 1;
+	_fadeLevel = false;
 
 	_player = Player::create(_mapLayer);
 	_player->setPosition(_startPosition);
@@ -95,6 +97,7 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	_player->setBricks(_bricks);
 	addChild(tableNode, 10);
 	addChild(_mapLayer);
+	addChild(_blackLayer, 1000);
 
 	_lifeListener.set(_player->lifeEvent, std::bind(&WorldScene::updateLifeLabel, this));
 
@@ -129,8 +132,7 @@ void WorldScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_1) //for test
 	{
-		//_levelScene->restart();
-		_player->immortal();
+
 	}
 }
 
@@ -280,6 +282,13 @@ void WorldScene::checkCollisionBombs()
 	if (collisionNPCwithPlayer())
 	{
 		gameOver();
+	}
+	if (_player->isDestroy() && !_fadeLevel)
+	{
+		_fadeLevel = true;
+		auto action = CCSequence::create(CCFadeIn::create(0.5f),
+			CallFunc::create(CC_CALLBACK_0(LoadLevelScene::restart, _levelScene)), nullptr);
+		_blackLayer->runAction(action);
 	}
 }
 
@@ -593,7 +602,6 @@ bool WorldScene::collisionNPCwithPlayer()
 void WorldScene::gameOver()
 {
 	_player->dead();
-	_levelScene->restart();
 }
 
 WorldScene::~WorldScene()
