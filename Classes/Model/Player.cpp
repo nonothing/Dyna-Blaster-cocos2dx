@@ -52,6 +52,7 @@ bool Player::init(cocos2d::Layer* layer)
 	_lightDelta = 0.1f;
 	_isDestroy = false;
 	_isDead = false;
+	immortal();
     return true;
 }
 

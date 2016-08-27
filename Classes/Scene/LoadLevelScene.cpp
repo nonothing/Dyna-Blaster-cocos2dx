@@ -38,7 +38,7 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader)
 
 	_mapLoader = loaderMap;
 	_npcLoader = npcLoader;
-	_currentLevel = 32;
+	_currentLevel = 64;
 	_currentData = _mapLoader->getMap(_currentLevel);
 
 	loadAnimations();
@@ -108,7 +108,11 @@ MapData LoadLevelScene::getCurrentMap()
 
 void LoadLevelScene::nextLevel()
 {
-	_currentData = _mapLoader->getMap(_currentLevel++);
+	if (_currentLevel < 64)
+	{
+		_currentLevel++;
+	}
+	_currentData = _mapLoader->getMap(_currentLevel);
 	restartLevel();
 }
 

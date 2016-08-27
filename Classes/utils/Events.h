@@ -78,6 +78,11 @@ public:
 		_events.clear();
 	}
 
+	size_t getSize()
+	{
+		return _events.size();
+	}
+
 	ListenerTempl& operator =(const ListenerTempl& r)
 	{
 		if (&r == this)

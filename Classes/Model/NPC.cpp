@@ -47,23 +47,26 @@ bool NPC::init(const NPCData& data, BricksVec vec)
 
 void NPC::move()
 {
-	Point point;
-	std::vector< std::pair< Point, Direction> > freePoints;
-	for (auto p : sPoints)
+	if (!_isDead)
 	{
-		point = getPosition() + p;
-		if (isCollisionEmpty(point))
+		Point point;
+		std::vector< std::pair< Point, Direction> > freePoints;
+		for (auto p : sPoints)
 		{
-			freePoints.push_back(std::make_pair(point, PointToDir(p)));
+			point = getPosition() + p;
+			if (isCollisionEmpty(point))
+			{
+				freePoints.push_back(std::make_pair(point, PointToDir(p)));
+			}
 		}
-	}
-	if (!freePoints.empty())
-	{
-		std::random_shuffle(freePoints.begin(), freePoints.end());
-		point = freePoints.at(0).first;
-		_dir = freePoints.at(0).second;
-		if (_isChangeAnimation) animate(_dir);
-		runAction(Sequence::create(MoveTo::create(_data._speed, point), CallFunc::create(CC_CALLBACK_0(NPC::nextDir, this)), nullptr));
+		if (!freePoints.empty())
+		{
+			std::random_shuffle(freePoints.begin(), freePoints.end());
+			point = freePoints.at(0).first;
+			_dir = freePoints.at(0).second;
+			if (_isChangeAnimation) animate(_dir);
+			runAction(Sequence::create(MoveTo::create(getSpeed(), point), CallFunc::create(CC_CALLBACK_0(NPC::nextDir, this)), nullptr));
+		}
 	}
 }
 
@@ -74,7 +77,7 @@ void NPC::nextDir() //todo rewrite
 
 void NPC::animate(Direction dir) 
 {
-	auto animation = AnimationCache::getInstance()->getAnimation(_data.getAnimationNameMove(_dir));
+	auto animation = AnimationCache::getInstance()->getAnimation(getAnimationName(dir));
 	if (animation)
 	{
 		_sprite->setFlippedX(_dir == RIGHT);
@@ -83,7 +86,7 @@ void NPC::animate(Direction dir)
 	} 
 	else
 	{
-		animation = AnimationCache::getInstance()->getAnimation(_data.getAnimationNameMove());
+		animation = AnimationCache::getInstance()->getAnimation(getAnimationName());
 		if (animation)
 		{
 			runAnimate(animation);
@@ -199,5 +202,15 @@ bool NPC::isMove(BrickType type)
 int NPC::getLife()
 {
 	return _data._life;
+}
+
+std::string NPC::getAnimationName(Direction dir /*= NONE*/)
+{
+	return _data.getAnimationNameMove(_dir);
+}
+
+float NPC::getSpeed()
+{
+	return _data._speed;
 }
 

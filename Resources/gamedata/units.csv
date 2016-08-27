@@ -23,4 +23,6 @@ id;name;speed;score;type;life
 21;cyclope_big;1;1000;0;3
 22;electro;0.5;1000;0;3
 23;iron;0.5;10000;0;3
-25;iron_child;0.5;100;0;1
+24;player_black;0.5;10000;0;3
+25;player_red;0.5;10000;0;2
+26;iron_child;0.5;100;0;1

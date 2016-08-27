@@ -163,6 +163,52 @@
 				<string>player_red_dead_8.png</string>
             </array>
         </dict>
+		<key>transformation_fireball</key>
+        <dict>
+            <key>delay</key>
+            <real>0.2</real>
+            <key>frames</key>
+            <array>
+                <string>fireball_create_1.png</string>
+				<string>fireball_create_2.png</string>
+				<string>fireball_create_3.png</string>
+				<string>fireball_create_4.png</string>
+				<string>fireball_create_5.png</string>
+				<string>fireball_create_6.png</string>
+				<string>fireball_create_7.png</string>
+				<string>fireball_create_8.png</string>
+				<string>fireball_create_9.png</string>
+            </array>
+        </dict>
+		<key>transformation_player</key>
+        <dict>
+            <key>delay</key>
+            <real>0.2</real>
+            <key>frames</key>
+            <array>
+                <string>fireball_create_9.png</string>
+				<string>fireball_create_8.png</string>
+				<string>fireball_create_7.png</string>
+				<string>fireball_create_6.png</string>
+				<string>fireball_create_5.png</string>
+				<string>fireball_create_4.png</string>
+				<string>fireball_create_3.png</string>
+				<string>fireball_create_2.png</string>
+				<string>fireball_create_1.png</string>
+            </array>
+        </dict>
+		<key>fireball_move</key>
+        <dict>
+            <key>delay</key>
+            <real>0.2</real>
+            <key>frames</key>
+            <array>
+                <string>fireball_move_1.png</string>
+				<string>fireball_move_2.png</string>
+				<string>fireball_move_3.png</string>
+				<string>fireball_move_2.png</string>
+            </array>
+        </dict>
     </dict>
 </dict>
 </plist>

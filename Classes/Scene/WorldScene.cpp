@@ -6,6 +6,7 @@
 #include "Boss/Iron.h"
 #include "Boss/Cyclop.h"
 #include "Boss/Electro.h"
+#include "Boss/Human.h"
 
 USING_NS_CC;
 
@@ -388,6 +389,23 @@ bool WorldScene::createNPC(Brick* brick, ID_NPC id)
 			break;
 		case electro:
 			setDefaultParametrNpc(Electro::create(dataNPC, _bricks), brick->getPosition());
+			break;
+		case human: 
+			if (_npcs.empty())
+			{
+				setDefaultParametrNpc(Human::create(dataNPC, _bricks), brick->getPosition());
+			}
+			else
+			{
+				dataNPC = _levelScene->getNPC(humanFire);
+				auto npc = HumanFire::create(dataNPC, _bricks);
+				auto boss = dynamic_cast<Human*> (_npcs.at(0));
+				if (boss)
+				{
+					boss->_npcListener += npc->deadEvent;
+				}
+				setDefaultParametrNpc(npc, brick->getPosition());
+			}
 			break;
 		default:
 			setDefaultParametrNpc(NPC::create(dataNPC, _bricks), brick->getPosition());

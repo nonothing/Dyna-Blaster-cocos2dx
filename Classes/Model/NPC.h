@@ -30,7 +30,8 @@ class NPC : public WorldObject
 	Direction PointToDir(const cocos2d::Point& point);
 	bool	isMove(BrickType type);
 	int		getLife();
-
+	virtual std::string	getAnimationName(Direction dir = NONE);
+	virtual float getSpeed();
 public:
 	NPCEvent	deadEvent;
     virtual bool init(const NPCData& data, BricksVec vec);
