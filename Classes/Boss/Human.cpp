@@ -64,23 +64,26 @@ void Human::deadHumanFire(NPC* npc)
 
 void Human::activePlazma()
 {
-	if (_isPlazma && !_isDead)
+	if (!_isDead)
 	{
-		auto animation = AnimationCache::getInstance()->getAnimation("electro_plazma");
-		if (animation)
+		if (_isPlazma)
 		{
-			_plazmaSprite = Sprite::createWithSpriteFrameName("electro_blue_move_1.png");
-			auto action = RepeatForever::create(Animate::create(animation));
-			action->setTag(ELECTRO_TAG);
-			_plazmaSprite->runAction(action);
-			_plazmaSprite->setPositionY(12);
-			addChild(_plazmaSprite, 2);
+			auto animation = AnimationCache::getInstance()->getAnimation("electro_plazma");
+			if (animation)
+			{
+				_plazmaSprite = Sprite::createWithSpriteFrameName("electro_blue_move_1.png");
+				auto action = RepeatForever::create(Animate::create(animation));
+				action->setTag(ELECTRO_TAG);
+				_plazmaSprite->runAction(action);
+				_plazmaSprite->setPositionY(12);
+				addChild(_plazmaSprite, 2);
+			}
 		}
-	}
-	else
-	{
-		_plazmaSprite->stopActionByTag(ELECTRO_TAG);
-		_plazmaSprite->removeFromParent();
+		else
+		{
+			_plazmaSprite->stopActionByTag(ELECTRO_TAG);
+			_plazmaSprite->removeFromParent();
+		}
 	}
 	
 }

@@ -48,7 +48,7 @@ void BrickBonus::animationDestroy()
 		changeTexture(_sprite, EBACKGROUND, _level);
 		_type = EBONUS;
 	}
-	if (!createDoor())
+	if (!createBonus())
 	{	
 		animateDestroyBonus();
 	}
@@ -64,13 +64,20 @@ void BrickBonus::destroy()
 
 void BrickBonus::animateBonus()
 {
-	if (_bonusSprite  && _type == EBACKGROUND)
+	if (_bonusSprite  && _type == EBONUS)
 	{
-		//todo animate
+		auto animation = AnimationCache::getInstance()->getAnimation("bonusBlink");
+		if (animation)
+		{
+			auto sprite = Sprite::createWithSpriteFrameName("bonus_blink_1");
+			auto action = RepeatForever::create(Animate::create(animation));
+			sprite->runAction(action);
+			addChild(sprite, 2);
+		}
 	}
 }
 
-void BrickBonus::animateDestroyBonus() //todo
+void BrickBonus::animateDestroyBonus()
 {
 	_type = EBACKGROUND;
 	_id = BNone;
@@ -78,7 +85,7 @@ void BrickBonus::animateDestroyBonus() //todo
 	_bonusSprite = nullptr;
 }
 
-bool BrickBonus::createDoor()
+bool BrickBonus::createBonus()
 {
 	if (!_bonusSprite)
 	{

@@ -18,7 +18,7 @@ private:
 	bool				_isBlink;
 	void				animateBonus();
 	void				animateDestroyBonus();
-	bool				createDoor();
+	bool				createBonus();
 
 public:
 	ID_BONUS			getID();

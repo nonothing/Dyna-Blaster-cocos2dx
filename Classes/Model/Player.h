@@ -20,6 +20,7 @@ private:
 	float				_lightDelta;
 
 	int					_countBomb;
+	int					_maxBomb;
 	int					_life;
 	Brick*				_collisionBrick;
 	cocos2d::Color3B	_oldColor;

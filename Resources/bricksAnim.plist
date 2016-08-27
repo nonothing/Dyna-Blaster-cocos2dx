@@ -14,6 +14,16 @@
                 <string>mirror_2</string>
             </array>
         </dict>
+		 <key>bonusBlink</key>
+        <dict>
+            <key>delay</key>
+            <real>0.2</real>
+            <key>frames</key>
+            <array>
+                <string>bonus_blink_1</string>
+                <string>bonus_blink_2</string>
+            </array>
+        </dict>
     </dict>
 </dict>
 </plist>

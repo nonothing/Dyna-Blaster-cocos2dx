@@ -38,7 +38,7 @@ bool Player::init(cocos2d::Layer* layer)
 	
 	_sizeBomb = GameSettings::Instance().getSizeBomb();
 	_isRemote = GameSettings::Instance().isRadioBomb();
-	_countBomb = GameSettings::Instance().getCountBomb();
+	_countBomb = _maxBomb = GameSettings::Instance().getCountBomb();
 	_isMoveWall = GameSettings::Instance().isMoveWall();
 	_isThroughBomb = GameSettings::Instance().isTroughBomb();
 	_life = GameSettings::Instance().getPlayerLife();
@@ -247,7 +247,7 @@ void Player::getBonus(ID_BONUS idBonus)
 	switch (idBonus)
 	{
 	case BFire:		_sizeBomb++;				break;
-	case BBomb:		_countBomb++;				break;
+	case BBomb:		_countBomb++; _maxBomb++;	break;
 	case BSpeed:	_speed += Point(2, 2);		break;
 	case BHeart:	_isRemote = true;			break;
 	case BLife:		_life++; lifeEvent(this);   break;
@@ -323,7 +323,7 @@ int Player::getLife()
 
 int Player::getCountBomb()
 {
-	return _countBomb;
+	return _maxBomb;
 }
 
 int Player::getSizeBomb()

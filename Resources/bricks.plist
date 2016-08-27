@@ -108,7 +108,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>bonus_bomb</key>
+            <key>bonus_blink_1</key>
             <dict>
                 <key>frame</key>
                 <string>{{230,2},{74,74}}</string>
@@ -121,7 +121,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>bonus_ebomb</key>
+            <key>bonus_blink_2</key>
             <dict>
                 <key>frame</key>
                 <string>{{306,2},{74,74}}</string>
@@ -134,7 +134,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>bonus_fire</key>
+            <key>bonus_bomb</key>
             <dict>
                 <key>frame</key>
                 <string>{{382,2},{74,74}}</string>
@@ -147,7 +147,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>bonus_heart</key>
+            <key>bonus_ebomb</key>
             <dict>
                 <key>frame</key>
                 <string>{{78,78},{74,74}}</string>
@@ -160,7 +160,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>bonus_immortal</key>
+            <key>bonus_fire</key>
             <dict>
                 <key>frame</key>
                 <string>{{78,154},{74,74}}</string>
@@ -173,7 +173,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>bonus_life</key>
+            <key>bonus_heart</key>
             <dict>
                 <key>frame</key>
                 <string>{{78,230},{74,74}}</string>
@@ -186,7 +186,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>bonus_speed</key>
+            <key>bonus_immortal</key>
             <dict>
                 <key>frame</key>
                 <string>{{78,306},{74,74}}</string>
@@ -199,7 +199,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>bonus_wall</key>
+            <key>bonus_life</key>
             <dict>
                 <key>frame</key>
                 <string>{{78,382},{74,74}}</string>
@@ -212,7 +212,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>bricks_1</key>
+            <key>bonus_speed</key>
             <dict>
                 <key>frame</key>
                 <string>{{154,78},{74,74}}</string>
@@ -225,7 +225,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>bricks_2</key>
+            <key>bonus_wall</key>
             <dict>
                 <key>frame</key>
                 <string>{{230,78},{74,74}}</string>
@@ -238,7 +238,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>bricks_3</key>
+            <key>bricks_1</key>
             <dict>
                 <key>frame</key>
                 <string>{{306,78},{74,74}}</string>
@@ -251,7 +251,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>bricks_4</key>
+            <key>bricks_2</key>
             <dict>
                 <key>frame</key>
                 <string>{{382,78},{74,74}}</string>
@@ -264,7 +264,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>bricks_5</key>
+            <key>bricks_3</key>
             <dict>
                 <key>frame</key>
                 <string>{{154,154},{74,74}}</string>
@@ -277,7 +277,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>bricks_6</key>
+            <key>bricks_4</key>
             <dict>
                 <key>frame</key>
                 <string>{{154,230},{74,74}}</string>
@@ -290,7 +290,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>bricks_7</key>
+            <key>bricks_5</key>
             <dict>
                 <key>frame</key>
                 <string>{{154,306},{74,74}}</string>
@@ -303,7 +303,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>bricks_8</key>
+            <key>bricks_6</key>
             <dict>
                 <key>frame</key>
                 <string>{{154,382},{74,74}}</string>
@@ -316,7 +316,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>mirror_1</key>
+            <key>bricks_7</key>
             <dict>
                 <key>frame</key>
                 <string>{{230,154},{74,74}}</string>
@@ -329,7 +329,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>mirror_2</key>
+            <key>bricks_8</key>
             <dict>
                 <key>frame</key>
                 <string>{{306,154},{74,74}}</string>
@@ -342,7 +342,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>wall_1</key>
+            <key>mirror_1</key>
             <dict>
                 <key>frame</key>
                 <string>{{382,154},{74,74}}</string>
@@ -355,7 +355,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>wall_2</key>
+            <key>mirror_2</key>
             <dict>
                 <key>frame</key>
                 <string>{{230,230},{74,74}}</string>
@@ -368,7 +368,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>wall_3</key>
+            <key>wall_1</key>
             <dict>
                 <key>frame</key>
                 <string>{{230,306},{74,74}}</string>
@@ -381,7 +381,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>wall_4</key>
+            <key>wall_2</key>
             <dict>
                 <key>frame</key>
                 <string>{{230,382},{74,74}}</string>
@@ -394,7 +394,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>wall_5</key>
+            <key>wall_3</key>
             <dict>
                 <key>frame</key>
                 <string>{{306,230},{74,74}}</string>
@@ -407,7 +407,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>wall_6</key>
+            <key>wall_4</key>
             <dict>
                 <key>frame</key>
                 <string>{{382,230},{74,74}}</string>
@@ -420,7 +420,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>wall_7</key>
+            <key>wall_5</key>
             <dict>
                 <key>frame</key>
                 <string>{{306,306},{74,74}}</string>
@@ -433,10 +433,36 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>wall_8</key>
+            <key>wall_6</key>
             <dict>
                 <key>frame</key>
                 <string>{{306,382},{74,74}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{74,74}}</string>
+                <key>sourceSize</key>
+                <string>{74,74}</string>
+            </dict>
+            <key>wall_7</key>
+            <dict>
+                <key>frame</key>
+                <string>{{382,306},{74,74}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{74,74}}</string>
+                <key>sourceSize</key>
+                <string>{74,74}</string>
+            </dict>
+            <key>wall_8</key>
+            <dict>
+                <key>frame</key>
+                <string>{{382,382},{74,74}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -456,7 +482,7 @@
             <key>size</key>
             <string>{512,512}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:5c51e2a04cd7a1888be6bbbace5b1307:f5b011e34d4a3322363d4570095728ad:65a9236138386320cc1ac7c1b5fef6a1$</string>
+            <string>$TexturePacker:SmartUpdate:7782a2f066a069ee9a5648abd4e81af7:612c33e93557f04136d09d6dc0a19c54:65a9236138386320cc1ac7c1b5fef6a1$</string>
             <key>textureFileName</key>
             <string>bricks.png</string>
         </dict>
