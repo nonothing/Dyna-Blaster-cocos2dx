@@ -28,6 +28,7 @@ bool Human::init(const NPCData& data, BricksVec vec)
 	activePlazma();
 	_sprite = Sprite::createWithSpriteFrameName("player_black_down_3.png");
 	_npcListener = std::bind(&Human::deadHumanFire, this, std::placeholders::_1);
+	_sprite->setPositionY(12);
 	_dir = RIGHT;
 	animate(_dir);
 	addChild(_sprite);
@@ -72,6 +73,7 @@ void Human::activePlazma()
 			auto action = RepeatForever::create(Animate::create(animation));
 			action->setTag(ELECTRO_TAG);
 			_plazmaSprite->runAction(action);
+			_plazmaSprite->setPositionY(12);
 			addChild(_plazmaSprite, 2);
 		}
 	}
@@ -127,6 +129,7 @@ bool HumanFire::init(const NPCData& data, BricksVec vec)
 	_isTransformation = false;
 
 	_sprite = Sprite::createWithSpriteFrameName("player_red_down_3.png");
+	_sprite->setPositionY(12);
 	_dir = RIGHT;
 	NPC::animate(_dir);
 	addChild(_sprite);

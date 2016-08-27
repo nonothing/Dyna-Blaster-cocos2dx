@@ -108,11 +108,7 @@ MapData LoadLevelScene::getCurrentMap()
 
 void LoadLevelScene::nextLevel()
 {
-	if (_currentLevel < 64)
-	{
-		_currentLevel++;
-	}
-	_currentData = _mapLoader->getMap(_currentLevel);
+	_currentData = _mapLoader->getMap(_currentLevel++);
 	restartLevel();
 }
 

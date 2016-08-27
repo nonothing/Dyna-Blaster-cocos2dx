@@ -206,7 +206,7 @@ int NPC::getLife()
 
 std::string NPC::getAnimationName(Direction dir /*= NONE*/)
 {
-	return _data.getAnimationNameMove(_dir);
+	return _data.getAnimationNameMove(dir);
 }
 
 float NPC::getSpeed()
