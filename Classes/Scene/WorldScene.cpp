@@ -34,7 +34,7 @@ Scene* WorldScene::createScene(LoadLevelScene* levelScene)
     return scene;
 }
 
-const std::string sRootNodeName[] = { "WorldSceneSimple.csb", "WorldSceneHorizontal.csb", "WorldSceneVertical.csb" };
+const std::string sRootNodeName[] = { "WorldSceneSimple_", "WorldSceneHorizontal_", "WorldSceneVertical_" };
 
 bool WorldScene::init(LoadLevelScene* levelScene)
 {
@@ -64,7 +64,7 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	_score = 0;
 
 	_mapLayer->setTag(_data.getTypeMap());
-	_borderNode = CSLoader::createNode("nodes/" + sRootNodeName[_data.getTypeMap()]);
+	_borderNode = CSLoader::createNode("nodes/" + sRootNodeName[_data.getTypeMap()] + std::to_string(_data._stage) + ".csb");
 	auto tableNode = CSLoader::createNode("nodes/Table.csb");
 	_labelLife = static_cast<ui::Text*>(tableNode->getChildByName("labelLife"));
 	_labelTime = static_cast<ui::Text*>(tableNode->getChildByName("labelTime"));
