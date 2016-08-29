@@ -5,6 +5,7 @@
 #include "Model/GameSettings.h"
 #include "Scene/MenuScene.h"
 #include "Scene/StartingScene.h"
+#include "Scene/FinalScene.h"
 
 USING_NS_CC;
 
@@ -39,7 +40,7 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader)
 	_isShowStartingScene = false;
 	_mapLoader = loaderMap;
 	_npcLoader = npcLoader;
-	_currentLevel = 1;
+	_currentLevel = 64;
 	_currentData = _mapLoader->getMap(_currentLevel);
 
 	loadAnimations();
@@ -110,6 +111,13 @@ MapData LoadLevelScene::getCurrentMap()
 void LoadLevelScene::nextLevel()
 {
 	_currentData = _mapLoader->getMap(_currentLevel++);
+	if (_currentData._id == 0)
+	{
+		auto action = CCSequence::create(CCDelayTime::create(0.1f),
+			CallFunc::create(CC_CALLBACK_0(LoadLevelScene::showFinalScene, this)), nullptr);
+		_rootLevelNode->runAction(action);
+		return;
+	}
 	restartLevel();
 }
 
@@ -156,6 +164,7 @@ void LoadLevelScene::restartLevel()
 		_rootLevelNode->runAction(action);
 		return;
 	}
+
 	if (_stageNumber)
 	{
 		_stageNumber->removeFromParentAndCleanup(true);
@@ -270,5 +279,11 @@ void LoadLevelScene::loadAfterStartingScene()
 	Director::getInstance()->popScene();
 	restartLevel();
 }
+
+void LoadLevelScene::showFinalScene()
+{
+	Director::getInstance()->pushScene(FinalScene::createScene(this));
+}
+
 
 

@@ -40,7 +40,6 @@ bool StartingScene::init(LoadLevelScene* loadScene)
 	transparentNodes();
 	_action->gotoFrameAndPlay(0, false);
 	_action->setFrameEventCallFunc(CC_CALLBACK_1(StartingScene::onFrameEvent, this));
-	schedule(schedule_selector(StartingScene::update), 0.01f);
 
 	_keyboardListener = EventListenerKeyboard::create();
 	_keyboardListener->onKeyPressed = CC_CALLBACK_2(StartingScene::onKeyPressed, this);

@@ -209,6 +209,28 @@
 				<string>fireball_move_2.png</string>
             </array>
         </dict>
+		
+		<key>girl_move</key>
+        <dict>
+            <key>delay</key>
+            <real>0.2</real>
+            <key>frames</key>
+            <array>
+                <string>girl_1.png</string>
+				<string>girl_2.png</string>
+            </array>
+        </dict>
+		
+		<key>human_cry</key>
+        <dict>
+            <key>delay</key>
+            <real>0.2</real>
+            <key>frames</key>
+            <array>
+                <string>black_man_5.png</string>
+				<string>black_man_6.png</string>
+            </array>
+        </dict>
     </dict>
 </dict>
 </plist>

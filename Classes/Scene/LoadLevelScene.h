@@ -25,6 +25,8 @@ private:
 	void    restartLevel();
 	bool	isShowStartingScene();
 	void 	showStartingScene();
+	void	showFinalScene();
+
 public:
 	static cocos2d::Scene* createScene(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec);
 	virtual bool init(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec);
