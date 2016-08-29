@@ -102,6 +102,9 @@
     <ClCompile Include="..\Classes\Boss\Human.cpp">
       <Filter>src\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Scene\StartingScene.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -193,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Boss\Human.h">
       <Filter>src\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\StartingScene.h">
+      <Filter>src\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

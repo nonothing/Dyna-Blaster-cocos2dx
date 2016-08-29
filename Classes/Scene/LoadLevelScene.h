@@ -18,11 +18,13 @@ private:
 	cocos2d::Sprite*		_levelNumber;
 	std::vector<cocos2d::Point> _points;
 	cocos2d::Sprite*		_headSprite;
+	bool					_isShowStartingScene;
 
 	~LoadLevelScene();
 	void	runLevelAction();
 	void    restartLevel();
-
+	bool	isShowStartingScene();
+	void 	showStartingScene();
 public:
 	static cocos2d::Scene* createScene(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec);
 	virtual bool init(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec);
@@ -42,6 +44,7 @@ public:
 	void nextLevel();
 	void restart();
 	void backMenu();
+	void loadAfterStartingScene();
 };
 
 #endif // __LOAD_LEVEL_SCENE_H__

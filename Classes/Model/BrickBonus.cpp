@@ -71,7 +71,9 @@ void BrickBonus::animateBonus()
 		{
 			auto sprite = Sprite::createWithSpriteFrameName("bonus_blink_1");
 			auto action = RepeatForever::create(Animate::create(animation));
+			action->setTag(ANIM_TAG);
 			sprite->runAction(action);
+			sprite->setTag(ANIM_TAG);
 			addChild(sprite, 2);
 		}
 	}
@@ -81,6 +83,8 @@ void BrickBonus::animateDestroyBonus()
 {
 	_type = EBACKGROUND;
 	_id = BNone;
+	stopActionByTag(ANIM_TAG);
+	removeChildByTag(ANIM_TAG);
 	_bonusSprite->removeFromParent();
 	_bonusSprite = nullptr;
 }

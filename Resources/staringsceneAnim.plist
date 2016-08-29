@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>animations</key>
+    <dict>
+	
+	
+	
+     <key>doctor_move_left</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>doctor_3.png</string>
+				<string>doctor_4.png</string>
+				<string>doctor_3.png</string>
+				<string>doctor_5.png</string>
+            </array>
+        </dict>
+		
+		<key>dracula_move_1</key>
+        <dict>
+            <key>delay</key>
+            <real>0.1</real>
+            <key>frames</key>
+            <array>
+                <string>dracon_2.png</string>
+				<string>dracon_1.png</string>
+				<string>dracon_3.png</string>
+				<string>dracon_1.png</string>
+            </array>
+        </dict>
+		
+		<key>dracula_move_2</key>
+        <dict>
+            <key>delay</key>
+            <real>0.1</real>
+            <key>frames</key>
+            <array>
+                <string>dracon_4.png</string>
+				<string>dracon_5.png</string>
+            </array>
+        </dict>
+		
+		<key>dracula_move_3</key>
+        <dict>
+            <key>delay</key>
+            <real>0.1</real>
+            <key>frames</key>
+            <array>
+                <string>dracon_6.png</string>
+				<string>dracon_7.png</string>
+            </array>
+        </dict>
+		
+		<key>human_panic</key>
+        <dict>
+            <key>delay</key>
+            <real>0.2</real>
+            <key>frames</key>
+            <array>
+                <string>human_1.png</string>
+				<string>human_2.png</string>
+            </array>
+        </dict>
+		
+		<key>doctor_panic</key>
+        <dict>
+            <key>delay</key>
+            <real>0.2</real>
+            <key>frames</key>
+            <array>
+                <string>doctor_1.png</string>
+				<string>doctor_2.png</string>
+            </array>
+        </dict>
+		
+		
+    </dict>
+</dict>
+</plist>
+
+

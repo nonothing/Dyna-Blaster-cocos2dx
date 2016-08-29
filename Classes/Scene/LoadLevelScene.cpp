@@ -4,6 +4,7 @@
 #include "Scene/GameOverScene.h"
 #include "Model/GameSettings.h"
 #include "Scene/MenuScene.h"
+#include "Scene/StartingScene.h"
 
 USING_NS_CC;
 
@@ -35,7 +36,7 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader)
     {
         return false;
     }
-
+	_isShowStartingScene = false;
 	_mapLoader = loaderMap;
 	_npcLoader = npcLoader;
 	_currentLevel = 1;
@@ -148,6 +149,13 @@ void LoadLevelScene::restartLevel()
 {
 	_rootLevelNode->setOpacity(0);
 	_rootStageNode->setOpacity(0);
+	if (isShowStartingScene())
+	{
+		auto action = CCSequence::create(CCDelayTime::create(0.1f),
+			CallFunc::create(CC_CALLBACK_0(LoadLevelScene::showStartingScene, this)), nullptr);
+		_rootLevelNode->runAction(action);
+		return;
+	}
 	if (_stageNumber)
 	{
 		_stageNumber->removeFromParentAndCleanup(true);
@@ -238,3 +246,29 @@ void LoadLevelScene::loadAnimations()
 		}
 	}
 }
+
+void LoadLevelScene::showStartingScene()
+{
+	_isShowStartingScene = true;
+	Director::getInstance()->pushScene(StartingScene::createScene(this));
+}
+
+bool LoadLevelScene::isShowStartingScene()
+{
+	if (!_isShowStartingScene)
+	{
+		if (_currentData._level == 1 && _currentData._stage == 1)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void LoadLevelScene::loadAfterStartingScene()
+{
+	Director::getInstance()->popScene();
+	restartLevel();
+}
+
+
