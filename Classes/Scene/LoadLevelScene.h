@@ -28,9 +28,9 @@ private:
 	void	showFinalScene();
 
 public:
-	static cocos2d::Scene* createScene(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec);
-	virtual bool init(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec);
-	static LoadLevelScene* create(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec);
+	static cocos2d::Scene* createScene(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec, const std::string& key = "");
+	virtual bool init(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec, const std::string& key = "");
+	static LoadLevelScene* create(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec, const std::string& key = "");
 
 	void loadAnimations();
 	void loadWordScene();
@@ -47,6 +47,7 @@ public:
 	void restart();
 	void backMenu();
 	void loadAfterStartingScene();
+	void loadPassword(const std::string& key);
 };
 
 #endif // __LOAD_LEVEL_SCENE_H__

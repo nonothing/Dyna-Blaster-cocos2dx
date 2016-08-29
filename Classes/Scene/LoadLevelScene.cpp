@@ -9,10 +9,10 @@
 
 USING_NS_CC;
 
-LoadLevelScene* LoadLevelScene::create(MapDataLoader* loaderMap, NPCDataLoader* npcLoader)
+LoadLevelScene* LoadLevelScene::create(MapDataLoader* loaderMap, NPCDataLoader* npcLoader, const std::string& key)
 {
 	LoadLevelScene* scene = new LoadLevelScene();
-	if (scene && scene->init(loaderMap, npcLoader))
+	if (scene && scene->init(loaderMap, npcLoader, key))
 	{
 		return (LoadLevelScene*)scene->autorelease();
 	}
@@ -22,16 +22,16 @@ LoadLevelScene* LoadLevelScene::create(MapDataLoader* loaderMap, NPCDataLoader* 
 	return scene;
 }
 
-Scene* LoadLevelScene::createScene(MapDataLoader* loaderMap, NPCDataLoader* npcLoader)
+Scene* LoadLevelScene::createScene(MapDataLoader* loaderMap, NPCDataLoader* npcLoader, const std::string& key)
 {
     auto scene = Scene::create();
-	auto layer = LoadLevelScene::create(loaderMap, npcLoader);
+	auto layer = LoadLevelScene::create(loaderMap, npcLoader, key);
     scene->addChild(layer);
 
     return scene;
 }
 
-bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader)
+bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader, const std::string& key)
 {
     if ( !Layer::init() )
     {
@@ -40,8 +40,16 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader)
 	_isShowStartingScene = false;
 	_mapLoader = loaderMap;
 	_npcLoader = npcLoader;
-	_currentLevel = 64;
-	_currentData = _mapLoader->getMap(_currentLevel);
+	_currentLevel = 1;
+	if (key.empty())
+	{
+		_currentData = _mapLoader->getMap(_currentLevel);
+	}
+	else
+	{
+		_currentData = _mapLoader->getMap(key);
+		_currentLevel = _currentData._id;
+	}
 
 	loadAnimations();
 
@@ -285,5 +293,12 @@ void LoadLevelScene::showFinalScene()
 	Director::getInstance()->pushScene(FinalScene::createScene(this));
 }
 
+void LoadLevelScene::loadPassword(const std::string& key)
+{
+	_currentData = _mapLoader->getMap(key);
+	_currentLevel = _currentData._id + 1;
+	Director::getInstance()->popScene();
+	restartLevel();
+}
 
 

@@ -57,6 +57,7 @@ public:
 	MapDataLoader();
 	MapDataVec getMaps();
 	MapData	getMap(size_t number);
+	MapData	getMap(const std::string& key);
 };
 
 #endif // __MAP_DATA_H__

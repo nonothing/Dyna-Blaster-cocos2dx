@@ -23,7 +23,7 @@ private:
 
 	void setPos(MenuEnum e);
 	void startGame();
-
+	void startPasswordScene();
 
 public:
 	static cocos2d::Scene* createScene();

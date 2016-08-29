@@ -26,6 +26,15 @@ MapData MapDataLoader::getMap(size_t number)
 	return result;
 }
 
+MapData MapDataLoader::getMap(const std::string& key)
+{
+	MapData result;
+	auto it = std::find_if(_maps.begin(), _maps.end(), [key](MapData data) { return data._cheatName == key; });
+	if (it == _maps.end()) std::find_if(_maps.begin(), _maps.end(), [](MapData data) { return data._id == 1; });
+	result = *it;
+	return result;
+}
+
 void MapDataLoader::parse()
 {
 	for (auto value : _mapVec)
