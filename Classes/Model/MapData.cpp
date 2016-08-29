@@ -35,6 +35,30 @@ MapData MapDataLoader::getMap(const std::string& key)
 	return result;
 }
 
+std::unordered_map<int, int> MapDataLoader::getBonuses(int level)
+{
+	std::unordered_map<int, int> result;
+	for (int i = 1; i < level; i++)
+	{
+		auto data = getMap(i);
+		if (data._bonus <= BBomb)
+		{
+			auto it = result.find(data._bonus);
+			if (it != result.end())
+			{
+				int count = (*it).second + 1;
+				result.insert(std::make_pair(data._bonus, count));
+			}
+			else
+			{
+				result.insert(std::make_pair(data._bonus, 2)); //2 because 1 default
+			}
+		}
+	}
+
+	return result;
+}
+
 void MapDataLoader::parse()
 {
 	for (auto value : _mapVec)

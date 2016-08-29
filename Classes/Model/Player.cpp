@@ -46,13 +46,12 @@ bool Player::init(cocos2d::Layer* layer)
 	_collisionBrick = nullptr;
 	_oldColor = _sprite->getColor();
 	_mapLayer = layer;
-	_speed = Point(6, 8);//4 6
+	_speed = Point(4, 6);
 	_dir = NONE;
 	_light = 0;
 	_lightDelta = 0.1f;
 	_isDestroy = false;
 	_isDead = false;
-	immortal();
     return true;
 }
 
@@ -370,5 +369,5 @@ bool Player::isThroughBomb()
 
 cocos2d::Rect Player::getRect()
 {
-	return Rect(0, 0, 60, 60);
+	return Rect(0, 0, 55, 55);
 }

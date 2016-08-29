@@ -48,6 +48,25 @@ void GameSettings::setPlayerLife(int value)
 	UserDefault::getInstance()->flush();
 }
 
+void GameSettings::setDefaulPlayer()
+{
+	UserDefault::getInstance()->setIntegerForKey(SIZE_BOMB_KEY, 1);
+	UserDefault::getInstance()->setIntegerForKey(COUNT_BOMB_KEY, 1);
+	UserDefault::getInstance()->setIntegerForKey(PLAYER_LIFE_KEY, 3);
+	UserDefault::getInstance()->setBoolForKey(RADIO_KEY, false);
+	UserDefault::getInstance()->setBoolForKey(TROUGH_BOMB_KEY, false);
+	UserDefault::getInstance()->setBoolForKey(MOVE_WALL_KEY, false);
+	UserDefault::getInstance()->flush();
+}
+
+
+void GameSettings::setParametersPlayer(int sizeBomb, int countBomb)
+{
+	setDefaulPlayer();
+	UserDefault::getInstance()->setIntegerForKey(SIZE_BOMB_KEY, sizeBomb);
+	UserDefault::getInstance()->setIntegerForKey(COUNT_BOMB_KEY, countBomb);
+}
+
 int GameSettings::getSizeBomb()
 {
 	return UserDefault::getInstance()->getIntegerForKey(SIZE_BOMB_KEY, 1);

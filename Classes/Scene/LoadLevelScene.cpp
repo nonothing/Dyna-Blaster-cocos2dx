@@ -49,6 +49,18 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader, co
 	{
 		_currentData = _mapLoader->getMap(key);
 		_currentLevel = _currentData._id;
+		auto bonuses = _mapLoader->getBonuses(_currentData._id);
+		int sizeBomb = 1;
+		int countBomb = 1;
+		auto it = bonuses.find(BFire);
+		if (it != bonuses.end())
+			sizeBomb = (*it).second;
+
+		it = bonuses.find(BBomb);
+		if (it != bonuses.end())
+			countBomb = (*it).second;
+
+		GameSettings::Instance().setParametersPlayer(sizeBomb, countBomb);
 	}
 
 	loadAnimations();

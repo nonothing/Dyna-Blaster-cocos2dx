@@ -23,6 +23,8 @@ public:
 
 	void savePlayer(Player* player);
 	void setPlayerLife(int value);
+	void setDefaulPlayer();
+	void setParametersPlayer(int sizeBomb, int countBomb);
 	int getSizeBomb();
 	int getCountBomb();
 	int getPlayerLife();

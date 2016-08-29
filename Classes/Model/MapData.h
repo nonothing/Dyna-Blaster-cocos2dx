@@ -58,6 +58,7 @@ public:
 	MapDataVec getMaps();
 	MapData	getMap(size_t number);
 	MapData	getMap(const std::string& key);
+	std::unordered_map<int, int> getBonuses(int level);
 };
 
 #endif // __MAP_DATA_H__
