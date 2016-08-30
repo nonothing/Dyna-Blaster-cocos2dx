@@ -6,6 +6,7 @@
 #include "Model/WorldObject.h"
 #include "Model/Brick.h"
 #include "enumerate/EBonus.h"
+#include "enumerate/EPlayer.h"
 #include "utils/Events.h"
 
 class Player;
@@ -13,6 +14,7 @@ typedef EventTempl<Player*>					PlayerEvent;
 class Player : public WorldObject
 {
 private:
+	PlayerColor			_color;
 	Direction			_dir;
 	Direction			_oldDir;
 	cocos2d::Point		_speed;
@@ -53,8 +55,8 @@ public:
 	PlayerEvent			lifeEvent;
 	void setBricks(BricksVec vec);
 	cocos2d::Vector<Node*> _collisions;
-    virtual bool init(cocos2d::Layer* layer);
-	static Player* create(cocos2d::Layer* layer);
+    virtual bool init(cocos2d::Layer* layer, PlayerColor color);
+	static Player* create(cocos2d::Layer* layer, PlayerColor color);
 	void setDirection(Direction dir);
 	Direction getDirection();
 	void update(float dt);

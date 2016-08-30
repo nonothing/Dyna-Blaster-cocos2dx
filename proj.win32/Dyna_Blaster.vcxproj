@@ -176,6 +176,7 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\enumerate\Direction.h" />
     <ClInclude Include="..\Classes\enumerate\EBonus.h" />
     <ClInclude Include="..\Classes\enumerate\ENPC.h" />
+    <ClInclude Include="..\Classes\enumerate\EPlayer.h" />
     <ClInclude Include="..\Classes\Model\Bomb.h" />
     <ClInclude Include="..\Classes\Model\Brick.h" />
     <ClInclude Include="..\Classes\Model\BrickBonus.h" />

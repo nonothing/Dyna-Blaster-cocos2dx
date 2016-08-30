@@ -212,6 +212,9 @@
     <ClInclude Include="..\Classes\Scene\PasswordScene.h">
       <Filter>src\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\enumerate\EPlayer.h">
+      <Filter>src\enumerate</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

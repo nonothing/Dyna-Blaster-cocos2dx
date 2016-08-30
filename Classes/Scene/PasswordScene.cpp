@@ -72,8 +72,7 @@ bool PasswordScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec)
 
     return true;
 }
-static const Point sOffsets[] = { Point(-76, 0), Point(0, -80), Point(76, 0), Point(0, 80), };
-//LEFT = 0, DOWN, RIGHT, UP, NONE
+
 void PasswordScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
 	moveBomb(KeyCodeToDiretion(keyCode));

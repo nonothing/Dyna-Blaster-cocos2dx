@@ -5,11 +5,13 @@
 
 USING_NS_CC;
 #define ANIM_TAG 225 
+const static std::string sDirAnimName[] = { "_left_3.png", "_down_3.png", "_left_3.png", "_up_3.png", "" };
+const static std::string sColorName[] = { "white", "black", "red", };
 
-Player* Player::create(cocos2d::Layer* layer)
+Player* Player::create(cocos2d::Layer* layer, PlayerColor color)
 {
 	Player* player = new Player();
-	if (player && player->init(layer))
+	if (player && player->init(layer, color))
 	{
 		return (Player*)player->autorelease();
 	}
@@ -24,15 +26,15 @@ void Player::setBricks(BricksVec vec)
 	_bricks = vec;
 }
 
-bool Player::init(cocos2d::Layer* layer)
+bool Player::init(cocos2d::Layer* layer, PlayerColor color)
 {
     if ( !Layer::init() )
     {
         return false;
     }
-
+	_color = color;
 	schedule(schedule_selector(Player::update), 0.03f);
-	_sprite = Sprite::createWithSpriteFrameName("player_down_3.png");
+	_sprite = Sprite::createWithSpriteFrameName("player_" + sColorName[_color] + "_down_3.png");
 	_sprite->setPositionY(12);
 	addChild(_sprite);
 	
@@ -126,7 +128,6 @@ void Player::update(float dt)
 		move();
 	}
 }
-const static std::string sDirAnimName[] = { "player_left_3.png", "player_down_3.png", "player_left_3.png", "player_up_3.png", "" };
 
 void Player::setDirection(Direction dir)
 {
@@ -138,7 +139,8 @@ void Player::setDirection(Direction dir)
 	if (dir == NONE)
 	{
 		_sprite->stopActionByTag(ANIM_TAG);
-		_sprite->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(sDirAnimName[_dir]));
+		auto name = "player_" + sColorName[_color] + sDirAnimName[_dir];
+		_sprite->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(name));
 	}
 	else
 	{
@@ -157,7 +159,7 @@ void Player::animate(Direction dir)
 {
 	if (!_isDead)
 	{
-		auto animation = AnimationCache::getInstance()->getAnimation("player_move_" + sDirName[dir]);
+		auto animation = AnimationCache::getInstance()->getAnimation("player_" + sColorName[_color] + "_move_" + sDirName[dir]);
 		if (animation)
 		{
 			_sprite->stopActionByTag(ANIM_TAG);
@@ -347,7 +349,7 @@ void Player::dead()
 		_isDead = true;
 		stopAllActions();
 		_sprite->stopAllActions();
-		auto animation = AnimationCache::getInstance()->getAnimation("player_dead");
+		auto animation = AnimationCache::getInstance()->getAnimation("player_" + sColorName[_color] + "_dead");
 		if (animation)
 		{
 			auto action = CCSequence::create(Animate::create(animation), CallFunc::create(CC_CALLBACK_0(Player::destroy, this)), nullptr);

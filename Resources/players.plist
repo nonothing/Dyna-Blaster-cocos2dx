@@ -368,7 +368,7 @@
                 <key>sourceSize</key>
                 <string>{94,94}</string>
             </dict>
-            <key>player_down_1.png</key>
+            <key>player_white_down_1.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{436,174},{74,94}}</string>
@@ -381,7 +381,7 @@
                 <key>sourceSize</key>
                 <string>{74,94}</string>
             </dict>
-            <key>player_down_2.png</key>
+            <key>player_white_down_2.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{432,356},{74,94}}</string>
@@ -394,7 +394,7 @@
                 <key>sourceSize</key>
                 <string>{74,94}</string>
             </dict>
-            <key>player_down_3.png</key>
+            <key>player_white_down_3.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{194,750},{74,94}}</string>
@@ -407,7 +407,7 @@
                 <key>sourceSize</key>
                 <string>{74,94}</string>
             </dict>
-            <key>player_left_1.png</key>
+            <key>player_white_left_1.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{98,756},{74,94}}</string>
@@ -420,7 +420,7 @@
                 <key>sourceSize</key>
                 <string>{74,94}</string>
             </dict>
-            <key>player_left_2.png</key>
+            <key>player_white_left_2.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{194,826},{74,94}}</string>
@@ -433,7 +433,7 @@
                 <key>sourceSize</key>
                 <string>{74,94}</string>
             </dict>
-            <key>player_left_3.png</key>
+            <key>player_white_left_3.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{98,832},{74,94}}</string>
@@ -667,7 +667,7 @@
                 <key>sourceSize</key>
                 <string>{94,94}</string>
             </dict>
-            <key>player_up_1.png</key>
+            <key>player_white_up_1.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{2,842},{74,94}}</string>
@@ -680,7 +680,7 @@
                 <key>sourceSize</key>
                 <string>{74,94}</string>
             </dict>
-            <key>player_up_2.png</key>
+            <key>player_white_up_2.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{2,918},{74,94}}</string>
@@ -693,7 +693,7 @@
                 <key>sourceSize</key>
                 <string>{74,94}</string>
             </dict>
-            <key>player_up_3.png</key>
+            <key>player_white_up_3.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{78,918},{74,94}}</string>

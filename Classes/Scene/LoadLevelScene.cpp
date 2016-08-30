@@ -40,7 +40,7 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader, co
 	_isShowStartingScene = false;
 	_mapLoader = loaderMap;
 	_npcLoader = npcLoader;
-	_currentLevel = 1;
+	_currentLevel = 2;
 	if (key.empty())
 	{
 		_currentData = _mapLoader->getMap(_currentLevel);
