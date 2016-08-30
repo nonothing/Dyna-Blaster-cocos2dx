@@ -42,7 +42,6 @@ private:
 	int						_currentIndexLevel;
 
 	cocos2d::ui::Text*			_labelLife;
-	cocos2d::ui::Text*			_labelTime;
 	cocos2d::ui::Text*			_labelScore;
 	cocos2d::ui::Text*			_labelRecord;
 

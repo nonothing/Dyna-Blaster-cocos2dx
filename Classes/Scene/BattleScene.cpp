@@ -8,10 +8,10 @@ USING_NS_CC;
 
 #define BOSS_LEVEL 8
 
-BattleScene* BattleScene::create(PreloadBattleScene* preloaderScene)
+BattleScene* BattleScene::create(PreloadBattleScene* preloaderScene, std::vector<int> parameters)
 {
 	BattleScene* scene = new BattleScene();
-	if (scene && scene->init(preloaderScene))
+	if (scene && scene->init(preloaderScene, parameters))
 	{
 		return (BattleScene*)scene->autorelease();
 	}
@@ -21,23 +21,24 @@ BattleScene* BattleScene::create(PreloadBattleScene* preloaderScene)
 	return scene;
 }
 
-Scene* BattleScene::createScene(PreloadBattleScene* preloaderScene)
+Scene* BattleScene::createScene(PreloadBattleScene* preloaderScene, std::vector<int> parameters)
 {
     auto scene = Scene::create();
-	auto layer = BattleScene::create(preloaderScene);
+	auto layer = BattleScene::create(preloaderScene, parameters);
     scene->addChild(layer);
 
     return scene;
 }
 
-const std::string sRootNodeName[] = { "WorldSceneSimple_", "WorldSceneHorizontal_", "WorldSceneVertical_" };
-
-bool BattleScene::init(PreloadBattleScene* preloaderScene)
+bool BattleScene::init(PreloadBattleScene* preloaderScene, std::vector<int> parameters)
 {
     if ( !Layer::init() )
     {
         return false;
     }
+	int mode_game = parameters.at(0);
+	int countPlayer = parameters.at(1) + 2;
+
 	_preloaderScene = preloaderScene;
 
 	_blackLayer = LayerColor::create(Color4B(0,0,0,0));
@@ -56,26 +57,36 @@ bool BattleScene::init(PreloadBattleScene* preloaderScene)
 
 	_mapLayer->setTag(SIMPLE);
 	_borderNode = CSLoader::createNode("nodes/WorldSceneSimple_1.csb");
-	auto tableNode = CSLoader::createNode("nodes/Table.csb");
+	auto tableNode = CSLoader::createNode("nodes/Table_Battle.csb");
 
-// 	_timer = dyna::Timer::create(_labelTime);
-// 	_timer->setTime(240);
+	auto labelTime = static_cast<ui::Text*>(tableNode->getChildByName("labelTime"));
+ 	_timer = dyna::Timer::create(labelTime);
+ 	_timer->setTime(180);
+
+	for (int i = 0; i < 5; i++)
+	{
+		auto text = static_cast<ui::Text*>(tableNode->getChildByName("Text_" + std::to_string(i)));
+		text->setString("");
+		_texts.push_back(text);
+	}
 
 	Point firstPosition = createBricks();
-	_startPosition = firstPosition;
-	_startPosition.x = _startPosition.x - 74 * 6 * 2;
-	_startPosition.y = Director::getInstance()->getWinSize().height - 252;
+	Point offset = Point(74 * 12, Director::getInstance()->getWinSize().height - 252);
+
 	_mapLayer->addChild(_borderNode, 0);
 	_currentIndexLevel = 1;
 	_fadeLevel = false;
 
 	std::vector<Point> points;
-	points.push_back(_startPosition);
+	points.push_back(Point(firstPosition.x - offset.x, offset.y));
 	points.push_back(firstPosition);
+	points.push_back(Point(firstPosition.x, offset.y));
+	points.push_back(firstPosition - Point(offset.x, 0));
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < countPlayer; i++)
 	{
 		auto player = Player::create(_mapLayer, PlayerColor(i));
+		_texts.at(i)->setString(std::to_string(GameSettings::Instance().getCountWinPlayer(player->getColorID())));
 		player->setPosition(points.at(i));
 		player->debugLayer = _debugLayer;
 		player->_collisions = _borderNode->getChildren();
@@ -84,9 +95,9 @@ bool BattleScene::init(PreloadBattleScene* preloaderScene)
 	}
 
 	_mapLayer->addChild(_debugLayer, 100);
-//	addChild(_timer, -1);
+	addChild(_timer, -1);
 	createWalls();
-	createNPCs();
+	//createNPCs();
 	for (auto player : _players)
 	{
 		player->setBricks(_bricks);
@@ -229,13 +240,25 @@ void BattleScene::update(float dt)
 {
 	removeNPC();
 	checkCollisionBombs();
-	if (_npcs.empty())
+	for (auto it = _players.begin(); it != _players.end();)
 	{
-		for (auto bonus : _bonusBricks)
+		auto player = *it;
+		if (player->isDestroy())
 		{
-			bonus->blinkWall();
+			player->removeFromParentAndCleanup(true);
+			it = _players.erase(it);
+		}
+		else
+		{
+			if (collisionNPCwithPlayer(player))
+			{
+				gameOver(player);
+			}
+			++it;
 		}
 	}
+
+	endGame();
 }
 
 void BattleScene::checkCollisionBombs()
@@ -283,22 +306,6 @@ void BattleScene::checkCollisionBombs()
 		}
 
 		_expBomb = nullptr;
-	}
-
-	for (auto player : _players)
-	{
-		if (collisionNPCwithPlayer(player))
-		{
-			gameOver(player);
-		}
-
-		if (player->isDestroy() && !_fadeLevel)
-		{
-			_fadeLevel = true;
-			auto action = CCSequence::create(CCFadeIn::create(0.5f),
-				CallFunc::create(CC_CALLBACK_0(PreloadBattleScene::restart, _preloaderScene)), nullptr);
-			_blackLayer->runAction(action);
-		}
 	}
 }
 
@@ -547,5 +554,15 @@ void BattleScene::setDefaultParametrNpc(NPC* npc, const cocos2d::Point& point, i
 	_npcs.push_back(npc);
 }
 
+void BattleScene::endGame()
+{
+	if (_players.size() <= 1 && !_fadeLevel)
+	{
+		_fadeLevel = true;
+		auto action = CCSequence::create(CCFadeIn::create(0.5f),
+			CallFunc::create(CC_CALLBACK_0(PreloadBattleScene::restart, _preloaderScene)), nullptr);
+		_blackLayer->runAction(action);
+	}
+}
 
 

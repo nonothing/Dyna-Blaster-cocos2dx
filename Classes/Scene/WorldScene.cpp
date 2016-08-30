@@ -67,13 +67,13 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	_borderNode = CSLoader::createNode("nodes/" + sRootNodeName[_data.getTypeMap()] + std::to_string(_data._stage) + ".csb");
 	auto tableNode = CSLoader::createNode("nodes/Table.csb");
 	_labelLife = static_cast<ui::Text*>(tableNode->getChildByName("labelLife"));
-	_labelTime = static_cast<ui::Text*>(tableNode->getChildByName("labelTime"));
+	auto labelTime = static_cast<ui::Text*>(tableNode->getChildByName("labelTime"));
 	_labelRecord = static_cast<ui::Text*>(tableNode->getChildByName("labelHigh"));
 	_labelRecord->setString(std::to_string(_record));
 	_labelScore = static_cast<ui::Text*>(tableNode->getChildByName("labelScore"));
 	_labelScore->setString(std::to_string(_score));
 
-	_timer = dyna::Timer::create(_labelTime);
+	_timer = dyna::Timer::create(labelTime);
 	_timer->setTime(240);
 
 	_startPosition = createBricks(); 

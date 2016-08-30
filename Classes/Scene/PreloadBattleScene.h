@@ -8,8 +8,17 @@ class PreloadBattleScene : public cocos2d::Layer
 {
 private:
 	NPCDataLoader*			_npcLoader;
-	cocos2d::Node*			_rootLevelNode;
+	cocos2d::Node*			_rootNode;
+	cocos2d::LayerColor*	_fadeLayer;
 	bool					_isShowStartingScene;
+	std::vector<cocos2d::Point>		_points;
+	cocos2d::Sprite*		_toggleSprite;
+	int						_currentPos;
+	int						_currentSceneID;
+	void					nextScene();
+	void					loadNextScene();
+	std::vector<int>		_parameters;
+	bool					isEndScenes();
 
 	~PreloadBattleScene();
 	void	runLevelAction();
@@ -17,6 +26,7 @@ private:
 	bool	isShowStartingScene();
 	void 	showStartingScene();
 	void	showFinalScene();
+	void	getPoints(cocos2d::Node* rootNode);
 
 public:
 	static cocos2d::Scene* createScene(NPCDataLoader* npcLoader);

@@ -14,7 +14,7 @@ typedef EventTempl<Player*>					PlayerEvent;
 class Player : public WorldObject
 {
 private:
-	PlayerColor			_color;
+	PlayerColor			_colorID;
 	Direction			_dir;
 	Direction			_oldDir;
 	cocos2d::Point		_speed;
@@ -72,6 +72,7 @@ public:
 	void dead();
 	bool isMoveWall();
 	bool isThroughBomb();
+	PlayerColor getColorID();
 	virtual cocos2d::Rect getRect() override;
 };
 

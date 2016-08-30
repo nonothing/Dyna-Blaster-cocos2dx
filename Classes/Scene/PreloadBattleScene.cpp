@@ -7,6 +7,8 @@
 
 USING_NS_CC;
 
+static const std::string sRootScenes[] = { "ModeGameScene.csb", "CountPlayerScene.csb", "CountMatchScene.csb" };
+
 PreloadBattleScene* PreloadBattleScene::create(NPCDataLoader* npcLoader)
 {
 	PreloadBattleScene* scene = new PreloadBattleScene();
@@ -35,27 +37,56 @@ bool PreloadBattleScene::init(NPCDataLoader* npcLoader)
     {
         return false;
     }
+
+	_fadeLayer = LayerColor::create(Color4B(0, 0, 0, 0));
 	_npcLoader = npcLoader;
 	_isShowStartingScene = false;
-
+	_currentPos = 0;
+	_currentSceneID = 0;
 	loadAnimations();
-
-	_rootLevelNode = CSLoader::createNode("nodes/LoadLevelScene.csb");
+	_toggleSprite = Sprite::create("level/toggle.png");
+	_rootNode = CSLoader::createNode("nodes/" + sRootScenes[_currentSceneID]);
+	getPoints(_rootNode);
+	_toggleSprite->setPosition(_points.at(_currentPos));
 
 	_keyboardListener = EventListenerKeyboard::create();
 	_keyboardListener->onKeyPressed = CC_CALLBACK_2(PreloadBattleScene::onKeyPressed, this);
 	_keyboardListener->onKeyReleased = CC_CALLBACK_2(PreloadBattleScene::onKeyReleased, this);
 	getEventDispatcher()->addEventListenerWithSceneGraphPriority(_keyboardListener, this);
 
-	addChild(_rootLevelNode);
+	addChild(_rootNode, 1);
+	addChild(_toggleSprite, 5);
+	addChild(_fadeLayer, 10);
 
-	runLevelAction();
+	//runLevelAction();
     return true;
 }
 
 void PreloadBattleScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
-	
+	if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW)
+	{
+		_currentPos--;
+		if (_currentPos < 0)
+		{
+			_currentPos = _points.size() - 1;
+		}
+	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW)
+	{
+		_currentPos++;
+		if (_currentPos > (int)_points.size() - 1)
+		{
+			_currentPos = 0;
+		}
+	}
+
+	if (keyCode == EventKeyboard::KeyCode::KEY_SPACE)
+	{
+		_parameters.push_back(_currentPos);
+		nextScene();
+	}
+	_toggleSprite->setPosition(_points.at(_currentPos));
 }
 
 void PreloadBattleScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
@@ -64,14 +95,14 @@ void PreloadBattleScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* ev
 
 void PreloadBattleScene::loadBattleScene()
 {
-	Director::getInstance()->pushScene(TransitionFade::create(0.5f, BattleScene::createScene(this)));
+	Director::getInstance()->pushScene(TransitionFade::create(0.5f, BattleScene::createScene(this, _parameters)));
 }
 
 void PreloadBattleScene::runLevelAction()
 {
 	auto action = CCSequence::create(FadeIn::create(0.5f), CCDelayTime::create(1.0f), CCFadeOut::create(0.5f),
 		CallFunc::create(CC_CALLBACK_0(PreloadBattleScene::loadBattleScene, this)), nullptr);
-	 	_rootLevelNode->runAction(action);
+	 	_rootNode->runAction(action);
 }
 
 void PreloadBattleScene::backMenu()
@@ -81,13 +112,13 @@ void PreloadBattleScene::backMenu()
 
 PreloadBattleScene::~PreloadBattleScene()
 {
-	CCLOG("LoadLevelScene::~LoadLevelScene()");
+	CCLOG("PreloadBattleScene::~PreloadBattleScene()");
 	getEventDispatcher()->removeEventListener(_keyboardListener);
 }
 
 void PreloadBattleScene::restartLevel()
 {
-	_rootLevelNode->setOpacity(0);
+	_rootNode->setOpacity(0);
 
 	runLevelAction();
 }
@@ -128,5 +159,56 @@ void PreloadBattleScene::restart()
 NPCData PreloadBattleScene::getNPC(ID_NPC id)
 {
 	return _npcLoader->getNPC(id);
+}
+
+void PreloadBattleScene::getPoints(cocos2d::Node* rootNode)
+{
+	for (auto node : rootNode->getChildren())
+	{
+		if (node->getTag() == 70)
+		{
+			_points.push_back(node->getPosition());
+		}
+	}
+}
+
+void PreloadBattleScene::nextScene()
+{
+	_currentSceneID++;
+	if (isEndScenes())
+	{
+		_fadeLayer->runAction(Sequence::create(FadeIn::create(0.5f),
+			CallFunc::create(CC_CALLBACK_0(PreloadBattleScene::loadNextScene, this)),
+			nullptr));
+	}
+	else
+	{
+	_fadeLayer->runAction(Sequence::create(FadeIn::create(0.5f),
+		CallFunc::create(CC_CALLBACK_0(PreloadBattleScene::loadNextScene, this)),
+		FadeOut::create(0.5f), nullptr));
+	}
+}
+
+void PreloadBattleScene::loadNextScene()
+{
+	if (!isEndScenes())
+	{
+		_points.clear();
+		_currentPos = 0;
+		_rootNode->removeFromParentAndCleanup(true);
+		_rootNode = CSLoader::createNode("nodes/" + sRootScenes[_currentSceneID]);
+		getPoints(_rootNode);
+		_toggleSprite->setPosition(_points.at(_currentPos));
+		addChild(_rootNode);
+	} 
+	else
+	{
+		runLevelAction();
+	}
+}
+
+bool PreloadBattleScene::isEndScenes()
+{
+	return _currentSceneID > 2;
 }
 
