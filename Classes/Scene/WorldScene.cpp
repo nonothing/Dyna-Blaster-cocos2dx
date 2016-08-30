@@ -85,7 +85,7 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	_currentIndexLevel = 1;
 	_fadeLevel = false;
 
-	_player = Player::create(_mapLayer, PRED);
+	_player = Player::create(_mapLayer, PWHITE);
 	_player->setPosition(_startPosition);
 	_player->debugLayer = _debugLayer;
 	_player->_collisions = _borderNode->getChildren();

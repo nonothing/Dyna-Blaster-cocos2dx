@@ -155,11 +155,13 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClCompile Include="..\Classes\Model\Player.cpp" />
     <ClCompile Include="..\Classes\Model\Timer.cpp" />
     <ClCompile Include="..\Classes\Model\WorldObject.cpp" />
+    <ClCompile Include="..\Classes\Scene\BattleScene.cpp" />
     <ClCompile Include="..\Classes\Scene\FinalScene.cpp" />
     <ClCompile Include="..\Classes\Scene\GameOverScene.cpp" />
     <ClCompile Include="..\Classes\Scene\LoadLevelScene.cpp" />
     <ClCompile Include="..\Classes\Scene\MenuScene.cpp" />
     <ClCompile Include="..\Classes\Scene\PasswordScene.cpp" />
+    <ClCompile Include="..\Classes\Scene\PreloadBattleScene.cpp" />
     <ClCompile Include="..\Classes\Scene\StartingScene.cpp" />
     <ClCompile Include="..\Classes\Scene\WorldScene.cpp" />
     <ClCompile Include="..\Classes\utils\CSVReader.cpp" />
@@ -188,11 +190,13 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\Model\Player.h" />
     <ClInclude Include="..\Classes\Model\Timer.h" />
     <ClInclude Include="..\Classes\Model\WorldObject.h" />
+    <ClInclude Include="..\Classes\Scene\BattleScene.h" />
     <ClInclude Include="..\Classes\Scene\FinalScene.h" />
     <ClInclude Include="..\Classes\Scene\GameOverScene.h" />
     <ClInclude Include="..\Classes\Scene\LoadLevelScene.h" />
     <ClInclude Include="..\Classes\Scene\MenuScene.h" />
     <ClInclude Include="..\Classes\Scene\PasswordScene.h" />
+    <ClInclude Include="..\Classes\Scene\PreloadBattleScene.h" />
     <ClInclude Include="..\Classes\Scene\StartingScene.h" />
     <ClInclude Include="..\Classes\Scene\WorldScene.h" />
     <ClInclude Include="..\Classes\utils\CSVReader.h" />

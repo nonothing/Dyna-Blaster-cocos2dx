@@ -23,6 +23,7 @@ private:
 
 	void setPos(MenuEnum e);
 	void startGame();
+	void startBattle();
 	void startPasswordScene();
 
 public:

@@ -2,6 +2,7 @@
 #include "cocostudio/CocoStudio.h"
 #include "Scene/LoadLevelScene.h"
 #include "Scene/PasswordScene.h"
+#include "Scene/PreloadBattleScene.h"
 
 USING_NS_CC;
 
@@ -76,7 +77,7 @@ void MenuScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 		switch (_pos)
 		{
 		case START: startGame();					break;
-		case BATTLE: CCLOG("start battle");			break;
+		case BATTLE: startBattle();					break;
 		case PASSWORD: startPasswordScene();		break;
 		}
 	}
@@ -100,4 +101,9 @@ void MenuScene::startGame()
 void MenuScene::startPasswordScene()
 {
 	Director::getInstance()->pushScene(PasswordScene::createScene(_loaderMap, _loaderNPC));
+}
+
+void MenuScene::startBattle()
+{
+	Director::getInstance()->pushScene(PreloadBattleScene::createScene(_loaderNPC));
 }
