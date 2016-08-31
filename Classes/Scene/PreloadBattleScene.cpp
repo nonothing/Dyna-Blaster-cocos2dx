@@ -4,10 +4,12 @@
 #include "Scene/MenuScene.h"
 #include "Scene/BattleScene.h"
 
+#define BLINK_TAG 45
+#define CUP_TAG 25
 
 USING_NS_CC;
 
-static const std::string sRootScenes[] = { "ModeGameScene.csb", "CountPlayerScene.csb", "CountMatchScene.csb" };
+static const std::string sRootScenes[] = { "ModeGameScene.csb", "CountPlayerScene.csb", "CountMatchScene.csb", "StartBattleScene.csb", "WinMatchScene.csb", "WinBattleScene.csb"  };
 
 PreloadBattleScene* PreloadBattleScene::create(NPCDataLoader* npcLoader)
 {
@@ -57,7 +59,8 @@ bool PreloadBattleScene::init(NPCDataLoader* npcLoader)
 	addChild(_rootNode, 1);
 	addChild(_toggleSprite, 5);
 	addChild(_fadeLayer, 10);
-
+	
+	GameSettings::Instance().clearInfoWin();
 	//runLevelAction();
     return true;
 }
@@ -81,12 +84,15 @@ void PreloadBattleScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* eve
 		}
 	}
 
-	if (keyCode == EventKeyboard::KeyCode::KEY_SPACE)
+	if (keyCode == EventKeyboard::KeyCode::KEY_SPACE && !isEndScenes())
 	{
 		_parameters.push_back(_currentPos);
 		nextScene();
 	}
-	_toggleSprite->setPosition(_points.at(_currentPos));
+	if (_toggleSprite)
+	{
+		_toggleSprite->setPosition(_points.at(_currentPos));
+	}
 }
 
 void PreloadBattleScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
@@ -100,7 +106,7 @@ void PreloadBattleScene::loadBattleScene()
 
 void PreloadBattleScene::runLevelAction()
 {
-	auto action = CCSequence::create(FadeIn::create(0.5f), CCDelayTime::create(1.0f), CCFadeOut::create(0.5f),
+	auto action = CCSequence::create(
 		CallFunc::create(CC_CALLBACK_0(PreloadBattleScene::loadBattleScene, this)), nullptr);
 	 	_rootNode->runAction(action);
 }
@@ -146,14 +152,7 @@ void PreloadBattleScene::loadAnimations()
 void PreloadBattleScene::restart()
 {
 	Director::getInstance()->popScene();
-// 	if (GameSettings::Instance().getPlayerLife() < 0)
-// 	{
-// 		Director::getInstance()->pushScene(GameOverScene::createScene(this));
-// 	}
-// 	else
-// 	{
-		runLevelAction();
-//	}
+	showMatchScene();
 }
 
 NPCData PreloadBattleScene::getNPC(ID_NPC id)
@@ -178,7 +177,8 @@ void PreloadBattleScene::nextScene()
 	if (isEndScenes())
 	{
 		_fadeLayer->runAction(Sequence::create(FadeIn::create(0.5f),
-			CallFunc::create(CC_CALLBACK_0(PreloadBattleScene::loadNextScene, this)),
+			CallFunc::create(CC_CALLBACK_0(PreloadBattleScene::showStartingScene, this)),
+			FadeOut::create(0.5f),
 			nullptr));
 	}
 	else
@@ -198,7 +198,10 @@ void PreloadBattleScene::loadNextScene()
 		_rootNode->removeFromParentAndCleanup(true);
 		_rootNode = CSLoader::createNode("nodes/" + sRootScenes[_currentSceneID]);
 		getPoints(_rootNode);
-		_toggleSprite->setPosition(_points.at(_currentPos));
+		if (!_points.empty())
+		{
+			_toggleSprite->setPosition(_points.at(_currentPos));
+		}
 		addChild(_rootNode);
 	} 
 	else
@@ -210,5 +213,131 @@ void PreloadBattleScene::loadNextScene()
 bool PreloadBattleScene::isEndScenes()
 {
 	return _currentSceneID > 2;
+}
+
+void PreloadBattleScene::showStartingScene()
+{
+	if (_toggleSprite)
+	{
+		_toggleSprite->removeFromParentAndCleanup(true);
+		_toggleSprite = nullptr;
+	}
+
+	_rootNode->removeFromParentAndCleanup(true);
+	_rootNode = CSLoader::createNode("nodes/" + sRootScenes[3]);
+	addChild(_rootNode);
+	_fadeLayer->stopActionByTag(BLINK_TAG);
+	auto actionBlink = RepeatForever::create(Sequence::create(DelayTime::create(0.2f),
+		CallFunc::create(CC_CALLBACK_0(PreloadBattleScene::blinkLabel, this)), nullptr));
+	actionBlink->setTag(BLINK_TAG);
+	_fadeLayer->runAction(actionBlink);
+	auto actionStart = Sequence::create(FadeOut::create(0.5f), DelayTime::create(3.f), 
+		CallFunc::create(CC_CALLBACK_0(PreloadBattleScene::loadNextScene, this)), FadeIn::create(0.5f), nullptr);
+	_fadeLayer->runAction(actionStart);
+}
+
+void PreloadBattleScene::blinkLabel()
+{
+	if (_rootNode)
+	{
+		auto sprite = static_cast<ui::Text*>(_rootNode->getChildByName("game_start"));
+		if (sprite)
+		{
+			sprite->setVisible(!sprite->isVisible());
+		}
+	}
+}
+
+void PreloadBattleScene::showMatchScene()
+{
+	_rootNode->removeFromParentAndCleanup(true);
+	_rootNode = CSLoader::createNode("nodes/" + sRootScenes[4]);
+	addChild(_rootNode);
+	if (hasWinnner())
+	{
+		auto actionStart = Sequence::create(FadeOut::create(0.5f), DelayTime::create(2.f), FadeIn::create(0.5f),
+			CallFunc::create(CC_CALLBACK_0(PreloadBattleScene::showWinBattleScene, this)), nullptr);
+		_fadeLayer->runAction(actionStart);
+	}
+	else
+	{
+		auto actionStart = Sequence::create(FadeOut::create(0.5f), DelayTime::create(2.f), FadeIn::create(0.5f),
+			CallFunc::create(CC_CALLBACK_0(PreloadBattleScene::showStartingScene, this)), nullptr);
+		_fadeLayer->runAction(actionStart);
+	}
+
+	std::vector<Point> pointsWhite;
+	std::vector<Point> pointsBlack;
+
+	for (auto node : _rootNode->getChildren())
+	{
+		if (node->getTag() == 25)
+		{
+			pointsWhite.push_back(node->getPosition());
+		}
+		if (node->getTag() == 26)
+		{
+			pointsBlack.push_back(node->getPosition());
+		}
+	}
+	int whiteCups = GameSettings::Instance().getCountWinPlayer(PWHITE);
+	int blackCups = GameSettings::Instance().getCountWinPlayer(PBLACK);;
+	for (int i = 0; i < whiteCups; i++)
+	{
+		auto sprite = Sprite::create("level/cup.png");
+		sprite->setPosition(pointsWhite.at(i));
+		sprite->setTag(CUP_TAG);
+		_rootNode->addChild(sprite, 2);
+	}
+
+	for (int i = 0; i < blackCups; i++)
+	{
+		auto sprite = Sprite::create("level/cup.png");
+		sprite->setPosition(pointsBlack.at(i));
+		sprite->setTag(CUP_TAG);
+		_rootNode->addChild(sprite, 2);
+	}
+
+}
+
+void PreloadBattleScene::showWinBattleScene()
+{
+	_rootNode->removeFromParentAndCleanup(true);
+	_rootNode = CSLoader::createNode("nodes/" + sRootScenes[5]);
+	addChild(_rootNode);
+
+	bool showWhite = GameSettings::Instance().getCountWinPlayer(PWHITE) > GameSettings::Instance().getCountWinPlayer(PBLACK);
+
+	auto whiteHumanSprite = static_cast<Sprite*>(_rootNode->getChildByName("win_white_human"));
+	if (whiteHumanSprite)
+	{
+		whiteHumanSprite->setVisible(showWhite);
+	}
+
+	auto blackHumanSprite = static_cast<Sprite*>(_rootNode->getChildByName("win_black_human"));
+	if (blackHumanSprite)
+	{
+		blackHumanSprite->setVisible(!showWhite);
+	}
+
+	GameSettings::Instance().clearInfoWin();
+
+	auto actionStart = Sequence::create(FadeOut::create(0.5f), DelayTime::create(10.f), FadeIn::create(0.5f),
+		CallFunc::create(CC_CALLBACK_0(PreloadBattleScene::showStartingScene, this)), nullptr);
+	_fadeLayer->runAction(actionStart);
+}
+
+bool PreloadBattleScene::hasWinnner()
+{
+	int max = 0;
+	for (int i = 0; i < 3; i++)
+	{
+		int value = GameSettings::Instance().getCountWinPlayer(PlayerColor(i));
+		if (max < value)
+		{
+			max = value;
+		}
+	}
+	return max >= _parameters.at(2) + 1;
 }
 

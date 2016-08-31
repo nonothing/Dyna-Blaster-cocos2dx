@@ -97,9 +97,20 @@ bool GameSettings::isTroughBomb()
 	return UserDefault::getInstance()->getBoolForKey(TROUGH_BOMB_KEY, false);
 }
 
-void GameSettings::setPlayerWin(PlayerColor color, int i)
+
+void GameSettings::clearInfoWin()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		std::string key = "player_" + sColorName[i] + "_win";
+		UserDefault::getInstance()->setIntegerForKey(key.c_str(), 0);
+	}
+}
+
+void GameSettings::addWinPlayer(PlayerColor color)
 {
 	std::string key = "player_" + sColorName[color] + "_win";
+	int i = getCountWinPlayer(color) + 1;
 	UserDefault::getInstance()->setIntegerForKey(key.c_str(), i);
 }
 

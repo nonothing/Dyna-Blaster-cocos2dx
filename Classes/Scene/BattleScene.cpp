@@ -97,7 +97,7 @@ bool BattleScene::init(PreloadBattleScene* preloaderScene, std::vector<int> para
 	_mapLayer->addChild(_debugLayer, 100);
 	addChild(_timer, -1);
 	createWalls();
-	//createNPCs();
+	createNPCs();
 	for (auto player : _players)
 	{
 		player->setBricks(_bricks);
@@ -113,7 +113,7 @@ void BattleScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
 	auto dir = KeyCodeToDiretion(keyCode);
 	int id = KeyCodeToPlayerID(keyCode);
-	if (id != 9999)
+	if (id != 9999 && id < _players.size())
 	{
 		auto player = _players.at(id);
 	
@@ -445,18 +445,40 @@ void BattleScene::createBonus(BricksVec freeBricks)
 	idVec.push_back(BFire);
 
 	std::random_shuffle(freeBricks.begin(), freeBricks.end());
+
+	int i = 0;
+	int countCreate = 0;
+	while (countCreate < 10)
+	{
+		bool isCreate = true;
+		Brick* foo = freeBricks.at(i);
+		for (auto player : _players)
+		{
+			if (isCollision(foo, player, Size(120, 120)))
+			{
+				isCreate = false;
+				break;
+			}
+		}
+		if (isCreate)
+		{
+			ID_BONUS randomIdBonus = idVec.at(rand() % idVec.size());
+			auto bonusBrick = BrickBonus::create(foo, randomIdBonus);
+			bonusBrick->setPosition(foo->getPosition());
+			_mapLayer->addChild(bonusBrick, 1);
+
+			removeBrick(foo);
+
+			_bricks.push_back(bonusBrick);
+			_bonusBricks.push_back(bonusBrick);
+			countCreate++;
+		}
+		i++;
+	}
+
 	for (int i = 0; i < 10; i++)
 	{
-		Brick* foo = freeBricks.at(i);
-		ID_BONUS randomIdBonus = idVec.at(rand() % idVec.size());
-		auto bonusBrick = BrickBonus::create(foo, randomIdBonus);
-		bonusBrick->setPosition(foo->getPosition());
-		_mapLayer->addChild(bonusBrick, 1);
-
-		removeBrick(foo);
-
-		_bricks.push_back(bonusBrick);
-		_bonusBricks.push_back(bonusBrick);
+		
 	}
 }
 
@@ -558,6 +580,10 @@ void BattleScene::endGame()
 {
 	if (_players.size() <= 1 && !_fadeLevel)
 	{
+		if (!_players.empty())
+		{
+			GameSettings::Instance().addWinPlayer(_players.at(0)->getColorID());
+		}
 		_fadeLevel = true;
 		auto action = CCSequence::create(CCFadeIn::create(0.5f),
 			CallFunc::create(CC_CALLBACK_0(PreloadBattleScene::restart, _preloaderScene)), nullptr);

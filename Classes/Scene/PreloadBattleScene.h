@@ -24,8 +24,12 @@ private:
 	void	runLevelAction();
 	void    restartLevel();
 	bool	isShowStartingScene();
+	bool	hasWinnner();
 	void 	showStartingScene();
+	void	blinkLabel();
 	void	showFinalScene();
+	void	showMatchScene();
+	void	showWinBattleScene();
 	void	getPoints(cocos2d::Node* rootNode);
 
 public:

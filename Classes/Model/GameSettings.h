@@ -31,7 +31,8 @@ public:
 	bool isRadioBomb();
 	bool isMoveWall();
 	bool isTroughBomb();
-	void setPlayerWin(PlayerColor color, int i);
+	void clearInfoWin();
+	void addWinPlayer(PlayerColor color);
 	int getCountWinPlayer(PlayerColor color);
 };
 
