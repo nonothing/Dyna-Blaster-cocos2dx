@@ -77,7 +77,7 @@ void FinalScene::onFrameEvent(cocostudio::timeline::Frame *frame)
 	auto* evnt = dynamic_cast<cocostudio::timeline::EventFrame*>(frame);
 	if (!evnt)
 		return;
-	if (evnt->getEvent() == "stop_human") stopHuman(_humanSprite, "player_left_3.png");
+	if (evnt->getEvent() == "stop_human") stopHuman(_humanSprite, "player_white_left_3.png");
 	if (evnt->getEvent() == "stop_girl") stopHuman(_girlSprite, "girl_1.png");
 	if (evnt->getEvent() == "stop_black") stopHuman(_blackHumanSprite, "black_man_7.png");
 	if (evnt->getEvent() == "sitdown") stopHuman(_blackHumanSprite, "black_man_4.png");
@@ -88,7 +88,7 @@ void FinalScene::onFrameEvent(cocostudio::timeline::Frame *frame)
 
 void FinalScene::humanRun(Direction dir)
 {
-	runAnimation(_humanSprite, "player_move_" + sDirName[dir]);
+	runAnimation(_humanSprite, "player_white_move_" + sDirName[dir]);
 	_humanSprite->setFlippedX(dir == RIGHT);
 }
 
