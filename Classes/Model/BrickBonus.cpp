@@ -58,6 +58,7 @@ void BrickBonus::destroy()
 {
 	if (_id != BNone)
 	{
+		if (_type == EBONUS) _id = BNone;
 		runAction(CCSequence::create(CCDelayTime::create(0.01f), CallFunc::create(CC_CALLBACK_0(BrickBonus::animationDestroy, this)), nullptr));
 	}
 }
@@ -85,13 +86,16 @@ void BrickBonus::animateDestroyBonus()
 	_id = BNone;
 	stopActionByTag(ANIM_TAG);
 	removeChildByTag(ANIM_TAG);
-	_bonusSprite->removeFromParent();
-	_bonusSprite = nullptr;
+	if (_bonusSprite)
+	{
+		_bonusSprite->removeFromParent();
+		_bonusSprite = nullptr;
+	}
 }
 
 bool BrickBonus::createBonus()
 {
-	if (!_bonusSprite)
+	if (!_bonusSprite && _id != BNone)
 	{
 		_bonusSprite = Sprite::createWithSpriteFrameName(sBonusName[_id]);
 		addChild(_bonusSprite);

@@ -228,7 +228,7 @@ void LoadLevelScene::restartLevel()
 
 		auto action = CCSequence::create(
 			CallFunc::create(CC_CALLBACK_0(LoadLevelScene::playStageMusic, this)),
-			FadeIn::create(0.5f), CCDelayTime::create(5.0f), CCFadeOut::create(0.5f),
+			FadeIn::create(0.5f), CCDelayTime::create(4.0f), CCFadeOut::create(0.5f),
 			CallFunc::create(CC_CALLBACK_0(LoadLevelScene::stopMusic, this)),
 			CallFunc::create(CC_CALLBACK_0(LoadLevelScene::runLevelAction, this)), nullptr);
 		_rootStageNode->runAction(action);

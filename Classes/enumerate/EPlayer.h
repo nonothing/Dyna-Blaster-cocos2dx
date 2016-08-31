@@ -5,9 +5,9 @@
 
 enum  PlayerColor
 {
-	PWHITE = 0, PBLACK, PRED
+	PWHITE = 0, PBLACK, PRED, PBLUE
 };
 
-const static std::string sColorName[] = { "white", "black", "red", };
+const static std::string sColorName[] = { "white", "black", "red", "red" };
 
 #endif // __EPLAYER_H__
