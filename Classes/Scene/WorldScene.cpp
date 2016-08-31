@@ -705,6 +705,7 @@ void WorldScene::playMusic()
 void WorldScene::nextLevel()
 {
 	_player->setPosition(_startPosition);
+	GameSettings::Instance().savePlayer(_player);
 	_levelScene->nextLevel();
 	Director::getInstance()->popScene();
 }
