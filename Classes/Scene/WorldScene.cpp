@@ -365,6 +365,7 @@ bool WorldScene::createNPC(Brick* brick, ID_NPC id)
 		case snake:
 		{
 			Snake* npc = Snake::create(dataNPC, _bricks, SNAKE_HEAD);
+			npc->setPlayer(_player);
 			setDefaultParametrNpc(npc, brick->getPosition());
 			Snake* npcNext;
 			for (int i = 0; i <= 4; i++)

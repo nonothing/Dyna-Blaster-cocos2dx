@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "Model/NPC.h"
+#include "Model/Player.h"
 
 enum ESnakeType
 {
@@ -12,6 +13,7 @@ enum ESnakeType
 class Snake : public NPC
 {
 private:
+	Player*		_player;
 	cocos2d::Point inversePoint(const cocos2d::Point& point);
 	Snake*		_snake;
 	Direction	_prevDir;
@@ -25,6 +27,7 @@ public:
     virtual bool init(const NPCData& data, BricksVec vec, ESnakeType type);
 	static Snake* create(const NPCData& data, BricksVec vec, ESnakeType type);
 	virtual void move();
+	void setPlayer(Player* player);
 	Direction getPrevDir();
 	void setSnake(Snake* snake);
 	void update(float dt);

@@ -57,7 +57,7 @@ std::string Snake::getAnimationName()
 		switch (_type)
 		{
 		case SNAKE_HEAD: result = isVertical(_dir) ? "snake_vertical_head_" : "snake_horizontal_head_"; break;
-		case SNAKE_BODY: result = isVertical(_dir) ? "snake_vertical_body_" : "snake_vertical_body_"; break;
+		case SNAKE_BODY: result = isVertical(_dir) ? "snake_vertical_body_" : "snake_horizontal_body_"; break;
 		case SNAKE_TAIL: result = isVertical(_dir) ? "snake_vertical_tail_" : "snake_horizontal_tail_"; break;
 		default: return result;
 		}
@@ -85,17 +85,28 @@ void Snake::move()
 			_prevDir = _dir;
 		}
 		_isFirstDir = true;
-		Point point = getPosition() + sBPoints[_dir];
-		if (!isCollisionEmpty(point))
-		{//for test
-			if (_dir == UP) _dir = RIGHT;
-			else if (_dir == RIGHT) _dir = DOWN;
-			else if (_dir == DOWN) _dir = LEFT;
-			else if (_dir == LEFT) _dir = UP;
+
+		Point point;
+		std::vector< std::pair< Point, Direction> > freePoints;
+		for (auto p : sPoints)
+		{
+			point = getPosition() + p;
+			if (isCollisionEmpty(point))
+			{
+				freePoints.push_back(std::make_pair(point, PointToDir(p)));
+			}
 		}
-		point = getPosition() + sBPoints[_dir];
-		if (_isChangeAnimation) animate(_dir);
-		runAction(Sequence::create(MoveTo::create(_data._speed, point), CallFunc::create(CC_CALLBACK_0(NPC::nextDir, this)), nullptr));
+		if (!freePoints.empty())
+		{
+			auto it = min_element(freePoints.begin(), freePoints.end(),
+				[this](std::pair< Point, Direction> p1, std::pair< Point, Direction> p2)
+			{ return p1.first.distance(_player->getPosition()) < p2.first.distance(_player->getPosition()); });
+
+			point = it->first;
+			_dir = it->second;
+			if (_isChangeAnimation) animate(_dir);
+			runAction(Sequence::create(MoveTo::create(getSpeed(), point), CallFunc::create(CC_CALLBACK_0(NPC::nextDir, this)), nullptr));
+		}
 	}
 	else
 	{
@@ -120,6 +131,11 @@ void Snake::move()
 	}
 	_sprite->setFlippedX(_dir == RIGHT);
 	_sprite->setFlippedY(_dir == DOWN);
+}
+
+void Snake::setPlayer(Player* player)
+{
+	_player = player;
 }
 
 Direction Snake::getPrevDir()
