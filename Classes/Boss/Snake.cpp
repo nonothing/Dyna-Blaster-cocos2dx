@@ -3,6 +3,7 @@
 
 USING_NS_CC;
 #define ANIM_TAG 225 
+#define BLINK_TAG 145
 
 Snake* Snake::create(const NPCData& data, BricksVec vec, ESnakeType type)
 {
@@ -19,7 +20,7 @@ Snake* Snake::create(const NPCData& data, BricksVec vec, ESnakeType type)
 
 bool Snake::init(const NPCData& data, BricksVec vec, ESnakeType type)
 {
-	if (!NPC::init(data, vec))
+	if (!BossBase::init(data, vec))
 	{
 		return false;
 	}
@@ -73,6 +74,26 @@ bool Snake::isVertical(Direction dir)
 bool Snake::isHorizontal(Direction dir)
 {
 	return dir == RIGHT || dir == LEFT;
+}
+
+void Snake::runDeadAnimation()
+{
+	_isDead = true;
+	stopAllActions();
+	_sprite->stopAllActions();
+
+	auto animation = AnimationCache::getInstance()->getAnimation(_type == SNAKE_HEAD ? "snake_dead_head" : "snake_dead_body");
+	if (animation)
+	{
+		auto action = CCSequence::create(Animate::create(animation), CallFunc::create(CC_CALLBACK_0(NPC::destroy, this)), nullptr);
+		action->setTag(ANIM_TAG);
+		_sprite->runAction(action);
+	}
+}
+
+void Snake::newTimeCreate()
+{
+	_createTime = Director::getInstance()->getTotalFrames();
 }
 
 const static cocos2d::Point sBPoints[] = { cocos2d::Point(-74, 0), cocos2d::Point(0, -74), cocos2d::Point(74, 0), cocos2d::Point(0, 74) };
@@ -178,4 +199,77 @@ void Snake::animate(Direction dir)
 bool Snake::isThroughBomb(Brick* brick)
 {
 	return false;
+}
+
+void Snake::dead()
+{
+	auto life = getLife() - 1;
+	if (canDead(life))
+	{
+		if (life <= 0)
+		{
+			_isDead = true;
+			int count = 0;
+			for (auto snake : _snakeVec)
+			{
+				if (snake->isDead()) count++;
+			}
+			if (count >= _snakeVec.size() / 2)
+			{
+				for (auto snake : _snakeVec)
+				{
+					snake->runDeadAnimation();
+				}
+			}
+		}
+		else
+		{
+			int minLife = 999;
+			for (auto snake : _snakeVec)
+			{
+				int l = snake->getLife();
+				if (l < minLife)
+				{
+					minLife = l;
+				}
+			}
+			for (auto snake : _snakeVec)
+			{
+				if (snake->getLife() == minLife)
+				{
+					newTimeCreate();
+				}
+			}
+			newTimeCreate();
+			auto action = RepeatForever::create(Sequence::create(DelayTime::create(0.01f),
+				CallFunc::create(CC_CALLBACK_0(Snake::TintToWhite, this)), CallFunc::create(CC_CALLBACK_0(Snake::animate, this, _dir)), nullptr));
+			action->setTag(BLINK_TAG);
+			_sprite->runAction(action);
+		}
+	}
+}
+
+void Snake::setSnakeVec(std::vector<Snake*> snakeVec)
+{
+	_snakeVec = snakeVec;
+}
+
+bool Snake::isHead()
+{
+	return _type == SNAKE_HEAD;
+}
+
+bool Snake::canDead(int life)
+{
+	bool canDead = true;
+	for (auto snake : _snakeVec)
+	{
+		int difference = abs(snake->getLife() - life);
+		if (difference >= 2)
+		{
+			canDead = false;
+			break;
+		}
+	}
+	return canDead;
 }

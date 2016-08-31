@@ -364,8 +364,10 @@ bool WorldScene::createNPC(Brick* brick, ID_NPC id)
 		{
 		case snake:
 		{
+			std::vector<Snake*> snakeVec;
 			Snake* npc = Snake::create(dataNPC, _bricks, SNAKE_HEAD);
 			npc->setPlayer(_player);
+			snakeVec.push_back(npc);
 			setDefaultParametrNpc(npc, brick->getPosition());
 			Snake* npcNext;
 			for (int i = 0; i <= 4; i++)
@@ -374,6 +376,11 @@ bool WorldScene::createNPC(Brick* brick, ID_NPC id)
 				setDefaultParametrNpc(npcNext, brick->getPosition());
 				npcNext->setSnake(npc);
 				npc = npcNext;
+				snakeVec.push_back(npc);
+			}
+			for (auto snake : snakeVec)
+			{
+				snake->setSnakeVec(snakeVec);
 			}
 		}
 			break;
@@ -561,19 +568,28 @@ void WorldScene::updateLifeLabel()
 
 void WorldScene::updateScoreLabel(NPC* npc)
 {
-	auto text = ui::Text::create(std::to_string(npc->getScore()), "5px2bus.ttf", 18.f);
-	text->setPosition(npc->getPosition());
-	_mapLayer->addChild(text, 100);
-	runAction(Sequence::create(DelayTime::create(3.f), CallFunc::create(CC_CALLBACK_0(WorldScene::removeText, this, text)), nullptr));
-
-	_score += npc->getScore();
-	if (_record < _score)
+	int score = npc->getScore();
+	auto snake = dynamic_cast<Snake*>(npc);
+	if (snake && !snake->isHead())
 	{
-		_record = _score;
-		GameSettings::Instance().saveRecord(_record);
-		_labelRecord->setString(std::to_string(_record));
+		score = 0;
 	}
-	_labelScore->setString(std::to_string(_score));
+	if (score)
+	{
+		auto text = ui::Text::create(std::to_string(npc->getScore()), "5px2bus.ttf", 18.f);
+		text->setPosition(npc->getPosition());
+		_mapLayer->addChild(text, 100);
+		runAction(Sequence::create(DelayTime::create(3.f), CallFunc::create(CC_CALLBACK_0(WorldScene::removeText, this, text)), nullptr));
+
+		_score += npc->getScore();
+		if (_record < _score)
+		{
+			_record = _score;
+			GameSettings::Instance().saveRecord(_record);
+			_labelRecord->setString(std::to_string(_record));
+		}
+		_labelScore->setString(std::to_string(_score));
+	}
 }
 
 bool WorldScene::checkPlayerWithFire(Bomb* bomb)
