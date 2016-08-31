@@ -180,15 +180,26 @@ void WorldScene::createBomb()
 
 	if (!hasBomb)
 	{
+		std::vector<Brick*> free;
 		for (auto brick : _bricks)
 		{
 			if (brick->getType() == EBACKGROUND && isCollision(bomb, brick, size))
 			{
-				bomb->setPosition(brick->getPosition());
-				bomb->setBrick(brick);
-				isCorrect = true;
-				break;
+				free.push_back(brick);
 			}
+		}
+		if (!free.empty())
+		{
+			auto it = min_element(free.begin(), free.end(),
+				[bomb](Brick* b1, Brick* b2)
+			{ 
+				auto p1 = b1->getPosition();
+				auto p2 = b2->getPosition();
+				return p1.distance(bomb->getPosition()) > p2.distance(bomb->getPosition()); 
+			});
+		 				bomb->setPosition((*it)->getPosition());
+						bomb->setBrick((*it));
+		 				isCorrect = true;
 		}
 	}
 
