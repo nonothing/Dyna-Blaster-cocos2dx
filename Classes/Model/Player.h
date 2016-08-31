@@ -28,6 +28,7 @@ private:
 	cocos2d::Color3B	_oldColor;
 	bool				_isDead;
 	bool				_isDestroy;
+	bool				_isStop;
 
 	//bonus
 	int					_speedCount;
@@ -73,6 +74,8 @@ public:
 	bool isImmortal();
 	bool isDestroy();
 	void dead();
+	void stopMove();
+	bool isStop();
 	bool isMoveWall();
 	bool isThroughBomb();
 	PlayerColor getColorID();

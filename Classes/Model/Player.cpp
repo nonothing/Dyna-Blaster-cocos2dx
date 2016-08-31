@@ -2,6 +2,7 @@
 #include "Model/BrickBonus.h"
 #include "Model/GameSettings.h"
 #include "utils/WhiteShader.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 #define ANIM_TAG 225 
@@ -36,7 +37,7 @@ bool Player::init(cocos2d::Layer* layer, PlayerColor color)
 	_sprite = Sprite::createWithSpriteFrameName("player_" + sColorName[_colorID] + "_down_3.png");
 	_sprite->setPositionY(12);
 	addChild(_sprite);
-	
+	_isStop = false;
 	_speedCount = GameSettings::Instance().getSpeedCount();
 	_sizeBomb = GameSettings::Instance().getSizeBomb();
 	_isRemote = GameSettings::Instance().isRadioBomb();
@@ -59,7 +60,7 @@ bool Player::init(cocos2d::Layer* layer, PlayerColor color)
 
 cocos2d::Point Player::getOffsetToDir()
 {
-	if (_isDead) return Point::ZERO;
+	if (_isDead || _isStop) return Point::ZERO;
 	switch (_dir)
 	{
 	case LEFT: return Point(-_speed.x, 0);
@@ -245,6 +246,8 @@ bool Player::isMapMove(const Point& point)
 
 void Player::getBonus(ID_BONUS idBonus)
 {
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("music/bonus.wav");
+	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/bonus.wav", false);
 	switch (idBonus)
 	{
 	case BFire:		_sizeBomb++;				break;
@@ -267,6 +270,7 @@ bool Player::canMove(BrickType type)
 
 void Player::destroy()
 {
+	_sprite->setVisible(false);
 	_isThroughBomb = false;
 	_isMoveWall = false;
 	_isRemote = false;
@@ -357,6 +361,8 @@ void Player::dead()
 {
 	if (!_isDead)
 	{
+		CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Dead.mp3");
+		CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Dead.mp3", false);
 		_isDead = true;
 		stopAllActions();
 		_sprite->stopAllActions();
@@ -368,6 +374,16 @@ void Player::dead()
 			_sprite->runAction(action);
 		}
 	}
+}
+
+void Player::stopMove()
+{
+	_isStop = true;
+}
+
+bool Player::isStop()
+{
+	return _isStop;
 }
 
 bool Player::isMoveWall()

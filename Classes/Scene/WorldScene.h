@@ -72,10 +72,13 @@ private:
 	bool checkPlayerWithFire(Bomb* bomb);
 	bool collisionNPCwithPlayer();
 	void gameOver();
+	void stopMusic();
+	void playMusic();
+	void playMusicStageClear();
 	void removeText(cocos2d::ui::Text* text);
 	void setDefaultParametrNpc(NPC* npc, const cocos2d::Point& point, int order = 2);
 	void createIronChild(const cocos2d::Point& point, unsigned int createTime);
-
+	void nextLevel();
 public:
 	static cocos2d::Scene* createScene(LoadLevelScene* levelScene);
 	virtual bool init(LoadLevelScene* levelScene);

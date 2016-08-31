@@ -3,6 +3,7 @@
 #include "Model/GameSettings.h"
 #include "Scene/MenuScene.h"
 #include "Scene/BattleScene.h"
+#include "SimpleAudioEngine.h"
 
 #define BLINK_TAG 45
 #define CUP_TAG 25
@@ -253,15 +254,22 @@ void PreloadBattleScene::showMatchScene()
 	_rootNode->removeFromParentAndCleanup(true);
 	_rootNode = CSLoader::createNode("nodes/" + sRootScenes[4]);
 	addChild(_rootNode);
+
+	CCLayer::onEnter();
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Win_Match.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Win_Match.mp3", true);
+
 	if (hasWinnner())
 	{
-		auto actionStart = Sequence::create(FadeOut::create(0.5f), DelayTime::create(2.f), FadeIn::create(0.5f),
+		auto actionStart = Sequence::create(FadeOut::create(0.5f), DelayTime::create(3.f), FadeIn::create(0.5f),
 			CallFunc::create(CC_CALLBACK_0(PreloadBattleScene::showWinBattleScene, this)), nullptr);
 		_fadeLayer->runAction(actionStart);
 	}
 	else
 	{
-		auto actionStart = Sequence::create(FadeOut::create(0.5f), DelayTime::create(2.f), FadeIn::create(0.5f),
+		auto actionStart = Sequence::create(FadeOut::create(0.5f), DelayTime::create(3.f), FadeIn::create(0.5f),
 			CallFunc::create(CC_CALLBACK_0(PreloadBattleScene::showStartingScene, this)), nullptr);
 		_fadeLayer->runAction(actionStart);
 	}
@@ -305,6 +313,12 @@ void PreloadBattleScene::showWinBattleScene()
 	_rootNode->removeFromParentAndCleanup(true);
 	_rootNode = CSLoader::createNode("nodes/" + sRootScenes[5]);
 	addChild(_rootNode);
+
+	CCLayer::onEnter();
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Bomber_Champ.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Bomber_Champ.mp3", true);
 
 	bool showWhite = GameSettings::Instance().getCountWinPlayer(PWHITE) > GameSettings::Instance().getCountWinPlayer(PBLACK);
 

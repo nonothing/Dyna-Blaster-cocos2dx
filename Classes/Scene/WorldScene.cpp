@@ -7,6 +7,7 @@
 #include "Boss/Cyclop.h"
 #include "Boss/Electro.h"
 #include "Boss/Human.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
@@ -101,7 +102,7 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	addChild(_blackLayer, 1000);
 
 	_lifeListener.set(_player->lifeEvent, std::bind(&WorldScene::updateLifeLabel, this));
-
+	playMusic();
     return true;
 }
 
@@ -126,14 +127,6 @@ void WorldScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 				break;
 			}
 		}
-	}
-	if (keyCode == EventKeyboard::KeyCode::KEY_TAB) //for test
-	{
-		_levelScene->nextLevel();
-	}
-	if (keyCode == EventKeyboard::KeyCode::KEY_1) //for test
-	{
-
 	}
 }
 
@@ -180,26 +173,15 @@ void WorldScene::createBomb()
 
 	if (!hasBomb)
 	{
-		std::vector<Brick*> free;
 		for (auto brick : _bricks)
 		{
 			if (brick->getType() == EBACKGROUND && isCollision(bomb, brick, size))
 			{
-				free.push_back(brick);
+				bomb->setPosition(brick->getPosition());
+				bomb->setBrick(brick);
+				isCorrect = true;
+				break;
 			}
-		}
-		if (!free.empty())
-		{
-			auto it = min_element(free.begin(), free.end(),
-				[bomb](Brick* b1, Brick* b2)
-			{ 
-				auto p1 = b1->getPosition();
-				auto p2 = b2->getPosition();
-				return p1.distance(bomb->getPosition()) > p2.distance(bomb->getPosition()); 
-			});
-		 				bomb->setPosition((*it)->getPosition());
-						bomb->setBrick((*it));
-		 				isCorrect = true;
 		}
 	}
 
@@ -230,12 +212,16 @@ void WorldScene::update(float dt)
 		ID_NPC id = ID_NPC(rand() % 18);
 		createNPCs(_doorBrick, id, 6);
 	}
-	if (_doorBrick && _doorBrick->isOpenDoor() && isCollision(_doorBrick, _player, Size(60,60), -_mapLayer->getPosition()))
+	if (_doorBrick && _doorBrick->isOpenDoor() && !_player->isStop() && isCollision(_doorBrick, _player, Size(60,60), -_mapLayer->getPosition()))
 	{
-		_player->setPosition(_startPosition);
 		_doorBrick->openDoor(false);
-		_levelScene->nextLevel();
-		Director::getInstance()->popScene();
+		_player->stopMove();
+		auto action = CCSequence::create(
+			CallFunc::create(CC_CALLBACK_0(WorldScene::playMusicStageClear, this)),
+			CCDelayTime::create(4.f),
+			CCFadeIn::create(0.5f),
+			CallFunc::create(CC_CALLBACK_0(WorldScene::nextLevel, this)), nullptr);
+		_blackLayer->runAction(action);
 	}
 	if (_bonusBrick && _npcs.empty())
 	{
@@ -298,7 +284,9 @@ void WorldScene::checkCollisionBombs()
 	if (_player->isDestroy() && !_fadeLevel)
 	{
 		_fadeLevel = true;
-		auto action = CCSequence::create(CCFadeIn::create(0.5f),
+		auto action = CCSequence::create(
+			CCDelayTime::create(3.f),
+			CCFadeIn::create(0.5f),
 			CallFunc::create(CC_CALLBACK_0(LoadLevelScene::restart, _levelScene)), nullptr);
 		_blackLayer->runAction(action);
 	}
@@ -669,6 +657,7 @@ void WorldScene::onEnter()
 void WorldScene::onExit()
 {
 	CCLayer::onExit();
+	stopMusic();
 }
 
 void WorldScene::setDefaultParametrNpc(NPC* npc, const cocos2d::Point& point, int order /* = 2 */)
@@ -685,5 +674,45 @@ void WorldScene::setDefaultParametrNpc(NPC* npc, const cocos2d::Point& point, in
 void WorldScene::createIronChild(const cocos2d::Point& point, unsigned int createTime)
 {
 	setDefaultParametrNpc(IronChild::create(_levelScene->getNPC(ironChild), _bricks, createTime), point);
+}
+
+void WorldScene::stopMusic()
+{
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
+}
+
+void WorldScene::playMusic()
+{
+	std::string name;
+	if (_data._level == 8)
+	{
+		name = "music/Boss.mp3";
+	}
+	else if (_data._stage > 1)
+	{
+		name = "music/Stage_Music_2.mp3";
+	}
+	else
+	{
+		name = "music/Stage_Music_1.mp3";
+	}
+
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic(name.c_str());
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(name.c_str(), true);
+}
+
+void WorldScene::nextLevel()
+{
+	_player->setPosition(_startPosition);
+	_levelScene->nextLevel();
+	Director::getInstance()->popScene();
+}
+
+void WorldScene::playMusicStageClear()
+{
+	stopMusic();
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Stage_Clear.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Stage_Clear.mp3", false);
 }
 

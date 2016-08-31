@@ -3,6 +3,8 @@
 #include "Scene/LoadLevelScene.h"
 #include "Scene/PasswordScene.h"
 #include "Scene/PreloadBattleScene.h"
+#include "SimpleAudioEngine.h"
+#include "Model/GameSettings.h"
 
 USING_NS_CC;
 
@@ -95,6 +97,8 @@ void MenuScene::setPos(MenuEnum e)
 
 void MenuScene::startGame()
 {
+	stopMusic();
+	GameSettings::Instance().setDefaulPlayer();
 	Director::getInstance()->pushScene(LoadLevelScene::createScene(_loaderMap, _loaderNPC));
 }
 
@@ -106,4 +110,23 @@ void MenuScene::startPasswordScene()
 void MenuScene::startBattle()
 {
 	Director::getInstance()->pushScene(PreloadBattleScene::createScene(_loaderNPC));
+}
+
+void MenuScene::onExit()
+{
+	Layer::onExit();
+}
+
+void MenuScene::stopMusic()
+{
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
+}
+
+void MenuScene::onEnter()
+{
+	Layer::onEnter();
+
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Title.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Title.mp3", true);
 }

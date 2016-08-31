@@ -6,6 +6,7 @@
 #include "Scene/MenuScene.h"
 #include "Scene/StartingScene.h"
 #include "Scene/FinalScene.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
@@ -138,8 +139,11 @@ void LoadLevelScene::nextLevel()
 
 void LoadLevelScene::runLevelAction()
 {
-	auto action = CCSequence::create(FadeIn::create(0.5f), CCDelayTime::create(1.0f), CCFadeOut::create(0.5f),
-		 		CallFunc::create(CC_CALLBACK_0(LoadLevelScene::loadWordScene, this)), nullptr);
+	auto action = CCSequence::create(
+		CallFunc::create(CC_CALLBACK_0(LoadLevelScene::playRoundMusic, this)),
+		FadeIn::create(0.5f), CCDelayTime::create(5.0f), CCFadeOut::create(0.5f),
+		CallFunc::create(CC_CALLBACK_0(LoadLevelScene::stopMusic, this)),
+		CallFunc::create(CC_CALLBACK_0(LoadLevelScene::loadWordScene, this)), nullptr);
 	 	_rootLevelNode->runAction(action);
 }
 
@@ -159,6 +163,8 @@ void LoadLevelScene::restart()
 
 void LoadLevelScene::backMenu()
 {
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
 	Director::getInstance()->replaceScene(TransitionFade::create(0.5, MenuScene::createScene()));
 }
 
@@ -220,7 +226,10 @@ void LoadLevelScene::restartLevel()
 			nullptr));
 		label->runAction(labelAction);
 
-		auto action = CCSequence::create(FadeIn::create(0.5f), CCDelayTime::create(4.0f), CCFadeOut::create(0.5f),
+		auto action = CCSequence::create(
+			CallFunc::create(CC_CALLBACK_0(LoadLevelScene::playStageMusic, this)),
+			FadeIn::create(0.5f), CCDelayTime::create(5.0f), CCFadeOut::create(0.5f),
+			CallFunc::create(CC_CALLBACK_0(LoadLevelScene::stopMusic, this)),
 			CallFunc::create(CC_CALLBACK_0(LoadLevelScene::runLevelAction, this)), nullptr);
 		_rootStageNode->runAction(action);
 	}
@@ -308,4 +317,21 @@ void LoadLevelScene::loadPassword(const std::string& key)
 	restartLevel();
 }
 
+void LoadLevelScene::stopMusic()
+{
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
+}
+
+void LoadLevelScene::playStageMusic()
+{
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Stage_Start.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Stage_Start.mp3", false);
+}
+
+void LoadLevelScene::playRoundMusic()
+{
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Round_Start.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Round_Start.mp3", false);
+}
 

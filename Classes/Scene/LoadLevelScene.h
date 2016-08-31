@@ -43,6 +43,9 @@ public:
 	NPCData getNPC(ID_NPC id);
 	MapData getCurrentMap();
 
+	void playRoundMusic();
+	void playStageMusic();
+	void stopMusic();
 	void nextLevel();
 	void restart();
 	void backMenu();

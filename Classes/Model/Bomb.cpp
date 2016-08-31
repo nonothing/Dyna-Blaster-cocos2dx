@@ -1,6 +1,7 @@
 #include "Model/Bomb.h"
 #include "Model/BrickDoor.h"
 #include "Model/BrickBonus.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 #define ANIM_TAG 225
@@ -186,6 +187,8 @@ void Bomb::explode()
 	_isFire = true;
 	_isRemote = false;
 	_tick = 9999;
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("music/bomb.wav");
+	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/bomb.wav", false);
 	if (_brick)
 	{
 		_player->explodeBomb();

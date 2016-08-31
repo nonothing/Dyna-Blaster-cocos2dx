@@ -1,5 +1,6 @@
 #include "Scene/FinalScene.h"
 #include "cocostudio/CocoStudio.h"
+#include "SimpleAudioEngine.h"
 
 #define ANIM_TAG 444
 USING_NS_CC;
@@ -138,4 +139,13 @@ void FinalScene::showCry()
 {
 	auto cry = _blackHumanSprite->getChildByTag(22);
 	cry->setVisible(!cry->isVisible());
+}
+
+void FinalScene::onEnter()
+{
+	Layer::onEnter();
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Ending.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Ending.mp3", false);
 }

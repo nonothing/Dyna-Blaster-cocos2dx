@@ -214,7 +214,7 @@ void Snake::dead()
 			{
 				if (snake->isDead()) count++;
 			}
-			if (count >= _snakeVec.size() / 2)
+			if (count >= (int)_snakeVec.size() / 2)
 			{
 				for (auto snake : _snakeVec)
 				{

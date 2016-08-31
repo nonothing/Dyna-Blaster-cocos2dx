@@ -29,6 +29,7 @@ private:
 	void runPanicAnim(cocos2d::Sprite* sprite, const std::string& animKey);
 	void runAnimation(cocos2d::Sprite* sprite, const std::string& animKey);
 	void stopPanic();
+	void stopMusic();
 	void end();
 public:
 	static StartingScene* create(LoadLevelScene* loadScene);

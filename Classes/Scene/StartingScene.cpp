@@ -1,5 +1,6 @@
 #include "Scene/StartingScene.h"
 #include "cocostudio/CocoStudio.h"
+#include "SimpleAudioEngine.h"
 
 #define ANIM_TAG 444
 USING_NS_CC;
@@ -64,6 +65,8 @@ bool StartingScene::init(LoadLevelScene* loadScene)
 	CSVReader::getInst()->parse("gamedata/starting_scene.csv");
 	_map = CSVReader::getInst()->getNormalMap();
 
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Introduction.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Introduction.mp3", false);
     return true;
 }
 
@@ -130,7 +133,7 @@ int StartingScene::inverseOpacity(int var)
 
 void StartingScene::humanRun(Direction dir)
 {
-	runAnimation(_humanSprite, "player_move_" + sDirName[dir]);
+	runAnimation(_humanSprite, "player_white_move_" + sDirName[dir]);
 	_humanSprite->setFlippedX(dir == RIGHT);
 }
 
@@ -159,6 +162,7 @@ void StartingScene::runPanicAnim(cocos2d::Sprite* sprite, const std::string& ani
 void StartingScene::end()
 {
 	auto action = Sequence::create(FadeOut::create(0.5), 
+		CallFunc::create(CC_CALLBACK_0(StartingScene::stopMusic, this)),
 		CallFunc::create(CC_CALLBACK_0(LoadLevelScene::loadAfterStartingScene, _loadScene)), nullptr);
 	_rootNode->runAction(action);
 }
@@ -181,4 +185,10 @@ void StartingScene::stopPanic()
 	_doctorSprite->setSpriteFrame("doctor_0.png");
 	_humanSprite->stopActionByTag(ANIM_TAG);
 	_humanSprite->setSpriteFrame("human_0.png");
+}
+
+void StartingScene::stopMusic()
+{
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
 }

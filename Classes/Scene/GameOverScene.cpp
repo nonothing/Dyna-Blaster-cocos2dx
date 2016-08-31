@@ -3,6 +3,7 @@
 #include "Scene/LoadLevelScene.h"
 #include "Model/GameSettings.h"
 #include "ui/UIText.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
@@ -119,14 +120,23 @@ void GameOverScene::endFunc()
 	_rootNode->runAction(CCSequence::create(CCFadeOut::create(0.5f), CallFunc::create(CC_CALLBACK_0(LoadLevelScene::backMenu, _loadLevelScene)), nullptr));
 }
 
-void GameOverScene::backMenu()
-{
-	Director::getInstance()->popToRootScene();
-}
-
 GameOverScene::~GameOverScene()
 {
 	getEventDispatcher()->removeEventListener(_keyboardListener);
 	CCLOG("GameOverScene::~GameOverScene()");
+}
+
+void GameOverScene::onEnter()
+{
+	Layer::onEnter();
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Game_Over.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Game_Over.mp3", true);
+}
+
+void GameOverScene::onExit()
+{
+	Layer::onExit();
 }
 

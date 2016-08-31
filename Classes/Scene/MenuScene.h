@@ -25,12 +25,15 @@ private:
 	void startGame();
 	void startBattle();
 	void startPasswordScene();
+	void stopMusic();
 
 public:
 	static cocos2d::Scene* createScene();
 	virtual bool init();
 	CREATE_FUNC(MenuScene);
 
+	virtual void onExit();
+	virtual void onEnter();
 	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 };

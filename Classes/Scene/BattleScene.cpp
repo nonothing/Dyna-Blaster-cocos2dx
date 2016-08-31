@@ -3,6 +3,7 @@
 #include "Model/Timer.h"
 #include "Model/GameSettings.h"
 #include "Model/MapData.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
@@ -559,6 +560,10 @@ void BattleScene::removeText(cocos2d::ui::Text* text)
 void BattleScene::onEnter()
 {
 	CCLayer::onEnter();
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Battle.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Battle.mp3", true);
 }
 
 void BattleScene::onExit()

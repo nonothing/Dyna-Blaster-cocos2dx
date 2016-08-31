@@ -24,11 +24,12 @@ private:
 	void setPos(MenuGameOverEnum e);
 	void continueFunc();
 	void endFunc();
-	void backMenu();
 public:
 	static cocos2d::Scene* createScene(LoadLevelScene*	loadLevelScene);
 	virtual bool init(LoadLevelScene*	loadLevelScene);
 	static GameOverScene* create(LoadLevelScene*	loadLevelScene);
+	virtual void onEnter();
+	virtual void onExit();
 
 	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);

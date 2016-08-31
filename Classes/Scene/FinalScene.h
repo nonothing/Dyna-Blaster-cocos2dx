@@ -29,6 +29,7 @@ public:
 	static cocos2d::Scene* createScene(LoadLevelScene* scene);
 	virtual bool init(LoadLevelScene* scene);
 
+	virtual void onEnter();
 	void onFrameEvent(cocostudio::timeline::Frame *frame);
 	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 };
