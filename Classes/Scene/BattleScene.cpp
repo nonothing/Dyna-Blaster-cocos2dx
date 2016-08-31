@@ -113,7 +113,7 @@ void BattleScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
 	auto dir = KeyCodeToDiretion(keyCode);
 	int id = KeyCodeToPlayerID(keyCode);
-	if (id != 9999 && id < _players.size())
+	if (id != 9999 && id < (int)_players.size())
 	{
 		auto player = _players.at(id);
 	

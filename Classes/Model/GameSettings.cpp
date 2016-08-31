@@ -7,6 +7,7 @@
 #define RADIO_KEY "radio"
 #define MOVE_WALL_KEY "moveWall"
 #define TROUGH_BOMB_KEY "troughBomb"
+#define SPEED_KEY "speed"
 
 USING_NS_CC;
 
@@ -36,6 +37,7 @@ void GameSettings::savePlayer(Player* player)
 	UserDefault::getInstance()->setIntegerForKey(SIZE_BOMB_KEY, player->getSizeBomb());
 	UserDefault::getInstance()->setIntegerForKey(COUNT_BOMB_KEY, player->getCountBomb());
 	UserDefault::getInstance()->setIntegerForKey(PLAYER_LIFE_KEY, player->getLife());
+	UserDefault::getInstance()->setIntegerForKey(SPEED_KEY, player->getSpeedCount());
 	UserDefault::getInstance()->setBoolForKey(RADIO_KEY, player->isRemote());
 	UserDefault::getInstance()->setBoolForKey(TROUGH_BOMB_KEY, player->isThroughBomb());
 	UserDefault::getInstance()->setBoolForKey(MOVE_WALL_KEY, player->isMoveWall());
@@ -53,6 +55,7 @@ void GameSettings::setDefaulPlayer()
 	UserDefault::getInstance()->setIntegerForKey(SIZE_BOMB_KEY, 1);
 	UserDefault::getInstance()->setIntegerForKey(COUNT_BOMB_KEY, 1);
 	UserDefault::getInstance()->setIntegerForKey(PLAYER_LIFE_KEY, 3);
+	UserDefault::getInstance()->setIntegerForKey(SPEED_KEY, 0);
 	UserDefault::getInstance()->setBoolForKey(RADIO_KEY, false);
 	UserDefault::getInstance()->setBoolForKey(TROUGH_BOMB_KEY, false);
 	UserDefault::getInstance()->setBoolForKey(MOVE_WALL_KEY, false);
@@ -60,11 +63,12 @@ void GameSettings::setDefaulPlayer()
 }
 
 
-void GameSettings::setParametersPlayer(int sizeBomb, int countBomb)
+void GameSettings::setParametersPlayer(int sizeBomb, int countBomb, int speed)
 {
 	setDefaulPlayer();
 	UserDefault::getInstance()->setIntegerForKey(SIZE_BOMB_KEY, sizeBomb);
 	UserDefault::getInstance()->setIntegerForKey(COUNT_BOMB_KEY, countBomb);
+	UserDefault::getInstance()->setIntegerForKey(SPEED_KEY, speed);
 }
 
 int GameSettings::getSizeBomb()
@@ -80,6 +84,12 @@ int GameSettings::getCountBomb()
 int GameSettings::getPlayerLife()
 {
 	return UserDefault::getInstance()->getIntegerForKey(PLAYER_LIFE_KEY, 0);
+}
+
+
+int GameSettings::getSpeedCount()
+{
+	return UserDefault::getInstance()->getIntegerForKey(SPEED_KEY, 0);
 }
 
 bool GameSettings::isRadioBomb()

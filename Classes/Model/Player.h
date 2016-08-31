@@ -30,6 +30,7 @@ private:
 	bool				_isDestroy;
 
 	//bonus
+	int					_speedCount;
 	int					_sizeBomb;
 	bool				_isRemote;
 	bool				_isMoveWall;
@@ -50,6 +51,7 @@ private:
 	bool canMove(BrickType type);
 	void destroy();
 	void TintToWhite();
+	void speedUp();
 public:
 	void immortal();
 	PlayerEvent			lifeEvent;
@@ -67,6 +69,7 @@ public:
 	int  getLife();
 	int  getCountBomb();
 	int  getSizeBomb();
+	int  getSpeedCount();
 	bool isImmortal();
 	bool isDestroy();
 	void dead();

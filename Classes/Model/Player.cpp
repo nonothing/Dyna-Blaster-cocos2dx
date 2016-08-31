@@ -37,6 +37,7 @@ bool Player::init(cocos2d::Layer* layer, PlayerColor color)
 	_sprite->setPositionY(12);
 	addChild(_sprite);
 	
+	_speedCount = GameSettings::Instance().getSpeedCount();
 	_sizeBomb = GameSettings::Instance().getSizeBomb();
 	_isRemote = GameSettings::Instance().isRadioBomb();
 	_countBomb = _maxBomb = GameSettings::Instance().getCountBomb();
@@ -47,7 +48,7 @@ bool Player::init(cocos2d::Layer* layer, PlayerColor color)
 	_collisionBrick = nullptr;
 	_oldColor = _sprite->getColor();
 	_mapLayer = layer;
-	_speed = Point(4, 6);
+	_speed = Point(4, 6) + Point(2, 2) * _speedCount;
 	_dir = NONE;
 	_light = 0;
 	_lightDelta = 0.1f;
@@ -248,7 +249,7 @@ void Player::getBonus(ID_BONUS idBonus)
 	{
 	case BFire:		_sizeBomb++;				break;
 	case BBomb:		_countBomb++; _maxBomb++;	break;
-	case BSpeed:	_speed += Point(2, 2);		break;
+	case BSpeed:	speedUp();					break;
 	case BHeart:	_isRemote = true;			break;
 	case BLife:		_life++; lifeEvent(this);   break;
 	case BWall:		_isMoveWall = true;			break;
@@ -286,6 +287,12 @@ void Player::TintToWhite()
 	setGLProgramState(glProgramState);
 	getGLProgramState()->setUniformFloat("t", _light);
 	_sprite->setGLProgramState(glProgramState);
+}
+
+void Player::speedUp()
+{
+	_speedCount++;
+	_speed = Point(4, 6) + Point(2, 2) * _speedCount;
 }
 
 void Player::immortal()
@@ -329,6 +336,11 @@ int Player::getCountBomb()
 int Player::getSizeBomb()
 {
 	return _sizeBomb;
+}
+
+int Player::getSpeedCount()
+{
+	return _speedCount;
 }
 
 bool Player::isImmortal()

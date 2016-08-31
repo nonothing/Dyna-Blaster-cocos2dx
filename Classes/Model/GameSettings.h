@@ -24,10 +24,11 @@ public:
 	void savePlayer(Player* player);
 	void setPlayerLife(int value);
 	void setDefaulPlayer();
-	void setParametersPlayer(int sizeBomb, int countBomb);
+	void setParametersPlayer(int sizeBomb, int countBomb, int speed);
 	int getSizeBomb();
 	int getCountBomb();
 	int getPlayerLife();
+	int getSpeedCount();
 	bool isRadioBomb();
 	bool isMoveWall();
 	bool isTroughBomb();

@@ -16,9 +16,6 @@
     <Filter Include="src\Model">
       <UniqueIdentifier>{a6bd0b67-69d3-4a45-94cd-f5131407c187}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Controller">
-      <UniqueIdentifier>{e16d6333-0dc5-4b71-aa27-ecd8500081dd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\utils">
       <UniqueIdentifier>{6ce52e63-28f0-4eeb-ab3e-4ec88bd7b0f3}</UniqueIdentifier>
     </Filter>
