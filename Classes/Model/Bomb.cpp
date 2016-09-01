@@ -187,6 +187,7 @@ void Bomb::explode()
 		_brick = nullptr;
 	}
 	animate(_sprite, FCENTER);
+	checkCollision(_sprite);
 	_fires.push_back(_sprite);
 	for (auto p : sPoints)
 	{
