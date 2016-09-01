@@ -361,7 +361,17 @@ Point BattleScene::createBricks()
 void BattleScene::createNPCs()
 {
 	BricksVec freeBricks;
-	std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(freeBricks), [](Brick* brick) { return brick->getType() == EBACKGROUND; });
+	std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(freeBricks), [this](Brick* brick) { 
+		bool canCreate = true;
+		for (auto player : _players)
+		{
+			if (isCollision(brick, player, Size(240, 240)))
+			{
+				canCreate = false;
+				break;
+			}
+		}
+		return brick->getType() == EBACKGROUND && canCreate; });
 	std::random_shuffle(freeBricks.begin(), freeBricks.end());
 	for (int i = 0; i < 4; i++)
 	{
@@ -369,7 +379,17 @@ void BattleScene::createNPCs()
 	}
 
 	BricksVec bricks;
-	std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(bricks), [](Brick* brick) { return brick->getType() != EBRICK; });
+	std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(bricks), [this](Brick* brick) {
+		bool canCreate = true;
+		for (auto player : _players)
+		{
+			if (isCollision(brick, player, Size(240, 240)))
+			{
+				canCreate = false;
+				break;
+			}
+		}
+		return brick->getType() != EBRICK && canCreate; });
 	std::random_shuffle(bricks.begin(), bricks.end());
 	for (int i = 0; i < 2; i++)
 	{

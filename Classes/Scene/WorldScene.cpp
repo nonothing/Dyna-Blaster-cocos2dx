@@ -347,7 +347,8 @@ Point WorldScene::createBricks()
 void WorldScene::createNPCs()
 {
 	BricksVec bricks;
-	std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(bricks), [](Brick* brick) { return brick->getType() == EBACKGROUND;});
+	std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(bricks), [this](Brick* brick) 
+	{ return brick->getType() == EBACKGROUND && !isCollision(brick, _player, Size(240, 240)); });
 	std::random_shuffle(bricks.begin(), bricks.end());
 	auto npcVec = _data._npcVec;
 	int index = 0;
