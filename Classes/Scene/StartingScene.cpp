@@ -47,11 +47,11 @@ bool StartingScene::init(LoadLevelScene* loadScene)
 	getEventDispatcher()->addEventListenerWithSceneGraphPriority(_keyboardListener, this);
 
 	addChild(_rootNode);
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("startingscene.plist", "startingscene.png");
-	AnimationCache::getInstance()->addAnimationsWithFile("staringsceneAnim.plist");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/startingscene.plist", "atlas/startingscene.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("animation/staringscene.plist");
 
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("players.plist", "players.png");
-	AnimationCache::getInstance()->addAnimationsWithFile("playersAnim.plist");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/players.plist", "atlas/players.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("animation/players.plist");
 
 	_humanSprite = static_cast<Sprite*>(_rootNode->getChildByName("human_3_7"));
 	humanRun(LEFT);

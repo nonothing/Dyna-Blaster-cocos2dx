@@ -4,33 +4,7 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>fire_body_1.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{154,300},{66,74}}</string>
-                <key>offset</key>
-                <string>{3,0}</string>
-                <key>rotated</key>
-                <true/>
-                <key>sourceColorRect</key>
-                <string>{{7,0},{66,74}}</string>
-                <key>sourceSize</key>
-                <string>{74,74}</string>
-            </dict>
-            <key>fire_body_2.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{154,230},{68,74}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <true/>
-                <key>sourceColorRect</key>
-                <string>{{3,0},{68,74}}</string>
-                <key>sourceSize</key>
-                <string>{74,74}</string>
-            </dict>
-            <key>fire_body_3.png</key>
+            <key>bomb_1.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{2,2},{74,74}}</string>
@@ -43,7 +17,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>fire_body_4.png</key>
+            <key>bomb_2.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{78,2},{74,74}}</string>
@@ -56,7 +30,33 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>fire_center_1.png</key>
+            <key>fire_body_1.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,306},{36,74}}</string>
+                <key>offset</key>
+                <string>{1,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{20,0},{36,74}}</string>
+                <key>sourceSize</key>
+                <string>{74,74}</string>
+            </dict>
+            <key>fire_body_2.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{154,278},{44,74}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{15,0},{44,74}}</string>
+                <key>sourceSize</key>
+                <string>{74,74}</string>
+            </dict>
+            <key>fire_body_3.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{154,2},{74,74}}</string>
@@ -69,7 +69,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>fire_center_2.png</key>
+            <key>fire_body_4.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{2,78},{74,74}}</string>
@@ -82,7 +82,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>fire_center_3.png</key>
+            <key>fire_center_1.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{78,78},{74,74}}</string>
@@ -95,7 +95,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>fire_center_4.png</key>
+            <key>fire_center_2.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{154,78},{74,74}}</string>
@@ -108,7 +108,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>fire_center_5.png</key>
+            <key>fire_center_3.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{2,154},{74,74}}</string>
@@ -121,33 +121,7 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>fire_tail_1.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{2,230},{72,74}}</string>
-                <key>offset</key>
-                <string>{-1,0}</string>
-                <key>rotated</key>
-                <true/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{72,74}}</string>
-                <key>sourceSize</key>
-                <string>{74,74}</string>
-            </dict>
-            <key>fire_tail_2.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{78,230},{72,74}}</string>
-                <key>offset</key>
-                <string>{-1,0}</string>
-                <key>rotated</key>
-                <true/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{72,74}}</string>
-                <key>sourceSize</key>
-                <string>{74,74}</string>
-            </dict>
-            <key>fire_tail_3.png</key>
+            <key>fire_center_4.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{78,154},{74,74}}</string>
@@ -160,10 +134,62 @@
                 <key>sourceSize</key>
                 <string>{74,74}</string>
             </dict>
-            <key>fire_tail_4.png</key>
+            <key>fire_center_5.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{154,154},{74,74}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{74,74}}</string>
+                <key>sourceSize</key>
+                <string>{74,74}</string>
+            </dict>
+            <key>fire_tail_1.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{78,284},{38,74}}</string>
+                <key>offset</key>
+                <string>{-1,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{17,0},{38,74}}</string>
+                <key>sourceSize</key>
+                <string>{74,74}</string>
+            </dict>
+            <key>fire_tail_2.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{154,230},{46,74}}</string>
+                <key>offset</key>
+                <string>{-1,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{13,0},{46,74}}</string>
+                <key>sourceSize</key>
+                <string>{74,74}</string>
+            </dict>
+            <key>fire_tail_3.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{78,230},{52,74}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{11,0},{52,74}}</string>
+                <key>sourceSize</key>
+                <string>{74,74}</string>
+            </dict>
+            <key>fire_tail_4.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,230},{74,74}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -183,7 +209,7 @@
             <key>size</key>
             <string>{256,512}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:453c677f99940c5e43eb6f42a37eb337:ed7f7bfc02ae68ff25a185b1fc32dbc6:0bb5bce7cb5efcf05dfe712e64a0ca66$</string>
+            <string>$TexturePacker:SmartUpdate:5993207af39449b018de8670544d8826:bad3b00d7b107e3e25725b3723e7fec7:0bb5bce7cb5efcf05dfe712e64a0ca66$</string>
             <key>textureFileName</key>
             <string>fire.png</string>
         </dict>

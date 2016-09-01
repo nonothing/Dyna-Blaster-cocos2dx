@@ -29,7 +29,7 @@ bool Brick::init(int level, int posX, int posY)
 	_isAnimate = false;
 
 	BrickType type = (posX % 2 == 1 && posY % 2 == 1) ? EBRICK : EBACKGROUND;
-	_sprite = Sprite::create(getPathNameBrick(type, _level));
+	_sprite = Sprite::create(getPathNameBrick(type));
 	addChild(_sprite);
     return true;
 }
@@ -43,7 +43,7 @@ void Brick::destroyWall()
 {
 	if (_type == EWALL)
 	{
-		changeTexture(_sprite, EBACKGROUND, _level);
+		changeTexture(EBACKGROUND);
 	}
 }
 
@@ -57,28 +57,28 @@ void Brick::createWall()
 {
 	if (_type == EBACKGROUND)
 	{
-		changeTexture(_sprite, EWALL, _level);
+		changeTexture(EWALL);
 	}
 }
 
-std::string Brick::getPathNameBrick(BrickType type, int level)
+std::string Brick::getPathNameBrick(BrickType type)
 {
 	_type = type;
 	switch (type)
 	{
 	case EBACKGROUND: return "bricks/background_" + std::to_string(_level) + ".png";
-	case EBRICK: return "bricks/bricks_" + std::to_string(_level) + ".png";	
+	case EBRICK: return "bricks/bricks_" + std::to_string(_level) + ".png";
 	case EWALL: return "bricks/wall_" + std::to_string(_level) + ".png";
 	}
 	return "";
 }
 
-void Brick::changeTexture(cocos2d::Sprite* sprite, BrickType type, int level)
+void Brick::changeTexture(BrickType type)
 {
-	auto texture = Director::getInstance()->getTextureCache()->addImage(getPathNameBrick(type, level));
+	auto texture = Director::getInstance()->getTextureCache()->addImage(getPathNameBrick(type));
 	if (texture)
 	{
-		sprite->setTexture(texture);
+		_sprite->setTexture(texture);
 	}
 }
 

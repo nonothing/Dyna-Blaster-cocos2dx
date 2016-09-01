@@ -36,7 +36,7 @@ void BrickDoor::animationDestroy()
 {
 	if (_type == EWALL)
 	{
-		changeTexture(_sprite, EBACKGROUND, _level);
+		changeTexture(EBACKGROUND);
 	}
 	if (!createDoor())
 	{	
@@ -71,7 +71,7 @@ bool BrickDoor::createDoor()
 {
 	if (!_doorSprite)
 	{
-		_doorSprite = Sprite::create("bricks/mirror_2.png");
+		_doorSprite = Sprite::createWithSpriteFrameName("mirror_2");
 		addChild(_doorSprite);
 		return true;
 	}

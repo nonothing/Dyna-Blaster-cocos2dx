@@ -15,4 +15,7 @@ enum  ID_BONUS
 
 };
 
+const static std::string sBonusName[] = { "bonus_fire", "bonus_bomb", "bonus_speed", "bonus_heart", "bonus_life", "bonus_wall", "bonus_ebomb", "bonus_immortal" };
+const static std::string sBonus[] = { "F", "B", "S", "H", "L", "W", "E", "I" };
+
 #endif // __ID_BONUS_H__

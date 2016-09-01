@@ -17,8 +17,8 @@ protected:
 	bool				_hasBomb;
 	bool				_isAnimate;
 
-	std::string			getPathNameBrick(BrickType type, int level);
-	void				changeTexture(cocos2d::Sprite* sprite, BrickType type, int level);
+	std::string			getPathNameBrick(BrickType type);
+	void				changeTexture(BrickType type);
 	virtual void		animationDestroy();
 
 public:

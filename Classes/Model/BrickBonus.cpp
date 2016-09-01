@@ -4,8 +4,6 @@ USING_NS_CC;
 #define ANIM_TAG 225 
 #define BLINK_TAG 105
 
-const static std::string sBonusName[] = {"bonus_fire","bonus_bomb","bonus_speed","bonus_heart","bonus_life","bonus_wall","bonus_ebomb","bonus_immortal"};
-
 BrickBonus* BrickBonus::create(Brick* brick, ID_BONUS id)
 {
 	BrickBonus* bonus = new BrickBonus();
@@ -45,7 +43,7 @@ void BrickBonus::animationDestroy()
 	{
 		_sprite->stopActionByTag(BLINK_TAG);
 		_sprite->setColor(_oldColor);
-		changeTexture(_sprite, EBACKGROUND, _level);
+		changeTexture(EBACKGROUND);
 		_type = EBONUS;
 	}
 	if (!createBonus())

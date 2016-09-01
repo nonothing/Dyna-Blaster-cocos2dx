@@ -32,13 +32,13 @@ bool Bomb::init(Player* player)
 	_brick = nullptr;
 	_player = player;
 	_isRemote = player->isRemote();
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("bomb/fire.plist", "bomb/fire.png");
-	AnimationCache::getInstance()->addAnimationsWithFile("bomb/fireAnim.plist");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/fire.plist", "atlas/fire.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("animation/fire.plist");
 
 	schedule(schedule_selector(Bomb::update), 0.3f);
 	schedule(schedule_selector(Bomb::updateCollision), 0.05f);
 
-	_sprite = Sprite::create("bomb/bomb_1.png");
+	_sprite = Sprite::createWithSpriteFrameName("bomb_1.png");
 	addChild(_sprite);
 	_tick = 0;
 	_size = player->getSizeBomb();
@@ -52,13 +52,13 @@ void Bomb::update(float dt)
 	_tick++;
 	if (_tick < TIME_BOMB)
 	{
-		changeTexture(_sprite, "bomb_" + std::to_string((_tick % 2) + 1));
+		_sprite->setSpriteFrame("bomb_" + std::to_string((_tick % 2) + 1) + ".png");
 	}
 	else
 	{
 		if (_isRemote)
 		{
-			changeTexture(_sprite, "bomb_" + std::to_string((_tick % 2) + 1));
+			_sprite->setSpriteFrame("bomb_" + std::to_string((_tick % 2) + 1) + ".png");
 			_tick = 0;
 		}
 	}
@@ -85,15 +85,6 @@ void Bomb::updateCollision(float dt)
 			_brick->putBomb();
 			unschedule(schedule_selector(Bomb::updateCollision));
 		}
-	}
-}
-
-void Bomb::changeTexture(cocos2d::Sprite* sprite, const std::string& str)
-{
-	auto texture = Director::getInstance()->getTextureCache()->addImage("bomb/" + str + ".png");
-	if (texture)
-	{
-		sprite->setTexture(texture);
 	}
 }
 

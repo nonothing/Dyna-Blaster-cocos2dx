@@ -46,19 +46,24 @@ bool FinalScene::init(LoadLevelScene* loadScene)
 	getEventDispatcher()->addEventListenerWithSceneGraphPriority(_keyboardListener, this);
 
 	addChild(_rootNode);
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("startingscene.plist", "startingscene.png");
-	AnimationCache::getInstance()->addAnimationsWithFile("staringsceneAnim.plist");
 
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("players.plist", "players.png");
-	AnimationCache::getInstance()->addAnimationsWithFile("playersAnim.plist");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/players.plist", "atlas/players.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("animation/players.plist");
 
-	_humanSprite = static_cast<Sprite*>(_rootNode->getChildByName("white_man_1_2"));
+	auto node = static_cast<Sprite*>(_rootNode->getChildByName("white_man_1_2"));
+	_humanSprite = Sprite::createWithSpriteFrameName("player_white_left_3.png");
+	node->addChild(_humanSprite);
 	humanRun(RIGHT);
 
-  	_blackHumanSprite = static_cast<Sprite*>(_rootNode->getChildByName("black_man_3_3"));
+	
+  	node = static_cast<Sprite*>(_rootNode->getChildByName("black_man_3_3"));
+	_blackHumanSprite = Sprite::createWithSpriteFrameName("player_black_left_3.png");
+	node->addChild(_blackHumanSprite);
 	humanBlackRun(RIGHT);
 
-	_girlSprite = static_cast<Sprite*>(_rootNode->getChildByName("girl_1_4"));
+	node = static_cast<Sprite*>(_rootNode->getChildByName("girl_1_4"));
+	_girlSprite = Sprite::createWithSpriteFrameName("girl_1.png");
+	node->addChild(_girlSprite);
 	runAnimation(_girlSprite, "girl_move");
 
     return true;

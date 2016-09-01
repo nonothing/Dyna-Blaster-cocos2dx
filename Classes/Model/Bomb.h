@@ -11,7 +11,6 @@ enum FireType { FCENTER, FBODY, FTAIL};
 class Bomb : public WorldObject
 {
 private:
-	void changeTexture(cocos2d::Sprite* sprite, const std::string& str);
 	void animate(cocos2d::Sprite* sprite, FireType type);
 	Direction pointToDir(const cocos2d::Point& point);
 	void destroy();

@@ -33,7 +33,7 @@ bool MenuScene::init()
 		}
 	}
 
-	_arrow = Sprite::create("triangle_red.png");
+	_arrow = Sprite::create("backgrounds/triangle_red.png");
 
 	_keyboardListener = EventListenerKeyboard::create();
 	_keyboardListener->onKeyPressed = CC_CALLBACK_2(MenuScene::onKeyPressed, this);

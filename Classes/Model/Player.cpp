@@ -48,7 +48,7 @@ bool Player::init(cocos2d::Layer* layer, PlayerColor color)
 	_collisionBrick = nullptr;
 	_oldColor = _sprite->getColor();
 	_mapLayer = layer;
-	_speed = Point(4, 6) + Point(2, 2) * _speedCount;
+	_speed = Point(6, 8) + Point(2, 2) * _speedCount;
 	_dir = NONE;
 	_isDestroy = false;
 	_isDead = false;
@@ -388,5 +388,5 @@ PlayerColor Player::getColorID()
 
 cocos2d::Rect Player::getRect()
 {
-	return Rect(0, 0, 55, 55);
+	return Rect(0, 0, 60, 60);
 }

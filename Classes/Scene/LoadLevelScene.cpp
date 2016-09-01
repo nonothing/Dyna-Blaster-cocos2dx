@@ -126,7 +126,7 @@ MapData LoadLevelScene::getCurrentMap()
 
 void LoadLevelScene::nextLevel()
 {
-	_currentData = _mapLoader->getMap(_currentLevel++);
+	_currentData = _mapLoader->getMap(1);
 	if (_currentData._id == 0)
 	{
 		auto action = CCSequence::create(CCDelayTime::create(0.1f),
@@ -247,29 +247,29 @@ void LoadLevelScene::countinueFunc()
 
 void LoadLevelScene::loadAnimations()
 {
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("players.plist", "players.png");
-	AnimationCache::getInstance()->addAnimationsWithFile("playersAnim.plist");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/players.plist", "atlas/players.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("animation/players.plist");
 
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("numbers.plist", "numbers.png");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("head.plist", "head.png");
-	AnimationCache::getInstance()->addAnimationsWithFile("headAnim.plist");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/numbers.plist", "atlas/numbers.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/head.plist", "atlas/head.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("animation/head.plist");
 
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("bricks.plist", "bricks.png");
-	AnimationCache::getInstance()->addAnimationsWithFile("bricksAnim.plist");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/bricks.plist", "atlas/bricks.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("animation/bricks.plist");
 
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("snake.plist", "snake.png");
-	AnimationCache::getInstance()->addAnimationsWithFile("snakeAnim.plist");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/snake.plist", "satlas/nake.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("animation/snake.plist");
 
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("npc.plist", "npc.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/npc.plist", "atlas/npc.png");
 
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("iron.plist", "iron.png");
-	AnimationCache::getInstance()->addAnimationsWithFile("ironAnim.plist");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/iron.plist", "atlas/iron.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("animation/iron.plist");
 
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("cyclop.plist", "cyclop.png");
-	AnimationCache::getInstance()->addAnimationsWithFile("cyclopAnim.plist");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/cyclop.plist", "atlas/cyclop.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("animation/cyclop.plist");
 
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("electro.plist", "electro.png");
-	AnimationCache::getInstance()->addAnimationsWithFile("electroAnim.plist");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/electro.plist", "atlas/electro.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("animation/electro.plist");
 
 	for (auto data : _npcLoader->getNPCs())
 	{

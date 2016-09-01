@@ -93,8 +93,6 @@ void MapDataLoader::parse()
 	}
 }
 
-const static std::string sBonus[] = {"F", "B", "S", "H", "L", "W", "E", "I"};
-
 ID_BONUS MapDataLoader::stringToBonus(const std::string& str)
 {
 	for (size_t i = 0; i < myUtils::array_size(sBonus); i++)

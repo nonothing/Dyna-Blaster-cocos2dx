@@ -47,7 +47,7 @@ bool GameOverScene::init(LoadLevelScene* loadLevelScene)
 		}
 	}
 
-	_arrow = Sprite::create("triangle_red.png");
+	_arrow = Sprite::create("backgrounds/triangle_red.png");
 
 	auto label = static_cast<ui::Text*>(_rootNode->getChildByName("Text_5"));
 	label->setString(loadLevelScene->getCurrentMap()._cheatName);

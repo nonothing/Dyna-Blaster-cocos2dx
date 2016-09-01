@@ -132,13 +132,13 @@ void PreloadBattleScene::restartLevel()
 
 void PreloadBattleScene::loadAnimations()
 {
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("players.plist", "players.png");
-	AnimationCache::getInstance()->addAnimationsWithFile("playersAnim.plist");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/players.plist", "atlas/players.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("animation/players.plist");
 
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("bricks.plist", "bricks.png");
-	AnimationCache::getInstance()->addAnimationsWithFile("bricksAnim.plist");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/bricks.plist", "atlas/bricks.png");
+	AnimationCache::getInstance()->addAnimationsWithFile("animation/bricks.plist");
 
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("npc.plist", "npc.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/npc.plist", "atlas/npc.png");
 
 
 	for (auto data : _npcLoader->getNPCs())

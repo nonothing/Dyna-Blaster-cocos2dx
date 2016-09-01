@@ -7,7 +7,7 @@
         <key>fire_center</key>
         <dict>
             <key>delay</key>
-            <real>0.15</real>
+            <real>0.05</real>
             <key>frames</key>
             <array>
                 <string>fire_center_1.png</string>
@@ -22,7 +22,7 @@
 		 <key>fire_body</key>
         <dict>
             <key>delay</key>
-            <real>0.15</real>
+            <real>0.05</real>
             <key>frames</key>
             <array>
                 <string>fire_body_1.png</string>
@@ -37,7 +37,7 @@
 		 <key>fire_tail</key>
         <dict>
             <key>delay</key>
-            <real>0.15</real>
+            <real>0.05</real>
             <key>frames</key>
             <array>
                 <string>fire_tail_1.png</string>
