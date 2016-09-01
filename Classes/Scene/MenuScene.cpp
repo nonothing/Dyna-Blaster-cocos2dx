@@ -83,6 +83,10 @@ void MenuScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 		case PASSWORD: startPasswordScene();		break;
 		}
 	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE)
+	{
+		Director::getInstance()->end();
+	}
 }
 
 void MenuScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)

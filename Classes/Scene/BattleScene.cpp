@@ -139,6 +139,10 @@ void BattleScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 			}
 		}
 	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE)
+	{
+		_preloaderScene->backMenu();
+	}
 }
 
 void BattleScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)

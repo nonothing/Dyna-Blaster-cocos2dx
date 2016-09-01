@@ -2,6 +2,7 @@
 #include "cocostudio/CocoStudio.h"
 #include "enumerate/Direction.h"
 #include "Scene/LoadLevelScene.h"
+#include "Scene/MenuScene.h"
 
 USING_NS_CC;
 
@@ -77,6 +78,10 @@ void PasswordScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
 	moveBomb(KeyCodeToDiretion(keyCode));
 	if (keyCode == EventKeyboard::KeyCode::KEY_SPACE) enterChar();
+	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE)
+	{
+		backMenu();
+	}
 }
 
 void PasswordScene::startGame(const std::string& key)
@@ -167,4 +172,7 @@ PasswordScene::~PasswordScene()
 	getEventDispatcher()->removeEventListener(_keyboardListener);
 }
 
-
+void PasswordScene::backMenu()
+{
+	Director::getInstance()->replaceScene(TransitionFade::create(0.5, MenuScene::createScene()));
+}

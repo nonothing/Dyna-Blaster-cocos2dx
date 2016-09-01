@@ -21,6 +21,7 @@ private:
 	void startGame(const std::string& key);
 	void moveBomb(int dir);
 	void enterChar();
+	void backMenu();
 	int _offsetX;
 	int _offsetY;
 	int _currentLabelX;

@@ -94,6 +94,10 @@ void PreloadBattleScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* eve
 	{
 		_toggleSprite->setPosition(_points.at(_currentPos));
 	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE)
+	{
+		backMenu();
+	}
 }
 
 void PreloadBattleScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)

@@ -128,9 +128,13 @@ void WorldScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 			}
 		}
 	}
-	if (keyCode == EventKeyboard::KeyCode::KEY_1)
+	if (keyCode == EventKeyboard::KeyCode::KEY_P || keyCode == EventKeyboard::KeyCode::KEY_PAUSE)
 	{
-		_player->immortal();
+		//todo pause
+	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE)
+	{
+		_levelScene->backMenu();
 	}
 }
 
