@@ -128,6 +128,10 @@ void WorldScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 			}
 		}
 	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_1)
+	{
+		_player->immortal();
+	}
 }
 
 void WorldScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)

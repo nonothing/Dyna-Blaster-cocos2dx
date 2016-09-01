@@ -6,11 +6,11 @@
 
 class BossBase: public NPC
 {
-protected:
-	float				_light;
-	float				_lightDelta;
+private:
 	int					_countLight;
-	void				TintToWhite();
+	void				blink();
+protected:
+	cocos2d::Action*	getBlinkAction(Direction dir = NONE);
 
 public:
     virtual bool init(const NPCData& data, BricksVec vec);

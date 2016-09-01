@@ -1,5 +1,4 @@
 ﻿#include "Boss/Iron.h"
-#include "utils/WhiteShader.h"
 
 USING_NS_CC;
 #define ANIM_TAG 225 

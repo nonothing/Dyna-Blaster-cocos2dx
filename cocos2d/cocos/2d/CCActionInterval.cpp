@@ -37,6 +37,8 @@ THE SOFTWARE.
 #include "base/CCEventCustom.h"
 #include "base/CCEventDispatcher.h"
 #include "platform/CCStdC.h"
+#include "renderer/CCGLProgram.h"
+#include "ui/shaders/UIShaders.h"
 
 NS_CC_BEGIN
 
@@ -2067,6 +2069,65 @@ void TintTo::update(float time)
             (GLubyte)(_from.g + (_to.g - _from.g) * time),
             (GLubyte)(_from.b + (_to.b - _from.b) * time)));
     }    
+}
+
+TintToWhite* TintToWhite::create(float duration, bool reverse)
+{
+	TintToWhite* tintToWhite = new (std::nothrow) TintToWhite();
+	tintToWhite->initWithDuration(duration, reverse);
+	tintToWhite->autorelease();
+
+	return tintToWhite;
+}
+
+bool TintToWhite::initWithDuration(float duration, bool reverse)
+{
+	if (ActionInterval::initWithDuration(duration))
+	{
+		_isReverse = reverse;
+		return true;
+	}
+
+	return false;
+}
+
+TintToWhite* TintToWhite::clone() const
+{
+	// no copy constructor
+	auto a = new (std::nothrow) TintToWhite();
+	a->initWithDuration(_duration, _isReverse);
+	a->autorelease();
+	return a;
+}
+
+TintToWhite* TintToWhite::reverse(void) const
+{
+	return TintToWhite::create(_duration, !_isReverse);
+}
+
+void TintToWhite::startWithTarget(Node *target)
+{
+	ActionInterval::startWithTarget(target);
+	if (_target)
+	{
+		_glProgram = new cocos2d::GLProgram();
+		_glProgram->initWithByteArrays(ccUIShaderWhite_vert, ccUIShaderWhite_frag);
+		_glProgram->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+		_glProgram->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_COLOR, GLProgram::VERTEX_ATTRIB_COLOR);
+		_glProgram->bindAttribLocation(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORDS);
+		_glProgram->link();
+		_glProgram->updateUniforms();
+		_target->setGLProgram(_glProgram);
+		_target->setGLProgramState(GLProgramState::getOrCreateWithGLProgram(_glProgram));
+	}
+}
+
+void TintToWhite::update(float time)
+{
+	if (_target)
+	{
+		_target->getGLProgramState()->setUniformFloat("t", _isReverse ? (1 - time) : time);
+	}
 }
 
 //

@@ -31,6 +31,8 @@
 NS_CC_BEGIN
 
 extern CC_DLL const GLchar * ccUIGrayScale_frag;
+extern CC_DLL const GLchar * ccUIShaderWhite_frag;
+extern CC_DLL const GLchar * ccUIShaderWhite_vert;
 
 NS_CC_END
 

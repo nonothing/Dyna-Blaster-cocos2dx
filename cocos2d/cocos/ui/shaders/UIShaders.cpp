@@ -30,5 +30,7 @@ NS_CC_BEGIN
 
 //include the gray scale shader
 #include "ccShader_grayscale.frag"
+#include "ccShader_white.frag"
+#include "ccShader_white.vert"
 
 NS_CC_END

@@ -1,5 +1,4 @@
 ﻿#include "Boss/Cyclop.h"
-#include "utils/WhiteShader.h"
 
 USING_NS_CC;
 

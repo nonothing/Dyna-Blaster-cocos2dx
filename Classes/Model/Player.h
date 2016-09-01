@@ -18,8 +18,6 @@ private:
 	Direction			_dir;
 	Direction			_oldDir;
 	cocos2d::Point		_speed;
-	float				_light;
-	float				_lightDelta;
 
 	int					_countBomb;
 	int					_maxBomb;
@@ -51,7 +49,6 @@ private:
 	void getBonus(ID_BONUS idBonus);
 	bool canMove(BrickType type);
 	void destroy();
-	void TintToWhite();
 	void speedUp();
 public:
 	void immortal();

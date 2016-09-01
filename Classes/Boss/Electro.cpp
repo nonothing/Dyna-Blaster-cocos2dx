@@ -1,5 +1,4 @@
 ﻿#include "Boss/Electro.h"
-#include "utils/WhiteShader.h"
 
 USING_NS_CC;
 #define ELECTRO_TAG 155

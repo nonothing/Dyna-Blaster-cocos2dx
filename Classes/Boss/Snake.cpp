@@ -241,10 +241,7 @@ void Snake::dead()
 				}
 			}
 			newTimeCreate();
-			auto action = RepeatForever::create(Sequence::create(DelayTime::create(0.01f),
-				CallFunc::create(CC_CALLBACK_0(Snake::TintToWhite, this)), CallFunc::create(CC_CALLBACK_0(Snake::animate, this, _dir)), nullptr));
-			action->setTag(BLINK_TAG);
-			_sprite->runAction(action);
+			_sprite->runAction(getBlinkAction(_dir));
 		}
 	}
 }

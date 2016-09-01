@@ -202,7 +202,6 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
     <ClInclude Include="..\Classes\utils\CSVReader.h" />
     <ClInclude Include="..\Classes\utils\Events.h" />
     <ClInclude Include="..\Classes\utils\Utils.h" />
-    <ClInclude Include="..\Classes\utils\WhiteShader.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>

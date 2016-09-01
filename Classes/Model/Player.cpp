@@ -1,7 +1,6 @@
 #include "Model/Player.h"
 #include "Model/BrickBonus.h"
 #include "Model/GameSettings.h"
-#include "utils/WhiteShader.h"
 #include "SimpleAudioEngine.h"
 
 USING_NS_CC;
@@ -51,8 +50,6 @@ bool Player::init(cocos2d::Layer* layer, PlayerColor color)
 	_mapLayer = layer;
 	_speed = Point(4, 6) + Point(2, 2) * _speedCount;
 	_dir = NONE;
-	_light = 0;
-	_lightDelta = 0.1f;
 	_isDestroy = false;
 	_isDead = false;
     return true;
@@ -281,18 +278,6 @@ void Player::destroy()
 	_isDestroy = true;
 }
 
-void Player::TintToWhite()
-{
-	_light += _lightDelta;
-	if (_light < 0 || _light > 1) _lightDelta = -_lightDelta;
-	auto p = getWhiteShader();
-	_sprite->setGLProgram(p);
-	auto glProgramState = GLProgramState::getOrCreateWithGLProgram(p);
-	setGLProgramState(glProgramState);
-	getGLProgramState()->setUniformFloat("t", _light);
-	_sprite->setGLProgramState(glProgramState);
-}
-
 void Player::speedUp()
 {
 	_speedCount++;
@@ -302,8 +287,8 @@ void Player::speedUp()
 void Player::immortal()
 {
 	_isImmortal = true;
-	auto action = RepeatForever::create(Sequence::create(DelayTime::create(0.05f),
-		CallFunc::create(CC_CALLBACK_0(Player::TintToWhite, this)), nullptr));
+	auto tint = TintToWhite::create(0.1f);
+	auto action = RepeatForever::create(Sequence::create(tint, tint->reverse(), nullptr));
 	_sprite->runAction(action);
 }
 
