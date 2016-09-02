@@ -692,6 +692,7 @@ void WorldScene::setDefaultParametrNpc(NPC* npc, const cocos2d::Point& point, in
 	npc->debugLayer = _debugLayer;
 	npc->setMapLayer(_mapLayer);
 	npc->setPosition(point);
+	npc->setBombs(&_bombs);
 	_mapLayer->addChild(npc, order);
 	npc->move();
 	_npcs.push_back(npc);

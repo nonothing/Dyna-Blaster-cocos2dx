@@ -2,6 +2,7 @@
 
 USING_NS_CC;
 #define ANIM_TAG 225 
+#define MOVE_TAG 250
 
 NPC* NPC::create(const NPCData& data, BricksVec vec)
 {
@@ -33,6 +34,7 @@ bool NPC::init(const NPCData& data, BricksVec vec)
 	_createTime = Director::getInstance()->getTotalFrames();
 	_isFree = true;
 	schedule(schedule_selector(NPC::update), 0.5f);
+	schedule(schedule_selector(NPC::moveUpdate), 0.05f);
 	_bricks = vec;
 
 	if (data._id <= vacom)
@@ -63,16 +65,19 @@ void NPC::move()
 		_isFree = !freePoints.empty();
 		if (!freePoints.empty())
 		{
+			_prevPos = getPosition();
 			std::random_shuffle(freePoints.begin(), freePoints.end());
 			point = freePoints.at(0).first;
 			_dir = freePoints.at(0).second;
 			if (_isChangeAnimation) animate(_dir);
-			runAction(Sequence::create(MoveTo::create(getSpeed(), point), CallFunc::create(CC_CALLBACK_0(NPC::nextDir, this)), nullptr));
+			auto action = Sequence::create(MoveTo::create(getSpeed(), point), CallFunc::create(CC_CALLBACK_0(NPC::nextDir, this)), nullptr);
+			action->setTag(MOVE_TAG);
+			runAction(action);
 		}
 	}
 }
 
-void NPC::nextDir() //todo rewrite
+void NPC::nextDir()
 {
 	move();
 }
@@ -83,6 +88,21 @@ void NPC::update(float dt)
 	{
 		_isFree = true;
 		move();
+	}
+}
+
+void NPC::moveUpdate(float dt)
+{
+	Rect rect = getRectWorldSpace(Size(70, 70));
+	for (auto bomb : *_bombs)
+	{
+		Rect rectFire = bomb->getRectWorldSpace(Size(70, 70));
+		if (rectFire.intersectsRect(rect))
+		{
+			stopActionByTag(MOVE_TAG);
+			moveBack();
+			break;
+		}
 	}
 }
 
@@ -134,6 +154,11 @@ void NPC::destroy()
 	stopAllActions();
 	_sprite->stopAllActions();
 	_sprite->setOpacity(0);
+}
+
+void NPC::setBombs(std::vector<Bomb*>* bombs)
+{
+	_bombs = bombs;
 }
 
 cocos2d::Rect NPC::getRect()
@@ -223,5 +248,10 @@ std::string NPC::getAnimationName(Direction dir /*= NONE*/)
 float NPC::getSpeed()
 {
 	return _data._speed;
+}
+
+void NPC::moveBack()
+{
+	runAction(Sequence::create(MoveTo::create(getSpeed(), _prevPos), CallFunc::create(CC_CALLBACK_0(NPC::nextDir, this)), nullptr));
 }
 

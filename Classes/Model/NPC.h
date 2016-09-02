@@ -6,6 +6,7 @@
 #include "Model/Brick.h"
 #include "Model/WorldObject.h"
 #include "Model/NPCData.h"
+#include "Model/Bomb.h"
 #include "utils/Events.h"
 
 class NPC;
@@ -23,6 +24,8 @@ class NPC : public WorldObject
 	unsigned int	_createTime;
 	cocos2d::Layer* _mapLayer;
 	bool			_isFree;
+	std::vector<Bomb*>* _bombs;
+	cocos2d::Point			_prevPos;
 
 	Direction _dir;
 	BricksVec _bricks;
@@ -33,6 +36,7 @@ class NPC : public WorldObject
 	int		getLife();
 	virtual std::string	getAnimationName(Direction dir = NONE);
 	virtual float getSpeed();
+	void moveBack();
 public:
 	NPCEvent	deadEvent;
     virtual bool init(const NPCData& data, BricksVec vec);
@@ -41,10 +45,12 @@ public:
 	virtual void move();
 	void nextDir();
 	virtual void update(float dt);
+	virtual void moveUpdate(float dt);
 	virtual void animate(Direction dir);
 	virtual bool isThroughBomb(Brick* brick);
 	virtual void dead();
 	void destroy();
+	void setBombs(std::vector<Bomb*>* bombs);
 	virtual cocos2d::Rect getRect() override;
 	bool isDead();
 	bool isRemove();
