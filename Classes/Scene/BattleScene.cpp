@@ -33,7 +33,7 @@ Scene* BattleScene::createScene(PreloadBattleScene* preloaderScene, std::vector<
 
 bool BattleScene::init(PreloadBattleScene* preloaderScene, std::vector<int> parameters)
 {
-    if ( !Layer::init() )
+    if ( !AbstractWorldScene::init("nodes/Table_Battle.csb") )
     {
         return false;
     }
@@ -46,36 +46,16 @@ bool BattleScene::init(PreloadBattleScene* preloaderScene, std::vector<int> para
 	_mapLayer = Layer::create();
 	_debugLayer = Layer::create();
 
-	_keyboardListener = EventListenerKeyboard::create();
-	_keyboardListener->onKeyPressed = CC_CALLBACK_2(BattleScene::onKeyPressed, this);
-	_keyboardListener->onKeyReleased = CC_CALLBACK_2(BattleScene::onKeyReleased, this);
-	getEventDispatcher()->addEventListenerWithSceneGraphPriority(_keyboardListener, this);
-
 	schedule(schedule_selector(BattleScene::update), 0.01f);
 	
-	_record = GameSettings::Instance().getRecord();
-	_score = 0;
-
 	_mapLayer->setTag(SIMPLE);
 	_borderNode = CSLoader::createNode("nodes/WorldSceneSimple_1.csb");
-	auto tableNode = CSLoader::createNode("nodes/Table_Battle.csb");
-
-	_pauseNode = tableNode->getChildByName("Panel_Pause");
-	_pauseNode->setVisible(false);
-	auto pauseText = static_cast<ui::Text*>(_pauseNode->getChildByName("Text_1"));
-	pauseText->setFontName("5px2bus.ttf");
-	pauseText->setFontSize(52.f);
-	pauseText->setPosition(_pauseNode->getContentSize() / 2);
-
-	_isPause = false;
-
-	auto labelTime = static_cast<ui::Text*>(tableNode->getChildByName("labelTime"));
- 	_timer = dyna::Timer::create(labelTime);
+	auto labelTime = static_cast<ui::Text*>(_tableNode->getChildByName("labelTime"));
  	_timer->setTime(180);
 
 	for (int i = 0; i < 5; i++)
 	{
-		auto text = static_cast<ui::Text*>(tableNode->getChildByName("Text_" + std::to_string(i)));
+		auto text = static_cast<ui::Text*>(_tableNode->getChildByName("Text_" + std::to_string(i)));
 		text->setString("");
 		_texts.push_back(text);
 	}
@@ -105,14 +85,12 @@ bool BattleScene::init(PreloadBattleScene* preloaderScene, std::vector<int> para
 	}
 
 	_mapLayer->addChild(_debugLayer, 100);
-	addChild(_timer, -1);
 	createWalls();
 	createNPCs();
 	for (auto player : _players)
 	{
 		player->setBricks(_bricks);
 	}
-	addChild(tableNode, 10);
 	addChild(_mapLayer);
 	addChild(_blackLayer, 1000);
 
@@ -121,6 +99,7 @@ bool BattleScene::init(PreloadBattleScene* preloaderScene, std::vector<int> para
 
 void BattleScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
+	AbstractWorldScene::onKeyPressed(keyCode, event);
 	auto dir = KeyCodeToDiretion(keyCode);
 	int id = KeyCodeToPlayerID(keyCode);
 	if (id != 9999 && id < (int)_players.size())
@@ -146,23 +125,6 @@ void BattleScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 					break;
 				}
 			}
-		}
-	}
-	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE)
-	{
-		_preloaderScene->backMenu();
-	}
-	if (keyCode == EventKeyboard::KeyCode::KEY_P || keyCode == EventKeyboard::KeyCode::KEY_PAUSE)
-	{
-		_isPause = !_isPause;
-		_pauseNode->setVisible(_isPause);
-		if (_isPause)
-		{
-			Director::getInstance()->pause();
-		}
-		else
-		{
-			Director::getInstance()->resume();
 		}
 	}
 }
@@ -592,29 +554,20 @@ void BattleScene::gameOver(Player* player)
 	player->dead();
 }
 
-BattleScene::~BattleScene()
-{
-	getEventDispatcher()->removeEventListener(_keyboardListener);
-	CCLOG("BattleScene::~BattleScene()");
-}
-
 void BattleScene::removeText(cocos2d::ui::Text* text)
 {
 	text->removeFromParent();
 }
 
-void BattleScene::onEnter()
+void BattleScene::playStartSounds()
 {
-	CCLayer::onEnter();
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Battle.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Battle.mp3", true);
+	stopMusic();
+	playBackGroundMusic("music/Battle.mp3");
 }
 
-void BattleScene::onExit()
+void BattleScene::backMenu()
 {
-	CCLayer::onExit();
+	_preloaderScene->backMenu();
 }
 
 void BattleScene::setDefaultParametrNpc(NPC* npc, const cocos2d::Point& point, int order /* = 2 */)
@@ -622,6 +575,7 @@ void BattleScene::setDefaultParametrNpc(NPC* npc, const cocos2d::Point& point, i
 	npc->debugLayer = _debugLayer;
 	npc->setMapLayer(_mapLayer);
 	npc->setPosition(point);
+	npc->setBombs(&_bombs);
 	_mapLayer->addChild(npc, order);
 	npc->move();
 	_npcs.push_back(npc);

@@ -1,5 +1,4 @@
 #include "WorldScene.h"
-#include "cocostudio/CocoStudio.h"
 #include "Model/Timer.h"
 #include "Model/GameSettings.h"
 #include "Boss/Snake.h"
@@ -7,7 +6,6 @@
 #include "Boss/Cyclop.h"
 #include "Boss/Electro.h"
 #include "Boss/Human.h"
-#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
@@ -39,7 +37,7 @@ const std::string sRootNodeName[] = { "WorldSceneSimple_", "WorldSceneHorizontal
 
 bool WorldScene::init(LoadLevelScene* levelScene)
 {
-    if ( !Layer::init() )
+	if (!AbstractWorldScene::init("nodes/Table.csb"))
     {
         return false;
     }
@@ -54,35 +52,21 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	_doorBrick = nullptr;
 	_bonusBrick = nullptr;
 
-	_keyboardListener = EventListenerKeyboard::create();
-	_keyboardListener->onKeyPressed = CC_CALLBACK_2(WorldScene::onKeyPressed, this);
-	_keyboardListener->onKeyReleased = CC_CALLBACK_2(WorldScene::onKeyReleased, this);
-	getEventDispatcher()->addEventListenerWithSceneGraphPriority(_keyboardListener, this);
-
 	schedule(schedule_selector(WorldScene::update), 0.01f);
 	
 	_record = GameSettings::Instance().getRecord();
 	_score = 0;
 
+	_timer->setTime(240);
+
 	_mapLayer->setTag(_data.getTypeMap());
 	_borderNode = CSLoader::createNode("nodes/" + sRootNodeName[_data.getTypeMap()] + std::to_string(_data._stage) + ".csb");
-	auto tableNode = CSLoader::createNode("nodes/Table.csb");
-	_labelLife = static_cast<ui::Text*>(tableNode->getChildByName("labelLife"));
-	auto labelTime = static_cast<ui::Text*>(tableNode->getChildByName("labelTime"));
-	_labelRecord = static_cast<ui::Text*>(tableNode->getChildByName("labelHigh"));
+	
+	_labelLife = static_cast<ui::Text*>(_tableNode->getChildByName("labelLife"));
+	_labelRecord = static_cast<ui::Text*>(_tableNode->getChildByName("labelHigh"));
 	_labelRecord->setString(std::to_string(_record));
-	_labelScore = static_cast<ui::Text*>(tableNode->getChildByName("labelScore"));
+	_labelScore = static_cast<ui::Text*>(_tableNode->getChildByName("labelScore"));
 	_labelScore->setString(std::to_string(_score));
-	_pauseNode = tableNode->getChildByName("Panel_Pause");
-	_pauseNode->setVisible(false);
-	auto pauseText = static_cast<ui::Text*>(_pauseNode->getChildByName("Text_1"));
-	pauseText->setFontName("5px2bus.ttf");
-	pauseText->setFontSize(52.f);
-	pauseText->setPosition(_pauseNode->getContentSize() / 2);
-
-	_isPause = false;
-	_timer = dyna::Timer::create(labelTime);
-	_timer->setTime(240);
 
 	_startPosition = createBricks(); 
 	_startPosition.x = _startPosition.x - 74 * _data._width * 2;
@@ -100,16 +84,13 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	_labelLife->setString(std::to_string(_player->getLife()));
 	addChild(_player, 3);
 	_mapLayer->addChild(_debugLayer, 100);
-	addChild(_timer, -1);
 	createWalls();
 	createNPCs();
 	_player->setBricks(_bricks);
-	addChild(tableNode, 10);
 	addChild(_mapLayer);
 	addChild(_blackLayer, 1000);
 
 	_lifeListener.set(_player->lifeEvent, std::bind(&WorldScene::updateLifeLabel, this));
-	playMusic();
     return true;
 }
 
@@ -135,28 +116,11 @@ void WorldScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 			}
 		}
 	}
-	if (keyCode == EventKeyboard::KeyCode::KEY_P || keyCode == EventKeyboard::KeyCode::KEY_PAUSE)
-	{
-		_isPause = !_isPause;
-		_pauseNode->setVisible(_isPause);
-		if (_isPause)
-		{
-			Director::getInstance()->pause();
-		}
-		else
-		{
-			Director::getInstance()->resume();
-		}
-		//todo pause
-	}
-	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE)
-	{
-		_levelScene->backMenu();
-	}
 }
 
 void WorldScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 {
+	AbstractWorldScene::onKeyPressed(keyCode, event);
 	if (isMoveKey(keyCode))
 	{
 		if (_player->getDirection() == KeyCodeToDiretion(keyCode))
@@ -664,26 +628,9 @@ void WorldScene::gameOver()
 	_player->dead();
 }
 
-WorldScene::~WorldScene()
-{
-	getEventDispatcher()->removeEventListener(_keyboardListener);
-	CCLOG("WorldScene::~WorldScene()");
-}
-
 void WorldScene::removeText(cocos2d::ui::Text* text)
 {
 	text->removeFromParent();
-}
-
-void WorldScene::onEnter()
-{
-	CCLayer::onEnter();
-}
-
-void WorldScene::onExit()
-{
-	CCLayer::onExit();
-	stopMusic();
 }
 
 void WorldScene::setDefaultParametrNpc(NPC* npc, const cocos2d::Point& point, int order /* = 2 */)
@@ -703,13 +650,21 @@ void WorldScene::createIronChild(const cocos2d::Point& point, unsigned int creat
 	setDefaultParametrNpc(IronChild::create(_levelScene->getNPC(ironChild), _bricks, createTime), point);
 }
 
-void WorldScene::stopMusic()
+void WorldScene::nextLevel()
 {
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
+	_player->setPosition(_startPosition);
+	GameSettings::Instance().savePlayer(_player);
+	_levelScene->nextLevel();
+	Director::getInstance()->popScene();
 }
 
-void WorldScene::playMusic()
+void WorldScene::playMusicStageClear()
+{
+	stopMusic();
+	playBackGroundMusic("music/Stage_Clear.mp3", false);
+}
+
+void WorldScene::playStartSounds()
 {
 	std::string name;
 	if (_data._level == 8)
@@ -724,23 +679,10 @@ void WorldScene::playMusic()
 	{
 		name = "music/Stage_Music_1.mp3";
 	}
-
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic(name.c_str());
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(name.c_str(), true);
+	playBackGroundMusic(name);
 }
 
-void WorldScene::nextLevel()
+void WorldScene::backMenu()
 {
-	_player->setPosition(_startPosition);
-	GameSettings::Instance().savePlayer(_player);
-	_levelScene->nextLevel();
-	Director::getInstance()->popScene();
+	_levelScene->backMenu();
 }
-
-void WorldScene::playMusicStageClear()
-{
-	stopMusic();
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Stage_Clear.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Stage_Clear.mp3", false);
-}
-

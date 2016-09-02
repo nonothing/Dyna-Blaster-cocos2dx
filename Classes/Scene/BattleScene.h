@@ -2,6 +2,7 @@
 #define __BATTLE_SCENE_H__
 
 #include "cocos2d.h"
+#include "AbstractWorldScene.h"
 #include "Model/Player.h"
 #include "Model/Bomb.h"
 #include "Model/Brick.h"
@@ -13,14 +14,13 @@
 #include "Scene/PreloadBattleScene.h"
 #include "ui/UIText.h"
 
-class BattleScene : public cocos2d::Layer
+class BattleScene : public AbstractWorldScene
 {
 private:
 	PreloadBattleScene*		_preloaderScene;
 	std::vector<Player*>	_players;
 	cocos2d::LayerColor*    _blackLayer;
 	cocos2d::Node*			_borderNode;
-	cocos2d::Node*			_pauseNode;
 	cocos2d::Layer*			_mapLayer;
 	NPCVec					_npcs;
 	std::vector<Bomb*>      _bombs;
@@ -28,17 +28,11 @@ private:
 	BricksVec				_bricks;
 	std::vector<BrickBonus*> _bonusBricks;
 	std::vector<cocos2d::ui::Text*> _texts;
-	cocos2d::EventListenerKeyboard*	_keyboardListener;
 	cocos2d::Layer*			_debugLayer;
-	dyna::Timer*			_timer;
 
-	bool					_isPause;
-	int						_score;
-	int						_record;
 	bool					_fadeLevel;
 	int						_currentIndexLevel;
 
-	~BattleScene();
 	Direction KeyCodeToDiretion(cocos2d::EventKeyboard::KeyCode keyCode);
 	int	KeyCodeToPlayerID(cocos2d::EventKeyboard::KeyCode keyCode);
 	bool isMoveKey(cocos2d::EventKeyboard::KeyCode keyCode);
@@ -64,13 +58,13 @@ private:
 public:
 	static cocos2d::Scene* createScene(PreloadBattleScene* preloaderScene, std::vector<int> parameters);
 	virtual bool init(PreloadBattleScene* preloaderScene, std::vector<int> parameters);
-	virtual void onEnter();
-	virtual void onExit();
 	static BattleScene* create(PreloadBattleScene* preloaderScene, std::vector<int> parameters);
-
-	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
-	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void update(float dt);
+
+	virtual void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+	virtual void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+	virtual void playStartSounds();
+	virtual void backMenu();
 };
 
 #endif // __BATTLE_SCENE_H__
