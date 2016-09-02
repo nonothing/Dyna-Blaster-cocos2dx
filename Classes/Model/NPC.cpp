@@ -31,7 +31,8 @@ bool NPC::init(const NPCData& data, BricksVec vec)
 	_isChangeAnimation = false;
 	_isDead = false;
 	_createTime = Director::getInstance()->getTotalFrames();
-
+	_isFree = true;
+	schedule(schedule_selector(NPC::update), 0.5f);
 	_bricks = vec;
 
 	if (data._id <= vacom)
@@ -59,6 +60,7 @@ void NPC::move()
 				freePoints.push_back(std::make_pair(point, PointToDir(p)));
 			}
 		}
+		_isFree = !freePoints.empty();
 		if (!freePoints.empty())
 		{
 			std::random_shuffle(freePoints.begin(), freePoints.end());
@@ -75,7 +77,16 @@ void NPC::nextDir() //todo rewrite
 	move();
 }
 
-void NPC::animate(Direction dir) 
+void NPC::update(float dt)
+{
+	if (!_isFree)
+	{
+		_isFree = true;
+		move();
+	}
+}
+
+void NPC::animate(Direction dir)
 {
 	auto animation = AnimationCache::getInstance()->getAnimation(getAnimationName(dir));
 	if (animation)

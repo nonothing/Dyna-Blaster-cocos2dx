@@ -22,6 +22,7 @@ class NPC : public WorldObject
 	bool			_isChangeAnimation;
 	unsigned int	_createTime;
 	cocos2d::Layer* _mapLayer;
+	bool			_isFree;
 
 	Direction _dir;
 	BricksVec _bricks;
@@ -39,6 +40,7 @@ public:
 	void setMapLayer(cocos2d::Layer* layer);
 	virtual void move();
 	void nextDir();
+	virtual void update(float dt);
 	virtual void animate(Direction dir);
 	virtual bool isThroughBomb(Brick* brick);
 	virtual void dead();
