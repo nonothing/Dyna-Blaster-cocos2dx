@@ -73,7 +73,14 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	_labelRecord->setString(std::to_string(_record));
 	_labelScore = static_cast<ui::Text*>(tableNode->getChildByName("labelScore"));
 	_labelScore->setString(std::to_string(_score));
+	_pauseNode = tableNode->getChildByName("Panel_Pause");
+	_pauseNode->setVisible(false);
+	auto pauseText = static_cast<ui::Text*>(_pauseNode->getChildByName("Text_1"));
+	pauseText->setFontName("5px2bus.ttf");
+	pauseText->setFontSize(52.f);
+	pauseText->setPosition(_pauseNode->getContentSize() / 2);
 
+	_isPause = false;
 	_timer = dyna::Timer::create(labelTime);
 	_timer->setTime(240);
 
@@ -130,6 +137,16 @@ void WorldScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_P || keyCode == EventKeyboard::KeyCode::KEY_PAUSE)
 	{
+		_isPause = !_isPause;
+		_pauseNode->setVisible(_isPause);
+		if (_isPause)
+		{
+			Director::getInstance()->pause();
+		}
+		else
+		{
+			Director::getInstance()->resume();
+		}
 		//todo pause
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE)

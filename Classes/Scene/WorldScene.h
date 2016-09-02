@@ -23,6 +23,7 @@ private:
 
 	cocos2d::LayerColor*    _blackLayer;
 	cocos2d::Node*			_borderNode;
+	cocos2d::Node*			_pauseNode;
 	cocos2d::Layer*			_mapLayer;
 	cocos2d::Point			_startPosition;
 	NPCVec					_npcs;
@@ -36,6 +37,7 @@ private:
 	cocos2d::Layer*			_debugLayer;
 	dyna::Timer*			_timer;
 
+	bool					_isPause;
 	int						_score;
 	int						_record;
 	bool					_fadeLevel;

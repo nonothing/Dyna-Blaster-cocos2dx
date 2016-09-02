@@ -20,6 +20,7 @@ private:
 	std::vector<Player*>	_players;
 	cocos2d::LayerColor*    _blackLayer;
 	cocos2d::Node*			_borderNode;
+	cocos2d::Node*			_pauseNode;
 	cocos2d::Layer*			_mapLayer;
 	NPCVec					_npcs;
 	std::vector<Bomb*>      _bombs;
@@ -31,6 +32,7 @@ private:
 	cocos2d::Layer*			_debugLayer;
 	dyna::Timer*			_timer;
 
+	bool					_isPause;
 	int						_score;
 	int						_record;
 	bool					_fadeLevel;

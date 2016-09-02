@@ -60,6 +60,15 @@ bool BattleScene::init(PreloadBattleScene* preloaderScene, std::vector<int> para
 	_borderNode = CSLoader::createNode("nodes/WorldSceneSimple_1.csb");
 	auto tableNode = CSLoader::createNode("nodes/Table_Battle.csb");
 
+	_pauseNode = tableNode->getChildByName("Panel_Pause");
+	_pauseNode->setVisible(false);
+	auto pauseText = static_cast<ui::Text*>(_pauseNode->getChildByName("Text_1"));
+	pauseText->setFontName("5px2bus.ttf");
+	pauseText->setFontSize(52.f);
+	pauseText->setPosition(_pauseNode->getContentSize() / 2);
+
+	_isPause = false;
+
 	auto labelTime = static_cast<ui::Text*>(tableNode->getChildByName("labelTime"));
  	_timer = dyna::Timer::create(labelTime);
  	_timer->setTime(180);
@@ -142,6 +151,19 @@ void BattleScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE)
 	{
 		_preloaderScene->backMenu();
+	}
+	if (keyCode == EventKeyboard::KeyCode::KEY_P || keyCode == EventKeyboard::KeyCode::KEY_PAUSE)
+	{
+		_isPause = !_isPause;
+		_pauseNode->setVisible(_isPause);
+		if (_isPause)
+		{
+			Director::getInstance()->pause();
+		}
+		else
+		{
+			Director::getInstance()->resume();
+		}
 	}
 }
 
