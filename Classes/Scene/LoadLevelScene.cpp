@@ -126,7 +126,7 @@ MapData LoadLevelScene::getCurrentMap()
 
 void LoadLevelScene::nextLevel()
 {
-	_currentData = _mapLoader->getMap(1);
+	_currentData = _mapLoader->getMap(_currentLevel++);
 	if (_currentData._id == 0)
 	{
 		auto action = CCSequence::create(CCDelayTime::create(0.1f),
