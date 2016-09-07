@@ -1,5 +1,5 @@
 #include "Scene/MenuScene.h"
-#include "cocostudio/CocoStudio.h"
+#include "editor-support/cocostudio/CocoStudio.h"
 #include "Scene/LoadLevelScene.h"
 #include "Scene/PasswordScene.h"
 #include "Scene/PreloadBattleScene.h"
@@ -74,7 +74,9 @@ void MenuScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 		setPos(MenuEnum(currentPos));
 	}
 
-	if (keyCode == EventKeyboard::KeyCode::KEY_KP_ENTER)
+	if (keyCode == EventKeyboard::KeyCode::KEY_ENTER ||
+		keyCode == EventKeyboard::KeyCode::KEY_KP_ENTER ||
+		keyCode == EventKeyboard::KeyCode::KEY_SPACE)
 	{
 		switch (_pos)
 		{
