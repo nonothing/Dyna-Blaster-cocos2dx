@@ -48,7 +48,6 @@ bool BattleScene::init(PreloadBattleScene* preloaderScene, std::vector<int> para
 	
 	_mapLayer->setTag(SIMPLE);
 	_borderNode = CSLoader::createNode("nodes/WorldSceneSimple_1.csb");
-	auto labelTime = static_cast<ui::Text*>(_tableNode->getChildByName("labelTime"));
  	_timer->setTime(180);
 
 	for (int i = 0; i < 5; i++)
@@ -210,6 +209,6 @@ cocos2d::Size BattleScene::getMapSize()
 
 cocos2d::Action* BattleScene::getRestartAction()
 {
-	return CCSequence::create(CCFadeIn::create(0.5f),
+	return Sequence::create(FadeIn::create(0.5f),
 		CallFunc::create(CC_CALLBACK_0(PreloadBattleScene::restart, _preloaderScene)), nullptr);
 }

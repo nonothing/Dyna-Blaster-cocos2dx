@@ -85,7 +85,7 @@ void Snake::runDeadAnimation()
 	auto animation = AnimationCache::getInstance()->getAnimation(_type == SNAKE_HEAD ? "snake_dead_head" : "snake_dead_body");
 	if (animation)
 	{
-		auto action = CCSequence::create(Animate::create(animation), CallFunc::create(CC_CALLBACK_0(NPC::destroy, this)), nullptr);
+		auto action = Sequence::create(Animate::create(animation), CallFunc::create(CC_CALLBACK_0(NPC::destroy, this)), nullptr);
 		action->setTag(ANIM_TAG);
 		_sprite->runAction(action);
 	}

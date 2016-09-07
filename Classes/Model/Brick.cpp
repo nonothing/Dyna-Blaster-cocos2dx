@@ -36,7 +36,7 @@ bool Brick::init(int level, int posX, int posY)
 
 void Brick::destroy()
 {
-  	runAction(CCSequence::create(CCDelayTime::create(0.01f), CallFunc::create(CC_CALLBACK_0(Brick::animationDestroy, this)), nullptr));
+  	runAction(Sequence::create(DelayTime::create(0.01f), CallFunc::create(CC_CALLBACK_0(Brick::animationDestroy, this)), nullptr));
 }
 
 void Brick::destroyWall()
@@ -69,8 +69,8 @@ std::string Brick::getPathNameBrick(BrickType type)
 	case EBACKGROUND: return "bricks/background_" + std::to_string(_level) + ".png";
 	case EBRICK: return "bricks/bricks_" + std::to_string(_level) + ".png";
 	case EWALL: return "bricks/wall_" + std::to_string(_level) + ".png";
+    default: return "";
 	}
-	return "";
 }
 
 void Brick::changeTexture(BrickType type)

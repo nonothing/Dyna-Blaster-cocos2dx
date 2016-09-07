@@ -59,7 +59,7 @@ public:
 	static Player* create(cocos2d::Layer* layer, PlayerColor color);
 	void setDirection(Direction dir);
 	Direction getDirection();
-	void update(float dt);
+	virtual void update(float dt) override;
 	bool hasBomb();
 	void putBomb();
 	void explodeBomb();

@@ -111,13 +111,13 @@ AbstractWorldScene::~AbstractWorldScene()
 
 void AbstractWorldScene::onEnter()
 {
-	CCLayer::onEnter();
+	Layer::onEnter();
 	playStartSounds();
 }
 
 void AbstractWorldScene::onExit()
 {
-	CCLayer::onExit();
+	Layer::onExit();
 	stopMusic();
 }
 

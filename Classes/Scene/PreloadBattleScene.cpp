@@ -111,7 +111,7 @@ void PreloadBattleScene::loadBattleScene()
 
 void PreloadBattleScene::runLevelAction()
 {
-	auto action = CCSequence::create(
+	auto action = Sequence::create(
 		CallFunc::create(CC_CALLBACK_0(PreloadBattleScene::loadBattleScene, this)), nullptr);
 	 	_rootNode->runAction(action);
 }
@@ -259,7 +259,7 @@ void PreloadBattleScene::showMatchScene()
 	_rootNode = CSLoader::createNode("nodes/" + sRootScenes[4]);
 	addChild(_rootNode);
 
-	CCLayer::onEnter();
+	Layer::onEnter();//wtf?
 	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
 	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Win_Match.mp3");
@@ -318,7 +318,7 @@ void PreloadBattleScene::showWinBattleScene()
 	_rootNode = CSLoader::createNode("nodes/" + sRootScenes[5]);
 	addChild(_rootNode);
 
-	CCLayer::onEnter();
+	Layer::onEnter();//wtf
 	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
 	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Bomber_Champ.mp3");

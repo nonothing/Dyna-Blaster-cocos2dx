@@ -112,12 +112,12 @@ void GameOverScene::setPos(MenuGameOverEnum e)
 void GameOverScene::continueFunc()
 {
 	GameSettings::Instance().setPlayerLife(3);
-	_rootNode->runAction(CCSequence::create(CCFadeOut::create(0.5f), CallFunc::create(CC_CALLBACK_0(LoadLevelScene::countinueFunc, _loadLevelScene)), nullptr));
+	_rootNode->runAction(Sequence::create(FadeOut::create(0.5f), CallFunc::create(CC_CALLBACK_0(LoadLevelScene::countinueFunc, _loadLevelScene)), nullptr));
 }
 
 void GameOverScene::endFunc()
 {
-	_rootNode->runAction(CCSequence::create(CCFadeOut::create(0.5f), CallFunc::create(CC_CALLBACK_0(LoadLevelScene::backMenu, _loadLevelScene)), nullptr));
+	_rootNode->runAction(Sequence::create(FadeOut::create(0.5f), CallFunc::create(CC_CALLBACK_0(LoadLevelScene::backMenu, _loadLevelScene)), nullptr));
 }
 
 GameOverScene::~GameOverScene()

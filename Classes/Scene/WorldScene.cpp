@@ -105,10 +105,10 @@ void WorldScene::update(float dt)
 	{
 		_doorBrick->openDoor(false);
 		getPlayer()->stopMove();
-		auto action = CCSequence::create(
+		auto action = Sequence::create(
 			CallFunc::create(CC_CALLBACK_0(WorldScene::playMusicStageClear, this)),
-			CCDelayTime::create(4.f),
-			CCFadeIn::create(0.5f),
+			DelayTime::create(4.f),
+			FadeIn::create(0.5f),
 			CallFunc::create(CC_CALLBACK_0(WorldScene::nextLevel, this)), nullptr);
 		_blackLayer->runAction(action);
 	}
@@ -392,8 +392,8 @@ cocos2d::Size WorldScene::getMapSize()
 
 cocos2d::Action* WorldScene::getRestartAction()
 {
-	return CCSequence::create(CCDelayTime::create(3.f),
-		CCFadeIn::create(0.5f),
+	return Sequence::create(DelayTime::create(3.f),
+		FadeIn::create(0.5f),
 		CallFunc::create(CC_CALLBACK_0(LoadLevelScene::restart, _levelScene)), nullptr);
 
 }

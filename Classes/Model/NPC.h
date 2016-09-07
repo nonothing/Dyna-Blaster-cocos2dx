@@ -45,7 +45,7 @@ public:
 	void setMapLayer(cocos2d::Layer* layer);
 	virtual void move();
 	void nextDir();
-	virtual void update(float dt);
+	virtual void update(float dt) override;
 	virtual void moveUpdate(float dt);
 	virtual void animate(Direction dir);
 	virtual bool isThroughBomb(Brick* brick);

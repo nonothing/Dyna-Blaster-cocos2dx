@@ -62,7 +62,7 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader, co
 	loadAnimations();
 
 	_rootLevelNode = CSLoader::createNode("nodes/LoadLevelScene.csb");
-	_rootStageNode = CSLoader::createNode("nodes/loadStageScene.csb");
+	_rootStageNode = CSLoader::createNode("nodes/LoadStageScene.csb");
 	_stageNumber = nullptr;
 	_levelNumber = nullptr;
 	_headSprite = Sprite::createWithSpriteFrameName("head_1.png");
@@ -129,7 +129,7 @@ void LoadLevelScene::nextLevel()
 	_currentData = _mapLoader->getMap(_currentLevel++);
 	if (_currentData._id == 0)
 	{
-		auto action = CCSequence::create(CCDelayTime::create(0.1f),
+		auto action = Sequence::create(DelayTime::create(0.1f),
 			CallFunc::create(CC_CALLBACK_0(LoadLevelScene::showFinalScene, this)), nullptr);
 		_rootLevelNode->runAction(action);
 		return;
@@ -139,9 +139,9 @@ void LoadLevelScene::nextLevel()
 
 void LoadLevelScene::runLevelAction()
 {
-	auto action = CCSequence::create(
+	auto action = Sequence::create(
 		CallFunc::create(CC_CALLBACK_0(LoadLevelScene::playRoundMusic, this)),
-		FadeIn::create(0.5f), CCDelayTime::create(5.0f), CCFadeOut::create(0.5f),
+		FadeIn::create(0.5f), DelayTime::create(5.0f), FadeOut::create(0.5f),
 		CallFunc::create(CC_CALLBACK_0(LoadLevelScene::stopMusic, this)),
 		CallFunc::create(CC_CALLBACK_0(LoadLevelScene::loadWordScene, this)), nullptr);
 	 	_rootLevelNode->runAction(action);
@@ -180,7 +180,7 @@ void LoadLevelScene::restartLevel()
 	_rootStageNode->setOpacity(0);
 	if (isShowStartingScene())
 	{
-		auto action = CCSequence::create(CCDelayTime::create(0.1f),
+		auto action = Sequence::create(DelayTime::create(0.1f),
 			CallFunc::create(CC_CALLBACK_0(LoadLevelScene::showStartingScene, this)), nullptr);
 		_rootLevelNode->runAction(action);
 		return;
@@ -226,9 +226,9 @@ void LoadLevelScene::restartLevel()
 			nullptr));
 		label->runAction(labelAction);
 
-		auto action = CCSequence::create(
+		auto action = Sequence::create(
 			CallFunc::create(CC_CALLBACK_0(LoadLevelScene::playStageMusic, this)),
-			FadeIn::create(0.5f), CCDelayTime::create(4.0f), CCFadeOut::create(0.5f),
+			FadeIn::create(0.5f), DelayTime::create(4.0f), FadeOut::create(0.5f),
 			CallFunc::create(CC_CALLBACK_0(LoadLevelScene::stopMusic, this)),
 			CallFunc::create(CC_CALLBACK_0(LoadLevelScene::runLevelAction, this)), nullptr);
 		_rootStageNode->runAction(action);

@@ -47,7 +47,7 @@ void BrickDoor::animationDestroy()
 
 void BrickDoor::destroy()
 {
-	runAction(CCSequence::create(CCDelayTime::create(0.01f), CallFunc::create(CC_CALLBACK_0(BrickDoor::animationDestroy, this)), nullptr));
+	runAction(Sequence::create(DelayTime::create(0.01f), CallFunc::create(CC_CALLBACK_0(BrickDoor::animationDestroy, this)), nullptr));
 }
 
 void BrickDoor::animateDoor()

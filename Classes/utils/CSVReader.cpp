@@ -16,7 +16,7 @@ void CSVReader::parse(const char *fileName)
 	m_map.clear();
 	std::string path = fileName;
 	ssize_t size;
-	const char *data = (const char*)(cocos2d::CCFileUtils::getInstance()->getFileData(path.c_str(), "r" , &size));
+	const char *data = (const char*)(cocos2d::FileUtils::getInstance()->getFileData(path.c_str(), "r" , &size));
 	CCAssert(data != NULL, "File is not exist.");
 	if (data == NULL)
 		return;

@@ -105,8 +105,6 @@ void PasswordScene::moveBomb(int dir)
 {
 	if (Direction(dir) != NONE)
 	{
-		int maxOffsetX = 9 * 76;
-		int maxOffsetY = 2 * 80;
 		if (_offsetX < 0)
 		{
 			_offsetX = 9;

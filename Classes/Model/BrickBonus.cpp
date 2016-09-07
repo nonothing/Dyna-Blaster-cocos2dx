@@ -57,7 +57,7 @@ void BrickBonus::destroy()
 	if (_id != BNone)
 	{
 		if (_type == EBONUS) _id = BNone;
-		runAction(CCSequence::create(CCDelayTime::create(0.01f), CallFunc::create(CC_CALLBACK_0(BrickBonus::animationDestroy, this)), nullptr));
+		runAction(Sequence::create(DelayTime::create(0.01f), CallFunc::create(CC_CALLBACK_0(BrickBonus::animationDestroy, this)), nullptr));
 	}
 }
 
