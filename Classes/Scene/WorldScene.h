@@ -43,7 +43,7 @@ private:
 	void createDoor(BricksVec vec, bool isBoss);
 	void updateLifeLabel();
 	void updateScoreLabel(NPC* npc);
-	
+	Player*		getPlayer();
 	void playMusicStageClear();
 	void createIronChild(const cocos2d::Point& point, unsigned int createTime);
 	void nextLevel();

@@ -24,6 +24,7 @@ class NPC : public WorldObject
 	unsigned int	_createTime;
 	cocos2d::Layer* _mapLayer;
 	bool			_isFree;
+	bool			_isBackMove;
 	std::vector<Bomb*>* _bombs;
 	cocos2d::Point			_prevPos;
 

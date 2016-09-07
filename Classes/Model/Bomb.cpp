@@ -70,7 +70,7 @@ void Bomb::update(float dt)
 
 void Bomb::updateCollision(float dt)
 {
-	if (_brick)
+	if (_brick && !_player->isDestroy())
 	{
 		Point point = _player->getPosition();
 		Size size = _player->getRect().size;

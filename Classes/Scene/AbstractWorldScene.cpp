@@ -255,7 +255,7 @@ void AbstractWorldScene::createPlayers(int count)
 {
 
 	Point firstPosition = createBricks();
-	Point offset = Point(74 * 12, Director::getInstance()->getWinSize().height - 252);
+	Point offset = Point(74 * getMapSize().width, Director::getInstance()->getWinSize().height - 252);
 
 	std::vector<Point> points;
 	points.push_back(Point(firstPosition.x - offset.x, offset.y));

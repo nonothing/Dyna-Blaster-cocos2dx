@@ -388,5 +388,5 @@ PlayerColor Player::getColorID()
 
 cocos2d::Rect Player::getRect()
 {
-	return Rect(0, 0, 60, 60);
+	return Rect(0, 0, 55, 55);
 }

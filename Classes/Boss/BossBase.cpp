@@ -45,6 +45,7 @@ bool BossBase::init(const NPCData& data, BricksVec vec)
 		return false;
 	}
 	_countLight = 0;
+	unschedule(schedule_selector(NPC::moveUpdate));
 	return true;
 }
 

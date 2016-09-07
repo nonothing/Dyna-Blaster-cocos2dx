@@ -33,8 +33,9 @@ bool NPC::init(const NPCData& data, BricksVec vec)
 	_isDead = false;
 	_createTime = Director::getInstance()->getTotalFrames();
 	_isFree = true;
+	_isBackMove = false;
 	schedule(schedule_selector(NPC::update), 0.5f);
-	schedule(schedule_selector(NPC::moveUpdate), 0.05f);
+	schedule(schedule_selector(NPC::moveUpdate), 0.05f); 
 	_bricks = vec;
 
 	if (data._id <= vacom)
@@ -65,6 +66,7 @@ void NPC::move()
 		_isFree = !freePoints.empty();
 		if (!freePoints.empty())
 		{
+			_isBackMove = false;
 			_prevPos = getPosition();
 			std::random_shuffle(freePoints.begin(), freePoints.end());
 			point = freePoints.at(0).first;
@@ -97,8 +99,9 @@ void NPC::moveUpdate(float dt)
 	for (auto bomb : *_bombs)
 	{
 		Rect rectFire = bomb->getRectWorldSpace(Size(70, 70));
-		if (rectFire.intersectsRect(rect))
+		if (!_isBackMove && rectFire.intersectsRect(rect))
 		{
+			_isBackMove = true;
 			stopActionByTag(MOVE_TAG);
 			moveBack();
 			break;

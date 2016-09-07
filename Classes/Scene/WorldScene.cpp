@@ -81,11 +81,11 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 		player->_collisions = _borderNode->getChildren();
 		player->setBricks(_bricks);
 	}
-	//		_labelLife->setString(std::to_string(player->getLife()));
+	_labelLife->setString(std::to_string(getPlayer()->getLife()));
 	addChild(_mapLayer);
 	addChild(_blackLayer, 1000);
 
-	_lifeListener.set(_players.at(0)->lifeEvent, std::bind(&WorldScene::updateLifeLabel, this));
+	_lifeListener.set(getPlayer()->lifeEvent, std::bind(&WorldScene::updateLifeLabel, this));
     return true;
 }
 
@@ -100,10 +100,11 @@ void WorldScene::update(float dt)
 		ID_NPC id = ID_NPC(rand() % 18);
 		createNPCs(_doorBrick, id, 6);
 	}
-	if (_doorBrick && _doorBrick->isOpenDoor() && !_players.at(0)->isStop() && isCollision(_doorBrick, _players.at(0), Size(60, 60), -_mapLayer->getPosition()))
+	if (_doorBrick && _doorBrick->isOpenDoor() && !_players.empty()
+		&& !getPlayer()->isStop() && isCollision(_doorBrick, getPlayer(), Size(60, 60), -_mapLayer->getPosition()))
 	{
 		_doorBrick->openDoor(false);
-		_players.at(0)->stopMove();
+		getPlayer()->stopMove();
 		auto action = CCSequence::create(
 			CallFunc::create(CC_CALLBACK_0(WorldScene::playMusicStageClear, this)),
 			CCDelayTime::create(4.f),
@@ -181,7 +182,7 @@ bool WorldScene::createNPC(Brick* brick, ID_NPC id)
 		{
 			std::vector<Snake*> snakeVec;
 			Snake* npc = Snake::create(dataNPC, _bricks, SNAKE_HEAD);
-			npc->setPlayer(_players.at(0));
+			npc->setPlayer(getPlayer());
 			snakeVec.push_back(npc);
 			setDefaultParametrNpc(npc, brick->getPosition());
 			Snake* npcNext;
@@ -285,7 +286,7 @@ void WorldScene::createDoor(BricksVec freeBricks, bool isBoss)
 
 void WorldScene::updateLifeLabel()
 {
-	_labelLife->setString(std::to_string(_players.at(0)->getLife()));
+	_labelLife->setString(std::to_string(getPlayer()->getLife()));
 }
 
 void WorldScene::updateScoreLabel(NPC* npc)
@@ -314,6 +315,11 @@ void WorldScene::updateScoreLabel(NPC* npc)
 	}
 }
 
+Player* WorldScene::getPlayer()
+{
+	return _players.at(0);
+}
+
 BricksVec WorldScene::createWalls(int divider, int countBonus)
 {
 	BricksVec freeBricks = 	AbstractWorldScene::createWalls(divider, countBonus);
@@ -328,8 +334,8 @@ void WorldScene::createIronChild(const cocos2d::Point& point, unsigned int creat
 
 void WorldScene::nextLevel()
 {
-	//_players.at(0)->setPosition(_startPosition);//todo
-	GameSettings::Instance().savePlayer(_players.at(0));
+	//getPlayer()->setPosition(_startPosition);//todo
+	GameSettings::Instance().savePlayer(getPlayer());
 	_levelScene->nextLevel();
 	Director::getInstance()->popScene();
 }
