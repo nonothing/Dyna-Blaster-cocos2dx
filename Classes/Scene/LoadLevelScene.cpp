@@ -257,7 +257,7 @@ void LoadLevelScene::loadAnimations()
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/bricks.plist", "atlas/bricks.png");
 	AnimationCache::getInstance()->addAnimationsWithFile("animation/bricks.plist");
 
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/snake.plist", "satlas/nake.png");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/snake.plist", "atlas/snake.png");
 	AnimationCache::getInstance()->addAnimationsWithFile("animation/snake.plist");
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/npc.plist", "atlas/npc.png");
