@@ -50,7 +50,6 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	_data = levelScene->getCurrentMap();
 
 	_doorBrick = nullptr;
-	_bonusBrick = nullptr;
 
 	schedule(schedule_selector(WorldScene::update), 0.01f);
 	
@@ -68,126 +67,26 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	_labelScore = static_cast<ui::Text*>(_tableNode->getChildByName("labelScore"));
 	_labelScore->setString(std::to_string(_score));
 
-	_startPosition = createBricks(); 
-	_startPosition.x = _startPosition.x - 74 * _data._width * 2;
-	_startPosition.y = Director::getInstance()->getWinSize().height - 252;
 	_mapLayer->addChild(_borderNode, 0);
 	_npcListener = std::bind(&WorldScene::updateScoreLabel, this, std::placeholders::_1);
 	_childCreateListener = std::bind(&WorldScene::createIronChild, this, std::placeholders::_1, std::placeholders::_2);
 	_currentIndexLevel = 1;
-	_fadeLevel = false;
 
-	_player = Player::create(_mapLayer, PWHITE);
-	_player->setPosition(_startPosition);
-	_player->debugLayer = _debugLayer;
-	_player->_collisions = _borderNode->getChildren();
-	_labelLife->setString(std::to_string(_player->getLife()));
-	addChild(_player, 3);
+	createPlayers(1);
 	_mapLayer->addChild(_debugLayer, 100);
-	createWalls();
+	createWalls(3, 1);
 	createNPCs();
-	_player->setBricks(_bricks);
+	for (auto player : _players)
+	{
+		player->_collisions = _borderNode->getChildren();
+		player->setBricks(_bricks);
+	}
+	//		_labelLife->setString(std::to_string(player->getLife()));
 	addChild(_mapLayer);
 	addChild(_blackLayer, 1000);
 
-	_lifeListener.set(_player->lifeEvent, std::bind(&WorldScene::updateLifeLabel, this));
+	_lifeListener.set(_players.at(0)->lifeEvent, std::bind(&WorldScene::updateLifeLabel, this));
     return true;
-}
-
-void WorldScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
-{
-	auto dir = KeyCodeToDiretion(keyCode);
-	if (dir != NONE)
-	{
-		_player->setDirection(dir);
-	}
-	if (keyCode == EventKeyboard::KeyCode::KEY_SPACE && _player->hasBomb())
-	{
-		createBomb();
-	}
-	if (keyCode == EventKeyboard::KeyCode::KEY_CTRL && _player->isRemote())
-	{
-		for (auto bomb : _bombs)
-		{
-			if (!bomb->isFire())
-			{
-				bomb->explode();
-				break;
-			}
-		}
-	}
-}
-
-void WorldScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
-{
-	AbstractWorldScene::onKeyPressed(keyCode, event);
-	if (isMoveKey(keyCode))
-	{
-		if (_player->getDirection() == KeyCodeToDiretion(keyCode))
-		{
-			_player->setDirection(NONE);
-		}
-	}
-}
-
-Direction WorldScene::KeyCodeToDiretion(EventKeyboard::KeyCode keyCode)
-{
-	switch (keyCode)
-	{
-	case cocos2d::EventKeyboard::KeyCode::KEY_W: case cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW: return UP;
-	case cocos2d::EventKeyboard::KeyCode::KEY_S: case cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW:return DOWN;
-	case cocos2d::EventKeyboard::KeyCode::KEY_A: case cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW:return LEFT;
-	case cocos2d::EventKeyboard::KeyCode::KEY_D: case cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW:return RIGHT;
-	default:	return NONE;
-	}
-}
-
-void WorldScene::createBomb()
-{
-	Size size = Size(60, 60);
-	auto bomb = Bomb::create(_player);
-		 bomb->setPosition(_player->getPosition() - _mapLayer->getPosition());
-		 bomb->setBricks(_bricks);
- 	bool hasBomb = false;
-	for (auto elem : _bombs)
-	{
-		if (!elem->isFire() && isCollision(bomb, elem, size))
-		{
-			hasBomb = true;
-			break;
-		}
-	}
-
- 	bool isCorrect = false;
-
-	if (!hasBomb)
-	{
-		for (auto brick : _bricks)
-		{
-			if (brick->getType() == EBACKGROUND && isCollision(bomb, brick, size))
-			{
-				bomb->setPosition(brick->getPosition());
-				bomb->setBrick(brick);
-				isCorrect = true;
-				break;
-			}
-		}
-	}
-
-	if (isCorrect)
-	{
-		_mapLayer->addChild(bomb, 2);
-		_player->putBomb();
-		_bombs.push_back(bomb);
-	}
-}
-
-bool WorldScene::isMoveKey(cocos2d::EventKeyboard::KeyCode keyCode)
-{
-	return keyCode == EventKeyboard::KeyCode::KEY_W || keyCode == cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW ||
-		keyCode == EventKeyboard::KeyCode::KEY_S || keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW ||
-		keyCode == EventKeyboard::KeyCode::KEY_A || keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW ||
-		keyCode == EventKeyboard::KeyCode::KEY_D || keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW;
 }
 
 void WorldScene::update(float dt)
@@ -201,10 +100,10 @@ void WorldScene::update(float dt)
 		ID_NPC id = ID_NPC(rand() % 18);
 		createNPCs(_doorBrick, id, 6);
 	}
-	if (_doorBrick && _doorBrick->isOpenDoor() && !_player->isStop() && isCollision(_doorBrick, _player, Size(60,60), -_mapLayer->getPosition()))
+	if (_doorBrick && _doorBrick->isOpenDoor() && !_players.at(0)->isStop() && isCollision(_doorBrick, _players.at(0), Size(60, 60), -_mapLayer->getPosition()))
 	{
 		_doorBrick->openDoor(false);
-		_player->stopMove();
+		_players.at(0)->stopMove();
 		auto action = CCSequence::create(
 			CallFunc::create(CC_CALLBACK_0(WorldScene::playMusicStageClear, this)),
 			CCDelayTime::create(4.f),
@@ -212,124 +111,51 @@ void WorldScene::update(float dt)
 			CallFunc::create(CC_CALLBACK_0(WorldScene::nextLevel, this)), nullptr);
 		_blackLayer->runAction(action);
 	}
-	if (_bonusBrick && _npcs.empty())
+	for (auto bonus : _bonusBricks)
 	{
-		_bonusBrick->blinkWall();
+		if (_npcs.empty())
+		{
+			bonus->blinkWall();
+		}
 	}
 	if (_timer->canCreateNPC())
 	{
 		createNPCs(_doorBrick, ball, 8);
 	}
-}
-
-void WorldScene::checkCollisionBombs()
-{
-	//todo need optimization?
-	for (auto it = _bombs.begin(); it != _bombs.end();)
+	for (auto it = _players.begin(); it != _players.end();)
 	{
-		auto bomb = *it;
-		if (bomb->isFire())
+		auto player = *it;
+		if (player->isDestroy())
 		{
-			_expBomb = bomb;
-			if (bomb->isRemove())
-			{
-				bomb->removeFromParentAndCleanup(true);
-				it = _bombs.erase(it);
-			}
-			else
-			{
-				++it;
-			}
+			player->removeFromParentAndCleanup(true);
+			it = _players.erase(it);
 		}
 		else
 		{
+			if (collisionNPCwithPlayer(player))
+			{
+				player->dead();
+			}
 			++it;
 		}
 	}
-
-	if (_expBomb)
-	{
-		for (auto b : _bombs)
-		{
-			if (!b->isFire() && isCollisionFire(_expBomb, b))
-			{
-				b->explode();
-			}
-		}
-		checkFireWithNPC();
-
-		if (!_player->isImmortal() && checkPlayerWithFire(_expBomb))
-		{
-			gameOver();
-		}
-
-		_expBomb = nullptr;
-	}
-
-	if (collisionNPCwithPlayer())
-	{
-		gameOver();
-	}
-	if (_player->isDestroy() && !_fadeLevel)
-	{
-		_fadeLevel = true;
-		auto action = CCSequence::create(
-			CCDelayTime::create(3.f),
-			CCFadeIn::create(0.5f),
-			CallFunc::create(CC_CALLBACK_0(LoadLevelScene::restart, _levelScene)), nullptr);
-		_blackLayer->runAction(action);
-	}
-}
-
-bool WorldScene::isCollisionFire(Bomb* bomb, WorldObject* obj)
-{
-	Rect rect = obj->getRectWorldSpace(Size(70, 70));
-	for (auto fire : bomb->getFires())
-	{
-		Point fp = fire->getPosition();
-		Size size = Size(74, 74);
-		
-		Point firePos = bomb->convertToWorldSpace(bomb->getPosition() + fp + fp); //todo why two fire position?
-		Rect rectFire = Rect(firePos.x, firePos.y, size.width, size.height);
-		if (rectFire.intersectsRect(rect)) 
-		{
-			return true;
-		}
-	}
-
-	return false;
-}
-
-bool WorldScene::isCollision(WorldObject* obj1, WorldObject* obj2, const Size& size, const cocos2d::Point& point)
-{
-	return obj1->getRectSpace(size).intersectsRect(obj2->getRectSpace(size, point));
-}
-
-Point WorldScene::createBricks()
-{
-	int size = 74; // todo delete magic nubmer
-	Size winSize = Director::getInstance()->getWinSize();
-	Point position;
-	for (int i = 0; i <= _data._width * 2; i++)
-	{
-		for (int j = 0; j <= _data._height * 2; j++)
-		{
-			auto brick = Brick::create(_data._stage, i, j);
-			brick->setPosition(Point(i * size + 148, winSize.height - j * size - 252));
-			if (brick->getType() == EBACKGROUND) position = brick->getPosition();
-			_bricks.push_back(brick);
-			_mapLayer->addChild(brick, 1);
-		}
-	}
-
-	return position;
+	endGame();
 }
 
 void WorldScene::createNPCs()
 {
 	BricksVec bricks;
-	std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(bricks), [this](Brick* brick) 
-	{ return brick->getType() == EBACKGROUND && !isCollision(brick, _player, Size(240, 240)); });
+	std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(bricks), [this](Brick* brick) {
+		bool canCreate = true;
+		for (auto player : _players)
+		{
+			if (isCollision(brick, player, Size(240, 240)))
+			{
+				canCreate = false;
+				break;
+			}
+		}
+		return brick->getType() == EBACKGROUND && canCreate; }); 
 	std::random_shuffle(bricks.begin(), bricks.end());
 	auto npcVec = _data._npcVec;
 	int index = 0;
@@ -355,7 +181,7 @@ bool WorldScene::createNPC(Brick* brick, ID_NPC id)
 		{
 			std::vector<Snake*> snakeVec;
 			Snake* npc = Snake::create(dataNPC, _bricks, SNAKE_HEAD);
-			npc->setPlayer(_player);
+			npc->setPlayer(_players.at(0));
 			snakeVec.push_back(npc);
 			setDefaultParametrNpc(npc, brick->getPosition());
 			Snake* npcNext;
@@ -430,60 +256,6 @@ void WorldScene::checkOpenDoor()
 	}
 }
 
-void WorldScene::checkFireWithNPC()
-{
-	for (auto npc: _npcs)
-	{
-		if (!npc->isDead() && npc->getCreateTime() < _expBomb->getExplodeTime() && isCollisionFire(_expBomb, npc))
-		{
-			npc->dead();
-		}
-	}
-}
-
-void WorldScene::removeNPC()
-{
-	auto end = std::remove_if(_npcs.begin(), _npcs.end(), [](NPC* npc)
-	{
-		if (npc->isDead())
-		{
-			if (npc->isRemove())
-			{
-				npc->removeFromParentAndCleanup(true);
-				return true;
-			}
-		}
-		return false;
-	});
-
-	_npcs.erase(end, _npcs.end());
-}
-
-void WorldScene::createWalls()
-{
-	bool isBoss = _data._level == BOSS_LEVEL;
-	for (auto brick : _bricks)
-	{
-		brick->destroyWall();
-	}
-		BricksVec freeBricks;
-	if (!isBoss)
-	{
-		std::copy_if(_bricks.begin(), _bricks.end(), back_inserter(freeBricks), [](Brick* brick) { return brick->getType() == EBACKGROUND; });
-		for (size_t i = 0; i < freeBricks.size() / 3; i++)
-		{
-			int randomNumber = rand() % freeBricks.size();
-			auto brick = freeBricks.at(randomNumber);
-			if (!isCollision(brick, _player, Size(120, 120)))
-			{
-				brick->createWall();
-			}
-		}
-		createBonus(freeBricks);
-	}
-	createDoor(freeBricks, isBoss);
-}
-
 void WorldScene::createDoor(BricksVec freeBricks, bool isBoss)
 {
 	BrickType type = isBoss ? EBACKGROUND : EWALL;
@@ -511,48 +283,9 @@ void WorldScene::createDoor(BricksVec freeBricks, bool isBoss)
  	_bricks.push_back(_doorBrick);
 }
 
-void WorldScene::createBonus(BricksVec freeBricks)
-{
-	std::random_shuffle(freeBricks.begin(), freeBricks.end());
-	Brick* foo = freeBricks.at(1);
-
-	if (_bonusBrick)
-	{
-		Brick* brick = Brick::create(_bonusBrick->getLevel(), _bonusBrick->getPos().x, _bonusBrick->getPos().y);
-		brick->setPosition(_bonusBrick->getPosition());
-		removeBrick(_bonusBrick);
-		_bricks.push_back(brick);
-		_mapLayer->addChild(brick, 1);
-	}
-
-	_bonusBrick = BrickBonus::create(foo, _data._bonus);
-	_bonusBrick->setPosition(foo->getPosition());
-	_mapLayer->addChild(_bonusBrick, 1);
-
-	removeBrick(foo);
-
-	_bricks.push_back(_bonusBrick);
-}
-
-void WorldScene::removeBrick(Brick* brick)
-{
-	Point point = brick->getPos();
-	_bricks.erase(std::remove_if(_bricks.begin(), _bricks.end(),
-		[point](Brick* b)
-	{
-		bool is = point.equals(b->getPos());
-		if (is)
-		{
-			b->removeFromParentAndCleanup(true);
-		}
-		return is;
-	}),
-		_bricks.end());
-}
-
 void WorldScene::updateLifeLabel()
 {
-	_labelLife->setString(std::to_string(_player->getLife()));
+	_labelLife->setString(std::to_string(_players.at(0)->getLife()));
 }
 
 void WorldScene::updateScoreLabel(NPC* npc)
@@ -581,68 +314,11 @@ void WorldScene::updateScoreLabel(NPC* npc)
 	}
 }
 
-bool WorldScene::checkPlayerWithFire(Bomb* bomb)
+BricksVec WorldScene::createWalls(int divider, int countBonus)
 {
-	Rect rect = _player->getRectWorldSpace(Size(70, 70));
- 	Point p = rect.origin - _mapLayer->getPosition();
- 	rect = Rect(p.x, p.y, rect.size.width, rect.size.height);
-	for (auto fire : bomb->getFires())
-	{
-		Point fp = fire->getPosition();
-		Size size = Size(74, 74);
-
-		Point firePos = bomb->convertToWorldSpace(bomb->getPosition() + fp + fp); //todo why two fire position?
-		Rect rectFire = Rect(firePos.x, firePos.y, size.width, size.height);
-		if (rectFire.intersectsRect(rect))
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
-bool WorldScene::collisionNPCwithPlayer()
-{
-	Rect rect = _player->getRectWorldSpace(Size(70, 70));
-	Point p = rect.origin - _mapLayer->getPosition();
-	rect = Rect(p.x, p.y, rect.size.width, rect.size.height);
-	for (auto npc : _npcs)
-	{
-		if (!npc->isDead())
-		{
-			Size size = Size(74, 74);
-
-			Point firePos = npc->convertToWorldSpace(npc->getPosition());
-			Rect rectFire = Rect(firePos.x, firePos.y, size.width, size.height);
-			if (rectFire.intersectsRect(rect))
-			{
-				return true;
-			}
-		}
-	}
-	return false;
-}
-
-void WorldScene::gameOver()
-{
-	_player->dead();
-}
-
-void WorldScene::removeText(cocos2d::ui::Text* text)
-{
-	text->removeFromParent();
-}
-
-void WorldScene::setDefaultParametrNpc(NPC* npc, const cocos2d::Point& point, int order /* = 2 */)
-{
-	_npcListener += npc->deadEvent;
-	npc->debugLayer = _debugLayer;
-	npc->setMapLayer(_mapLayer);
-	npc->setPosition(point);
-	npc->setBombs(&_bombs);
-	_mapLayer->addChild(npc, order);
-	npc->move();
-	_npcs.push_back(npc);
+	BricksVec freeBricks = 	AbstractWorldScene::createWalls(divider, countBonus);
+	createDoor(freeBricks, isBoss());
+	return freeBricks;
 }
 
 void WorldScene::createIronChild(const cocos2d::Point& point, unsigned int createTime)
@@ -652,8 +328,8 @@ void WorldScene::createIronChild(const cocos2d::Point& point, unsigned int creat
 
 void WorldScene::nextLevel()
 {
-	_player->setPosition(_startPosition);
-	GameSettings::Instance().savePlayer(_player);
+	//_players.at(0)->setPosition(_startPosition);//todo
+	GameSettings::Instance().savePlayer(_players.at(0));
 	_levelScene->nextLevel();
 	Director::getInstance()->popScene();
 }
@@ -685,4 +361,43 @@ void WorldScene::playStartSounds()
 void WorldScene::backMenu()
 {
 	_levelScene->backMenu();
+}
+
+bool WorldScene::isEndGame()
+{
+	return _players.empty() && !_fadeLevel;
+}
+
+void WorldScene::setDefaultParametrNpc(NPC* npc, const cocos2d::Point& point, int order /* = 2 */)
+{
+	AbstractWorldScene::setDefaultParametrNpc(npc, point, order);
+	_npcListener += npc->deadEvent;
+}
+
+int WorldScene::getStage()
+{
+	return _data._stage;
+}
+
+cocos2d::Size WorldScene::getMapSize()
+{
+	return Size(_data._width * 2, _data._height * 2);
+}
+
+cocos2d::Action* WorldScene::getRestartAction()
+{
+	return CCSequence::create(CCDelayTime::create(3.f),
+		CCFadeIn::create(0.5f),
+		CallFunc::create(CC_CALLBACK_0(LoadLevelScene::restart, _levelScene)), nullptr);
+
+}
+
+bool WorldScene::isBoss()
+{
+	return _data._level == BOSS_LEVEL;
+}
+
+int WorldScene::KeyCodeToPlayerID(cocos2d::EventKeyboard::KeyCode keyCode)
+{
+	return 0; // one player
 }
