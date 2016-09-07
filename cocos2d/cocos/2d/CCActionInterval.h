@@ -1298,6 +1298,44 @@ private:
     CC_DISALLOW_COPY_AND_ASSIGN(TintTo);
 };
 
+/** @class TintToWhite
+ @since v0.7.2
+ */
+class CC_DLL TintToWhite : public ActionInterval
+{
+public:
+    /**
+     * Creates an action with duration and color.
+     * @param duration Duration time, in seconds.
+     */
+    static TintToWhite* create(float duration, bool reverse = false);
+
+    //
+    // Overrides
+    //
+    virtual TintToWhite* clone() const override;
+    virtual TintToWhite* reverse(void) const override;
+    virtual void startWithTarget(Node *target) override;
+    /**
+     * @param time In seconds.
+     */
+    virtual void update(float time) override;
+    
+CC_CONSTRUCTOR_ACCESS:
+    TintToWhite() {}
+    virtual ~TintToWhite() {}
+    
+    /** initializes the action with duration and color */
+    bool initWithDuration(float duration, bool reverse);
+    
+protected:
+    bool _isReverse;
+    cocos2d::GLProgram* _glProgram;
+    
+private:
+    CC_DISALLOW_COPY_AND_ASSIGN(TintToWhite);
+};
+
 /** @class TintBy
  @brief Tints a Node that implements the NodeRGB protocol from current tint to a custom one.
  @since v0.7.2

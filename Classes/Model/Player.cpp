@@ -287,11 +287,9 @@ void Player::speedUp()
 void Player::immortal()
 {
 	_isImmortal = true;
-    /*
 	auto tint = TintToWhite::create(0.1f);
 	auto action = RepeatForever::create(Sequence::create(tint, tint->reverse(), nullptr));
 	_sprite->runAction(action);
-     */
 }
 
 bool Player::hasBomb()
