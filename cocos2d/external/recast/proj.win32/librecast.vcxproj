@@ -11,8 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\DebugUtils\DebugDraw.cpp" />
-    <ClCompile Include="..\DebugUtils\DetourDebugDraw.cpp" />
     <ClCompile Include="..\DetourCrowd\DetourCrowd.cpp" />
     <ClCompile Include="..\DetourCrowd\DetourLocalBoundary.cpp" />
     <ClCompile Include="..\DetourCrowd\DetourObstacleAvoidance.cpp" />
@@ -30,8 +28,6 @@
     <ClCompile Include="..\fastlz\fastlz.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\DebugUtils\DebugDraw.h" />
-    <ClInclude Include="..\DebugUtils\DetourDebugDraw.h" />
     <ClInclude Include="..\DetourCrowd\DetourCrowd.h" />
     <ClInclude Include="..\DetourCrowd\DetourLocalBoundary.h" />
     <ClInclude Include="..\DetourCrowd\DetourObstacleAvoidance.h" />

@@ -124,7 +124,7 @@ protected:
 
     std::vector<NavMeshAgent*> _agentList;
     std::vector<NavMeshObstacle*> _obstacleList;
-    NavMeshDebugDraw _debugDraw;
+
     std::string _navFilePath;
     std::string _geomFilePath;
     bool _isDebugDrawEnabled;

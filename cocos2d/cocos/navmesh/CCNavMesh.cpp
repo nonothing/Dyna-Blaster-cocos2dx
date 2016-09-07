@@ -27,7 +27,6 @@
 #include "platform/CCFileUtils.h"
 #include "renderer/CCRenderer.h"
 #include "recast/Detour/DetourCommon.h"
-#include "recast/DebugUtils/DetourDebugDraw.h"
 #include <sstream>
 
 NS_CC_BEGIN
@@ -185,7 +184,7 @@ bool NavMesh::loadNavMeshFile()
 
     _allocator = new (std::nothrow) LinearAllocator(32000);
     _compressor = new (std::nothrow) FastLZCompressor;
-    _meshProcess = new (std::nothrow) MeshProcess(_geomData);
+
     status = _tileCache->init(&header.cacheParams, _allocator, _compressor, _meshProcess);
 
     if (dtStatusFailed(status))
@@ -269,38 +268,13 @@ bool NavMesh::loadGeomFile()
 void NavMesh::dtDraw()
 {
     drawObstacles();
-    _debugDraw.depthMask(false);
-    duDebugDrawNavMeshWithClosedList(&_debugDraw, *_navMesh, *_navMeshQuery, DU_DRAWNAVMESH_OFFMESHCONS | DU_DRAWNAVMESH_CLOSEDLIST/* | DU_DRAWNAVMESH_COLOR_TILES*/);
     drawAgents();
     drawOffMeshConnections();
-    _debugDraw.depthMask(true);
 }
 
 void cocos2d::NavMesh::drawOffMeshConnections()
 {
-    unsigned int conColor = duRGBA(192, 0, 128, 192);
-    unsigned int baseColor = duRGBA(0, 0, 0, 64);
-    _debugDraw.begin(DU_DRAW_LINES, 2.0f);
-    for (int i = 0; i < _geomData->offMeshConCount; ++i)
-    {
-        float* v = &_geomData->offMeshConVerts[i * 3 * 2];
-
-        _debugDraw.vertex(v[0], v[1], v[2], baseColor);
-        _debugDraw.vertex(v[0], v[1] + 0.2f, v[2], baseColor);
-
-        _debugDraw.vertex(v[3], v[4], v[5], baseColor);
-        _debugDraw.vertex(v[3], v[4] + 0.2f, v[5], baseColor);
-
-        duAppendCircle(&_debugDraw, v[0], v[1] + 0.1f, v[2], _geomData->offMeshConRads[i], baseColor);
-        duAppendCircle(&_debugDraw, v[3], v[4] + 0.1f, v[5], _geomData->offMeshConRads[i], baseColor);
-
-        if (/*hilight*/true)
-        {
-            duAppendArc(&_debugDraw, v[0], v[1], v[2], v[3], v[4], v[5], 0.25f,
-                (_geomData->offMeshConDirs[i] & 1) ? 0.6f : 0.0f, 0.6f, conColor);
-        }
-    }
-    _debugDraw.end();
+   
 }
 
 void cocos2d::NavMesh::drawObstacles()
@@ -315,15 +289,7 @@ void cocos2d::NavMesh::drawObstacles()
             _tileCache->getObstacleBounds(ob, bmin, bmax);
 
             unsigned int col = 0;
-            if (ob->state == DT_OBSTACLE_PROCESSING)
-                col = duRGBA(255, 255, 0, 128);
-            else if (ob->state == DT_OBSTACLE_PROCESSED)
-                col = duRGBA(255, 192, 0, 192);
-            else if (ob->state == DT_OBSTACLE_REMOVING)
-                col = duRGBA(220, 0, 0, 128);
 
-            duDebugDrawCylinder(&_debugDraw, bmin[0], bmin[1], bmin[2], bmax[0], bmax[1], bmax[2], col);
-            duDebugDrawCylinderWire(&_debugDraw, bmin[0], bmin[1], bmin[2], bmax[0], bmax[1], bmax[2], duDarkenCol(col), 2);
         }
     }
 }
@@ -337,21 +303,6 @@ void cocos2d::NavMesh::drawAgents()
             float r = iter->getRadius();
             float h = iter->getHeight();
 
-            unsigned int col = duRGBA(0, 0, 0, 32);
-            duDebugDrawCircle(&_debugDraw, agent->npos[0], agent->npos[1], agent->npos[2], r, col, 2.0f);
-
-            col = duRGBA(220, 220, 220, 128);
-            if (agent->targetState == DT_CROWDAGENT_TARGET_REQUESTING || agent->targetState == DT_CROWDAGENT_TARGET_WAITING_FOR_QUEUE)
-                col = duLerpCol(col, duRGBA(128, 0, 255, 128), 32);
-            else if (agent->targetState == DT_CROWDAGENT_TARGET_WAITING_FOR_PATH)
-                col = duLerpCol(col, duRGBA(128, 0, 255, 128), 128);
-            else if (agent->targetState == DT_CROWDAGENT_TARGET_FAILED)
-                col = duRGBA(255, 32, 16, 128);
-            else if (agent->targetState == DT_CROWDAGENT_TARGET_VELOCITY)
-                col = duLerpCol(col, duRGBA(64, 255, 0, 128), 128);
-
-            duDebugDrawCylinder(&_debugDraw, agent->npos[0] - r, agent->npos[1] + r*0.1f, agent->npos[2] - r,
-                agent->npos[0] + r, agent->npos[1] + h, agent->npos[2] + r, col);
 
         }
     }
@@ -368,25 +319,7 @@ void cocos2d::NavMesh::drawAgents()
             const float* vel = agent->vel;
 //            const float* dvel = agent->dvel;
 
-            unsigned int col = duRGBA(220, 220, 220, 192);
-            if (agent->targetState == DT_CROWDAGENT_TARGET_REQUESTING || agent->targetState == DT_CROWDAGENT_TARGET_WAITING_FOR_QUEUE)
-                col = duLerpCol(col, duRGBA(128, 0, 255, 192), 32);
-            else if (agent->targetState == DT_CROWDAGENT_TARGET_WAITING_FOR_PATH)
-                col = duLerpCol(col, duRGBA(128, 0, 255, 192), 128);
-            else if (agent->targetState == DT_CROWDAGENT_TARGET_FAILED)
-                col = duRGBA(255, 32, 16, 192);
-            else if (agent->targetState == DT_CROWDAGENT_TARGET_VELOCITY)
-                col = duLerpCol(col, duRGBA(64, 255, 0, 192), 128);
 
-            duDebugDrawCircle(&_debugDraw, pos[0], pos[1] + height, pos[2], radius, col, 2.0f);
-
-            //duDebugDrawArrow(&_debugDraw, pos[0], pos[1] + height, pos[2],
-            //    pos[0] + dvel[0], pos[1] + height + dvel[1], pos[2] + dvel[2],
-            //    0.0f, 0.4f, duRGBA(0, 192, 255, 192), 2.0f);
-
-            duDebugDrawArrow(&_debugDraw, pos[0], pos[1] + height, pos[2],
-                pos[0] + vel[0], pos[1] + height + vel[1], pos[2] + vel[2],
-                0.0f, 0.4f, duRGBA(0, 0, 0, 160), 2.0f);
         }
     }
 }
@@ -446,9 +379,7 @@ void NavMesh::setDebugDrawEnable(bool enable)
 void NavMesh::debugDraw(Renderer* renderer)
 {
     if (_isDebugDrawEnabled){
-        _debugDraw.clear();
         dtDraw();
-        _debugDraw.draw(renderer);
     }
 }
 

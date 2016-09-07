@@ -26,13 +26,12 @@
 #define __CCNAV_MESH_DEBUG_DRAW_H__
 
 #include "base/ccConfig.h"
-#if CC_USE_NAVMESH
+#ifndef CC_USE_NAVMESH
 
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCCustomCommand.h"
 #include "renderer/CCRenderState.h"
 #include "math/Vec3.h"
-#include "recast/DebugUtils/DebugDraw.h"
 #include <string>
 #include <vector>
 

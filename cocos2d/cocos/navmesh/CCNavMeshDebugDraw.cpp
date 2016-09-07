@@ -22,7 +22,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 #include "navmesh/CCNavMeshDebugDraw.h"
-#if CC_USE_NAVMESH
+#ifndef CC_USE_NAVMESH
 
 #include "renderer/CCGLProgramCache.h"
 #include "renderer/ccGLStateCache.h"

@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="DebugUtils">
-      <UniqueIdentifier>{aaf686af-9221-4a6f-8ed3-8af7b769cd7d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Detour">
       <UniqueIdentifier>{0bb8e4f7-4a37-48b6-8fc8-b2ae500329a1}</UniqueIdentifier>
     </Filter>
@@ -18,12 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\DebugUtils\DebugDraw.cpp">
-      <Filter>DebugUtils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\DebugUtils\DetourDebugDraw.cpp">
-      <Filter>DebugUtils</Filter>
-    </ClCompile>
     <ClCompile Include="..\Detour\DetourAlloc.cpp">
       <Filter>Detour</Filter>
     </ClCompile>
@@ -71,12 +62,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\DebugUtils\DebugDraw.h">
-      <Filter>DebugUtils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DebugUtils\DetourDebugDraw.h">
-      <Filter>DebugUtils</Filter>
-    </ClInclude>
     <ClInclude Include="..\Detour\DetourAlloc.h">
       <Filter>Detour</Filter>
     </ClInclude>

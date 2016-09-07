@@ -10,20 +10,20 @@
     <Filter Include="src">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Scene">
-      <UniqueIdentifier>{0795b453-0ae9-4b56-bdf9-08027c73b371}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Model">
-      <UniqueIdentifier>{a6bd0b67-69d3-4a45-94cd-f5131407c187}</UniqueIdentifier>
+      <UniqueIdentifier>{1072c815-29c1-489c-ac80-ae612a588a3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Scene">
+      <UniqueIdentifier>{fe9081ab-7701-4dbb-abed-d1dc07176bcb}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\utils">
-      <UniqueIdentifier>{6ce52e63-28f0-4eeb-ab3e-4ec88bd7b0f3}</UniqueIdentifier>
+      <UniqueIdentifier>{fb6a2c5a-30a0-499b-ac5e-8b34a7fc9cbe}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Boss">
-      <UniqueIdentifier>{b2e44bef-c563-49ae-9899-9245dc737284}</UniqueIdentifier>
+      <UniqueIdentifier>{f3ba9fd3-4e1c-479d-9cf5-9b4fbabaa32f}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\enumerate">
-      <UniqueIdentifier>{05abf0bd-7f7d-47cc-83c0-483e298e52bf}</UniqueIdentifier>
+      <UniqueIdentifier>{a779afc5-dac8-41a7-aee6-55a645d2c541}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,44 +33,17 @@
     <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scene\WorldScene.cpp">
+    <ClCompile Include="..\Classes\Scene\AbstractWorldScene.cpp">
       <Filter>src\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Model\Brick.cpp">
-      <Filter>src\Model</Filter>
+    <ClCompile Include="..\Classes\Scene\BattleScene.cpp">
+      <Filter>src\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Model\Player.cpp">
-      <Filter>src\Model</Filter>
+    <ClCompile Include="..\Classes\Scene\FinalScene.cpp">
+      <Filter>src\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Model\Bomb.cpp">
-      <Filter>src\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Model\WorldObject.cpp">
-      <Filter>src\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Model\Timer.cpp">
-      <Filter>src\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Model\NPC.cpp">
-      <Filter>src\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\utils\CSVReader.cpp">
-      <Filter>src\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Model\BrickDoor.cpp">
-      <Filter>src\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Model\NPCData.cpp">
-      <Filter>src\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Model\MapData.cpp">
-      <Filter>src\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Model\BrickBonus.cpp">
-      <Filter>src\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Model\GameSettings.cpp">
-      <Filter>src\Model</Filter>
+    <ClCompile Include="..\Classes\Scene\GameOverScene.cpp">
+      <Filter>src\Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Scene\LoadLevelScene.cpp">
       <Filter>src\Scene</Filter>
@@ -78,13 +51,19 @@
     <ClCompile Include="..\Classes\Scene\MenuScene.cpp">
       <Filter>src\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scene\GameOverScene.cpp">
+    <ClCompile Include="..\Classes\Scene\PasswordScene.cpp">
       <Filter>src\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Boss\Snake.cpp">
-      <Filter>src\Boss</Filter>
+    <ClCompile Include="..\Classes\Scene\PreloadBattleScene.cpp">
+      <Filter>src\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Boss\Iron.cpp">
+    <ClCompile Include="..\Classes\Scene\StartingScene.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene\WorldScene.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Boss\BossBase.cpp">
       <Filter>src\Boss</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Boss\Cyclop.cpp">
@@ -93,29 +72,50 @@
     <ClCompile Include="..\Classes\Boss\Electro.cpp">
       <Filter>src\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Boss\BossBase.cpp">
-      <Filter>src\Boss</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Boss\Human.cpp">
       <Filter>src\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scene\StartingScene.cpp">
-      <Filter>src\Scene</Filter>
+    <ClCompile Include="..\Classes\Boss\Iron.cpp">
+      <Filter>src\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scene\FinalScene.cpp">
-      <Filter>src\Scene</Filter>
+    <ClCompile Include="..\Classes\Boss\Snake.cpp">
+      <Filter>src\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scene\PasswordScene.cpp">
-      <Filter>src\Scene</Filter>
+    <ClCompile Include="..\Classes\Model\Bomb.cpp">
+      <Filter>src\Model</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scene\BattleScene.cpp">
-      <Filter>src\Scene</Filter>
+    <ClCompile Include="..\Classes\Model\Brick.cpp">
+      <Filter>src\Model</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scene\PreloadBattleScene.cpp">
-      <Filter>src\Scene</Filter>
+    <ClCompile Include="..\Classes\Model\BrickBonus.cpp">
+      <Filter>src\Model</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scene\AbstractWorldScene.cpp">
-      <Filter>src\Scene</Filter>
+    <ClCompile Include="..\Classes\Model\BrickDoor.cpp">
+      <Filter>src\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Model\GameSettings.cpp">
+      <Filter>src\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Model\MapData.cpp">
+      <Filter>src\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Model\NPC.cpp">
+      <Filter>src\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Model\NPCData.cpp">
+      <Filter>src\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Model\Player.cpp">
+      <Filter>src\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Model\Timer.cpp">
+      <Filter>src\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Model\WorldObject.cpp">
+      <Filter>src\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\utils\CSVReader.cpp">
+      <Filter>src\utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -125,50 +125,17 @@
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Scene\WorldScene.h">
+    <ClInclude Include="..\Classes\Scene\AbstractWorldScene.h">
       <Filter>src\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Model\Brick.h">
-      <Filter>src\Model</Filter>
+    <ClInclude Include="..\Classes\Scene\BattleScene.h">
+      <Filter>src\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Model\Player.h">
-      <Filter>src\Model</Filter>
+    <ClInclude Include="..\Classes\Scene\FinalScene.h">
+      <Filter>src\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Model\Bomb.h">
-      <Filter>src\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Model\WorldObject.h">
-      <Filter>src\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Model\Timer.h">
-      <Filter>src\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\utils\Utils.h">
-      <Filter>src\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Model\NPC.h">
-      <Filter>src\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\utils\CSVReader.h">
-      <Filter>src\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Model\BrickDoor.h">
-      <Filter>src\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Model\NPCData.h">
-      <Filter>src\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Model\MapData.h">
-      <Filter>src\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Model\BrickBonus.h">
-      <Filter>src\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\utils\Events.h">
-      <Filter>src\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Model\GameSettings.h">
-      <Filter>src\Model</Filter>
+    <ClInclude Include="..\Classes\Scene\GameOverScene.h">
+      <Filter>src\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Scene\LoadLevelScene.h">
       <Filter>src\Scene</Filter>
@@ -176,11 +143,68 @@
     <ClInclude Include="..\Classes\Scene\MenuScene.h">
       <Filter>src\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Scene\GameOverScene.h">
+    <ClInclude Include="..\Classes\Scene\PasswordScene.h">
       <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\PreloadBattleScene.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\StartingScene.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\WorldScene.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Boss\BossBase.h">
+      <Filter>src\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Boss\Cyclop.h">
+      <Filter>src\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Boss\Electro.h">
+      <Filter>src\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Boss\Human.h">
+      <Filter>src\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Boss\Iron.h">
+      <Filter>src\Boss</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Boss\Snake.h">
       <Filter>src\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\Bomb.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\Brick.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\BrickBonus.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\BrickDoor.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\GameSettings.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\MapData.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\NPC.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\NPCData.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\Player.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\Timer.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\WorldObject.h">
+      <Filter>src\Model</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\enumerate\Direction.h">
       <Filter>src\enumerate</Filter>
@@ -191,41 +215,17 @@
     <ClInclude Include="..\Classes\enumerate\ENPC.h">
       <Filter>src\enumerate</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Boss\Iron.h">
-      <Filter>src\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Boss\Cyclop.h">
-      <Filter>src\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Boss\Electro.h">
-      <Filter>src\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Boss\BossBase.h">
-      <Filter>src\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Boss\Human.h">
-      <Filter>src\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Scene\StartingScene.h">
-      <Filter>src\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Scene\FinalScene.h">
-      <Filter>src\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Scene\PasswordScene.h">
-      <Filter>src\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\enumerate\EPlayer.h">
       <Filter>src\enumerate</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Scene\BattleScene.h">
-      <Filter>src\Scene</Filter>
+    <ClInclude Include="..\Classes\utils\CSVReader.h">
+      <Filter>src\utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Scene\PreloadBattleScene.h">
-      <Filter>src\Scene</Filter>
+    <ClInclude Include="..\Classes\utils\Events.h">
+      <Filter>src\utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Scene\AbstractWorldScene.h">
-      <Filter>src\Scene</Filter>
+    <ClInclude Include="..\Classes\utils\Utils.h">
+      <Filter>src\utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
