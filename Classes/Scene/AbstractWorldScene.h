@@ -41,7 +41,7 @@ protected:
 	virtual BricksVec createWalls(int divider, int countBonus);
 	void createBonus(BricksVec vec, int count);
 
-	void AbstractWorldScene::checkCollisionBombs();
+	void checkCollisionBombs();
 	bool isCollision(WorldObject* obj1, WorldObject* obj2, const cocos2d::Size& size, const cocos2d::Point& point = cocos2d::Point::ZERO);
 	bool collisionNPCwithPlayer(Player* player);
 	bool isCollisionFire(Bomb* bomb, WorldObject* obj);

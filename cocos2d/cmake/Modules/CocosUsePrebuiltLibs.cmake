@@ -2,12 +2,13 @@
 
 # START CONFIG
 
-set(_chipmunk_inc chipmunk.h)
-set(_chipmunk_inc_paths chipmunk)
+set(_chipmunk_inc chipmunk/chipmunk.h)
+set(_chipmunk_inc_paths include)
 set(_chipmunk_libs chipmunk libchipmunk)
 
 set(_curl_inc curl/curl.h)
-set(_curl_libs crypto ssl libeay32 ssleay32 curl libcurl_imp libcurl)
+# order: curl, ssl, crypto
+set(_curl_libs curl libcurl_imp libcurl ssl libeay32 ssleay32 crypto)
 
 set(_freetype2_prefix FREETYPE)
 set(_freetype2_inc ft2build.h freetype/freetype.h)
@@ -36,7 +37,7 @@ set(_sqlite3_inc sqlite3.h)
 set(_sqlite3_libs sqlite3)
 
 set(_gles_prefix GLEW)
-set(_gles_inc glew.h)
+set(_gles_inc GL/glew.h)
 set(_gles_inc_paths OGLES)
 set(_gles_libs glew32)
 
@@ -58,11 +59,11 @@ set(_OpenalSoft_inc_paths AL)
 set(_OpenalSoft_libs OpenAL32)
 
 set(_zlib_inc zlib.h)
-set(_zlib_libs libzlib)
+set(_zlib_libs z libzlib libz)
 
-set(_fmod_prefix FMODEX)
-set(_fmod_inc fmod.h)
-set(_fmod_libs fmodex fmodex64 fmodexL fmodexL64)
+set(_fmod_prefix FMOD)
+set(_fmod_inc fmod.hpp)
+set(_fmod_libs fmod fmod64 fmod fmod64)
 
 set(all_prebuilt_libs
   chipmunk
@@ -77,7 +78,7 @@ set(all_prebuilt_libs
 
 
 if(MACOSX)
-  list(APPEND all_prebuilt_libs glfw3)
+  list(APPEND all_prebuilt_libs glfw3 zlib)
 endif()
 
 # We use MSVC instead of WINDOWS because it can be mingw that can't use our prebuilt libs
@@ -88,6 +89,11 @@ endif()
 if(LINUX)
   list(APPEND all_prebuilt_libs fmod)
 endif()
+
+if(ANDROID)
+  list(APPEND all_prebuilt_libs zlib)
+endif()
+
 
 # END CONFIG
 
@@ -135,6 +141,7 @@ foreach(_lib ${all_prebuilt_libs})
       #message(STATUS "${_lib} ${_prefix}_INCLUDE_DIRS: ${${_prefix}_INCLUDE_DIRS}")
 
       set(lib_dir_candidates
+        ${_root}/prebuilt/${PLATFORM_FOLDER}/${ANDROID_ABI}
         ${_root}/prebuilt/${PLATFORM_FOLDER}/${ARCH_DIR}
         ${_root}/prebuilt/${PLATFORM_FOLDER}
         ${_root}/prebuilt/${PLATFORM_FOLDER}/release-lib

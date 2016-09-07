@@ -1,5 +1,5 @@
 #include "Scene/PasswordScene.h"
-#include "cocostudio/CocoStudio.h"
+#include "editor-support/cocostudio/CocoStudio.h"
 #include "enumerate/Direction.h"
 #include "Scene/LoadLevelScene.h"
 #include "Scene/MenuScene.h"

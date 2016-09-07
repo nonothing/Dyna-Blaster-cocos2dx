@@ -1,5 +1,5 @@
 #include "Scene/GameOverScene.h"
-#include "cocostudio/CocoStudio.h"
+#include "editor-support/cocostudio/CocoStudio.h"
 #include "Scene/LoadLevelScene.h"
 #include "Model/GameSettings.h"
 #include "ui/UIText.h"

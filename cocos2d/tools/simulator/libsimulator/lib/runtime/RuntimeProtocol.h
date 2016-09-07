@@ -9,8 +9,9 @@
 
 #include <string>
 #include "json/document.h"
+#include "SimulatorExport.h"
 
-class RuntimeProtocol
+class CC_LIBSIM_DLL RuntimeProtocol
 {
 public:
     virtual void end();
@@ -23,7 +24,8 @@ public:
     virtual void onClearCompile(const rapidjson::Document& dArgParse, rapidjson::Document& dReplyParse);
     virtual void onPrecompile(const rapidjson::Document& dArgParse, rapidjson::Document& dReplyParse);
     virtual void onReload(const rapidjson::Document& dArgParse, rapidjson::Document& dReplyParse);
-
+    virtual void onRemove(const std::string &filename);
+    
 protected:
     std::string _projectPath;
 };

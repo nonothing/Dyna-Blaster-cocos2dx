@@ -1,5 +1,5 @@
 /****************************************************************************
- Copyright (c) 2014 Chukong Technologies Inc.
+ Copyright (c) 2014-2015 Chukong Technologies Inc.
  
  http://www.cocos2d-x.org
  
@@ -24,6 +24,7 @@
 
 #ifndef __COCOS2D_UI_WEBVIEWIMPL_IOS_H_
 #define __COCOS2D_UI_WEBVIEWIMPL_IOS_H_
+/// @cond DO_NOT_SHOW
 
 #include <iosfwd>
 
@@ -79,6 +80,8 @@ public:
 
     virtual void setVisible(bool visible);
 
+    void setBounces(bool bounces);
+
 private:
     UIWebViewWrapper *_uiWebViewWrapper;
     WebView *_webView;
@@ -88,4 +91,5 @@ private:
   } // namespace experimental
 }//namespace cocos2d
 
+/// @endcond
 #endif /* __COCOS2D_UI_WEBVIEWIMPL_IOS_H_ */

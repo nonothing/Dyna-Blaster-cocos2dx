@@ -8,7 +8,7 @@
 namespace myUtils
 {
 	template<typename T, size_t N>
-	size_t array_size(T(&const)[N])
+	size_t array_size(T(&)[N])
 	{
 		return N;
 	}

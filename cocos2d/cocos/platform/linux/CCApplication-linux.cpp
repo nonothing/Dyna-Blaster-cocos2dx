@@ -26,7 +26,7 @@ THE SOFTWARE.
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
 
-#include "CCApplication-linux.h"
+#include "platform/linux/CCApplication-linux.h"
 #include <unistd.h>
 #include <sys/time.h>
 #include <string>
@@ -37,7 +37,7 @@ NS_CC_BEGIN
 
 
 // sharedApplication pointer
-Application * Application::sm_pSharedApplication = 0;
+Application * Application::sm_pSharedApplication = nullptr;
 
 static long getCurrentMillSecond() {
     long lLastTime;
@@ -58,7 +58,7 @@ Application::Application()
 Application::~Application()
 {
     CC_ASSERT(this == sm_pSharedApplication);
-    sm_pSharedApplication = NULL;
+    sm_pSharedApplication = nullptr;
 }
 
 int Application::run()
@@ -107,7 +107,7 @@ int Application::run()
     return EXIT_SUCCESS;
 }
 
-void Application::setAnimationInterval(double interval)
+void Application::setAnimationInterval(float interval)
 {
     //TODO do something else
     _animationInterval = interval*1000.0f;
@@ -134,6 +134,11 @@ const std::string& Application::getResourceRootPath(void)
 Application::Platform Application::getTargetPlatform()
 {
     return Platform::OS_LINUX;
+}
+
+std::string Application::getVersion()
+{
+    return "";
 }
 
 bool Application::openURL(const std::string &url)
@@ -252,6 +257,14 @@ LanguageType Application::getCurrentLanguage()
     else if (0 == strcmp("uk", pLanguageName))
     {
         ret = LanguageType::UKRAINIAN;
+    }
+    else if (0 == strcmp("ro", pLanguageName))
+    {
+        ret = LanguageType::ROMANIAN;
+    }
+    else if (0 == strcmp("bg", pLanguageName))
+    {
+        ret = LanguageType::BULGARIAN;
     }
     
     return ret;

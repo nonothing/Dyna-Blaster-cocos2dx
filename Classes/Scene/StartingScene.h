@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 #include "Scene/LoadLevelScene.h"
-#include "cocostudio/CocoStudio.h"
+#include "editor-support/cocostudio/CocoStudio.h"
 #include "utils/CSVReader.h"
 #include "enumerate/Direction.h"
 

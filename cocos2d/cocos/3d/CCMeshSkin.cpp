@@ -23,7 +23,6 @@
  ****************************************************************************/
 
 #include "3d/CCMeshSkin.h"
-#include "3d/CCSkeleton3D.h"
 #include "3d/CCBundle3D.h"
 #include "3d/CCSkeleton3D.h"
 
@@ -70,7 +69,7 @@ ssize_t MeshSkin::getBoneCount() const
 //get bone
 Bone3D* MeshSkin::getBoneByIndex(unsigned int index) const
 {
-    if (index < _skinBones.size())
+    if (static_cast<int>(index) < _skinBones.size())
         return _skinBones.at(index);
     
     return nullptr;

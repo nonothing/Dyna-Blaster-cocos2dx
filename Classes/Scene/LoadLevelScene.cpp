@@ -1,6 +1,6 @@
 #include "Scene/LoadLevelScene.h"
 #include "Scene/WorldScene.h"
-#include "cocostudio/CocoStudio.h"
+#include "editor-support/cocostudio/CocoStudio.h"
 #include "Scene/GameOverScene.h"
 #include "Model/GameSettings.h"
 #include "Scene/MenuScene.h"

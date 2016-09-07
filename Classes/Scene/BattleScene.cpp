@@ -1,5 +1,5 @@
 #include "BattleScene.h"
-#include "cocostudio/CocoStudio.h"
+#include "editor-support/cocostudio/CocoStudio.h"
 #include "Model/Timer.h"
 #include "Model/GameSettings.h"
 #include "Model/MapData.h"

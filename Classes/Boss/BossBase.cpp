@@ -29,6 +29,7 @@ void BossBase::blink()
 
 cocos2d::Action* BossBase::getBlinkAction(Direction dir)
 {
+    /*
 	auto f = CallFunc::create(CC_CALLBACK_0(BossBase::blink, this));
 	auto tint = TintToWhite::create(0.1f);
 	
@@ -36,6 +37,8 @@ cocos2d::Action* BossBase::getBlinkAction(Direction dir)
 		tint->reverse(), f, CallFunc::create(CC_CALLBACK_0(NPC::animate, this, dir)), nullptr));
 	action->setTag(BLINK_TAG);
 	return action;
+     */
+    return nullptr;
 }
 
 bool BossBase::init(const NPCData& data, BricksVec vec)

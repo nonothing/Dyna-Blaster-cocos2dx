@@ -40,13 +40,7 @@ THE SOFTWARE.
 #include "base/CCEventListenerKeyboard.h"
 #include "base/CCEventAcceleration.h"
 #include "base/CCEventListenerAcceleration.h"
-
-
-#include "deprecated/CCString.h"
-
-#if CC_USE_PHYSICS
-#include "physics/CCPhysicsBody.h"
-#endif
+#include "base/ccUTF8.h"
 
 NS_CC_BEGIN
 
@@ -533,8 +527,7 @@ bool LayerColor::initWithColor(const Color4B& color, GLfloat w, GLfloat h)
 bool LayerColor::initWithColor(const Color4B& color)
 {
     Size s = Director::getInstance()->getWinSize();
-    this->initWithColor(color, s.width, s.height);
-    return true;
+    return initWithColor(color, s.width, s.height);
 }
 
 /// override contentSize
@@ -600,18 +593,10 @@ void LayerColor::onDraw(const Mat4& transform, uint32_t flags)
     //
     // Attributes
     //
-#ifdef EMSCRIPTEN
-    setGLBufferData(_noMVPVertices, 4 * sizeof(Vec3), 0);
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-    setGLBufferData(_squareColors, 4 * sizeof(Color4F), 1);
-    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_FLOAT, GL_FALSE, 0, 0);
-#else
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, 0, _noMVPVertices);
     glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_FLOAT, GL_FALSE, 0, _squareColors);
-#endif // EMSCRIPTEN
-    
+
     GL::blendFunc( _blendFunc.src, _blendFunc.dst );
 
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
@@ -714,7 +699,7 @@ void LayerGradient::updateColor()
         return;
 
     float c = sqrtf(2.0f);
-    Vec2 u = Vec2(_alongVector.x / h, _alongVector.y / h);
+    Vec2 u(_alongVector.x / h, _alongVector.y / h);
 
     // Compressed Interpolation mode
     if (_compressedInterpolation)
@@ -845,7 +830,7 @@ LayerMultiplex::~LayerMultiplex()
     }
 }
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 LayerMultiplex * LayerMultiplex::createVariadic(Layer * layer, ...)
 {
     va_list args;
@@ -916,6 +901,13 @@ LayerMultiplex* LayerMultiplex::createWithArray(const Vector<Layer*>& arrayOfLay
 
 void LayerMultiplex::addLayer(Layer* layer)
 {
+#if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
+    auto sEngine = ScriptEngineManager::getInstance()->getScriptEngine();
+    if (sEngine)
+    {
+        sEngine->retainScriptObject(this, layer);
+    }
+#endif // CC_ENABLE_GC_FOR_NATIVE_OBJECTS
     _layers.pushBack(layer);
 }
 
@@ -934,10 +926,23 @@ bool LayerMultiplex::initWithLayers(Layer *layer, va_list params)
     if (Layer::init())
     {
         _layers.reserve(5);
+#if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
+        auto sEngine = ScriptEngineManager::getInstance()->getScriptEngine();
+        if (sEngine)
+        {
+            sEngine->retainScriptObject(this, layer);
+        }
+#endif // CC_ENABLE_GC_FOR_NATIVE_OBJECTS
         _layers.pushBack(layer);
 
         Layer *l = va_arg(params,Layer*);
         while( l ) {
+#if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
+            if (sEngine)
+            {
+                sEngine->retainScriptObject(this, l);
+            }
+#endif // CC_ENABLE_GC_FOR_NATIVE_OBJECTS
             _layers.pushBack(l);
             l = va_arg(params,Layer*);
         }
@@ -954,6 +959,19 @@ bool LayerMultiplex::initWithArray(const Vector<Layer*>& arrayOfLayers)
 {
     if (Layer::init())
     {
+#if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
+        auto sEngine = ScriptEngineManager::getInstance()->getScriptEngine();
+        if (sEngine)
+        {
+            for (const auto &layer : arrayOfLayers)
+            {
+                if (layer)
+                {
+                    sEngine->retainScriptObject(this, layer);
+                }
+            }
+        }
+#endif // CC_ENABLE_GC_FOR_NATIVE_OBJECTS
         _layers.reserve(arrayOfLayers.size());
         _layers.pushBack(arrayOfLayers);
 
@@ -980,7 +998,14 @@ void LayerMultiplex::switchToAndReleaseMe(int n)
     CCASSERT( n < _layers.size(), "Invalid index in MultiplexLayer switchTo message" );
 
     this->removeChild(_layers.at(_enabledLayer), true);
-
+#if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
+    auto sEngine = ScriptEngineManager::getInstance()->getScriptEngine();
+    if (sEngine)
+    {
+        sEngine->releaseScriptObject(this, _layers.at(_enabledLayer));
+    }
+#endif // CC_ENABLE_GC_FOR_NATIVE_OBJECTS
+    
     _layers.replace(_enabledLayer, nullptr);
 
     _enabledLayer = n;
