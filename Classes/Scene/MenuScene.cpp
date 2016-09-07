@@ -132,7 +132,7 @@ void MenuScene::stopMusic()
 void MenuScene::onEnter()
 {
 	Layer::onEnter();
-
+    stopMusic();
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Title.mp3");
 	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Title.mp3", true);
 }

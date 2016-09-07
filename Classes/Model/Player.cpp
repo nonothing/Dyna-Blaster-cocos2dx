@@ -348,6 +348,7 @@ void Player::dead()
 {
 	if (!_isDead)
 	{
+        CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
 		CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Dead.mp3");
 		CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Dead.mp3", false);
 		_isDead = true;

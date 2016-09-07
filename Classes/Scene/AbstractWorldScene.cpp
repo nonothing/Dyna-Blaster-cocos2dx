@@ -118,7 +118,6 @@ void AbstractWorldScene::onEnter()
 void AbstractWorldScene::onExit()
 {
 	Layer::onExit();
-	stopMusic();
 }
 
 void AbstractWorldScene::stopMusic()
