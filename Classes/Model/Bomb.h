@@ -39,6 +39,7 @@ public:
 	std::vector<cocos2d::Sprite*> getFires();
 	bool isRemove();
 	unsigned int getExplodeTime();
+	void deadPlayer();
 };
 
 #endif // __BOMB_H__

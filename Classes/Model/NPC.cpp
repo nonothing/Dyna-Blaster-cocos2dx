@@ -255,6 +255,19 @@ float NPC::getSpeed()
 
 void NPC::moveBack()
 {
-	runAction(Sequence::create(MoveTo::create(getSpeed(), _prevPos), CallFunc::create(CC_CALLBACK_0(NPC::nextDir, this)), nullptr));
+	float newSpeed = getSpeed();
+	float proc = getSpeed() / 74;
+	float x = std::abs(getPositionX() - _prevPos.x);
+	float y = std::abs(getPositionY() - _prevPos.y);
+	if (x > 0)
+	{
+		newSpeed = proc * x;
+	}
+	else if (y > 0)
+	{
+		newSpeed = proc * y;
+	}
+
+	runAction(Sequence::create(MoveTo::create(newSpeed, _prevPos), CallFunc::create(CC_CALLBACK_0(NPC::nextDir, this)), nullptr));
 }
 

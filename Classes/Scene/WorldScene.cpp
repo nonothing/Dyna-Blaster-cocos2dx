@@ -103,14 +103,18 @@ void WorldScene::update(float dt)
 	if (_doorBrick && _doorBrick->isOpenDoor() && !_players.empty()
 		&& !getPlayer()->isStop() && isCollision(_doorBrick, getPlayer(), Size(60, 60), -_mapLayer->getPosition()))
 	{
-		_doorBrick->openDoor(false);
-		getPlayer()->stopMove();
-		auto action = Sequence::create(
-			CallFunc::create(CC_CALLBACK_0(WorldScene::playMusicStageClear, this)),
-			DelayTime::create(4.f),
-			FadeIn::create(0.5f),
-			CallFunc::create(CC_CALLBACK_0(WorldScene::nextLevel, this)), nullptr);
-		_blackLayer->runAction(action);
+		if (abs(getPlayer()->getPositionY() - _doorBrick->getPositionY()) < 20 &&
+			abs(getPlayer()->getPositionX() - _doorBrick->getPositionX()) < 20)
+		{
+			_doorBrick->openDoor(false);
+			getPlayer()->stopMove();
+			auto action = Sequence::create(
+				CallFunc::create(CC_CALLBACK_0(WorldScene::playMusicStageClear, this)),
+				DelayTime::create(4.f),
+				FadeIn::create(0.5f),
+				CallFunc::create(CC_CALLBACK_0(WorldScene::nextLevel, this)), nullptr);
+			_blackLayer->runAction(action);
+		}
 	}
 	for (auto bonus : _bonusBricks)
 	{
@@ -136,6 +140,10 @@ void WorldScene::update(float dt)
 			if (collisionNPCwithPlayer(player))
 			{
 				player->dead();
+				for (auto bomb : _bombs)
+				{
+					bomb->deadPlayer();
+				}
 			}
 			++it;
 		}
