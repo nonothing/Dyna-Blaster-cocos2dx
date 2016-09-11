@@ -39,3 +39,8 @@ cocos2d::Rect WorldObject::getRectSpace(const cocos2d::Size& size, const Point& 
 {
 	return Rect(getPosition().x + offset.x, getPosition().y + offset.y, size.width, size.height);
 }
+
+cocos2d::Sprite* WorldObject::getSprite()
+{
+	return _sprite;
+}

@@ -17,6 +17,7 @@ private:
 	PlayerColor			_colorID;
 	Direction			_dir;
 	Direction			_oldDir;
+	Direction			_animDir;
 	cocos2d::Point		_speed;
 
 	int					_countBomb;
@@ -59,6 +60,7 @@ public:
 	static Player* create(cocos2d::Layer* layer, PlayerColor color);
 	void setDirection(Direction dir);
 	Direction getDirection();
+	Direction getAnimDirection();
 	virtual void update(float dt) override;
 	bool hasBomb();
 	void putBomb();

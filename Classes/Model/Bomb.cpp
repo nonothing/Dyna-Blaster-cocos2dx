@@ -180,9 +180,12 @@ void Bomb::explode()
 	_tick = 9999;
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("music/bomb.wav");
 	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/bomb.wav", false);
-	if (_brick)
+	if (_player)
 	{
 		_player->explodeBomb();
+	}
+	if (_brick)
+	{
 		_brick->explodeBomb();
 		_brick = nullptr;
 	}

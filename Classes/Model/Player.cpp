@@ -137,6 +137,7 @@ void Player::setDirection(Direction dir)
 	if (dir == NONE)
 	{
 		_sprite->stopActionByTag(ANIM_TAG);
+		_animDir = _dir;
 		auto name = "player_" + sColorName[_colorID] + sDirAnimName[_dir];
 		_sprite->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(name));
 	}
@@ -153,10 +154,16 @@ Direction Player::getDirection()
 	return _dir;
 }
 
+Direction Player::getAnimDirection()
+{
+	return _animDir;
+}
+
 void Player::animate(Direction dir)
 {
 	if (!_isDead)
 	{
+		_animDir = dir;
 		auto animation = AnimationCache::getInstance()->getAnimation("player_" + sColorName[_colorID] + "_move_" + sDirName[dir]);
 		if (animation)
 		{

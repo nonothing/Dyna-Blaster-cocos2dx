@@ -186,8 +186,27 @@ void AbstractWorldScene::endGame()
 void AbstractWorldScene::createBomb(Player* player)
 {
 	Size size = Size(60, 60);
+	Point offset = Point::ZERO;
+	Size playerSize = player->getSprite()->getContentSize() / 2;
+	if (player->getAnimDirection() == RIGHT)
+	{
+		offset = Point(playerSize.width, 0);
+	}
+	else	if (player->getAnimDirection() == LEFT)
+	{
+		offset = Point(-playerSize.width, 0);
+	}
+	else	if (player->getAnimDirection() == UP)
+	{
+		offset = Point(0, playerSize.height);
+	}
+	else	if (player->getAnimDirection() == DOWN)
+	{
+		offset = Point(0, -playerSize.height);
+	}
+
 	auto bomb = Bomb::create(player);
-	bomb->setPosition(player->getPosition() - _mapLayer->getPosition());
+	bomb->setPosition(player->getPosition() + offset - _mapLayer->getPosition());
 	bomb->setBricks(_bricks);
 	bool hasBomb = false;
 	for (auto elem : _bombs)

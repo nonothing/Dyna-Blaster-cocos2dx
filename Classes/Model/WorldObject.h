@@ -10,6 +10,7 @@ protected:
 
 public:
 	cocos2d::Layer* debugLayer;
+	cocos2d::Sprite* getSprite();
 	virtual cocos2d::Rect getRect();
 	cocos2d::Rect getRectWorldSpace();
 	cocos2d::Rect getRectSpace();
