@@ -79,6 +79,7 @@ public:
 	virtual cocos2d::Size getMapSize() = 0;
 	virtual int getStage() = 0;
 	virtual bool isBoss() = 0;
+	virtual std::vector<ID_BONUS> getBonuses() = 0;
 
 	virtual cocos2d::Action* getRestartAction() = 0;
 	virtual int KeyCodeToPlayerID(cocos2d::EventKeyboard::KeyCode keyCode) = 0;

@@ -212,3 +212,11 @@ cocos2d::Action* BattleScene::getRestartAction()
 	return Sequence::create(FadeIn::create(0.5f),
 		CallFunc::create(CC_CALLBACK_0(PreloadBattleScene::restart, _preloaderScene)), nullptr);
 }
+
+std::vector<ID_BONUS> BattleScene::getBonuses()
+{
+	std::vector<ID_BONUS> result;
+	result.push_back(BBomb);
+	result.push_back(BFire);
+	return result;
+}

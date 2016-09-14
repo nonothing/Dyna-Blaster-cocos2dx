@@ -31,7 +31,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	glview->setDesignResolutionSize(m_WIDTH, m_HEIGHT, ResolutionPolicy::EXACT_FIT);
 //	glview->setFrameSize(m_WIDTH, m_HEIGHT);
 
-    director->setAnimationInterval(1.0 / 60);
+    director->setAnimationInterval(1.0f / 60);
 	director->pushScene(MenuScene::createScene());
 
     return true;

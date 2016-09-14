@@ -415,3 +415,10 @@ int WorldScene::KeyCodeToPlayerID(cocos2d::EventKeyboard::KeyCode keyCode)
 {
 	return 0; // one player
 }
+
+std::vector<ID_BONUS> WorldScene::getBonuses()
+{
+	std::vector<ID_BONUS> result;
+	result.push_back(_data._bonus);
+	return result;
+}

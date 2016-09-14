@@ -486,9 +486,7 @@ void AbstractWorldScene::removeBrick(Brick* brick)
 
 void AbstractWorldScene::createBonus(BricksVec freeBricks, int count)
 {
-	std::vector<ID_BONUS> idVec;
-	idVec.push_back(BBomb);
-	idVec.push_back(BFire);
+	std::vector<ID_BONUS> idVec = getBonuses();
 
 	std::random_shuffle(freeBricks.begin(), freeBricks.end());
 

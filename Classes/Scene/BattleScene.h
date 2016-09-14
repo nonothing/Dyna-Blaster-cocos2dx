@@ -40,6 +40,9 @@ public:
 	virtual bool isBoss();
 	virtual cocos2d::Size getMapSize();
 	virtual cocos2d::Action* getRestartAction();
+
+	virtual std::vector<ID_BONUS> getBonuses() override;
+
 };
 
 #endif // __BATTLE_SCENE_H__

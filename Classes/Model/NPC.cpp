@@ -34,7 +34,7 @@ bool NPC::init(const NPCData& data, BricksVec vec)
 	_createTime = Director::getInstance()->getTotalFrames();
 	_isFree = true;
 	_isBackMove = false;
-	schedule(schedule_selector(NPC::update), 0.5f);
+	schedule(schedule_selector(NPC::update), 0.7f);
 	schedule(schedule_selector(NPC::moveUpdate), 0.05f); 
 	_bricks = vec;
 
