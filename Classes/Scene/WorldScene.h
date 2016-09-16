@@ -64,10 +64,7 @@ public:
 	virtual cocos2d::Action* getRestartAction();
 	virtual bool isBoss();
 
-	virtual int KeyCodeToPlayerID(cocos2d::EventKeyboard::KeyCode keyCode);
-
 	virtual std::vector<ID_BONUS> getBonuses() override;
-
 };
 
 #endif // __WORLD_SCENE_H__

@@ -11,11 +11,13 @@
 #include "Model/BrickBonus.h"
 #include "Model/Bomb.h"
 #include "Model/NPC.h"
+#include "Model/IControl.h"
 
 class AbstractWorldScene : public cocos2d::Layer
 {
 protected:
 
+	IControl*						_control;
 	cocos2d::Node*					_tableNode;
 	cocos2d::LayerColor*			_blackLayer;
 	cocos2d::Layer*					_mapLayer;
@@ -32,8 +34,6 @@ protected:
 
 	void playBackGroundMusic(const std::string& name, bool loop = true);
 	void playSoundEffect(const std::string& name);
-	bool isMoveKey(cocos2d::EventKeyboard::KeyCode keyCode);
-	Direction KeyCodeToDiretion(cocos2d::EventKeyboard::KeyCode keyCode);
 	void endGame();
 
 	void createBomb(Player* player);
@@ -55,7 +55,20 @@ protected:
 	void removeText(cocos2d::ui::Text* text);
 
 private:
-	cocos2d::EventListenerKeyboard*	_keyboardListener;
+	DirectionEvent::Listener			_directionMoveListener;
+	DirectionEvent::Listener			_directionStopListener;
+	CustomEvent::Listener				_customListener;
+
+	void updateMoveDirection(Direction dir, size_t playerId);
+	void updateStopDirection(Direction dir, size_t playerId);
+	void updateCustomEvent(EEventType type, size_t playerId);
+
+	void onPause();
+
+	void explodeBomb(std::vector<Player*>::const_reference player);
+	
+
+//	cocos2d::EventListenerKeyboard*	_keyboardListener;
 	cocos2d::Node*					_pauseNode;
 
 	cocos2d::Point					createBricks();
@@ -67,8 +80,8 @@ public:
 	virtual void onEnter();
 	virtual void onExit();
 
-	virtual void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
-	virtual void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+// 	virtual void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+// 	virtual void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 
 	virtual void stopMusic();
 	virtual void pauseMusic();
@@ -82,7 +95,6 @@ public:
 	virtual std::vector<ID_BONUS> getBonuses() = 0;
 
 	virtual cocos2d::Action* getRestartAction() = 0;
-	virtual int KeyCodeToPlayerID(cocos2d::EventKeyboard::KeyCode keyCode) = 0;
 };
 
 #endif // __ABSTRACT_WORLD_SCENE_H__

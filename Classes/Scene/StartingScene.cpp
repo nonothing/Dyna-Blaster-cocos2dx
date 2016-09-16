@@ -1,6 +1,7 @@
 #include "Scene/StartingScene.h"
 #include "editor-support/cocostudio/CocoStudio.h"
 #include "SimpleAudioEngine.h"
+#include "utils/Utils.h"
 
 #define ANIM_TAG 444
 USING_NS_CC;
@@ -106,7 +107,7 @@ void StartingScene::onFrameEvent(cocostudio::timeline::Frame *frame)
 	if (!evnt)
 		return;
 
-	auto it = _map.find(std::to_string(evnt->getFrameIndex()));
+	auto it = _map.find(myUtils::to_string(evnt->getFrameIndex()));
 	if (it != _map.end())
 	{
 		showElementByTag(atoi(it->second.c_str()));

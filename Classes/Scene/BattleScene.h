@@ -24,7 +24,6 @@ private:
 
 	int						_currentIndexLevel;
 
-	virtual int	KeyCodeToPlayerID(cocos2d::EventKeyboard::KeyCode keyCode);
 	void createNPCs();
 	bool createNPC(Brick* brick, ID_NPC id);
 public:

@@ -1,5 +1,6 @@
 ﻿#include "Boss/Snake.h"
 #include "ui/UIText.h"
+#include "utils/Utils.h"
 
 USING_NS_CC;
 #define ANIM_TAG 225 
@@ -63,7 +64,7 @@ std::string Snake::getAnimationName()
 		default: return result;
 		}
 	}
-	return result + std::to_string(getLife());
+	return result + myUtils::to_string(getLife());
 }
 
 bool Snake::isVertical(Direction dir)

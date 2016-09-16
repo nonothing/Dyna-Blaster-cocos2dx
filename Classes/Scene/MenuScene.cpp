@@ -31,6 +31,12 @@ bool MenuScene::init()
 		{
 			_points.push_back(node->getPosition());
 		}
+		if (node->getTag() == 15)
+		{
+			auto text = static_cast<ui::Text*>(node);
+			text->setFontName("5px2bus.ttf");
+			text->setFontSize(40.f);
+		}
 	}
 
 	_arrow = Sprite::create("backgrounds/triangle_red.png");
@@ -39,6 +45,13 @@ bool MenuScene::init()
 	_keyboardListener->onKeyPressed = CC_CALLBACK_2(MenuScene::onKeyPressed, this);
 	_keyboardListener->onKeyReleased = CC_CALLBACK_2(MenuScene::onKeyReleased, this);
 	getEventDispatcher()->addEventListenerWithSceneGraphPriority(_keyboardListener, this);
+
+	_touchListener = EventListenerTouchOneByOne::create();
+	_touchListener->onTouchBegan = CC_CALLBACK_2(MenuScene::TouchBegan, this);
+	_touchListener->onTouchEnded = CC_CALLBACK_2(MenuScene::TouchEnded, this);
+	_touchListener->onTouchMoved = CC_CALLBACK_2(MenuScene::TouchMoved, this);
+
+	getEventDispatcher()->addEventListenerWithSceneGraphPriority(_touchListener, this);
 
 	addChild(rootNode);
 	addChild(_arrow);
@@ -82,6 +95,7 @@ void MenuScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 		{
 		case START: startGame();					break;
 		case BATTLE: startBattle();					break;
+		case SETUP: startSetup();					break;
 		case PASSWORD: startPasswordScene();		break;
 		}
 	}
@@ -135,4 +149,43 @@ void MenuScene::onEnter()
     stopMusic();
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Title.mp3");
 	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Title.mp3", true);
+}
+
+void MenuScene::startSetup()
+{
+
+}
+
+bool MenuScene::TouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
+{
+
+	return true;
+}
+
+void MenuScene::TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event)
+{
+	float min = 999999999.f;
+	int currentPos = 0;
+	for (size_t i = 0; i < _points.size(); i++)
+	{
+		auto point = _points.at(i);
+		float dis = point.getDistance(touch->getLocation());
+		if (dis < min)
+		{
+			min = dis;
+			currentPos = i;
+		}
+	}
+	setPos(MenuEnum(currentPos));
+}
+
+void MenuScene::TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
+{
+	switch (_pos)
+	{
+	case START: startGame();					break;
+	case BATTLE: startBattle();					break;
+	case SETUP: startSetup();					break;
+	case PASSWORD: startPasswordScene();		break;
+	}
 }

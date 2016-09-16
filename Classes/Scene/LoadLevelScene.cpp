@@ -7,6 +7,7 @@
 #include "Scene/StartingScene.h"
 #include "Scene/FinalScene.h"
 #include "SimpleAudioEngine.h"
+#include "utils/Utils.h"
 
 USING_NS_CC;
 
@@ -202,11 +203,11 @@ void LoadLevelScene::restartLevel()
 		_headSprite->setPosition(_points.at(_currentData._stage - 1));
 	}
 
-	_stageNumber = Sprite::createWithSpriteFrameName("number_" + std::to_string(_currentData._stage));
+	_stageNumber = Sprite::createWithSpriteFrameName("number_" + myUtils::to_string(_currentData._stage));
 	auto stageNode = _rootLevelNode->getChildByName("stageNode");
 	_stageNumber->setPosition(stageNode->getPosition());
 
-	_levelNumber = Sprite::createWithSpriteFrameName("number_" + std::to_string(_currentData._level));
+	_levelNumber = Sprite::createWithSpriteFrameName("number_" + myUtils::to_string(_currentData._level));
 	auto levelNode = _rootLevelNode->getChildByName("levelNode");
 	_levelNumber->setPosition(levelNode->getPosition());
 
@@ -216,7 +217,7 @@ void LoadLevelScene::restartLevel()
 	if (_currentData._level == 1)
 	{
 		auto label = static_cast<ui::Text*>(_rootStageNode->getChildByName("text"));
-		label->setString("ROUND " + std::to_string(_currentData._stage));
+		label->setString("ROUND " + myUtils::to_string(_currentData._stage));
 		label->setFontName("5px2bus.ttf");
 		label->setFontSize(14.f);
 

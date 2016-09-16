@@ -6,6 +6,7 @@
 #include "Boss/Cyclop.h"
 #include "Boss/Electro.h"
 #include "Boss/Human.h"
+#include "utils/Utils.h"
 
 USING_NS_CC;
 
@@ -59,13 +60,13 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	_timer->setTime(240);
 
 	_mapLayer->setTag(_data.getTypeMap());
-	_borderNode = CSLoader::createNode("nodes/" + sRootNodeName[_data.getTypeMap()] + std::to_string(_data._stage) + ".csb");
+	_borderNode = CSLoader::createNode("nodes/" + sRootNodeName[_data.getTypeMap()] + myUtils::to_string(_data._stage) + ".csb");
 	
 	_labelLife = static_cast<ui::Text*>(_tableNode->getChildByName("labelLife"));
 	_labelRecord = static_cast<ui::Text*>(_tableNode->getChildByName("labelHigh"));
-	_labelRecord->setString(std::to_string(_record));
+	_labelRecord->setString(myUtils::to_string(_record));
 	_labelScore = static_cast<ui::Text*>(_tableNode->getChildByName("labelScore"));
-	_labelScore->setString(std::to_string(_score));
+	_labelScore->setString(myUtils::to_string(_score));
 
 	_mapLayer->addChild(_borderNode, 0);
 	_npcListener = std::bind(&WorldScene::updateScoreLabel, this, std::placeholders::_1);
@@ -81,7 +82,7 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 		player->_collisions = _borderNode->getChildren();
 		player->setBricks(_bricks);
 	}
-	_labelLife->setString(std::to_string(getPlayer()->getLife()));
+	_labelLife->setString(myUtils::to_string(getPlayer()->getLife()));
 	addChild(_mapLayer);
 	addChild(_blackLayer, 1000);
 
@@ -294,7 +295,7 @@ void WorldScene::createDoor(BricksVec freeBricks, bool isBoss)
 
 void WorldScene::updateLifeLabel()
 {
-	_labelLife->setString(std::to_string(getPlayer()->getLife()));
+	_labelLife->setString(myUtils::to_string(getPlayer()->getLife()));
 }
 
 void WorldScene::updateScoreLabel(NPC* npc)
@@ -307,7 +308,7 @@ void WorldScene::updateScoreLabel(NPC* npc)
 	}
 	if (score)
 	{
-		auto text = ui::Text::create(std::to_string(npc->getScore()), "5px2bus.ttf", 18.f);
+		auto text = ui::Text::create(myUtils::to_string(npc->getScore()), "5px2bus.ttf", 18.f);
 		text->setPosition(npc->getPosition());
 		_mapLayer->addChild(text, 100);
 		runAction(Sequence::create(DelayTime::create(3.f), CallFunc::create(CC_CALLBACK_0(WorldScene::removeText, this, text)), nullptr));
@@ -317,9 +318,9 @@ void WorldScene::updateScoreLabel(NPC* npc)
 		{
 			_record = _score;
 			GameSettings::Instance().saveRecord(_record);
-			_labelRecord->setString(std::to_string(_record));
+			_labelRecord->setString(myUtils::to_string(_record));
 		}
-		_labelScore->setString(std::to_string(_score));
+		_labelScore->setString(myUtils::to_string(_score));
 	}
 }
 
@@ -409,11 +410,6 @@ cocos2d::Action* WorldScene::getRestartAction()
 bool WorldScene::isBoss()
 {
 	return _data._level == BOSS_LEVEL;
-}
-
-int WorldScene::KeyCodeToPlayerID(cocos2d::EventKeyboard::KeyCode keyCode)
-{
-	return 0; // one player
 }
 
 std::vector<ID_BONUS> WorldScene::getBonuses()

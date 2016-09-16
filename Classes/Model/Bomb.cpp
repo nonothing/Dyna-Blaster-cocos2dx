@@ -2,6 +2,7 @@
 #include "Model/BrickDoor.h"
 #include "Model/BrickBonus.h"
 #include "SimpleAudioEngine.h"
+#include "utils/Utils.h"
 
 USING_NS_CC;
 #define ANIM_TAG 225
@@ -52,13 +53,13 @@ void Bomb::update(float dt)
 	_tick++;
 	if (_tick < TIME_BOMB)
 	{
-		_sprite->setSpriteFrame("bomb_" + std::to_string((_tick % 2) + 1) + ".png");
+		_sprite->setSpriteFrame("bomb_" + myUtils::to_string((_tick % 2) + 1) + ".png");
 	}
 	else
 	{
 		if (_isRemote)
 		{
-			_sprite->setSpriteFrame("bomb_" + std::to_string((_tick % 2) + 1) + ".png");
+			_sprite->setSpriteFrame("bomb_" + myUtils::to_string((_tick % 2) + 1) + ".png");
 			_tick = 0;
 		}
 	}
@@ -178,8 +179,8 @@ void Bomb::explode()
 	_isFire = true;
 	_isRemote = false;
 	_tick = 9999;
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("music/bomb.wav");
-	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/bomb.wav", false);
+// 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("music/bomb.wav");
+// 	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/bomb.wav", false);
 	if (_player)
 	{
 		_player->explodeBomb();

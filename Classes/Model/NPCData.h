@@ -5,6 +5,7 @@
 #include "enumerate/ENPC.h"
 #include "enumerate/Direction.h"
 #include "utils/CSVReader.h"
+#include "utils/Utils.h"
 
 enum NPC_TYRE
 {
@@ -37,7 +38,7 @@ struct NPCData
 
 	std::string getAnimationNameMove(Direction dir = Direction::NONE)
 	{
-		return _name + (dir == Direction::NONE ? "_move" : "_move_") + sDirName[dir] + (_life == 1 ? "" : ( "_" + std::to_string(_life)));
+		return _name + (dir == Direction::NONE ? "_move" : "_move_") + sDirName[dir] + (_life == 1 ? "" : ("_" + myUtils::to_string(_life)));
 	}
 
 	std::string getAnimationNameDead()

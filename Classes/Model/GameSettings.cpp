@@ -8,6 +8,8 @@
 #define MOVE_WALL_KEY "moveWall"
 #define TROUGH_BOMB_KEY "troughBomb"
 #define SPEED_KEY "speed"
+#define CONTROL_KEY "control"
+#define SCALE_BUTTON_KEY "buttonScale"
 
 USING_NS_CC;
 
@@ -30,6 +32,38 @@ void GameSettings::saveRecord(int value)
 int GameSettings::getRecord() const
 {
 	return UserDefault::getInstance()->getIntegerForKey(RECORD_KEY, 0);
+}
+
+
+void GameSettings::setScaleButtons(float scale)
+{
+	UserDefault::getInstance()->setFloatForKey(SCALE_BUTTON_KEY, scale);
+	UserDefault::getInstance()->flush();
+}
+
+float GameSettings::getScaleButtons()
+{
+	return UserDefault::getInstance()->getFloatForKey(SCALE_BUTTON_KEY, 1.f);
+}
+
+EControl GameSettings::getControlType()
+{
+	int result = UserDefault::getInstance()->getIntegerForKey(RECORD_KEY, 0);
+	if(result == 0)
+	{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+		result = (int)EBUTTON;
+#else
+		result = (int)EKEYBOARD;
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+}
+	return EControl(result);
+}
+
+void GameSettings::saveControlType(EControl type)
+{
+	UserDefault::getInstance()->setIntegerForKey(CONTROL_KEY, (int)type);
+	UserDefault::getInstance()->flush();
 }
 
 void GameSettings::savePlayer(Player* player)

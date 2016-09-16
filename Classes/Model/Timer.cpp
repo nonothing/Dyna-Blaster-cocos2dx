@@ -1,4 +1,5 @@
 #include "Model/Timer.h"
+#include "utils/Utils.h"
 
 USING_NS_CC;
 using namespace ui;
@@ -79,7 +80,7 @@ std::string dyna::Timer::intToTimeStr(int ticks, bool isPoint)
 
 std::string dyna::Timer::getDigitalStr(int sec)
 {
-	return sec < 10 ? "0" + std::to_string(sec) : std::to_string(sec);
+	return sec < 10 ? "0" + myUtils::to_string(sec) : myUtils::to_string(sec);
 }
 
 bool dyna::Timer::canCreateNPC()

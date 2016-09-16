@@ -3,6 +3,7 @@
 #include "enumerate/Direction.h"
 #include "Scene/LoadLevelScene.h"
 #include "Scene/MenuScene.h"
+#include "utils/Utils.h"
 
 USING_NS_CC;
 
@@ -51,7 +52,7 @@ bool PasswordScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec)
 	_startPositionDash = _dashSprite->getPosition();
 	for (int i = 0; i < 8; i++)
 	{
-		auto label = static_cast<ui::Text*>(_rootNode->getChildByName("Text_" + std::to_string(i)));
+		auto label = static_cast<ui::Text*>(_rootNode->getChildByName("Text_" + myUtils::to_string(i)));
 		label->setFontName("5px2bus.ttf");
 		label->setFontSize(28.f);
 		if (label)

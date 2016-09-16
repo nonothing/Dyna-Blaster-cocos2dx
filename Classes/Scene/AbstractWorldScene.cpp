@@ -1,5 +1,7 @@
 #include "Scene/AbstractWorldScene.h"
 #include "Model/GameSettings.h"
+#include "Model/ControlKeyBoard.h"
+#include "Model/ControlButton.h"
 
 USING_NS_CC;
 
@@ -9,6 +11,17 @@ bool AbstractWorldScene::init(const std::string& name)
     {
         return false;
     }
+	
+	EControl type = EBUTTON;
+
+	if (type == EKEYBOARD)
+	{
+		_control = ControlKeyBoard::create();
+	}
+	else if (type == EBUTTON)
+	{
+		_control = ControlButton::create();
+	}
 
 	_tableNode = CSLoader::createNode(name);
 
@@ -25,87 +38,20 @@ bool AbstractWorldScene::init(const std::string& name)
 	_isPause = false;
 	_fadeLevel = false;
 
-	_keyboardListener = EventListenerKeyboard::create();
-	_keyboardListener->onKeyPressed = CC_CALLBACK_2(AbstractWorldScene::onKeyPressed, this);
-	_keyboardListener->onKeyReleased = CC_CALLBACK_2(AbstractWorldScene::onKeyReleased, this);
-	getEventDispatcher()->addEventListenerWithSceneGraphPriority(_keyboardListener, this);
+	_directionMoveListener.set(_control->_eventMoveDirection, std::bind(&AbstractWorldScene::updateMoveDirection, this, std::placeholders::_1, std::placeholders::_2));
+	_directionStopListener.set(_control->_eventStopDirection, std::bind(&AbstractWorldScene::updateStopDirection, this, std::placeholders::_1, std::placeholders::_2));
+	_customListener.set(_control->_eventCustom, std::bind(&AbstractWorldScene::updateCustomEvent, this, std::placeholders::_1, std::placeholders::_2));
 
 	addChild(_timer, -1);
 	addChild(_tableNode, 10);
+	addChild(_control, 11);
 
     return true;
 }
 
-void AbstractWorldScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
-{
-	auto dir = KeyCodeToDiretion(keyCode);
-	int id = KeyCodeToPlayerID(keyCode);
-	if (id != 9999 && id < (int)_players.size())
-	{
-		auto player = _players.at(id);
-
-		if (dir != NONE)
-		{
-			player->setDirection(dir);
-		}
-
-		if ((keyCode == EventKeyboard::KeyCode::KEY_SPACE || keyCode == EventKeyboard::KeyCode::KEY_KP_ENTER) && player->hasBomb())
-		{
-			createBomb(player);
-		}
-		if (keyCode == EventKeyboard::KeyCode::KEY_CTRL && player->isRemote())
-		{
-			for (auto bomb : _bombs)
-			{
-				if (!bomb->isFire())
-				{
-					bomb->explode();
-					break;
-				}
-			}
-		}
-	}
-
-	if (keyCode == EventKeyboard::KeyCode::KEY_P || keyCode == EventKeyboard::KeyCode::KEY_PAUSE)
-	{
-		_isPause = !_isPause;
-		_pauseNode->setVisible(_isPause);
-		if (_isPause)
-		{
-			pauseMusic();
-			Director::getInstance()->pause();
-		}
-		else
-		{
-			resumeMusic();
-			Director::getInstance()->resume();
-		}
-	}
-	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE)
-	{
-		backMenu();
-	}
-}
-
-void AbstractWorldScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
-{
-	if (isMoveKey(keyCode))
-	{
-		size_t id = KeyCodeToPlayerID(keyCode);
-		if (id != 9999 && id <= _players.size() - 1)
-		{
-			auto player = _players.at(id);
-			if (player->getDirection() == KeyCodeToDiretion(keyCode))
-			{
-				player->setDirection(NONE);
-			}
-		}
-	}
-}
-
 AbstractWorldScene::~AbstractWorldScene()
 {
-	getEventDispatcher()->removeEventListener(_keyboardListener);
+	_control->removeListeners();
 	CCLOG("AbstractWorldScene::~AbstractWorldScene()");
 }
 
@@ -150,26 +96,6 @@ void AbstractWorldScene::playSoundEffect(const std::string& name)
 	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(name.c_str(), false);
 }
 
-bool AbstractWorldScene::isMoveKey(cocos2d::EventKeyboard::KeyCode keyCode)
-{
-	return keyCode == EventKeyboard::KeyCode::KEY_W || keyCode == cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW ||
-		keyCode == EventKeyboard::KeyCode::KEY_S || keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW ||
-		keyCode == EventKeyboard::KeyCode::KEY_A || keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW ||
-		keyCode == EventKeyboard::KeyCode::KEY_D || keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW;
-}
-
-Direction AbstractWorldScene::KeyCodeToDiretion(EventKeyboard::KeyCode keyCode)
-{
-	switch (keyCode)
-	{
-	case cocos2d::EventKeyboard::KeyCode::KEY_W: case cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW: return UP;
-	case cocos2d::EventKeyboard::KeyCode::KEY_S: case cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW:return DOWN;
-	case cocos2d::EventKeyboard::KeyCode::KEY_A: case cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW:return LEFT;
-	case cocos2d::EventKeyboard::KeyCode::KEY_D: case cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW:return RIGHT;
-	default:	return NONE;
-	}
-}
-
 void AbstractWorldScene::endGame()
 {
 	if (isEndGame())
@@ -185,60 +111,63 @@ void AbstractWorldScene::endGame()
 
 void AbstractWorldScene::createBomb(Player* player)
 {
-	Size size = Size(60, 60);
-	Point offset = Point::ZERO;
-	Size playerSize = player->getSprite()->getContentSize() / 2;
-	if (player->getAnimDirection() == RIGHT)
+	if (player->hasBomb())
 	{
-		offset = Point(playerSize.width, 0);
-	}
-	else	if (player->getAnimDirection() == LEFT)
-	{
-		offset = Point(-playerSize.width, 0);
-	}
-	else	if (player->getAnimDirection() == UP)
-	{
-		offset = Point(0, playerSize.height);
-	}
-	else	if (player->getAnimDirection() == DOWN)
-	{
-		offset = Point(0, -playerSize.height);
-	}
-
-	auto bomb = Bomb::create(player);
-	bomb->setPosition(player->getPosition() + offset - _mapLayer->getPosition());
-	bomb->setBricks(_bricks);
-	bool hasBomb = false;
-	for (auto elem : _bombs)
-	{
-		if (!elem->isFire() && isCollision(bomb, elem, size))
+		Size size = Size(60, 60);
+		Point offset = Point::ZERO;
+		Size playerSize = player->getSprite()->getContentSize() / 2;
+		if (player->getAnimDirection() == RIGHT)
 		{
-			hasBomb = true;
-			break;
+			offset = Point(playerSize.width, 0);
 		}
-	}
-
-	bool isCorrect = false;
-
-	if (!hasBomb)
-	{
-		for (auto brick : _bricks)
+		else	if (player->getAnimDirection() == LEFT)
 		{
-			if (brick->getType() == EBACKGROUND && isCollision(bomb, brick, size))
+			offset = Point(-playerSize.width, 0);
+		}
+		else	if (player->getAnimDirection() == UP)
+		{
+			offset = Point(0, playerSize.height);
+		}
+		else	if (player->getAnimDirection() == DOWN)
+		{
+			offset = Point(0, -playerSize.height);
+		}
+
+		auto bomb = Bomb::create(player);
+		bomb->setPosition(player->getPosition() + offset - _mapLayer->getPosition());
+		bomb->setBricks(_bricks);
+		bool hasBomb = false;
+		for (auto elem : _bombs)
+		{
+			if (!elem->isFire() && isCollision(bomb, elem, size))
 			{
-				bomb->setPosition(brick->getPosition());
-				bomb->setBrick(brick);
-				isCorrect = true;
+				hasBomb = true;
 				break;
 			}
 		}
-	}
 
-	if (isCorrect)
-	{
-		_mapLayer->addChild(bomb, 2);
-		player->putBomb();
-		_bombs.push_back(bomb);
+		bool isCorrect = false;
+
+		if (!hasBomb)
+		{
+			for (auto brick : _bricks)
+			{
+				if (brick->getType() == EBACKGROUND && isCollision(bomb, brick, size))
+				{
+					bomb->setPosition(brick->getPosition());
+					bomb->setBrick(brick);
+					isCorrect = true;
+					break;
+				}
+			}
+		}
+
+		if (isCorrect)
+		{
+			_mapLayer->addChild(bomb, 2);
+			player->putBomb();
+			_bombs.push_back(bomb);
+		}
 	}
 }
 
@@ -312,17 +241,20 @@ cocos2d::Point AbstractWorldScene::createBricks()
 
 bool AbstractWorldScene::isCollisionFire(Bomb* bomb, WorldObject* obj)
 {
-	Rect rect = obj->getRectWorldSpace(Size(70, 70));
-	for (auto fire : bomb->getFires())
+	if (obj)
 	{
-		Point fp = fire->getPosition();
-		Size size = Size(74, 74);
-
-		Point firePos = bomb->convertToWorldSpace(bomb->getPosition() + fp + fp); //todo why two fire position?
-		Rect rectFire = Rect(firePos.x, firePos.y, size.width, size.height);
-		if (rectFire.intersectsRect(rect))
+		Rect rect = obj->getRectWorldSpace(Size(70, 70));
+		for (auto fire : bomb->getFires())
 		{
-			return true;
+			Point fp = fire->getPosition();
+			Size size = Size(74, 74);
+
+			Point firePos = bomb->convertToWorldSpace(bomb->getPosition() + fp + fp); //todo why two fire position?
+			Rect rectFire = Rect(firePos.x, firePos.y, size.width, size.height);
+			if (rectFire.intersectsRect(rect))
+			{
+				return true;
+			}
 		}
 	}
 
@@ -525,3 +457,76 @@ void AbstractWorldScene::removeText(cocos2d::ui::Text* text)
 {
 	text->removeFromParent();
 }
+
+void AbstractWorldScene::updateMoveDirection(Direction dir, size_t id)
+{
+	if (id != 9999 && id < _players.size())
+	{
+		auto player = _players.at(id);
+		if (dir != NONE)
+		{
+			player->setDirection(dir);
+		}
+	}
+}
+
+void AbstractWorldScene::updateStopDirection(Direction dir, size_t id)
+{
+	if (id != 9999 && id < _players.size())
+	{
+		auto player = _players.at(id);
+		if (player->getDirection() == dir)
+		{
+			player->setDirection(NONE);
+		}
+	}
+}
+
+void AbstractWorldScene::updateCustomEvent(EEventType type, size_t id)
+{
+	if (id != 9999 && id < _players.size())
+	{
+		auto player = _players.at(id);
+		switch (type)
+		{
+		case ECREATEBOMB:	createBomb(player);			break;
+		case EEXPLODE:		explodeBomb(player);		break;
+		case EPAUSE:		onPause();					break;
+		case EQUIT:			backMenu();					break;
+		default:
+			break;
+		}
+	}
+}
+
+void AbstractWorldScene::explodeBomb(std::vector<Player*>::const_reference player)
+{
+	if (player->isRemote())
+	{
+		for (auto bomb : _bombs)
+		{
+			if (!bomb->isFire())
+			{
+				bomb->explode();
+				break;
+			}
+		}
+	}
+}
+
+void AbstractWorldScene::onPause()
+{
+	_isPause = !_isPause;
+	_pauseNode->setVisible(_isPause);
+	if (_isPause)
+	{
+		pauseMusic();
+		Director::getInstance()->pause();
+	}
+	else
+	{
+		resumeMusic();
+		Director::getInstance()->resume();
+	}
+}
+

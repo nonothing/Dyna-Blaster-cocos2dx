@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "Model/Player.h"
+#include "enumerate/EControl.h"
 
 class GameSettings 
 {
@@ -21,6 +22,10 @@ public:
 	void saveRecord(int value);
 	int getRecord() const;
 
+	void setScaleButtons(float scale);
+	float getScaleButtons();
+	EControl getControlType();
+	void saveControlType(EControl type);
 	void savePlayer(Player* player);
 	void setPlayerLife(int value);
 	void setDefaulPlayer();

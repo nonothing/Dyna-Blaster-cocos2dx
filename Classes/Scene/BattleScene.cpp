@@ -4,6 +4,7 @@
 #include "Model/GameSettings.h"
 #include "Model/MapData.h"
 #include "SimpleAudioEngine.h"
+#include "utils/Utils.h"
 
 USING_NS_CC;
 
@@ -52,7 +53,7 @@ bool BattleScene::init(PreloadBattleScene* preloaderScene, std::vector<int> para
 
 	for (int i = 0; i < 5; i++)
 	{
-		auto text = static_cast<ui::Text*>(_tableNode->getChildByName("Text_" + std::to_string(i)));
+		auto text = static_cast<ui::Text*>(_tableNode->getChildByName("Text_" + myUtils::to_string(i)));
 		text->setString("");
 		_texts.push_back(text);
 	}
@@ -64,7 +65,7 @@ bool BattleScene::init(PreloadBattleScene* preloaderScene, std::vector<int> para
 
 	for (int i = 0; i < countPlayer; i++)
 	{
-		_texts.at(i)->setString(std::to_string(GameSettings::Instance().getCountWinPlayer(_players.at(i)->getColorID())));
+		_texts.at(i)->setString(myUtils::to_string(GameSettings::Instance().getCountWinPlayer(_players.at(i)->getColorID())));
 	}
 
 	_mapLayer->addChild(_debugLayer, 100);
@@ -79,27 +80,6 @@ bool BattleScene::init(PreloadBattleScene* preloaderScene, std::vector<int> para
 	addChild(_blackLayer, 1000);
 
     return true;
-}
-
-int BattleScene::KeyCodeToPlayerID(cocos2d::EventKeyboard::KeyCode keyCode)
-{
-	switch (keyCode)
-	{
-	case cocos2d::EventKeyboard::KeyCode::KEY_W: 
-	case cocos2d::EventKeyboard::KeyCode::KEY_S: 
-	case cocos2d::EventKeyboard::KeyCode::KEY_A: 
-	case cocos2d::EventKeyboard::KeyCode::KEY_D: 
-	case cocos2d::EventKeyboard::KeyCode::KEY_SPACE:
-		return 0;
-	case cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW: 
-	case cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-	case cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-	case cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW: 
-	case cocos2d::EventKeyboard::KeyCode::KEY_KP_ENTER:
-	case cocos2d::EventKeyboard::KeyCode::KEY_ENTER:
-		return 1;
-	default:	return 9999;
-	}
 }
 
 void BattleScene::update(float dt)

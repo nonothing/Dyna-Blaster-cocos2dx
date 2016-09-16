@@ -117,6 +117,12 @@
     <ClCompile Include="..\Classes\utils\CSVReader.cpp">
       <Filter>src\utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Model\ControlKeyBoard.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Model\ControlButton.cpp">
+      <Filter>src\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -226,6 +232,21 @@
     </ClInclude>
     <ClInclude Include="..\Classes\utils\Utils.h">
       <Filter>src\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\enumerate\EControl.h">
+      <Filter>src\enumerate</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\IControl.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\ControlKeyBoard.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\enumerate\EEventType.h">
+      <Filter>src\enumerate</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\ControlButton.h">
+      <Filter>src\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

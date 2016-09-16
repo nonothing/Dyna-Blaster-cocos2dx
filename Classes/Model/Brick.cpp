@@ -1,4 +1,5 @@
 #include "Model/Brick.h"
+#include "utils/Utils.h"
 
 USING_NS_CC;
 #define ANIM_TAG 225 
@@ -66,9 +67,9 @@ std::string Brick::getPathNameBrick(BrickType type)
 	_type = type;
 	switch (type)
 	{
-	case EBACKGROUND: return "bricks/background_" + std::to_string(_level) + ".png";
-	case EBRICK: return "bricks/bricks_" + std::to_string(_level) + ".png";
-	case EWALL: return "bricks/wall_" + std::to_string(_level) + ".png";
+	case EBACKGROUND: return "bricks/background_" + myUtils::to_string(_level) + ".png";
+	case EBRICK: return "bricks/bricks_" + myUtils::to_string(_level) + ".png";
+	case EWALL: return "bricks/wall_" + myUtils::to_string(_level) + ".png";
     default: return "";
 	}
 }

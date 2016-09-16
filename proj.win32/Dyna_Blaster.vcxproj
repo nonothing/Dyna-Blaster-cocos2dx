@@ -155,6 +155,8 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Model\Brick.cpp" />
     <ClCompile Include="..\Classes\Model\BrickBonus.cpp" />
     <ClCompile Include="..\Classes\Model\BrickDoor.cpp" />
+    <ClCompile Include="..\Classes\Model\ControlButton.cpp" />
+    <ClCompile Include="..\Classes\Model\ControlKeyBoard.cpp" />
     <ClCompile Include="..\Classes\Model\GameSettings.cpp" />
     <ClCompile Include="..\Classes\Model\MapData.cpp" />
     <ClCompile Include="..\Classes\Model\NPC.cpp" />
@@ -185,13 +187,18 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Boss\Snake.h" />
     <ClInclude Include="..\Classes\enumerate\Direction.h" />
     <ClInclude Include="..\Classes\enumerate\EBonus.h" />
+    <ClInclude Include="..\Classes\enumerate\EControl.h" />
+    <ClInclude Include="..\Classes\enumerate\EEventType.h" />
     <ClInclude Include="..\Classes\enumerate\ENPC.h" />
     <ClInclude Include="..\Classes\enumerate\EPlayer.h" />
     <ClInclude Include="..\Classes\Model\Bomb.h" />
     <ClInclude Include="..\Classes\Model\Brick.h" />
     <ClInclude Include="..\Classes\Model\BrickBonus.h" />
     <ClInclude Include="..\Classes\Model\BrickDoor.h" />
+    <ClInclude Include="..\Classes\Model\ControlButton.h" />
+    <ClInclude Include="..\Classes\Model\ControlKeyBoard.h" />
     <ClInclude Include="..\Classes\Model\GameSettings.h" />
+    <ClInclude Include="..\Classes\Model\IControl.h" />
     <ClInclude Include="..\Classes\Model\MapData.h" />
     <ClInclude Include="..\Classes\Model\NPC.h" />
     <ClInclude Include="..\Classes\Model\NPCData.h" />
