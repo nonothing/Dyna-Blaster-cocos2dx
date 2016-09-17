@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "utils/Events.h"
 #include "enumerate/Direction.h"
+#include "enumerate/EControl.h"
 #include "enumerate/EEventType.h"
 
 typedef EventTempl<Direction, int>					DirectionEvent;
