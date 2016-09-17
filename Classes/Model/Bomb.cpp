@@ -184,6 +184,7 @@ void Bomb::explode()
 	if (_player)
 	{
 		_player->explodeBomb();
+		_player = nullptr;
 	}
 	if (_brick)
 	{

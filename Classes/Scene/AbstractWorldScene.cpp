@@ -11,18 +11,8 @@ bool AbstractWorldScene::init(const std::string& name)
     {
         return false;
     }
-	
-	EControl type = EBUTTON;
 
-	if (type == EKEYBOARD)
-	{
-		_control = ControlKeyBoard::create();
-	}
-	else if (type == EBUTTON)
-	{
-		_control = ControlButton::create();
-	}
-
+	createControll(GameSettings::Instance().getControlType());
 	_tableNode = CSLoader::createNode(name);
 
 	auto labelTime = static_cast<ui::Text*>(_tableNode->getChildByName("labelTime"));
@@ -527,6 +517,22 @@ void AbstractWorldScene::onPause()
 	{
 		resumeMusic();
 		Director::getInstance()->resume();
+	}
+}
+
+void AbstractWorldScene::createControll(EControl type)
+{
+	if (type == EJOYSTICK)
+	{
+		_control = ControlKeyBoard::create();
+	}
+	else if (EBUTTON)
+	{
+		_control = ControlButton::create();
+	}
+	else
+	{
+		_control = ControlKeyBoard::create();
 	}
 }
 

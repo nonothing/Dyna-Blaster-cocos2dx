@@ -172,6 +172,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Scene\MenuScene.cpp" />
     <ClCompile Include="..\Classes\Scene\PasswordScene.cpp" />
     <ClCompile Include="..\Classes\Scene\PreloadBattleScene.cpp" />
+    <ClCompile Include="..\Classes\Scene\SetupScene.cpp" />
     <ClCompile Include="..\Classes\Scene\StartingScene.cpp" />
     <ClCompile Include="..\Classes\Scene\WorldScene.cpp" />
     <ClCompile Include="..\Classes\utils\CSVReader.cpp" />
@@ -213,6 +214,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Scene\MenuScene.h" />
     <ClInclude Include="..\Classes\Scene\PasswordScene.h" />
     <ClInclude Include="..\Classes\Scene\PreloadBattleScene.h" />
+    <ClInclude Include="..\Classes\Scene\SetupScene.h" />
     <ClInclude Include="..\Classes\Scene\StartingScene.h" />
     <ClInclude Include="..\Classes\Scene\WorldScene.h" />
     <ClInclude Include="..\Classes\utils\CSVReader.h" />

@@ -1,4 +1,5 @@
 #include "Model/GameSettings.h"
+#include "utils/Utils.h"
 
 #define RECORD_KEY "record"
 #define SIZE_BOMB_KEY "sizeBomb"
@@ -10,6 +11,9 @@
 #define SPEED_KEY "speed"
 #define CONTROL_KEY "control"
 #define SCALE_BUTTON_KEY "buttonScale"
+#define OPACITY_BUTTON_KEY "buttonOpacity"
+#define MUSIC_KEY "music"
+#define BUTTON_POS_KEY "button_id_"
 
 USING_NS_CC;
 
@@ -34,7 +38,6 @@ int GameSettings::getRecord() const
 	return UserDefault::getInstance()->getIntegerForKey(RECORD_KEY, 0);
 }
 
-
 void GameSettings::setScaleButtons(float scale)
 {
 	UserDefault::getInstance()->setFloatForKey(SCALE_BUTTON_KEY, scale);
@@ -46,9 +49,59 @@ float GameSettings::getScaleButtons()
 	return UserDefault::getInstance()->getFloatForKey(SCALE_BUTTON_KEY, 1.f);
 }
 
+void GameSettings::setOpacityButtons(float opacity)
+{
+	UserDefault::getInstance()->setFloatForKey(OPACITY_BUTTON_KEY, opacity);
+	UserDefault::getInstance()->flush();
+}
+
+float GameSettings::getOpacityButtons()
+{
+	return UserDefault::getInstance()->getFloatForKey(OPACITY_BUTTON_KEY, 255.f);
+}
+
+bool GameSettings::getMusic()
+{
+	return UserDefault::getInstance()->getBoolForKey(MUSIC_KEY, true);
+}
+
+void GameSettings::setMusic(bool value)
+{
+	UserDefault::getInstance()->setBoolForKey(MUSIC_KEY, value);
+	UserDefault::getInstance()->flush();
+}
+
+void GameSettings::saveButtonPosition(cocos2d::Sprite* button)
+{
+	std::string value = myUtils::to_string(button->getPositionX()) + "@" + myUtils::to_string(button->getPositionY());
+	std::string key = BUTTON_POS_KEY + myUtils::to_string(button->getTag());
+	UserDefault::getInstance()->setStringForKey(key.c_str(), value);
+	UserDefault::getInstance()->flush();
+}
+const static cocos2d::Point sDefPosButton[] = { cocos2d::Point(215, 310), 
+												cocos2d::Point(215, 100), 
+												cocos2d::Point(90, 200), 
+												cocos2d::Point(330, 200),
+												cocos2d::Point(1083, 125),};
+
+Point GameSettings::getPosition(int tag)
+{
+	std::string key = BUTTON_POS_KEY + myUtils::to_string(tag);
+	std::string result = UserDefault::getInstance()->getStringForKey(key.c_str(), "");
+	if (result.empty())
+	{
+		return sDefPosButton[tag - 1];
+	}
+	else
+	{
+		std::vector<std::string> vec = myUtils::split(result, '@');
+		return Point(atof(vec.at(0).c_str()), atof(vec.at(1).c_str()));
+	}
+}
+
 EControl GameSettings::getControlType()
 {
-	int result = UserDefault::getInstance()->getIntegerForKey(RECORD_KEY, 0);
+	int result = UserDefault::getInstance()->getIntegerForKey(CONTROL_KEY, 0);
 	if(result == 0)
 	{
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

@@ -24,6 +24,13 @@ public:
 
 	void setScaleButtons(float scale);
 	float getScaleButtons();
+	void setOpacityButtons(float opacity);
+	float getOpacityButtons();
+	bool getMusic();
+	void setMusic(bool value);
+	void saveButtonPosition(cocos2d::Sprite* button);
+	cocos2d::Point getPosition(int tag);
+
 	EControl getControlType();
 	void saveControlType(EControl type);
 	void savePlayer(Player* player);

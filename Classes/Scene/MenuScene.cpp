@@ -3,6 +3,7 @@
 #include "Scene/LoadLevelScene.h"
 #include "Scene/PasswordScene.h"
 #include "Scene/PreloadBattleScene.h"
+#include "Scene/SetupScene.h"
 #include "SimpleAudioEngine.h"
 #include "Model/GameSettings.h"
 
@@ -35,6 +36,7 @@ bool MenuScene::init()
 		{
 			auto text = static_cast<ui::Text*>(node);
 			text->setFontName("5px2bus.ttf");
+			text->enableOutline(Color4B::BLACK, 2);
 			text->setFontSize(40.f);
 		}
 	}
@@ -153,7 +155,7 @@ void MenuScene::onEnter()
 
 void MenuScene::startSetup()
 {
-
+	Director::getInstance()->pushScene(SetupScene::createScene());
 }
 
 bool MenuScene::TouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
@@ -181,11 +183,11 @@ void MenuScene::TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event)
 
 void MenuScene::TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
 {
-	switch (_pos)
-	{
-	case START: startGame();					break;
-	case BATTLE: startBattle();					break;
-	case SETUP: startSetup();					break;
-	case PASSWORD: startPasswordScene();		break;
-	}
+// 	switch (_pos)
+// 	{
+// 	case START: startGame();					break;
+// 	case BATTLE: startBattle();					break;
+// 	case SETUP: startSetup();					break;
+// 	case PASSWORD: startPasswordScene();		break;
+// 	}
 }

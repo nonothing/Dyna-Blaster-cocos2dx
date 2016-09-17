@@ -14,9 +14,11 @@ private:
 	cocos2d::Sprite*	_leftButton;
 	cocos2d::Sprite*	_rightButton;
 	cocos2d::Sprite*	_createBombButton;
+	Direction			_direction;
 
 
 	bool touchButton(cocos2d::Sprite* button, const cocos2d::Point& point);
+	void findDirection(const cocos2d::Point& point);
 
 public:
 	static ControlButton* create();

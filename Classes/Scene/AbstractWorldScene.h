@@ -64,6 +64,7 @@ private:
 	void updateCustomEvent(EEventType type, size_t playerId);
 
 	void onPause();
+	void createControll(EControl type);
 
 	void explodeBomb(std::vector<Player*>::const_reference player);
 	
