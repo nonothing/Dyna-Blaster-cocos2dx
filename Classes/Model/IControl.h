@@ -57,6 +57,8 @@ public:
 	virtual void TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) = 0;
 	virtual void TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) = 0;
 
+	virtual void showRadioButton(bool var) = 0;
+
 };
 
 #endif // __ICONTROL_H__

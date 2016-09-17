@@ -312,11 +312,15 @@ void SetupScene::createButtons()
 	_createBombButton = Sprite::create("bomb_key.png");
 	_createBombButton->setTag(5);
 
+	_radioButton = Sprite::create("bomb_radio_key.png");
+	_radioButton->setTag(6);
+
 	_buttons.push_back(_createBombButton);
 	_buttons.push_back(_upButton);
 	_buttons.push_back(_downButton);
 	_buttons.push_back(_leftButton);
 	_buttons.push_back(_rightButton);
+	_buttons.push_back(_radioButton);
 
 	for (auto button : _buttons)
 	{

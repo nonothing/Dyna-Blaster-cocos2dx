@@ -82,7 +82,8 @@ const static cocos2d::Point sDefPosButton[] = { cocos2d::Point(215, 310),
 												cocos2d::Point(215, 100), 
 												cocos2d::Point(90, 200), 
 												cocos2d::Point(330, 200),
-												cocos2d::Point(1083, 125),};
+												cocos2d::Point(1083, 125),
+												cocos2d::Point(883, 125), };
 
 Point GameSettings::getPosition(int tag)
 {

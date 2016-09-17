@@ -54,6 +54,10 @@ void ControlKeyBoard::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, coc
 	}
 }
 
+void ControlKeyBoard::showRadioButton(bool var)
+{
+}
+
 bool ControlKeyBoard::isMoveKey(cocos2d::EventKeyboard::KeyCode keyCode)
 {
 	return keyCode == EventKeyboard::KeyCode::KEY_W || keyCode == cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW ||

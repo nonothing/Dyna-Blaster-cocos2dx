@@ -14,8 +14,8 @@ private:
 	cocos2d::Sprite*	_leftButton;
 	cocos2d::Sprite*	_rightButton;
 	cocos2d::Sprite*	_createBombButton;
+	cocos2d::Sprite*	_radioButton;
 	Direction			_direction;
-
 
 	bool touchButton(cocos2d::Sprite* button, const cocos2d::Point& point);
 	void findDirection(const cocos2d::Point& point);
@@ -30,6 +30,8 @@ public:
 	virtual bool TouchBegan(cocos2d::Touch* touch, cocos2d::Event* event) override;
 	virtual void TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) override;
 	virtual void TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) override;
+
+	virtual void showRadioButton(bool var) override;
 
 };
 

@@ -21,6 +21,7 @@ private:
 	cocos2d::Sprite*	_leftButton;
 	cocos2d::Sprite*	_rightButton;
 	cocos2d::Sprite*	_createBombButton;
+	cocos2d::Sprite*	_radioButton;
 	cocos2d::Sprite*	_moveButton;
 
 	cocos2d::EventListenerTouchOneByOne*	_touchListener;

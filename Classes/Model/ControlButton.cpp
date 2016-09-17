@@ -37,12 +37,16 @@ bool ControlButton::init()
 	_createBombButton = Sprite::create("bomb_key.png");
 	_createBombButton->setTag(5);
 
+	_radioButton = Sprite::create("bomb_radio_key.png");
+	_radioButton->setTag(6);
+	_radioButton->setVisible(false);
 	
 	_buttons.push_back(_createBombButton);
 	_buttons.push_back(_upButton);
 	_buttons.push_back(_downButton);
 	_buttons.push_back(_leftButton);
 	_buttons.push_back(_rightButton);
+	_buttons.push_back(_radioButton);
 
 	float scale = GameSettings::Instance().getScaleButtons();
 	float opacity = GameSettings::Instance().getOpacityButtons();
@@ -137,6 +141,14 @@ void ControlButton::TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
 	if (touchButton(_createBombButton, point))
 	{
 		_eventCustom(ECREATEBOMB, 0);
+	}
+}
+
+void ControlButton::showRadioButton(bool var)
+{
+	if (_radioButton->isVisible() != var)
+	{
+		_radioButton->setVisible(var);
 	}
 }
 

@@ -95,6 +95,7 @@ void WorldScene::update(float dt)
 	removeNPC();
 	checkCollisionBombs();
 	checkOpenDoor();
+	_control->showRadioButton(getPlayer()->isRemote());
 	if (_doorBrick && _doorBrick->canCreate())
 	{
 		_doorBrick->changeCreateNPC();
