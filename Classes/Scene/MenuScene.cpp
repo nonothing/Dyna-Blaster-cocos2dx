@@ -166,12 +166,33 @@ bool MenuScene::TouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
 
 void MenuScene::TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event)
 {
+	moveCursor(touch->getLocation());
+}
+
+void MenuScene::TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
+{
+	Point point = touch->getLocation();
+	moveCursor(point);
+	if (std::abs(point.y - _points.at(_pos).y) < 25)
+	{
+		switch (_pos)
+		{
+		case START: startGame();					break;
+		case BATTLE: startBattle();					break;
+		case SETUP: startSetup();					break;
+		case PASSWORD: startPasswordScene();		break;
+		}
+	}
+}
+
+void MenuScene::moveCursor(const cocos2d::Point& p)
+{
 	float min = 999999999.f;
 	int currentPos = 0;
 	for (size_t i = 0; i < _points.size(); i++)
 	{
 		auto point = _points.at(i);
-		float dis = point.getDistance(touch->getLocation());
+		float dis = point.getDistance(p);
 		if (dis < min)
 		{
 			min = dis;
@@ -179,15 +200,4 @@ void MenuScene::TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event)
 		}
 	}
 	setPos(MenuEnum(currentPos));
-}
-
-void MenuScene::TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
-{
-// 	switch (_pos)
-// 	{
-// 	case START: startGame();					break;
-// 	case BATTLE: startBattle();					break;
-// 	case SETUP: startSetup();					break;
-// 	case PASSWORD: startPasswordScene();		break;
-// 	}
 }

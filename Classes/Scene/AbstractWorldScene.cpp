@@ -524,7 +524,7 @@ void AbstractWorldScene::createControll(EControl type)
 {
 	if (type == EJOYSTICK)
 	{
-		_control = ControlKeyBoard::create();
+		_control = ControlButton::create();
 	}
 	else if (EBUTTON)
 	{

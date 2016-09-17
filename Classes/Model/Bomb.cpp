@@ -179,8 +179,8 @@ void Bomb::explode()
 	_isFire = true;
 	_isRemote = false;
 	_tick = 9999;
-// 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("music/bomb.wav");
-// 	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/bomb.wav", false);
+ 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("music/bomb.wav");
+ 	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/bomb.wav", false);
 	if (_player)
 	{
 		_player->explodeBomb();

@@ -42,6 +42,7 @@ LOCAL_SRC_FILES := dynacpp/main.cpp \
 				   ../../Classes/Scene/PreloadBattleScene.cpp \
 				   ../../Classes/Scene/StartingScene.cpp \
 				   ../../Classes/Scene/WorldScene.cpp \
+				   ../../Classes/Scene/SetupScene.cpp \
 				   ../../Classes/utils/CSVReader.cpp \
 				   
 

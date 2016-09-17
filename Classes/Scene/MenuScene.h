@@ -41,6 +41,9 @@ public:
 
 	virtual bool TouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
 	virtual void TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
+
+	void moveCursor(const cocos2d::Point& point);
+
 	virtual void TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
 };
 

@@ -161,24 +161,37 @@ void SetupScene::TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event)
 	{
 		_moveButton->setPosition(_moveButton->getPosition() + touch->getDelta());
 	}
-// 	float min = 999999999.f;
-// 	int currentPos = 0;
-// 	for (size_t i = 0; i < _points.size(); i++)
-// 	{
-// 		auto point = _points.at(i);
-// 		float dis = point.getDistance(touch->getLocation());
-// 		if (dis < min)
-// 		{
-// 			min = dis;
-// 			currentPos = i;
-// 		}
-// 	}
-// 	setPos(SetupEnum(currentPos));
+	if (!_blackLayer->isVisible())
+	{
+		moveCursor(touch);
+	}
 }
 
 void SetupScene::TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
 {
 	_moveButton = nullptr;
+	if (!_blackLayer->isVisible())
+	{
+		moveCursor(touch);
+		Point point = convertToNodeSpace(touch->getLocation());
+		if (std::abs(point.y - _points.at(_pos).y) < 25)
+		{
+			switch (_pos)
+			{
+			case ECONTROLLER:	changeControll();			break;
+			case EPOSITION:		setPositionButtons();		break;
+			case ESOUND:		changeSound();				break;
+			case EOPACITY:		changeOpacity();			break;
+			case ESIZE:			changeSize();				break;
+			case ESAVE:
+				save();
+				backMenu();
+				break;
+			default:
+				break;
+			}
+		}
+	}
 }
 
 void SetupScene::backMenu()
@@ -317,4 +330,21 @@ void SetupScene::createButtons()
 bool SetupScene::isTouchButton(cocos2d::Sprite* button, const cocos2d::Point& point)
 {
 	return button->getBoundingBox().containsPoint(point);
+}
+
+void SetupScene::moveCursor(cocos2d::Touch* touch)
+{
+	float min = 999999999.f;
+	int currentPos = 0;
+	for (size_t i = 0; i < _points.size(); i++)
+	{
+		auto point = _points.at(i);
+		float dis = point.getDistance(convertToNodeSpace(touch->getLocation()));
+		if (dis < min)
+		{
+			min = dis;
+			currentPos = i;
+		}
+	}
+	setPos(SetupEnum(currentPos));
 }
