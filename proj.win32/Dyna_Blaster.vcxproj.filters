@@ -260,6 +260,9 @@
     <ClInclude Include="..\Classes\Model\ControlJoystick.h">
       <Filter>src\Model</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\utils\DefPositions.h">
+      <Filter>src\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

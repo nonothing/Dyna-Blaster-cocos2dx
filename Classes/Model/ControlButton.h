@@ -22,8 +22,8 @@ private:
 	void setButtonParameters(cocos2d::Sprite* button, float scale, float opacity);
 
 public:
-	static ControlButton* create();
-	virtual bool init() override;
+	static ControlButton* create(bool single);
+	virtual bool init(bool single);
 
 	virtual void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) override;
 	virtual void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) override;

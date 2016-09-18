@@ -4,10 +4,10 @@
 
 USING_NS_CC;
 
-ControlButton* ControlButton::create()
+ControlButton* ControlButton::create(bool single)
 {
 	ControlButton* control = new ControlButton();
-	if (control && control->init())
+	if (control && control->init(single))
 	{
 		return (ControlButton*)control->autorelease();
 	}
@@ -17,10 +17,9 @@ ControlButton* ControlButton::create()
 	return control;
 }
 
-bool ControlButton::init()
+bool ControlButton::init(bool single)
 {
-	if (!IControl::initKeyBoard() || !IControl::initTouch()) return false;
-
+	if (!IControl::initKeyBoard(single) || !IControl::initTouch(single)) return false;
 	float scale = GameSettings::Instance().getScaleButtons();
 	float opacity = GameSettings::Instance().getOpacityButtons();
 
@@ -244,7 +243,7 @@ void ControlButton::setButtonParameters(cocos2d::Sprite* button, float scale, fl
 	button->setVisible(false);
 	button->setScale(scale);
 	button->setOpacity(opacity);
-	button->setPosition(GameSettings::Instance().getPosition(button->getTag()));
+	button->setPosition(GameSettings::Instance().getPosition(button->getTag(), _isSingle));
 	addChild(button);
 }
 

@@ -1,5 +1,6 @@
 #include "Model/GameSettings.h"
 #include "utils/Utils.h"
+#include "utils/DefPositions.h"
 
 #define RECORD_KEY "record"
 #define SIZE_BOMB_KEY "sizeBomb"
@@ -13,6 +14,7 @@
 #define SCALE_BUTTON_KEY "buttonScale"
 #define OPACITY_BUTTON_KEY "buttonOpacity"
 #define MUSIC_KEY "music"
+#define BUTTON_POS_SINGLE_KEY "button_single_id_"
 #define BUTTON_POS_KEY "button_id_"
 
 USING_NS_CC;
@@ -71,31 +73,33 @@ void GameSettings::setMusic(bool value)
 	UserDefault::getInstance()->flush();
 }
 
-void GameSettings::saveButtonPosition(cocos2d::Sprite* button)
+void GameSettings::saveButtonPosition(cocos2d::Sprite* button, bool single)
 {
 	std::string value = myUtils::to_string(button->getPositionX()) + "@" + myUtils::to_string(button->getPositionY());
-	std::string key = BUTTON_POS_KEY + myUtils::to_string(button->getTag());
+	std::string key = (single ? BUTTON_POS_SINGLE_KEY : BUTTON_POS_KEY) + myUtils::to_string(button->getTag());
 	UserDefault::getInstance()->setStringForKey(key.c_str(), value);
 	UserDefault::getInstance()->flush();
 }
-const static cocos2d::Point sDefPosButton[] = { cocos2d::Point(215, 310), 
-												cocos2d::Point(215, 100), 
-												cocos2d::Point(90, 200), 
-												cocos2d::Point(330, 200),
-												cocos2d::Point(1083, 125),
-												cocos2d::Point(883, 125),
-												cocos2d::Point(210, 210),
-												};
 
-Point GameSettings::getPosition(int tag)
+Point GameSettings::getPosition(size_t tag, bool single)
 {
-	std::string key = BUTTON_POS_KEY + myUtils::to_string(tag);
+	std::string key = (single ? BUTTON_POS_SINGLE_KEY : BUTTON_POS_KEY) + myUtils::to_string(tag);
 	std::string result = UserDefault::getInstance()->getStringForKey(key.c_str(), "");
 	if (result.empty())
 	{
-		if (tag < myUtils::array_size(sDefPosButton))
+		if (single)
 		{
-			return sDefPosButton[tag - 1];
+			if (tag <= myUtils::array_size(sDefPosSingleButton))
+			{
+				return sDefPosSingleButton[tag - 1];
+			}
+		}
+		else
+		{
+			if (tag <= myUtils::array_size(sDefPosMultiButton))
+			{
+				return sDefPosMultiButton[tag - 1];
+			}
 		}
 		return Point::ZERO;
 	}

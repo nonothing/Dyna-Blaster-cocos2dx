@@ -14,12 +14,14 @@ typedef EventTempl<EEventType, int>					CustomEvent;
 class IControl : public cocos2d::Node
 {
 protected:
+	bool									_isSingle;
 	cocos2d::EventListenerTouchOneByOne*	_touchListener = nullptr;
 	cocos2d::EventListenerKeyboard*			_keyboardListener = nullptr;
 
-	virtual bool initTouch()
+	virtual bool initTouch(bool single)
 	{
 		if (!cocos2d::Node::init()) return false;
+		_isSingle = single;
 		_touchListener = cocos2d::EventListenerTouchOneByOne::create();
 		_touchListener->onTouchBegan = CC_CALLBACK_2(IControl::TouchBegan, this);
 		_touchListener->onTouchEnded = CC_CALLBACK_2(IControl::TouchEnded, this);
@@ -29,9 +31,10 @@ protected:
 		return true;
 	}
 
-	virtual bool initKeyBoard()
+	virtual bool initKeyBoard(bool single)
 	{
 		if (!cocos2d::Node::init()) return false;
+		_isSingle = single;
 		_keyboardListener = cocos2d::EventListenerKeyboard::create();
 		_keyboardListener->onKeyPressed = CC_CALLBACK_2(IControl::onKeyPressed, this);
 		_keyboardListener->onKeyReleased = CC_CALLBACK_2(IControl::onKeyReleased, this);

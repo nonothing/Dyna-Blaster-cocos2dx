@@ -2,10 +2,10 @@
 
 USING_NS_CC;
 
-ControlKeyBoard* ControlKeyBoard::create()
+ControlKeyBoard* ControlKeyBoard::create(bool single)
 {
 	ControlKeyBoard* control = new ControlKeyBoard();
-	if (control && control->init())
+	if (control && control->init(single))
 	{
 		return (ControlKeyBoard*)control->autorelease();
 	}
@@ -15,9 +15,9 @@ ControlKeyBoard* ControlKeyBoard::create()
 	return control;
 }
 
-bool ControlKeyBoard::init()
+bool ControlKeyBoard::init(bool single)
 {
-	return IControl::initKeyBoard();
+	return IControl::initKeyBoard(single);
 }
 
 void ControlKeyBoard::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
@@ -60,7 +60,6 @@ void ControlKeyBoard::showRadioButton(PlayerColor color, bool var)
 
 void ControlKeyBoard::showControlPlayer(PlayerColor color, bool isVisisble)
 {
-	throw std::logic_error("The method or operation is not implemented.");
 }
 
 bool ControlKeyBoard::isMoveKey(cocos2d::EventKeyboard::KeyCode keyCode)
@@ -85,6 +84,7 @@ Direction ControlKeyBoard::KeyCodeToDiretion(EventKeyboard::KeyCode keyCode)
 
 int ControlKeyBoard::KeyCodeToPlayerID(cocos2d::EventKeyboard::KeyCode keyCode)
 {
+	
 	switch (keyCode)
 	{
 	case cocos2d::EventKeyboard::KeyCode::KEY_W:
@@ -100,7 +100,7 @@ int ControlKeyBoard::KeyCodeToPlayerID(cocos2d::EventKeyboard::KeyCode keyCode)
 	case cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
 	case cocos2d::EventKeyboard::KeyCode::KEY_KP_ENTER:
 	case cocos2d::EventKeyboard::KeyCode::KEY_ENTER:
-		return 1;
+		return _isSingle ? 0 : 1;
 	default:	return 9999;
 	}
 }

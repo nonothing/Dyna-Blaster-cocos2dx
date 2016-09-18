@@ -13,7 +13,6 @@ bool AbstractWorldScene::init(const std::string& name)
         return false;
     }
 
-	createControll(GameSettings::Instance().getControlType());
 	_tableNode = CSLoader::createNode(name);
 
 	auto labelTime = static_cast<ui::Text*>(_tableNode->getChildByName("labelTime"));
@@ -29,13 +28,8 @@ bool AbstractWorldScene::init(const std::string& name)
 	_isPause = false;
 	_fadeLevel = false;
 
-	_directionMoveListener.set(_control->_eventMoveDirection, std::bind(&AbstractWorldScene::updateMoveDirection, this, std::placeholders::_1, std::placeholders::_2));
-	_directionStopListener.set(_control->_eventStopDirection, std::bind(&AbstractWorldScene::updateStopDirection, this, std::placeholders::_1, std::placeholders::_2));
-	_customListener.set(_control->_eventCustom, std::bind(&AbstractWorldScene::updateCustomEvent, this, std::placeholders::_1, std::placeholders::_2));
-
 	addChild(_timer, -1);
 	addChild(_tableNode, 10);
-	addChild(_control, 11);
 
     return true;
 }
@@ -207,7 +201,6 @@ void AbstractWorldScene::createPlayers(int count)
 		player->setPosition(points.at(i));
 		addChild(player, 3);
 		_players.push_back(player);
-		_control->showControlPlayer(player->getColorID(), true);
 	}
 }
 
@@ -525,17 +518,23 @@ void AbstractWorldScene::onPause()
 
 void AbstractWorldScene::createControll(EControl type)
 {
+	bool single = _players.size() == 1;
 	if (type == EJOYSTICK)
 	{
-		_control = ControlJoystick::create();
+		_control = ControlJoystick::create(single);
 	}
-	else if (EBUTTON)
+	else if (type == EBUTTON)
 	{
-		_control = ControlButton::create();
+		_control = ControlButton::create(single);
 	}
 	else
 	{
-		_control = ControlKeyBoard::create();
+		_control = ControlKeyBoard::create(single);
 	}
+
+	_directionMoveListener.set(_control->_eventMoveDirection, std::bind(&AbstractWorldScene::updateMoveDirection, this, std::placeholders::_1, std::placeholders::_2));
+	_directionStopListener.set(_control->_eventStopDirection, std::bind(&AbstractWorldScene::updateStopDirection, this, std::placeholders::_1, std::placeholders::_2));
+	_customListener.set(_control->_eventCustom, std::bind(&AbstractWorldScene::updateCustomEvent, this, std::placeholders::_1, std::placeholders::_2));
+	addChild(_control, 11);
 }
 

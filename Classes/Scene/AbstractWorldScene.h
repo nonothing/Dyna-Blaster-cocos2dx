@@ -53,6 +53,7 @@ protected:
 	void removeNPC();
 	void removeBrick(Brick* brick);
 	void removeText(cocos2d::ui::Text* text);
+	void createControll(EControl type);
 
 private:
 	DirectionEvent::Listener			_directionMoveListener;
@@ -64,7 +65,6 @@ private:
 	void updateCustomEvent(EEventType type, size_t playerId);
 
 	void onPause();
-	void createControll(EControl type);
 
 	void explodeBomb(std::vector<Player*>::const_reference player);
 	

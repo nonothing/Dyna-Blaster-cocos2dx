@@ -4,10 +4,10 @@
 
 USING_NS_CC;
 
-ControlJoystick* ControlJoystick::create()
+ControlJoystick* ControlJoystick::create(bool single)
 {
 	ControlJoystick* control = new ControlJoystick();
-	if (control && control->init())
+	if (control && control->init(single))
 	{
 		return (ControlJoystick*)control->autorelease();
 	}
@@ -17,9 +17,9 @@ ControlJoystick* ControlJoystick::create()
 	return control;
 }
 
-bool ControlJoystick::init()
+bool ControlJoystick::init(bool single)
 {
-	if (!IControl::initKeyBoard() || !IControl::initTouch()) return false;
+	if (!IControl::initKeyBoard(single) || !IControl::initTouch(single)) return false;
 
 	float scale = GameSettings::Instance().getScaleButtons();
 	float opacity = GameSettings::Instance().getOpacityButtons();
@@ -32,7 +32,9 @@ bool ControlJoystick::init()
 		setButtonParameters(border, scale, opacity);
 		_borders.push_back(border);
 
-		auto joystick = Sprite::createWithSpriteFrameName("joystick_" + myUtils::to_string(i + 1) + ".png");
+		std::string id = myUtils::to_string(i + 1);
+
+		auto joystick = Sprite::createWithSpriteFrameName("joystick_" + id + ".png");
 		joystick->setTag(8 + i * 10);
 		joystick->setVisible(false);
 		joystick->setScale(scale);
@@ -43,13 +45,13 @@ bool ControlJoystick::init()
 		_directions.push_back(NONE);
 		_oldDirs.push_back(NONE);
 
-		auto createBombButton = Sprite::createWithSpriteFrameName("bomb_key_" + myUtils::to_string(i + 1) + ".png");
+		auto createBombButton = Sprite::createWithSpriteFrameName("bomb_key_" + id + ".png");
 		createBombButton->setTag(5 + i * 10);
 		createBombButton->setVisible(false);
 		setButtonParameters(createBombButton, scale, opacity);
 		_createBombButtons.push_back(createBombButton);
 
-		auto radioButton = Sprite::createWithSpriteFrameName("bomb_radio_key.png");
+		auto radioButton = Sprite::createWithSpriteFrameName("bomb_radio_key_" + id + ".png");
 		radioButton->setTag(6);
 		radioButton->setVisible(false);
 		setButtonParameters(radioButton, scale, opacity);
@@ -63,7 +65,7 @@ void ControlJoystick::setButtonParameters(cocos2d::Sprite* button, float scale, 
 {
 	button->setScale(scale);
 	button->setOpacity(opacity);
-	button->setPosition(GameSettings::Instance().getPosition(button->getTag()));
+	button->setPosition(GameSettings::Instance().getPosition(button->getTag(), _isSingle));
 	addChild(button);
 }
 

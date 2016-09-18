@@ -74,11 +74,13 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	_currentIndexLevel = 1;
 
 	createPlayers(1);
+	createControll(GameSettings::Instance().getControlType());
 	_mapLayer->addChild(_debugLayer, 100);
 	createWalls(3, 1);
 	createNPCs();
 	for (auto player : _players)
 	{
+		_control->showControlPlayer(player->getColorID(), true);
 		player->_collisions = _borderNode->getChildren();
 		player->setBricks(_bricks);
 	}

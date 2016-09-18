@@ -220,6 +220,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Scene\StartingScene.h" />
     <ClInclude Include="..\Classes\Scene\WorldScene.h" />
     <ClInclude Include="..\Classes\utils\CSVReader.h" />
+    <ClInclude Include="..\Classes\utils\DefPositions.h" />
     <ClInclude Include="..\Classes\utils\Events.h" />
     <ClInclude Include="..\Classes\utils\Utils.h" />
     <ClInclude Include="main.h" />

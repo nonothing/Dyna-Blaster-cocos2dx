@@ -62,6 +62,7 @@ bool BattleScene::init(PreloadBattleScene* preloaderScene, std::vector<int> para
 	_currentIndexLevel = 1;
 
 	createPlayers(countPlayer);
+	createControll(GameSettings::Instance().getControlType());
 
 	for (int i = 0; i < countPlayer; i++)
 	{
@@ -73,6 +74,7 @@ bool BattleScene::init(PreloadBattleScene* preloaderScene, std::vector<int> para
 	createNPCs();
 	for (auto player : _players)
 	{
+		_control->showControlPlayer(player->getColorID(), true);
 		player->_collisions = _borderNode->getChildren();
 		player->setBricks(_bricks);
 	}

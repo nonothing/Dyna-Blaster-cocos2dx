@@ -209,11 +209,11 @@ void SetupScene::save()
 	GameSettings::Instance().setMusic(_isSound);
 	for (auto button : _buttons)
 	{
-		GameSettings::Instance().saveButtonPosition(button);
+		GameSettings::Instance().saveButtonPosition(button, _countPlayer == 1);
 	}
 	for (auto border : _borders)
 	{
-		GameSettings::Instance().saveButtonPosition(border);
+		GameSettings::Instance().saveButtonPosition(border, _countPlayer == 1);
 	}
 }
 
@@ -282,6 +282,20 @@ void SetupScene::setPositionButtons()
 {
 	_blackLayer->setVisible(true);
 	hideAllButtons();
+
+	for (auto button : _buttons)
+	{
+		button->setPosition(GameSettings::Instance().getPosition(button->getTag(), _countPlayer == 1));
+	}
+	for (auto border : _borders)
+	{
+		border->setPosition(GameSettings::Instance().getPosition(border->getTag(), _countPlayer == 1));
+	}
+	for (auto button : _commonButtons)
+	{
+		button->setPosition(GameSettings::Instance().getPosition(button->getTag(), _countPlayer == 1));
+	}
+
 	showButtons(_currentControll);
 	for (auto button : _buttons)
 	{
@@ -408,7 +422,7 @@ void SetupScene::setParametersVector(std::vector<Sprite*> vec)
 	{
 		button->setScale(_sizeButton);
 		button->setOpacity(_opacity);
-		button->setPosition(GameSettings::Instance().getPosition(button->getTag()));
+		button->setPosition(GameSettings::Instance().getPosition(button->getTag(), _countPlayer == 1));
 		_blackLayer->addChild(button);
 	}
 }

@@ -7,7 +7,6 @@
 class ControlJoystick : public IControl
 {
 private:
-
 	std::vector<cocos2d::Sprite*>	_radioButtons;
 	std::vector<cocos2d::Sprite*>	_createBombButtons;
 	std::vector< cocos2d::Sprite*>	_borders;
@@ -20,9 +19,8 @@ private:
 	void setButtonParameters(cocos2d::Sprite* button, float scale, float opacity);
 
 public:
-	static ControlJoystick* create();
-	virtual bool init() override;
-
+	static ControlJoystick* create(bool single);
+	virtual bool init(bool single);
 
 	virtual void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) override;
 	virtual void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) override;
