@@ -142,6 +142,10 @@ void ControlButton::TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
 	{
 		_eventCustom(ECREATEBOMB, 0);
 	}
+	if (touchButton(_radioButton, point))
+	{
+		_eventCustom(EEXPLODE, 0);
+	}
 }
 
 void ControlButton::showRadioButton(bool var)

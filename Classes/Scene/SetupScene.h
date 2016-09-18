@@ -23,6 +23,8 @@ private:
 	cocos2d::Sprite*	_createBombButton;
 	cocos2d::Sprite*	_radioButton;
 	cocos2d::Sprite*	_moveButton;
+	cocos2d::Sprite*	_border;
+	cocos2d::Sprite*	_joystick;
 
 	cocos2d::EventListenerTouchOneByOne*	_touchListener;
 	cocos2d::LayerColor*				_blackLayer;
@@ -51,6 +53,7 @@ private:
 	void changeSize();
 	void setPositionButtons();
 	void save();
+	void showButtons(EControl type);
 	bool isTouchButton(cocos2d::Sprite* button, const cocos2d::Point& point);
 
 public:

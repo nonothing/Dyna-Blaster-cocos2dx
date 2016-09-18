@@ -285,10 +285,14 @@ void SetupScene::setSizeText(float value)
 void SetupScene::setPositionButtons()
 {
 	_blackLayer->setVisible(true);
+	showButtons(_currentControll);
 	for (auto button : _buttons)
 	{
-		button->setScale(_sizeButton);
-		button->setOpacity(_opacity);
+		if (button->getTag() != 8)
+		{
+			button->setScale(_sizeButton);
+			button->setOpacity(_opacity);
+		}
 	}
 }
 
@@ -315,19 +319,32 @@ void SetupScene::createButtons()
 	_radioButton = Sprite::create("bomb_radio_key.png");
 	_radioButton->setTag(6);
 
+	_border = Sprite::create("joystick_border.png");
+	_border->setTag(7);
+
+	_joystick = Sprite::create("joystick_3.png");
+	_joystick->setTag(8);
+	_joystick->setPosition(_border->getContentSize() / 2);
+	_border->addChild(_joystick);
+
 	_buttons.push_back(_createBombButton);
 	_buttons.push_back(_upButton);
 	_buttons.push_back(_downButton);
 	_buttons.push_back(_leftButton);
 	_buttons.push_back(_rightButton);
 	_buttons.push_back(_radioButton);
+	_buttons.push_back(_border);
+	_buttons.push_back(_joystick);
 
 	for (auto button : _buttons)
 	{
-		button->setScale(_sizeButton);
-		button->setOpacity(_opacity);
-		button->setPosition(GameSettings::Instance().getPosition(button->getTag()));
-		_blackLayer->addChild(button);
+		if (button->getTag() != 8)
+		{
+			button->setScale(_sizeButton);
+			button->setOpacity(_opacity);
+			button->setPosition(GameSettings::Instance().getPosition(button->getTag()));
+			_blackLayer->addChild(button);
+		}
 	}
 }
 
@@ -351,4 +368,19 @@ void SetupScene::moveCursor(cocos2d::Touch* touch)
 		}
 	}
 	setPos(SetupEnum(currentPos));
+}
+
+void SetupScene::showButtons(EControl type)
+{
+	for (auto button : _buttons)
+	{
+		if (type == EBUTTON)
+		{
+			button->setVisible(button->getTag() <= 6);
+		}
+		else if (type == EJOYSTICK)
+		{
+			button->setVisible(button->getTag() > 4);
+		}
+	}
 }

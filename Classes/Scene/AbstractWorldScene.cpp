@@ -2,6 +2,7 @@
 #include "Model/GameSettings.h"
 #include "Model/ControlKeyBoard.h"
 #include "Model/ControlButton.h"
+#include "Model/ControlJoystick.h"
 
 USING_NS_CC;
 
@@ -524,7 +525,7 @@ void AbstractWorldScene::createControll(EControl type)
 {
 	if (type == EJOYSTICK)
 	{
-		_control = ControlButton::create();
+		_control = ControlJoystick::create();
 	}
 	else if (EBUTTON)
 	{

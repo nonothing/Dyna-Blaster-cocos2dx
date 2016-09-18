@@ -156,6 +156,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Model\BrickBonus.cpp" />
     <ClCompile Include="..\Classes\Model\BrickDoor.cpp" />
     <ClCompile Include="..\Classes\Model\ControlButton.cpp" />
+    <ClCompile Include="..\Classes\Model\ControlJoystick.cpp" />
     <ClCompile Include="..\Classes\Model\ControlKeyBoard.cpp" />
     <ClCompile Include="..\Classes\Model\GameSettings.cpp" />
     <ClCompile Include="..\Classes\Model\MapData.cpp" />
@@ -197,6 +198,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Model\BrickBonus.h" />
     <ClInclude Include="..\Classes\Model\BrickDoor.h" />
     <ClInclude Include="..\Classes\Model\ControlButton.h" />
+    <ClInclude Include="..\Classes\Model\ControlJoystick.h" />
     <ClInclude Include="..\Classes\Model\ControlKeyBoard.h" />
     <ClInclude Include="..\Classes\Model\GameSettings.h" />
     <ClInclude Include="..\Classes\Model\IControl.h" />

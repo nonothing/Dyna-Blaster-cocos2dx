@@ -126,6 +126,9 @@
     <ClCompile Include="..\Classes\Model\ControlKeyBoard.cpp">
       <Filter>src\Model</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Model\ControlJoystick.cpp">
+      <Filter>src\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -252,6 +255,9 @@
       <Filter>src\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Model\ControlKeyBoard.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\ControlJoystick.h">
       <Filter>src\Model</Filter>
     </ClInclude>
   </ItemGroup>
