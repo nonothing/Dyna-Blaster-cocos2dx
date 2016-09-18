@@ -32,6 +32,7 @@ LOCAL_SRC_FILES := dynacpp/main.cpp \
 				   ../../Classes/Model/WorldObject.cpp \
 				   ../../Classes/Model/ControlButton.cpp \
 				   ../../Classes/Model/ControlKeyBoard.cpp \
+				   ../../Classes/Model/ControlJoystick.cpp \
 				   ../../Classes/Scene/AbstractWorldScene.cpp \
 				   ../../Classes/Scene/BattleScene.cpp \
 				   ../../Classes/Scene/FinalScene.cpp \

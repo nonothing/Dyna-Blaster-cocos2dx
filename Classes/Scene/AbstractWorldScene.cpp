@@ -260,14 +260,15 @@ void AbstractWorldScene::checkCollisionBombs()
 		auto bomb = *it;
 		if (bomb->isFire())
 		{
-			_expBomb = bomb;
 			if (bomb->isRemove())
 			{
 				bomb->removeFromParentAndCleanup(true);
+				bomb = nullptr;
 				it = _bombs.erase(it);
 			}
 			else
 			{
+				_expBomb = bomb;
 				++it;
 			}
 		}

@@ -132,9 +132,10 @@ void WorldScene::update(float dt)
 	for (auto it = _players.begin(); it != _players.end();)
 	{
 		auto player = *it;
-		if (player->isDestroy())
+		if (player->isDestroy() && _players.size() > 1)
 		{
 			player->removeFromParentAndCleanup(true);
+			player = nullptr;
 			it = _players.erase(it);
 		}
 		else
@@ -381,7 +382,7 @@ void WorldScene::backMenu()
 
 bool WorldScene::isEndGame()
 {
-	return _players.empty() && !_fadeLevel;
+	return getPlayer()->isDestroy() && !_fadeLevel;
 }
 
 void WorldScene::setDefaultParametrNpc(NPC* npc, const cocos2d::Point& point, int order /* = 2 */)
