@@ -6,6 +6,7 @@
 #include "Scene/SetupScene.h"
 #include "SimpleAudioEngine.h"
 #include "Model/GameSettings.h"
+#include "utils/Utils.h"
 
 USING_NS_CC;
 
@@ -173,7 +174,7 @@ void MenuScene::TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
 {
 	Point point = touch->getLocation();
 	moveCursor(point);
-	if (std::abs(point.y - _points.at(_pos).y) < 25)
+	if (std::abs(point.y - _points.at(_pos).y) < 50)
 	{
 		switch (_pos)
 		{
@@ -187,17 +188,5 @@ void MenuScene::TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
 
 void MenuScene::moveCursor(const cocos2d::Point& p)
 {
-	float min = 999999999.f;
-	int currentPos = 0;
-	for (size_t i = 0; i < _points.size(); i++)
-	{
-		auto point = _points.at(i);
-		float dis = point.getDistance(p);
-		if (dis < min)
-		{
-			min = dis;
-			currentPos = i;
-		}
-	}
-	setPos(MenuEnum(currentPos));
+	setPos(MenuEnum(myUtils::getNearestIndexInVector(_points, p)));
 }

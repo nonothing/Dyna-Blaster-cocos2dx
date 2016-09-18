@@ -7,6 +7,7 @@
 class PreloadBattleScene : public cocos2d::Layer
 {
 private:
+	cocos2d::EventListenerTouchOneByOne*	_touchListener;
 	NPCDataLoader*			_npcLoader;
 	cocos2d::Node*			_rootNode;
 	cocos2d::LayerColor*	_fadeLayer;
@@ -42,11 +43,18 @@ public:
 
 	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+	bool TouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
+	void TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
+	void TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
+
+	void moveCursor(const cocos2d::Point& point);
 
 	NPCData getNPC(ID_NPC id);
 	void restart();
 	void backMenu();
 	void loadAfterStartingScene();
+
+
 };
 
 #endif // __PRELOAD_BATTLE_SCENE_H__

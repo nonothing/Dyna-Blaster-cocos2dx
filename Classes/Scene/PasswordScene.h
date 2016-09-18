@@ -10,6 +10,7 @@
 class PasswordScene : public cocos2d::Layer
 {
 private:
+	cocos2d::EventListenerTouchOneByOne*	_touchListener;
 	MapDataLoader*			_mapLoader;
 	NPCDataLoader*			_npcLoader;
 	cocos2d::Node*		_rootNode;
@@ -35,6 +36,12 @@ public:
 	Direction KeyCodeToDiretion(cocos2d::EventKeyboard::KeyCode keyCode);
 
 	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+	void findPositionCursor(const cocos2d::Point& point);
+
+	bool TouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
+	void TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
+	void TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
+
 };
 
 #endif // __PASSWORD_SCENE_H__

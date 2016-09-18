@@ -7,7 +7,8 @@
 
 USING_NS_CC;
 
-static const std::string sAlphabet[3][10] = { { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", },
+static const std::string sAlphabet[3][10] = { 
+{ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", },
 { "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", },
 { "U", "V", "W", "X", "Y", "Z", "<", ">", "END", "END", }, };
 
@@ -69,6 +70,13 @@ bool PasswordScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec)
 	_keyboardListener = EventListenerKeyboard::create();
 	_keyboardListener->onKeyPressed = CC_CALLBACK_2(PasswordScene::onKeyPressed, this);
 	getEventDispatcher()->addEventListenerWithSceneGraphPriority(_keyboardListener, this);
+
+	_touchListener = EventListenerTouchOneByOne::create();
+	_touchListener->onTouchBegan = CC_CALLBACK_2(PasswordScene::TouchBegan, this);
+	_touchListener->onTouchEnded = CC_CALLBACK_2(PasswordScene::TouchEnded, this);
+	_touchListener->onTouchMoved = CC_CALLBACK_2(PasswordScene::TouchMoved, this);
+	getEventDispatcher()->addEventListenerWithSceneGraphPriority(_touchListener, this);
+
 
 	addChild(_rootNode);
 
@@ -174,4 +182,45 @@ PasswordScene::~PasswordScene()
 void PasswordScene::backMenu()
 {
 	Director::getInstance()->replaceScene(TransitionFade::create(0.5, MenuScene::createScene()));
+}
+
+bool PasswordScene::TouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
+{
+	findPositionCursor(touch->getLocation());
+	return true;
+}
+
+void PasswordScene::TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event)
+{
+	findPositionCursor(touch->getLocation());
+}
+
+void PasswordScene::TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
+{
+	Point nextPosition = Point(_startPosition.x + _offsetX * 76, _startPosition.y - _offsetY * 80);
+	if (std::abs(touch->getLocation().y - nextPosition.y) < 20 &&
+		std::abs(touch->getLocation().x - nextPosition.x) < 30)
+	{
+		enterChar();
+	}
+}
+
+void PasswordScene::findPositionCursor(const cocos2d::Point& touchPoint)
+{
+	_offsetX = (touchPoint.x - _startPosition.x + _bombSprite->getContentSize().width / 4) / 76;
+	_offsetY = (_startPosition.y - touchPoint.y + _bombSprite->getContentSize().height / 4) / 80;
+
+	if (_offsetX < 0) _offsetX = 0;
+	if (_offsetY < 0) _offsetY = 0;
+	if (_offsetY > 2) _offsetY = 2;
+	if (_offsetX > 9) _offsetX = 9;
+
+	Point nextPosition = Point(_startPosition.x + _offsetX * 76, _startPosition.y - _offsetY * 80);
+	_bombText->setString(sAlphabet[_offsetY][_offsetX]);
+	_bombText->setFontSize(_bombText->getStringLength() == 1 ? 28.f : 18.f);
+	_bombSprite->setPosition(nextPosition);
+	if (_offsetY == 2 && _offsetX >= 8)
+	{
+		_bombSprite->setPositionX(_startPosition.x + 8 * 76 + 30);
+	}
 }

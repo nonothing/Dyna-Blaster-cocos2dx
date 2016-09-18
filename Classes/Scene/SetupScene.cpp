@@ -279,7 +279,7 @@ void SetupScene::setOpacityText(float value)
 void SetupScene::setSizeText(float value)
 {
 	auto sizeText = getText("size_label");
-	sizeText->setString("BUTTON SIZE < " + myUtils::to_string(value * 100) + "% >");
+	sizeText->setString("SIZE < " + myUtils::to_string(value * 100) + "% >");
 }
 
 void SetupScene::setPositionButtons()
@@ -355,19 +355,7 @@ bool SetupScene::isTouchButton(cocos2d::Sprite* button, const cocos2d::Point& po
 
 void SetupScene::moveCursor(cocos2d::Touch* touch)
 {
-	float min = 999999999.f;
-	int currentPos = 0;
-	for (size_t i = 0; i < _points.size(); i++)
-	{
-		auto point = _points.at(i);
-		float dis = point.getDistance(convertToNodeSpace(touch->getLocation()));
-		if (dis < min)
-		{
-			min = dis;
-			currentPos = i;
-		}
-	}
-	setPos(SetupEnum(currentPos));
+	setPos(SetupEnum(myUtils::getNearestIndexInVector(_points, convertToNodeSpace(touch->getLocation()))));
 }
 
 void SetupScene::showButtons(EControl type)

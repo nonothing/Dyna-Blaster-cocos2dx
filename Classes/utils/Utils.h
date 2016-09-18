@@ -4,6 +4,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include "cocos2d.h"
 
 namespace myUtils
 {
@@ -28,6 +29,23 @@ namespace myUtils
 		std::vector<std::string> elems;
 		split(s, delim, elems);
 		return elems;
+	}
+
+
+	static int getNearestIndexInVector(std::vector<cocos2d::Point> points, const cocos2d::Point& point)
+	{
+		int index = -1;
+		float min = FLT_MAX;
+		for (size_t i = 0; i < points.size(); i++)
+		{
+			float dis = points.at(i).getDistance(point);
+			if (dis < min)
+			{
+				min = dis;
+				index = i;
+			}
+		}
+		return index;
 	}
 
 	template < typename T > std::string to_string(const T& n)

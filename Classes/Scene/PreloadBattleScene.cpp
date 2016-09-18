@@ -4,6 +4,7 @@
 #include "Scene/MenuScene.h"
 #include "Scene/BattleScene.h"
 #include "SimpleAudioEngine.h"
+#include "utils/Utils.h"
 
 #define BLINK_TAG 45
 #define CUP_TAG 25
@@ -56,6 +57,12 @@ bool PreloadBattleScene::init(NPCDataLoader* npcLoader)
 	_keyboardListener->onKeyPressed = CC_CALLBACK_2(PreloadBattleScene::onKeyPressed, this);
 	_keyboardListener->onKeyReleased = CC_CALLBACK_2(PreloadBattleScene::onKeyReleased, this);
 	getEventDispatcher()->addEventListenerWithSceneGraphPriority(_keyboardListener, this);
+
+	_touchListener = EventListenerTouchOneByOne::create();
+	_touchListener->onTouchBegan = CC_CALLBACK_2(PreloadBattleScene::TouchBegan, this);
+	_touchListener->onTouchEnded = CC_CALLBACK_2(PreloadBattleScene::TouchEnded, this);
+	_touchListener->onTouchMoved = CC_CALLBACK_2(PreloadBattleScene::TouchMoved, this);
+	getEventDispatcher()->addEventListenerWithSceneGraphPriority(_touchListener, this);
 
 	addChild(_rootNode, 1);
 	addChild(_toggleSprite, 5);
@@ -357,5 +364,38 @@ bool PreloadBattleScene::hasWinnner()
 		}
 	}
 	return max >= _parameters.at(2) + 1;
+}
+
+bool PreloadBattleScene::TouchBegan(Touch *touch, Event *unused_event)
+{
+	moveCursor(touch->getLocation());
+	return true;
+}
+
+void PreloadBattleScene::TouchMoved(Touch *touch, Event *unused_event)
+{
+	moveCursor(touch->getLocation());
+}
+
+void PreloadBattleScene::TouchEnded(Touch *touch, Event *unused_event)
+{
+	Point point = touch->getLocation();
+	if (_toggleSprite && !isEndScenes())
+	{
+		if (std::abs(point.y - _points.at(_currentPos).y) < 50)
+		{
+			_parameters.push_back(_currentPos);
+			nextScene();
+		}
+	}
+}
+
+void PreloadBattleScene::moveCursor(const cocos2d::Point& point)
+{
+	if (_toggleSprite && !_points.empty())
+	{
+		_currentPos = myUtils::getNearestIndexInVector(_points, point);
+		_toggleSprite->setPosition(_points.at(_currentPos));
+	}
 }
 
