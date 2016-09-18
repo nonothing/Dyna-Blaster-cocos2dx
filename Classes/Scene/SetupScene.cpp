@@ -175,7 +175,6 @@ void SetupScene::TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
 		if (std::abs(point.y - _points.at(_pos).y) < 25)
 		{
 			enterMenu();
-
 		}
 	}
 }
@@ -282,6 +281,7 @@ void SetupScene::setSizeText(float value)
 void SetupScene::setPositionButtons()
 {
 	_blackLayer->setVisible(true);
+	hideAllButtons();
 	showButtons(_currentControll);
 	for (auto button : _buttons)
 	{
@@ -295,68 +295,58 @@ void SetupScene::setPositionButtons()
 
 void SetupScene::createButtons()
 {
-	_upButton = Sprite::create("direction_key.png");
-	_upButton->setTag(1);
-
-	_downButton = Sprite::create("direction_key.png");
-	_downButton->setFlippedY(true);
-	_downButton->setTag(2);
-
-	_leftButton = Sprite::create("direction_key.png");
-	_leftButton->setRotation(-90.f);
-	_leftButton->setTag(3);
-
-	_rightButton = Sprite::create("direction_key.png");
-	_rightButton->setRotation(90.f);
-	_rightButton->setTag(4);
-
 	for (int i = 0; i < MAX_PLAYERS; i++)
 	{
+		std::string id = myUtils::to_string(i + 1);
+		auto upButton = Sprite::create("direction_key_" + id + ".png");
+		upButton->setTag(1 + i * 10);
+		upButton->setVisible(false);
+		_buttons.push_back(upButton);
+
+		auto downButton = Sprite::create("direction_key_" + id + ".png");
+		downButton->setFlippedY(true);
+		downButton->setTag(2 + i * 10);
+		downButton->setVisible(false);
+		_buttons.push_back(downButton);
+
+		auto leftButton = Sprite::create("direction_key_" + id + ".png");
+		leftButton->setRotation(-90.f);
+		leftButton->setTag(3 + i * 10);
+		leftButton->setVisible(false);
+		_buttons.push_back(leftButton);
+
+		auto rightButton = Sprite::create("direction_key_" + id + ".png");
+		rightButton->setRotation(90.f);
+		rightButton->setTag(4 + i * 10);
+		rightButton->setVisible(false);
+		_buttons.push_back(rightButton);
+
+		auto createBombButton = Sprite::create("bomb_key_" + id + ".png");
+		createBombButton->setTag(5 + i * 10);
+		_commonButtons.push_back(createBombButton);
+
+		auto radioButton = Sprite::create("bomb_radio_key_" + id + ".png");
+		radioButton->setTag(6 + i * 10);
+		_commonButtons.push_back(radioButton);
+
 		auto border = Sprite::create("joystick_border.png");
 		border->setTag(7 + i * 10);
+		border->setVisible(false);
 
-		auto joystick = Sprite::create("joystick_" + myUtils::to_string(i + 1) + ".png");
-		joystick->setTag(8 + i * 10);
+		auto joystick = Sprite::create("joystick_" + id + ".png");
 		joystick->setPosition(border->getContentSize() / 2);
 		border->addChild(joystick);
 		_borders.push_back(border);
-		_joysticks.push_back(joystick);
-
-		auto createBombButton = Sprite::create("bomb_key_" + myUtils::to_string(i + 1) + ".png");
-		createBombButton->setTag(5 + i * 10);
-		_buttons.push_back(createBombButton);
-
-		auto radioButton = Sprite::create("bomb_radio_key_" + myUtils::to_string(i + 1) + ".png");
-		radioButton->setTag(6 + i * 10);
-		_buttons.push_back(radioButton);
 	}
 
-
-// 	_buttons.push_back(_upButton);
-// 	_buttons.push_back(_downButton);
-// 	_buttons.push_back(_leftButton);
-// 	_buttons.push_back(_rightButton);
-
-	for (auto button : _buttons)
-	{
-		button->setScale(_sizeButton);
-		button->setOpacity(_opacity);
-		button->setPosition(GameSettings::Instance().getPosition(button->getTag()));
-		_blackLayer->addChild(button);
-	}
-
-	for (auto border : _borders)
-	{
-		border->setScale(_sizeButton);
-		border->setOpacity(_opacity);
-		border->setPosition(GameSettings::Instance().getPosition(border->getTag()));
-		_blackLayer->addChild(border);
-	}
+	setParametersVector(_buttons);
+	setParametersVector(_commonButtons);
+	setParametersVector(_borders);
 }
 
 bool SetupScene::isTouchButton(cocos2d::Sprite* button, const cocos2d::Point& point)
 {
-	return button->getBoundingBox().containsPoint(point);
+	return button->isVisible() ? button->getBoundingBox().containsPoint(point) : false;
 }
 
 void SetupScene::moveCursor(cocos2d::Touch* touch)
@@ -366,20 +356,23 @@ void SetupScene::moveCursor(cocos2d::Touch* touch)
 
 void SetupScene::showButtons(EControl type)
 {
-	for (auto button : _buttons)
- 	{
-// 		if (type == EBUTTON)
-// 		{
-// 			button->setVisible(button->getTag() <= 6);
-// 		}
-// 		else if (type == EJOYSTICK)
-// 		{
-			button->setVisible(button->getTag() < 9 + _countPlayer * 10);
-//		}
-	}
-	for (auto border : _borders)
+	if (type == EBUTTON)
 	{
-		border->setVisible(border->getTag() < 7 + _countPlayer * 10);
+		for (auto button : _buttons)
+ 		{
+			button->setVisible(button->getTag() < _countPlayer * 10);
+		}
+	}
+	else if (type == EJOYSTICK)
+	{
+		for (auto border : _borders)
+		{
+			border->setVisible(border->getTag() < _countPlayer * 10);
+		}
+	}
+	for (auto button : _commonButtons)
+	{
+		button->setVisible(button->getTag() < _countPlayer * 10);
 	}
 }
 
@@ -406,6 +399,33 @@ void SetupScene::enterMenu()
 		break;
 	default:
 		break;
+	}
+}
+
+void SetupScene::setParametersVector(std::vector<Sprite*> vec)
+{
+	for (auto button : vec)
+	{
+		button->setScale(_sizeButton);
+		button->setOpacity(_opacity);
+		button->setPosition(GameSettings::Instance().getPosition(button->getTag()));
+		_blackLayer->addChild(button);
+	}
+}
+
+void SetupScene::hideAllButtons()
+{
+	for (auto button : _buttons)
+	{
+		button->setVisible(false);
+	}
+	for (auto border : _borders)
+	{
+		border->setVisible(false);
+	}
+	for (auto button : _commonButtons)
+	{
+		button->setVisible(false);
 	}
 }
 

@@ -7,18 +7,19 @@
 class ControlButton : public IControl
 {
 private:
-	std::vector<cocos2d::Sprite*> _buttons;
+	std::vector<cocos2d::Sprite*>	_upButtons;
+	std::vector<cocos2d::Sprite*>	_downButtons;
+	std::vector<cocos2d::Sprite*>	_leftButtons;
+	std::vector<cocos2d::Sprite*>	_rightButtons;
+	std::vector<cocos2d::Sprite*>	_createBombButtons;
+	std::vector<cocos2d::Sprite*>	_radioButtons;
 
-	cocos2d::Sprite*	_upButton;
-	cocos2d::Sprite*	_downButton;
-	cocos2d::Sprite*	_leftButton;
-	cocos2d::Sprite*	_rightButton;
-	cocos2d::Sprite*	_createBombButton;
-	cocos2d::Sprite*	_radioButton;
-	Direction			_direction;
+	std::vector<Direction>			_directions;
+	std::vector<Direction>			_oldDirs;
 
 	bool touchButton(cocos2d::Sprite* button, const cocos2d::Point& point);
-	void findDirection(const cocos2d::Point& point);
+	void findDirection(const cocos2d::Point& point, int index);
+	void setButtonParameters(cocos2d::Sprite* button, float scale, float opacity);
 
 public:
 	static ControlButton* create();

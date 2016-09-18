@@ -1,5 +1,6 @@
 #include "Model/ControlButton.h"
 #include "Model/GameSettings.h"
+#include "utils/Utils.h"
 
 USING_NS_CC;
 
@@ -19,44 +20,48 @@ ControlButton* ControlButton::create()
 bool ControlButton::init()
 {
 	if (!IControl::initKeyBoard() || !IControl::initTouch()) return false;
-	_upButton = Sprite::create("direction_key.png");
-	_upButton->setTag(1);
-
-	_downButton = Sprite::create("direction_key.png");
-	_downButton->setFlippedY(true);
-	_downButton->setTag(2);
-
-	_leftButton = Sprite::create("direction_key.png");
-	_leftButton->setRotation(-90.f);
-	_leftButton->setTag(3);
-
-	_rightButton = Sprite::create("direction_key.png");
-	_rightButton->setRotation(90.f);
-	_rightButton->setTag(4);
-
-	_createBombButton = Sprite::create("bomb_key.png");
-	_createBombButton->setTag(5);
-
-	_radioButton = Sprite::create("bomb_radio_key.png");
-	_radioButton->setTag(6);
-	_radioButton->setVisible(false);
-	
-	_buttons.push_back(_createBombButton);
-	_buttons.push_back(_upButton);
-	_buttons.push_back(_downButton);
-	_buttons.push_back(_leftButton);
-	_buttons.push_back(_rightButton);
-	_buttons.push_back(_radioButton);
 
 	float scale = GameSettings::Instance().getScaleButtons();
 	float opacity = GameSettings::Instance().getOpacityButtons();
 
-	for (auto button : _buttons)
+	for (int i = 0; i < 4; i++)
 	{
-		button->setScale(scale);
-		button->setOpacity(opacity);
-		button->setPosition(GameSettings::Instance().getPosition(button->getTag()));
-		addChild(button);
+		std::string id = myUtils::to_string(i + 1);
+		auto upButton = Sprite::create("direction_key_" + id + ".png");
+		upButton->setTag(1 + i * 10);
+		setButtonParameters(upButton, scale, opacity);
+		_upButtons.push_back(upButton);
+
+		auto downButton = Sprite::create("direction_key_" + id + ".png");
+		downButton->setFlippedY(true);
+		downButton->setTag(2 + i * 10);
+		setButtonParameters(downButton, scale, opacity);
+		_downButtons.push_back(downButton);
+
+		auto leftButton = Sprite::create("direction_key_" + id + ".png");
+		leftButton->setRotation(-90.f);
+		leftButton->setTag(3 + i * 10);
+		setButtonParameters(leftButton, scale, opacity);
+		_leftButtons.push_back(leftButton);
+
+		auto rightButton = Sprite::create("direction_key_" + id + ".png");
+		rightButton->setRotation(90.f);
+		rightButton->setTag(4 + i * 10);
+		setButtonParameters(rightButton, scale, opacity);
+		_rightButtons.push_back(rightButton);
+
+		auto createBombButton = Sprite::create("bomb_key_" + id + ".png");
+		createBombButton->setTag(5 + i * 10);
+		setButtonParameters(createBombButton, scale, opacity);
+		_createBombButtons.push_back(createBombButton);
+
+		auto radioButton = Sprite::create("bomb_radio_key_" + id + ".png");
+		radioButton->setTag(6 + i * 10);
+		setButtonParameters(radioButton, scale, opacity);
+		_radioButtons.push_back(radioButton);
+
+		_oldDirs.push_back(NONE);
+		_directions.push_back(NONE);
 	}
 
 	return true;
@@ -65,11 +70,28 @@ bool ControlButton::init()
 bool ControlButton::TouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
 {
 	Point point = convertToNodeSpace(touch->getLocation());
-	_direction = NONE;
-	findDirection(point);
-	if (_direction != NONE)
+	for (size_t i = 0; i < _radioButtons.size(); i++)
 	{
-		_eventMoveDirection(_direction, 0);
+		if (touchButton(_upButtons[i], point))
+		{
+			_directions[i] = UP;
+			_eventMoveDirection(_directions[i], i);
+		}
+		if (touchButton(_downButtons[i], point))
+		{
+			_directions[i] = DOWN;
+			_eventMoveDirection(_directions[i], i);
+		}
+		if (touchButton(_leftButtons[i], point))
+		{
+			_directions[i] = LEFT;
+			_eventMoveDirection(_directions[i], i);
+		}
+		if (touchButton(_rightButtons[i], point))
+		{
+			_directions[i] = RIGHT;
+			_eventMoveDirection(_directions[i], i);
+		}
 	}
 
 	return true;
@@ -78,42 +100,45 @@ bool ControlButton::TouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
 void ControlButton::TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event)
 {
 	Point point = convertToNodeSpace(touch->getLocation());
-	if (_direction == NONE)
+	for (size_t i = 0; i < _radioButtons.size(); i++)
 	{
-		findDirection(point);
-		if (_direction != NONE)
+		if (_directions[i] == NONE)
 		{
-			_eventMoveDirection(_direction, 0);
-		}
-	}
-	else
-	{
-		Direction oldDir = _direction;
-		if (_direction == UP && !touchButton(_upButton, point))
-		{
-			_direction = NONE;
-		}
-		if (_direction == DOWN && !touchButton(_downButton, point))
-		{
-			_direction = NONE;
-		}
-		if (_direction == LEFT && !touchButton(_leftButton, point))
-		{
-			_direction = NONE;
-		}
-		if (_direction == RIGHT && !touchButton(_rightButton, point))
-		{
-			_direction = NONE;
-		}
-		if (oldDir != _direction)
-		{
-			if (_direction == NONE)
+			findDirection(point, i);
+			if (_directions[i] != NONE)
 			{
-				_eventStopDirection(oldDir, 0);
+				_eventMoveDirection(_directions[i], i);
 			}
-			else
+		}
+		else
+		{
+			_oldDirs[i] = _directions[i];
+			if (_directions[i] == UP && !touchButton(_upButtons[i], point))
 			{
-				_eventMoveDirection(_direction, 0);
+				_directions[i] = NONE;
+			}
+			if (_directions[i] == DOWN && !touchButton(_downButtons[i], point))
+			{
+				_directions[i] = NONE;
+			}
+			if (_directions[i] == LEFT && !touchButton(_leftButtons[i], point))
+			{
+				_directions[i] = NONE;
+			}
+			if (_directions[i] == RIGHT && !touchButton(_rightButtons[i], point))
+			{
+				_directions[i] = NONE;
+			}
+			if (_oldDirs[i] != _directions[i])
+			{
+				if (_directions[i] == NONE)
+				{
+					_eventStopDirection(_oldDirs[i], i);
+				}
+				else
+				{
+					_eventMoveDirection(_directions[i], i);
+				}
 			}
 		}
 	}
@@ -122,68 +147,105 @@ void ControlButton::TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event)
 void ControlButton::TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
 {
 	Point point = convertToNodeSpace(touch->getLocation());
-	if (touchButton(_upButton, point))
+	for (size_t i = 0; i < _radioButtons.size(); i++)
 	{
-		_eventStopDirection(UP, 0);
-	}
-	if (touchButton(_downButton, point))
-	{
-		_eventStopDirection(DOWN, 0);
-	}
-	if (touchButton(_leftButton, point))
-	{
-		_eventStopDirection(LEFT, 0);
-	}
-	if (touchButton(_rightButton, point))
-	{
-		_eventStopDirection(RIGHT, 0);
-	}
-	if (touchButton(_createBombButton, point))
-	{
-		_eventCustom(ECREATEBOMB, 0);
-	}
-	if (touchButton(_radioButton, point))
-	{
-		_eventCustom(EEXPLODE, 0);
+		if (touchButton(_upButtons[i], point))
+		{
+			_eventStopDirection(UP, i);
+		}
+		if (touchButton(_downButtons[i], point))
+		{
+			_eventStopDirection(DOWN, i);
+		}
+		if (touchButton(_leftButtons[i], point))
+		{
+			_eventStopDirection(LEFT, i);
+		}
+		if (touchButton(_rightButtons[i], point))
+		{
+			_eventStopDirection(RIGHT, i);
+		}
+		if (touchButton(_createBombButtons[i], point))
+		{
+			_eventCustom(ECREATEBOMB, i);
+		}
+		if (touchButton(_radioButtons[i], point))
+		{
+			_eventCustom(EEXPLODE, i);
+		}
 	}
 }
 
 void ControlButton::showRadioButton(PlayerColor color, bool var)
 {
-	if (_radioButton->isVisible() != var)
+	for (auto button : _radioButtons)
 	{
-		_radioButton->setVisible(var);
+		if (button->getTag() == 6 + color * 10)
+		{
+			button->setVisible(var);
+		}
 	}
 }
 
 void ControlButton::showControlPlayer(PlayerColor color, bool isVisisble)
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	for (size_t i = 0; i < _radioButtons.size(); i++)
+	{
+		if (_upButtons[i]->getTag() == 1 + color * 10)
+		{
+			_upButtons[i]->setVisible(isVisisble);
+		}
+		if (_downButtons[i]->getTag() == 2 + color * 10)
+		{
+			_downButtons[i]->setVisible(isVisisble);
+		}
+		if (_leftButtons[i]->getTag() == 3 + color * 10)
+		{
+			_leftButtons[i]->setVisible(isVisisble);
+		}
+		if (_rightButtons[i]->getTag() == 4 + color * 10)
+		{
+			_rightButtons[i]->setVisible(isVisisble);
+		}
+		if (_createBombButtons[i]->getTag() == 5 + color * 10)
+		{
+			_createBombButtons[i]->setVisible(isVisisble);
+		}
+	}
 }
 
 bool ControlButton::touchButton(cocos2d::Sprite* button, const cocos2d::Point& point)
 {
-	return button->getBoundingBox().containsPoint(point);
+	return button->isVisible() ? button->getBoundingBox().containsPoint(point) : false;
 }
 
-void ControlButton::findDirection(const cocos2d::Point& point)
+void ControlButton::findDirection(const cocos2d::Point& point, int index)
 {
-	if (touchButton(_upButton, point))
+	if (touchButton(_upButtons[index], point))
 	{
-		_direction = UP;
+		_directions[index] = UP;
 	}
-	if (touchButton(_downButton, point))
+	if (touchButton(_downButtons[index], point))
 	{
-		_direction = DOWN;
+		_directions[index] = DOWN;
 	}
-	if (touchButton(_leftButton, point))
+	if (touchButton(_leftButtons[index], point))
 	{
-		_direction = LEFT;
+		_directions[index] = LEFT;
 	}
-	if (touchButton(_rightButton, point))
+	if (touchButton(_rightButtons[index], point))
 	{
-		_direction = RIGHT;
+		_directions[index] = RIGHT;
 	}
+}
+
+void ControlButton::setButtonParameters(cocos2d::Sprite* button, float scale, float opacity)
+{
+	button->setVisible(false);
+	button->setScale(scale);
+	button->setOpacity(opacity);
+	button->setPosition(GameSettings::Instance().getPosition(button->getTag()));
+	addChild(button);
 }
 
 void ControlButton::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)

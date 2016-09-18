@@ -15,15 +15,10 @@ class SetupScene : public cocos2d::Layer
 private:
 
 	std::vector<cocos2d::Sprite*> _buttons;
-
-	cocos2d::Sprite*	_upButton;
-	cocos2d::Sprite*	_downButton;
-	cocos2d::Sprite*	_leftButton;
-	cocos2d::Sprite*	_rightButton;
+	std::vector<cocos2d::Sprite*> _commonButtons;
 	cocos2d::Sprite*	_moveButton;
 
 	std::vector<cocos2d::Sprite*>	_borders;
-	std::vector<cocos2d::Sprite*>	_joysticks;
 
 	cocos2d::EventListenerTouchOneByOne*	_touchListener;
 	cocos2d::LayerColor*				_blackLayer;
@@ -48,6 +43,8 @@ private:
 	void setSizeText(float value);
 
 	void createButtons();
+	void setParametersVector(std::vector<cocos2d::Sprite*> vec);
+	void hideAllButtons();
 
 	void changeControll();
 	void changeCountPlayer();

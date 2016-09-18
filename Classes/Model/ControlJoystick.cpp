@@ -180,7 +180,7 @@ void ControlJoystick::showControlPlayer(PlayerColor color, bool isVisisble)
 
 bool ControlJoystick::touchButton(cocos2d::Sprite* button, const cocos2d::Point& point)
 {
-	return button->getBoundingBox().containsPoint(point);
+	return button->isVisible() ? button->getBoundingBox().containsPoint(point) : false;
 }
 
 void ControlJoystick::findDirection(float angle, int i)
