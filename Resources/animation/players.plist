@@ -97,7 +97,7 @@
 		<key>player_black_dead</key>
         <dict>
             <key>delay</key>
-            <real>0.3</real>
+            <real>0.1</real>
             <key>frames</key>
             <array>
                 <string>player_red_dead_1.png</string>
@@ -150,7 +150,7 @@
 		<key>player_red_dead</key>
         <dict>
             <key>delay</key>
-            <real>0.3</real>
+            <real>0.1</real>
             <key>frames</key>
             <array>
                 <string>player_red_dead_1.png</string>
