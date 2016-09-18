@@ -61,6 +61,7 @@ bool MenuScene::init()
 
 	setPos(START);
 
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/buttons.plist", "atlas/buttons.png");
 	_loaderMap = new MapDataLoader();
 	_loaderNPC = new NPCDataLoader();
 

@@ -26,13 +26,13 @@ bool ControlJoystick::init()
 
 	for (int i = 0; i < 4; i++)
 	{
-		auto border = Sprite::create("joystick_border.png");
+		auto border = Sprite::createWithSpriteFrameName("joystick_border.png");
 		border->setTag(7 + i * 10);
 		border->setVisible(false);
 		setButtonParameters(border, scale, opacity);
 		_borders.push_back(border);
 
-		auto joystick = Sprite::create("joystick_" + myUtils::to_string(i + 1) + ".png");
+		auto joystick = Sprite::createWithSpriteFrameName("joystick_" + myUtils::to_string(i + 1) + ".png");
 		joystick->setTag(8 + i * 10);
 		joystick->setVisible(false);
 		joystick->setScale(scale);
@@ -43,13 +43,13 @@ bool ControlJoystick::init()
 		_directions.push_back(NONE);
 		_oldDirs.push_back(NONE);
 
-		auto createBombButton = Sprite::create("bomb_key_" + myUtils::to_string(i + 1) + ".png");
+		auto createBombButton = Sprite::createWithSpriteFrameName("bomb_key_" + myUtils::to_string(i + 1) + ".png");
 		createBombButton->setTag(5 + i * 10);
 		createBombButton->setVisible(false);
 		setButtonParameters(createBombButton, scale, opacity);
 		_createBombButtons.push_back(createBombButton);
 
-		auto radioButton = Sprite::create("bomb_radio_key.png");
+		auto radioButton = Sprite::createWithSpriteFrameName("bomb_radio_key.png");
 		radioButton->setTag(6);
 		radioButton->setVisible(false);
 		setButtonParameters(radioButton, scale, opacity);

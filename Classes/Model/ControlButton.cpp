@@ -27,35 +27,35 @@ bool ControlButton::init()
 	for (int i = 0; i < 4; i++)
 	{
 		std::string id = myUtils::to_string(i + 1);
-		auto upButton = Sprite::create("direction_key_" + id + ".png");
+		auto upButton = Sprite::createWithSpriteFrameName("direction_key_" + id + ".png");
 		upButton->setTag(1 + i * 10);
 		setButtonParameters(upButton, scale, opacity);
 		_upButtons.push_back(upButton);
 
-		auto downButton = Sprite::create("direction_key_" + id + ".png");
+		auto downButton = Sprite::createWithSpriteFrameName("direction_key_" + id + ".png");
 		downButton->setFlippedY(true);
 		downButton->setTag(2 + i * 10);
 		setButtonParameters(downButton, scale, opacity);
 		_downButtons.push_back(downButton);
 
-		auto leftButton = Sprite::create("direction_key_" + id + ".png");
+		auto leftButton = Sprite::createWithSpriteFrameName("direction_key_" + id + ".png");
 		leftButton->setRotation(-90.f);
 		leftButton->setTag(3 + i * 10);
 		setButtonParameters(leftButton, scale, opacity);
 		_leftButtons.push_back(leftButton);
 
-		auto rightButton = Sprite::create("direction_key_" + id + ".png");
+		auto rightButton = Sprite::createWithSpriteFrameName("direction_key_" + id + ".png");
 		rightButton->setRotation(90.f);
 		rightButton->setTag(4 + i * 10);
 		setButtonParameters(rightButton, scale, opacity);
 		_rightButtons.push_back(rightButton);
 
-		auto createBombButton = Sprite::create("bomb_key_" + id + ".png");
+		auto createBombButton = Sprite::createWithSpriteFrameName("bomb_key_" + id + ".png");
 		createBombButton->setTag(5 + i * 10);
 		setButtonParameters(createBombButton, scale, opacity);
 		_createBombButtons.push_back(createBombButton);
 
-		auto radioButton = Sprite::create("bomb_radio_key_" + id + ".png");
+		auto radioButton = Sprite::createWithSpriteFrameName("bomb_radio_key_" + id + ".png");
 		radioButton->setTag(6 + i * 10);
 		setButtonParameters(radioButton, scale, opacity);
 		_radioButtons.push_back(radioButton);
