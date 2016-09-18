@@ -1,5 +1,6 @@
 #include "Model/ControlJoystick.h"
 #include "Model/GameSettings.h"
+#include "utils/Utils.h"
 
 USING_NS_CC;
 
@@ -20,54 +21,68 @@ bool ControlJoystick::init()
 {
 	if (!IControl::initKeyBoard() || !IControl::initTouch()) return false;
 
-	_border = Sprite::create("joystick_border.png");
-	_border->setTag(7);
-
-	_joystick = Sprite::create("joystick_3.png");
-	_joystick->setTag(8);
-
-	_createBombButton = Sprite::create("bomb_key.png");
-	_createBombButton->setTag(5);
-
-	_radioButton = Sprite::create("bomb_radio_key.png");
-	_radioButton->setTag(6);
-	_radioButton->setVisible(false);
-	
-	_buttons.push_back(_createBombButton);
-	_buttons.push_back(_radioButton);
-	_buttons.push_back(_border);
-
 	float scale = GameSettings::Instance().getScaleButtons();
 	float opacity = GameSettings::Instance().getOpacityButtons();
 
-	for (auto button : _buttons)
+	for (int i = 0; i < 4; i++)
 	{
-		button->setScale(scale);
-		button->setOpacity(opacity);
-		button->setPosition(GameSettings::Instance().getPosition(button->getTag()));
-		addChild(button);
+		auto border = Sprite::create("joystick_border.png");
+		border->setTag(7 + i * 10);
+		border->setVisible(false);
+		setButtonParameters(border, scale, opacity);
+		_borders.push_back(border);
+
+		auto joystick = Sprite::create("joystick_" + myUtils::to_string(i + 1) + ".png");
+		joystick->setTag(8 + i * 10);
+		joystick->setVisible(false);
+		joystick->setScale(scale);
+		joystick->setOpacity(opacity);
+		joystick->setPosition(_borders.at(i)->getPosition());
+		addChild(joystick);
+		_joysticks.push_back(joystick);
+		_directions.push_back(NONE);
+		_oldDirs.push_back(NONE);
+
+		auto createBombButton = Sprite::create("bomb_key_" + myUtils::to_string(i + 1) + ".png");
+		createBombButton->setTag(5 + i * 10);
+		createBombButton->setVisible(false);
+		setButtonParameters(createBombButton, scale, opacity);
+		_createBombButtons.push_back(createBombButton);
+
+		auto radioButton = Sprite::create("bomb_radio_key.png");
+		radioButton->setTag(6);
+		radioButton->setVisible(false);
+		setButtonParameters(radioButton, scale, opacity);
+		_radioButtons.push_back(radioButton);
 	}
-	_oldDir = _direction = NONE;
-	_buttons.push_back(_joystick);
-	_joystick->setScale(scale);
-	_joystick->setOpacity(opacity);
-	_joystick->setPosition(_border->getPosition());
-	addChild(_joystick);
+
 	return true;
+}
+
+void ControlJoystick::setButtonParameters(cocos2d::Sprite* button, float scale, float opacity)
+{
+	button->setScale(scale);
+	button->setOpacity(opacity);
+	button->setPosition(GameSettings::Instance().getPosition(button->getTag()));
+	addChild(button);
 }
 
 bool ControlJoystick::TouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
 {
 	Point point = convertToNodeSpace(touch->getLocation());
-	_direction = NONE;
-	float angle = atan2(_border->getPositionX() - point.x, _border->getPositionY() - point.y);
-	if (touchButton(_border, point))
+//	_direction = NONE;
+	for (size_t i = 0; i < _borders.size(); i++)
 	{
-		setJoystickPosition(angle);
-		findDirection(angle);
-		if (_direction != NONE)
+		auto border = _borders.at(i);
+		float angle = atan2(border->getPositionX() - point.x, border->getPositionY() - point.y);
+		if (touchButton(border, point))
 		{
-			_eventMoveDirection(_direction, 0);
+			setJoystickPosition(angle, i);
+			findDirection(angle, i);
+			if (_directions[i] != NONE)
+			{
+				_eventMoveDirection(_directions[i], i);
+			}
 		}
 	}
 	return true;
@@ -76,59 +91,90 @@ bool ControlJoystick::TouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
 void ControlJoystick::TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event)
 {
 	Point point = convertToNodeSpace(touch->getLocation());
-	float angle = atan2(_border->getPositionX() - point.x, _border->getPositionY() - point.y);
-	if (touchButton(_border, point))
+	for (size_t i = 0; i < _borders.size(); i++)
 	{
-		setJoystickPosition(angle);
-		findDirection(angle);
-		if (_oldDir != _direction)
+		auto border = _borders.at(i);
+		float angle = atan2(border->getPositionX() - point.x, border->getPositionY() - point.y);
+		if (touchButton(border, point))
 		{
-			_oldDir = _direction;
-			_eventMoveDirection(_direction, 0);
+			setJoystickPosition(angle, i);
+			findDirection(angle, i);
+			if (_oldDirs[i] != _directions[i])
+			{
+				_oldDirs[i] = _directions[i];
+				_eventMoveDirection(_directions[i], i);
+			}
 		}
-	}
-	else
-	{
-		if (_oldDir != NONE)
+		else
 		{
-			_oldDir = NONE;
-			_joystick->setPosition(_border->getPosition());
-			_eventStopDirection(_direction, 0);
+			if (_oldDirs[i] != NONE)
+			{
+				_oldDirs[i] = NONE;
+				_joysticks.at(i)->setPosition(border->getPosition());
+				_eventStopDirection(_directions[i], i);
+			}
 		}
 	}
 
 }
 
-void ControlJoystick::setJoystickPosition(float angle)
+void ControlJoystick::setJoystickPosition(float angle, int index)
 {
-	float distance = _border->getPosition().getDistance(_border->getPosition() + (_border->getContentSize() / 2));
-	_joystick->setPosition(_border->getPosition() - Point(sin(angle) * distance, cos(angle) * distance));
+	auto border = _borders.at(index);
+	float distance = border->getPosition().getDistance(border->getPosition() + (border->getContentSize() / 2));
+	_joysticks[index]->setPosition(border->getPosition() - Point(sin(angle) * distance, cos(angle) * distance));
 }
 
 void ControlJoystick::TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
 {
 	Point point = convertToNodeSpace(touch->getLocation());
-	if (touchButton(_border, point))
+	for (size_t i = 0; i < _borders.size(); i++)
 	{
-		_joystick->setPosition(_border->getPosition());
-		_oldDir = NONE;
-		_eventStopDirection(_direction, 0);
-	}
-	if (touchButton(_createBombButton, point))
-	{
-		_eventCustom(ECREATEBOMB, 0);
-	}
-	if (touchButton(_radioButton, point))
-	{
-		_eventCustom(EEXPLODE, 0);
+		auto border = _borders.at(i);
+		if (touchButton(border, point))
+		{
+			_joysticks.at(i)->setPosition(border->getPosition());
+			_oldDirs[i] = NONE;
+			_eventStopDirection(_directions[i], i);
+		}
+		if (touchButton(_createBombButtons[i], point))
+		{
+			_eventCustom(ECREATEBOMB, i);
+		}
+		if (touchButton(_radioButtons[i], point))
+		{
+			_eventCustom(EEXPLODE, i);
+		}
 	}
 }
 
-void ControlJoystick::showRadioButton(bool var)
+void ControlJoystick::showRadioButton(PlayerColor color, bool var)
 {
-	if (_radioButton->isVisible() != var)
+	for (auto button : _radioButtons)
 	{
-		_radioButton->setVisible(var);
+		if (button->getTag() == 6 + color * 10)
+		{
+			button->setVisible(var);
+		}
+	}
+}
+
+void ControlJoystick::showControlPlayer(PlayerColor color, bool isVisisble)
+{
+	for (size_t i = 0; i < _borders.size(); i++)
+	{
+		if (_createBombButtons[i]->getTag() == 5 + color * 10)
+		{
+			_createBombButtons[i]->setVisible(isVisisble);
+		}
+		if (_borders[i]->getTag() == 7 + color * 10)
+		{
+			_borders[i]->setVisible(isVisisble);
+		}
+		if (_joysticks[i]->getTag() == 8 + color * 10)
+		{
+			_joysticks[i]->setVisible(isVisisble);
+		}
 	}
 }
 
@@ -137,24 +183,24 @@ bool ControlJoystick::touchButton(cocos2d::Sprite* button, const cocos2d::Point&
 	return button->getBoundingBox().containsPoint(point);
 }
 
-void ControlJoystick::findDirection(float angle)
+void ControlJoystick::findDirection(float angle, int i)
 {
 	angle = (angle * 180.f / M_PI) + 180;
 	if (angle > 45 && angle < 135)
 	{
-		_direction = RIGHT;
+		_directions[i] = RIGHT;
 	}
 	else if (angle > 135 && angle < 225)
 	{
-		_direction = DOWN;
+		_directions[i] = DOWN;
 	}
 	else if (angle > 225 && angle < 315)
 	{
-		_direction = LEFT;
+		_directions[i] = LEFT;
 	}
 	else
 	{
-		_direction = UP;
+		_directions[i] = UP;
 	}
 }
 

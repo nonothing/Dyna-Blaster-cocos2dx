@@ -89,7 +89,7 @@ void AbstractWorldScene::playSoundEffect(const std::string& name)
 
 void AbstractWorldScene::endGame()
 {
-	if (isEndGame())
+	if (isEndGame())//todo count players
 	{
 		if (!_players.empty())
 		{
@@ -207,6 +207,7 @@ void AbstractWorldScene::createPlayers(int count)
 		player->setPosition(points.at(i));
 		addChild(player, 3);
 		_players.push_back(player);
+		_control->showControlPlayer(player->getColorID(), true);
 	}
 }
 

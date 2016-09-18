@@ -6,6 +6,7 @@
 #include "utils/Utils.h"
 
 USING_NS_CC;
+#define MAX_PLAYERS 4
 
 Scene* SetupScene::createScene()
 {
@@ -29,6 +30,7 @@ bool SetupScene::init()
 	_sizeButton = GameSettings::Instance().getScaleButtons();
 	_opacity = GameSettings::Instance().getOpacityButtons();
 	_isSound = GameSettings::Instance().getMusic();
+	_countPlayer = 1;
 
 	auto rootNode = CSLoader::createNode("nodes/SetupScene.csb");
 	for (auto node : rootNode->getChildren())
@@ -101,20 +103,7 @@ void SetupScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 		keyCode == EventKeyboard::KeyCode::KEY_KP_ENTER ||
 		keyCode == EventKeyboard::KeyCode::KEY_SPACE)
 	{
-		switch (_pos)
-		{
-		case ECONTROLLER:	changeControll();			break;
-		case EPOSITION:		setPositionButtons();		break;
-		case ESOUND:		changeSound();				break;
-		case EOPACITY:		changeOpacity();			break;
-		case ESIZE:			changeSize();				break;
-		case ESAVE:
-			save();
-			backMenu();
-			break;
-		default:
-			break;
-		}
+		enterMenu();
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE)
 	{
@@ -152,6 +141,15 @@ bool SetupScene::TouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
 		}
 	}
 
+	for (auto border : _borders)
+	{
+		if (isTouchButton(border, point))
+		{
+			_moveButton = border;
+			break;
+		}
+	}
+
 	return true;
 }
 
@@ -176,20 +174,8 @@ void SetupScene::TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
 		Point point = convertToNodeSpace(touch->getLocation());
 		if (std::abs(point.y - _points.at(_pos).y) < 25)
 		{
-			switch (_pos)
-			{
-			case ECONTROLLER:	changeControll();			break;
-			case EPOSITION:		setPositionButtons();		break;
-			case ESOUND:		changeSound();				break;
-			case EOPACITY:		changeOpacity();			break;
-			case ESIZE:			changeSize();				break;
-			case ESAVE:
-				save();
-				backMenu();
-				break;
-			default:
-				break;
-			}
+			enterMenu();
+
 		}
 	}
 }
@@ -226,6 +212,10 @@ void SetupScene::save()
 	{
 		GameSettings::Instance().saveButtonPosition(button);
 	}
+	for (auto border : _borders)
+	{
+		GameSettings::Instance().saveButtonPosition(border);
+	}
 }
 
 void SetupScene::changeSound()
@@ -251,6 +241,7 @@ void SetupScene::changeSize()
 void SetupScene::initTexts()
 {
 	setControllText(_currentControll);
+	setCountPlayerText(_countPlayer);
 	setSoundText(_isSound);
 	setOpacityText(_opacity);
 	setSizeText(_sizeButton);
@@ -260,6 +251,12 @@ void SetupScene::setControllText(EControl type)
 {
 	auto controllerText = getText("controller_label");
 	controllerText->setString("CONTROLLER < " + sContrlorName[type] + " >");
+}
+
+void SetupScene::setCountPlayerText(int count)
+{
+	auto controllerText = getText("count_player_label");
+	controllerText->setString("COUNT PLAYER < " + myUtils::to_string(count) + " >");
 }
 
 void SetupScene::setSoundText(bool value)
@@ -313,38 +310,47 @@ void SetupScene::createButtons()
 	_rightButton->setRotation(90.f);
 	_rightButton->setTag(4);
 
-	_createBombButton = Sprite::create("bomb_key.png");
-	_createBombButton->setTag(5);
+	for (int i = 0; i < MAX_PLAYERS; i++)
+	{
+		auto border = Sprite::create("joystick_border.png");
+		border->setTag(7 + i * 10);
 
-	_radioButton = Sprite::create("bomb_radio_key.png");
-	_radioButton->setTag(6);
+		auto joystick = Sprite::create("joystick_" + myUtils::to_string(i + 1) + ".png");
+		joystick->setTag(8 + i * 10);
+		joystick->setPosition(border->getContentSize() / 2);
+		border->addChild(joystick);
+		_borders.push_back(border);
+		_joysticks.push_back(joystick);
 
-	_border = Sprite::create("joystick_border.png");
-	_border->setTag(7);
+		auto createBombButton = Sprite::create("bomb_key_" + myUtils::to_string(i + 1) + ".png");
+		createBombButton->setTag(5 + i * 10);
+		_buttons.push_back(createBombButton);
 
-	_joystick = Sprite::create("joystick_3.png");
-	_joystick->setTag(8);
-	_joystick->setPosition(_border->getContentSize() / 2);
-	_border->addChild(_joystick);
+		auto radioButton = Sprite::create("bomb_radio_key_" + myUtils::to_string(i + 1) + ".png");
+		radioButton->setTag(6 + i * 10);
+		_buttons.push_back(radioButton);
+	}
 
-	_buttons.push_back(_createBombButton);
-	_buttons.push_back(_upButton);
-	_buttons.push_back(_downButton);
-	_buttons.push_back(_leftButton);
-	_buttons.push_back(_rightButton);
-	_buttons.push_back(_radioButton);
-	_buttons.push_back(_border);
-	_buttons.push_back(_joystick);
+
+// 	_buttons.push_back(_upButton);
+// 	_buttons.push_back(_downButton);
+// 	_buttons.push_back(_leftButton);
+// 	_buttons.push_back(_rightButton);
 
 	for (auto button : _buttons)
 	{
-		if (button->getTag() != 8)
-		{
-			button->setScale(_sizeButton);
-			button->setOpacity(_opacity);
-			button->setPosition(GameSettings::Instance().getPosition(button->getTag()));
-			_blackLayer->addChild(button);
-		}
+		button->setScale(_sizeButton);
+		button->setOpacity(_opacity);
+		button->setPosition(GameSettings::Instance().getPosition(button->getTag()));
+		_blackLayer->addChild(button);
+	}
+
+	for (auto border : _borders)
+	{
+		border->setScale(_sizeButton);
+		border->setOpacity(_opacity);
+		border->setPosition(GameSettings::Instance().getPosition(border->getTag()));
+		_blackLayer->addChild(border);
 	}
 }
 
@@ -361,14 +367,45 @@ void SetupScene::moveCursor(cocos2d::Touch* touch)
 void SetupScene::showButtons(EControl type)
 {
 	for (auto button : _buttons)
+ 	{
+// 		if (type == EBUTTON)
+// 		{
+// 			button->setVisible(button->getTag() <= 6);
+// 		}
+// 		else if (type == EJOYSTICK)
+// 		{
+			button->setVisible(button->getTag() < 9 + _countPlayer * 10);
+//		}
+	}
+	for (auto border : _borders)
 	{
-		if (type == EBUTTON)
-		{
-			button->setVisible(button->getTag() <= 6);
-		}
-		else if (type == EJOYSTICK)
-		{
-			button->setVisible(button->getTag() > 4);
-		}
+		border->setVisible(border->getTag() < 7 + _countPlayer * 10);
 	}
 }
+
+void SetupScene::changeCountPlayer()
+{
+	_countPlayer++;
+	if (_countPlayer > 4) _countPlayer = 1;
+	setCountPlayerText(_countPlayer);
+}
+
+void SetupScene::enterMenu()
+{
+	switch (_pos)
+	{
+	case ECONTROLLER:	changeControll();			break;
+	case ECOUNT_PLAYER: changeCountPlayer();		break;
+	case EPOSITION:		setPositionButtons();		break;
+	case ESOUND:		changeSound();				break;
+	case EOPACITY:		changeOpacity();			break;
+	case ESIZE:			changeSize();				break;
+	case ESAVE:
+		save();
+		backMenu();
+		break;
+	default:
+		break;
+	}
+}
+

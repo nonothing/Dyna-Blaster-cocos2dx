@@ -93,7 +93,11 @@ Point GameSettings::getPosition(int tag)
 	std::string result = UserDefault::getInstance()->getStringForKey(key.c_str(), "");
 	if (result.empty())
 	{
-		return sDefPosButton[tag - 1];
+		if (tag < myUtils::array_size(sDefPosButton))
+		{
+			return sDefPosButton[tag - 1];
+		}
+		return Point::ZERO;
 	}
 	else
 	{

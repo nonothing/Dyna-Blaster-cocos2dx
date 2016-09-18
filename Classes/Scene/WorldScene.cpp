@@ -95,7 +95,7 @@ void WorldScene::update(float dt)
 	removeNPC();
 	checkCollisionBombs();
 	checkOpenDoor();
-	_control->showRadioButton(getPlayer()->isRemote());
+	_control->showRadioButton(getPlayer()->getColorID(), getPlayer()->isRemote());
 	if (_doorBrick && _doorBrick->canCreate())
 	{
 		_doorBrick->changeCreateNPC();
@@ -129,18 +129,9 @@ void WorldScene::update(float dt)
 	{
 		createNPCs(_doorBrick, ball, 8);
 	}
-	for (auto it = _players.begin(); it != _players.end();)
+	for (auto player: _players)
 	{
-		auto player = *it;
-		if (player->isDestroy() && _players.size() > 1)
-		{
-			player->removeFromParentAndCleanup(true);
-			player = nullptr;
-			it = _players.erase(it);
-		}
-		else
-		{
-			if (collisionNPCwithPlayer(player))
+			if (!player->isDestroy() && collisionNPCwithPlayer(player))
 			{
 				player->dead();
 				for (auto bomb : _bombs)
@@ -148,8 +139,6 @@ void WorldScene::update(float dt)
 					bomb->deadPlayer();
 				}
 			}
-			++it;
-		}
 	}
 	endGame();
 }

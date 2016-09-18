@@ -7,7 +7,7 @@
 
 enum SetupEnum
 {
-	ECONTROLLER = 0, EPOSITION, ESOUND, EOPACITY, ESIZE, ESAVE, ESETUP_END
+	ECONTROLLER = 0, ECOUNT_PLAYER, EPOSITION, ESOUND, EOPACITY, ESIZE, ESAVE, ESETUP_END
 };
 
 class SetupScene : public cocos2d::Layer
@@ -20,11 +20,10 @@ private:
 	cocos2d::Sprite*	_downButton;
 	cocos2d::Sprite*	_leftButton;
 	cocos2d::Sprite*	_rightButton;
-	cocos2d::Sprite*	_createBombButton;
-	cocos2d::Sprite*	_radioButton;
 	cocos2d::Sprite*	_moveButton;
-	cocos2d::Sprite*	_border;
-	cocos2d::Sprite*	_joystick;
+
+	std::vector<cocos2d::Sprite*>	_borders;
+	std::vector<cocos2d::Sprite*>	_joysticks;
 
 	cocos2d::EventListenerTouchOneByOne*	_touchListener;
 	cocos2d::LayerColor*				_blackLayer;
@@ -36,21 +35,26 @@ private:
 	bool								_isSound;
 	float								_opacity;
 	float								_sizeButton;
+	int									_countPlayer;
 
 	void setPos(SetupEnum e);
 	void backMenu();
 	cocos2d::ui::Text* getText(const std::string& name);
 
 	void setControllText(EControl type);
+	void setCountPlayerText(int count);
 	void setSoundText(bool value);
 	void setOpacityText(float value);
 	void setSizeText(float value);
 
 	void createButtons();
+
 	void changeControll();
+	void changeCountPlayer();
 	void changeSound();
 	void changeOpacity();
 	void changeSize();
+
 	void setPositionButtons();
 	void save();
 	void showButtons(EControl type);
@@ -73,6 +77,9 @@ public:
 	void moveCursor(cocos2d::Touch* touch);
 
 	virtual void TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
+
+	void enterMenu();
+
 };
 
 #endif // __MENU_SCENE_H__

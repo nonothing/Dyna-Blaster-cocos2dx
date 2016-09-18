@@ -148,12 +148,17 @@ void ControlButton::TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
 	}
 }
 
-void ControlButton::showRadioButton(bool var)
+void ControlButton::showRadioButton(PlayerColor color, bool var)
 {
 	if (_radioButton->isVisible() != var)
 	{
 		_radioButton->setVisible(var);
 	}
+}
+
+void ControlButton::showControlPlayer(PlayerColor color, bool isVisisble)
+{
+	throw std::logic_error("The method or operation is not implemented.");
 }
 
 bool ControlButton::touchButton(cocos2d::Sprite* button, const cocos2d::Point& point)

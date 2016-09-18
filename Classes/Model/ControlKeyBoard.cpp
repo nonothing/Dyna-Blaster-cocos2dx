@@ -54,8 +54,13 @@ void ControlKeyBoard::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, coc
 	}
 }
 
-void ControlKeyBoard::showRadioButton(bool var)
+void ControlKeyBoard::showRadioButton(PlayerColor color, bool var)
 {
+}
+
+void ControlKeyBoard::showControlPlayer(PlayerColor color, bool isVisisble)
+{
+	throw std::logic_error("The method or operation is not implemented.");
 }
 
 bool ControlKeyBoard::isMoveKey(cocos2d::EventKeyboard::KeyCode keyCode)

@@ -6,6 +6,7 @@
 #include "enumerate/Direction.h"
 #include "enumerate/EControl.h"
 #include "enumerate/EEventType.h"
+#include "enumerate/EPlayer.h"
 
 typedef EventTempl<Direction, int>					DirectionEvent;
 typedef EventTempl<EEventType, int>					CustomEvent;
@@ -57,7 +58,8 @@ public:
 	virtual void TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) = 0;
 	virtual void TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) = 0;
 
-	virtual void showRadioButton(bool var) = 0;
+	virtual void showRadioButton(PlayerColor color, bool var) = 0;
+	virtual void showControlPlayer(PlayerColor color, bool isVisisble) = 0;
 
 };
 

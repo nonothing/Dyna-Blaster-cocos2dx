@@ -86,21 +86,12 @@ void BattleScene::update(float dt)
 {
 	removeNPC();
 	checkCollisionBombs();
-	for (auto it = _players.begin(); it != _players.end();)
+	for (auto player: _players)
 	{
-		auto player = *it;
-		if (player->isDestroy())
+		if (!player->isDestroy() && collisionNPCwithPlayer(player))
 		{
-			player->removeFromParentAndCleanup(true);
-			it = _players.erase(it);
-		}
-		else
-		{
-			if (collisionNPCwithPlayer(player))
-			{
-				player->dead();
-			}
-			++it;
+			_control->showControlPlayer(player->getColorID(), false);
+			player->dead();
 		}
 	}
 

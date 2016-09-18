@@ -21,7 +21,9 @@ public:
 	virtual void TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) override {};
 	virtual void TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) override {};
 
-	virtual void showRadioButton(bool var) override;
+	virtual void showRadioButton(PlayerColor color, bool var) override;
+
+	virtual void showControlPlayer(PlayerColor color, bool isVisisble) override;
 
 };
 
