@@ -162,7 +162,9 @@ void BattleScene::backMenu()
 
 bool BattleScene::isEndGame()
 {
-	return _players.size() <= 1 && !_fadeLevel;
+	int countDead = 0;
+	std::for_each(_players.begin(), _players.end(), [&countDead](Player* p) { countDead += p->isDestroy() ? 1 : 0; });
+	return (_players.size() - countDead) <= 1 && !_fadeLevel;
 }
 
 int BattleScene::getStage()
