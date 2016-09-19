@@ -4,7 +4,6 @@
 #include "cocos2d.h"
 #include "ui/UIText.h"
 #include "editor-support/cocostudio/CocoStudio.h"
-#include "SimpleAudioEngine.h"
 #include "Model/Timer.h"
 #include "Model/Player.h"
 #include "Model/Brick.h"
@@ -32,8 +31,6 @@ protected:
 	BricksVec						_bricks;
 	NPCVec							_npcs;
 
-	void playBackGroundMusic(const std::string& name, bool loop = true);
-	void playSoundEffect(const std::string& name);
 	void endGame();
 
 	void createBomb(Player* player);
@@ -67,9 +64,7 @@ private:
 	void onPause();
 
 	void explodeBomb(std::vector<Player*>::const_reference player);
-	
 
-//	cocos2d::EventListenerKeyboard*	_keyboardListener;
 	cocos2d::Node*					_pauseNode;
 
 	cocos2d::Point					createBricks();
@@ -81,12 +76,6 @@ public:
 	virtual void onEnter();
 	virtual void onExit();
 
-// 	virtual void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
-// 	virtual void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
-
-	virtual void stopMusic();
-	virtual void pauseMusic();
-	virtual void resumeMusic();
 	virtual void playStartSounds() = 0;
 	virtual void backMenu() = 0;
 	virtual bool isEndGame() = 0;

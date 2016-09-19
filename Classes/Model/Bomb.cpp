@@ -1,7 +1,7 @@
 #include "Model/Bomb.h"
 #include "Model/BrickDoor.h"
 #include "Model/BrickBonus.h"
-#include "SimpleAudioEngine.h"
+#include "Model/GameSounds.h"
 #include "utils/Utils.h"
 
 USING_NS_CC;
@@ -179,8 +179,7 @@ void Bomb::explode()
 	_isFire = true;
 	_isRemote = false;
 	_tick = 9999;
- 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("music/bomb.wav");
- 	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/bomb.wav", false);
+	GameSounds::Instance().playSound(ES_BOMB, false);
 	if (_player)
 	{
 		_player->explodeBomb();

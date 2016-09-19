@@ -1,7 +1,7 @@
 #include "Model/Player.h"
 #include "Model/BrickBonus.h"
 #include "Model/GameSettings.h"
-#include "SimpleAudioEngine.h"
+#include "Model/GameSounds.h"
 
 USING_NS_CC;
 #define ANIM_TAG 225 
@@ -250,8 +250,7 @@ bool Player::isMapMove(const Point& point)
 
 void Player::getBonus(ID_BONUS idBonus)
 {
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("music/bonus.wav");
-	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/bonus.wav", false);
+	GameSounds::Instance().playSound(ES_BONUS, false);
 	switch (idBonus)
 	{
 	case BFire:		_sizeBomb++;				break;
@@ -353,9 +352,8 @@ void Player::dead()
 {
 	if (!_isDead)
 	{
-        CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-		CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Dead.mp3");
-		CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Dead.mp3", false);
+		GameSounds::Instance().stopAll();
+		GameSounds::Instance().playMusic(ES_DEAD, false);
 		_isDead = true;
 		stopAllActions();
 		_sprite->stopAllActions();

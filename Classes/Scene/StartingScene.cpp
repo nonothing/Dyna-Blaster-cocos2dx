@@ -1,6 +1,6 @@
 #include "Scene/StartingScene.h"
 #include "editor-support/cocostudio/CocoStudio.h"
-#include "SimpleAudioEngine.h"
+#include "Model/GameSounds.h"
 #include "utils/Utils.h"
 
 #define ANIM_TAG 444
@@ -66,8 +66,7 @@ bool StartingScene::init(LoadLevelScene* loadScene)
 	CSVReader::getInst()->parse("gamedata/starting_scene.csv");
 	_map = CSVReader::getInst()->getNormalMap();
 
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Introduction.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Introduction.mp3", false);
+	GameSounds::Instance().playMusic(ES_INTRO, false);
     return true;
 }
 
@@ -190,6 +189,5 @@ void StartingScene::stopPanic()
 
 void StartingScene::stopMusic()
 {
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
+	GameSounds::Instance().stopAll();
 }

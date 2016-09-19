@@ -1,6 +1,5 @@
 #include "Scene/SetupScene.h"
 #include "editor-support/cocostudio/CocoStudio.h"
-#include "SimpleAudioEngine.h"
 #include "Model/GameSettings.h"
 #include "Scene/MenuScene.h"
 #include "utils/Utils.h"

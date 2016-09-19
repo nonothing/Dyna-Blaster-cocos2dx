@@ -1,9 +1,9 @@
 #include "Scene/PreloadBattleScene.h"
 #include "editor-support/cocostudio/CocoStudio.h"
 #include "Model/GameSettings.h"
+#include "Model/GameSounds.h"
 #include "Scene/MenuScene.h"
 #include "Scene/BattleScene.h"
-#include "SimpleAudioEngine.h"
 #include "utils/Utils.h"
 
 #define BLINK_TAG 45
@@ -267,10 +267,8 @@ void PreloadBattleScene::showMatchScene()
 	addChild(_rootNode);
 
 	Layer::onEnter();//wtf?
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Win_Match.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Win_Match.mp3", true);
+	GameSounds::Instance().stopAll();
+	GameSounds::Instance().playMusic(ES_WIN_MATCH, true);
 
 	if (hasWinnner())
 	{
@@ -326,10 +324,8 @@ void PreloadBattleScene::showWinBattleScene()
 	addChild(_rootNode);
 
 	Layer::onEnter();//wtf
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Bomber_Champ.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Bomber_Champ.mp3", true);
+	GameSounds::Instance().stopAll();
+	GameSounds::Instance().playMusic(ES_BOMBER_CHAMP, true);
 
 	bool showWhite = GameSettings::Instance().getCountWinPlayer(PWHITE) > GameSettings::Instance().getCountWinPlayer(PBLACK);
 

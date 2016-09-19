@@ -1,6 +1,6 @@
 #include "Scene/FinalScene.h"
 #include "editor-support/cocostudio/CocoStudio.h"
-#include "SimpleAudioEngine.h"
+#include "Model/GameSounds.h"
 
 #define ANIM_TAG 444
 USING_NS_CC;
@@ -149,8 +149,6 @@ void FinalScene::showCry()
 void FinalScene::onEnter()
 {
 	Layer::onEnter();
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Ending.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Ending.mp3", false);
+	GameSounds::Instance().stopAll();
+	GameSounds::Instance().playMusic(ES_ENDING, false);
 }

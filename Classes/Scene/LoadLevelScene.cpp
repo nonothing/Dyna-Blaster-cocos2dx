@@ -3,10 +3,10 @@
 #include "editor-support/cocostudio/CocoStudio.h"
 #include "Scene/GameOverScene.h"
 #include "Model/GameSettings.h"
+#include "Model/GameSounds.h"
 #include "Scene/MenuScene.h"
 #include "Scene/StartingScene.h"
 #include "Scene/FinalScene.h"
-#include "SimpleAudioEngine.h"
 #include "utils/Utils.h"
 
 USING_NS_CC;
@@ -42,7 +42,7 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader, co
 	_isShowStartingScene = false;
 	_mapLoader = loaderMap;
 	_npcLoader = npcLoader;
-	_currentLevel = 1;
+	_currentLevel = 2;
 	
 	if (key.empty())
 	{
@@ -164,8 +164,7 @@ void LoadLevelScene::restart()
 
 void LoadLevelScene::backMenu()
 {
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
+	GameSounds::Instance().stopAll();
 	Director::getInstance()->replaceScene(TransitionFade::create(0.5, MenuScene::createScene()));
 }
 
@@ -320,19 +319,16 @@ void LoadLevelScene::loadPassword(const std::string& key)
 
 void LoadLevelScene::stopMusic()
 {
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
+	GameSounds::Instance().stopAll();
 }
 
 void LoadLevelScene::playStageMusic()
 {
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Stage_Start.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Stage_Start.mp3", false);
+	GameSounds::Instance().playMusic(ES_STAGE, false);
 }
 
 void LoadLevelScene::playRoundMusic()
 {
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Round_Start.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Round_Start.mp3", false);
+	GameSounds::Instance().playMusic(ES_ROUND, false);
 }
 

@@ -3,6 +3,7 @@
 #include "Model/ControlKeyBoard.h"
 #include "Model/ControlButton.h"
 #include "Model/ControlJoystick.h"
+#include "Model/GameSounds.h"
 
 USING_NS_CC;
 
@@ -49,36 +50,6 @@ void AbstractWorldScene::onEnter()
 void AbstractWorldScene::onExit()
 {
 	Layer::onExit();
-}
-
-void AbstractWorldScene::stopMusic()
-{
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
-}
-
-void AbstractWorldScene::pauseMusic()
-{
-	CocosDenshion::SimpleAudioEngine::getInstance()->pauseAllEffects();
-	CocosDenshion::SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
-}
-
-void AbstractWorldScene::resumeMusic()
-{
-	CocosDenshion::SimpleAudioEngine::getInstance()->resumeAllEffects();
-	CocosDenshion::SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
-}
-
-void AbstractWorldScene::playBackGroundMusic(const std::string& name, bool loop)
-{
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic(name.c_str());
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(name.c_str(), loop);
-}
-
-void AbstractWorldScene::playSoundEffect(const std::string& name)
-{
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(name.c_str());
-	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(name.c_str(), false);
 }
 
 void AbstractWorldScene::endGame()
@@ -506,12 +477,12 @@ void AbstractWorldScene::onPause()
 	_pauseNode->setVisible(_isPause);
 	if (_isPause)
 	{
-		pauseMusic();
+		GameSounds::Instance().pauseAll();
 		Director::getInstance()->pause();
 	}
 	else
 	{
-		resumeMusic();
+		GameSounds::Instance().resumeAll();
 		Director::getInstance()->resume();
 	}
 }

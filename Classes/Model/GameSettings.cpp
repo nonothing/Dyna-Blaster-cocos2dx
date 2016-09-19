@@ -19,11 +19,9 @@
 
 USING_NS_CC;
 
-
 GameSettings::GameSettings()
 {
 }
-
 
 GameSettings::~GameSettings()
 {

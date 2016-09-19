@@ -4,8 +4,8 @@
 #include "Scene/PasswordScene.h"
 #include "Scene/PreloadBattleScene.h"
 #include "Scene/SetupScene.h"
-#include "SimpleAudioEngine.h"
 #include "Model/GameSettings.h"
+#include "Model/GameSounds.h"
 #include "utils/Utils.h"
 
 USING_NS_CC;
@@ -143,16 +143,14 @@ void MenuScene::onExit()
 
 void MenuScene::stopMusic()
 {
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
+	GameSounds::Instance().stopAll();
 }
 
 void MenuScene::onEnter()
 {
 	Layer::onEnter();
     stopMusic();
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Title.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Title.mp3", true);
+	GameSounds::Instance().playMusic(ES_TITLE, true);
 }
 
 void MenuScene::startSetup()

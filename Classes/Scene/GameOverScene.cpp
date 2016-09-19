@@ -2,8 +2,8 @@
 #include "editor-support/cocostudio/CocoStudio.h"
 #include "Scene/LoadLevelScene.h"
 #include "Model/GameSettings.h"
+#include "Model/GameSounds.h"
 #include "ui/UIText.h"
-#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
@@ -129,10 +129,8 @@ GameOverScene::~GameOverScene()
 void GameOverScene::onEnter()
 {
 	Layer::onEnter();
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("music/Game_Over.mp3");
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/Game_Over.mp3", true);
+	GameSounds::Instance().stopAll();
+	GameSounds::Instance().playMusic(ES_GAME_OVER, true);
 }
 
 void GameOverScene::onExit()

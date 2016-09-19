@@ -1,6 +1,7 @@
 #include "WorldScene.h"
 #include "Model/Timer.h"
 #include "Model/GameSettings.h"
+#include "Model/GameSounds.h"
 #include "Boss/Snake.h"
 #include "Boss/Iron.h"
 #include "Boss/Cyclop.h"
@@ -344,8 +345,8 @@ void WorldScene::nextLevel()
 
 void WorldScene::playMusicStageClear()
 {
-	stopMusic();
-	playBackGroundMusic("music/Stage_Clear.mp3", false);
+	GameSounds::Instance().stopAll();
+	GameSounds::Instance().playMusic(ES_CLEAR, false);
 }
 
 void WorldScene::playStartSounds()
@@ -353,17 +354,16 @@ void WorldScene::playStartSounds()
 	std::string name;
 	if (_data._level == 8)
 	{
-		name = "music/Boss.mp3";
+		GameSounds::Instance().playMusic(ES_BOSS, true);
 	}
 	else if (_data._stage > 1)
 	{
-		name = "music/Stage_Music_2.mp3";
+		GameSounds::Instance().playMusic(ES_MUSIC_2, true);
 	}
 	else
 	{
-		name = "music/Stage_Music_1.mp3";
+		GameSounds::Instance().playMusic(ES_MUSIC_1, true);
 	}
-	playBackGroundMusic(name);
 }
 
 void WorldScene::backMenu()

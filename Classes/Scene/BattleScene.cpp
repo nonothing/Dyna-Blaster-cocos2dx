@@ -3,7 +3,7 @@
 #include "Model/Timer.h"
 #include "Model/GameSettings.h"
 #include "Model/MapData.h"
-#include "SimpleAudioEngine.h"
+#include "Model/GameSounds.h"
 #include "utils/Utils.h"
 
 USING_NS_CC;
@@ -151,8 +151,8 @@ bool BattleScene::createNPC(Brick* brick, ID_NPC id)
 
 void BattleScene::playStartSounds()
 {
-	stopMusic();
-	playBackGroundMusic("music/Battle.mp3");
+	GameSounds::Instance().stopAll();
+	GameSounds::Instance().playMusic(ES_BATTLE, true);
 }
 
 void BattleScene::backMenu()

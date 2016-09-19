@@ -129,6 +129,9 @@
     <ClCompile Include="..\Classes\Model\ControlJoystick.cpp">
       <Filter>src\Model</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Model\GameSounds.cpp">
+      <Filter>src\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -262,6 +265,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\utils\DefPositions.h">
       <Filter>src\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\GameSounds.h">
+      <Filter>src\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\enumerate\ESounds.h">
+      <Filter>src\enumerate</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
