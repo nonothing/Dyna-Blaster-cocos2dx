@@ -17,12 +17,11 @@ public:
 	virtual void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) override;
 	virtual void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) override;
 
-	virtual bool TouchBegan(cocos2d::Touch* touch, cocos2d::Event* event) override { return false; };
-	virtual void TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) override {};
-	virtual void TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) override {};
+	virtual void TouchBegan(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* e) override {};
+	virtual void TouchMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* e) override {};
+	virtual void TouchEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* e) override {};
 
 	virtual void showRadioButton(PlayerColor color, bool var) override;
-
 	virtual void showControlPlayer(PlayerColor color, bool isVisisble) override;
 
 };

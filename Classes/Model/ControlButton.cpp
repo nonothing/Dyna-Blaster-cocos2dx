@@ -66,111 +66,118 @@ bool ControlButton::init(bool single)
 	return true;
 }
 
-bool ControlButton::TouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
+void ControlButton::TouchBegan(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* e)
 {
-	Point point = convertToNodeSpace(touch->getLocation());
-	for (size_t i = 0; i < _radioButtons.size(); i++)
+	for (auto touch : touches)
 	{
-		if (touchButton(_upButtons[i], point))
+		Point point = convertToNodeSpace(touch->getLocation());
+		for (size_t i = 0; i < _radioButtons.size(); i++)
 		{
-			_directions[i] = UP;
-			_eventMoveDirection(_directions[i], i);
-		}
-		if (touchButton(_downButtons[i], point))
-		{
-			_directions[i] = DOWN;
-			_eventMoveDirection(_directions[i], i);
-		}
-		if (touchButton(_leftButtons[i], point))
-		{
-			_directions[i] = LEFT;
-			_eventMoveDirection(_directions[i], i);
-		}
-		if (touchButton(_rightButtons[i], point))
-		{
-			_directions[i] = RIGHT;
-			_eventMoveDirection(_directions[i], i);
-		}
-	}
-
-	return true;
-}
-
-void ControlButton::TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event)
-{
-	Point point = convertToNodeSpace(touch->getLocation());
-	for (size_t i = 0; i < _radioButtons.size(); i++)
-	{
-		if (_directions[i] == NONE)
-		{
-			findDirection(point, i);
-			if (_directions[i] != NONE)
+			if (touchButton(_upButtons[i], point))
 			{
+				_directions[i] = UP;
+				_eventMoveDirection(_directions[i], i);
+			}
+			if (touchButton(_downButtons[i], point))
+			{
+				_directions[i] = DOWN;
+				_eventMoveDirection(_directions[i], i);
+			}
+			if (touchButton(_leftButtons[i], point))
+			{
+				_directions[i] = LEFT;
+				_eventMoveDirection(_directions[i], i);
+			}
+			if (touchButton(_rightButtons[i], point))
+			{
+				_directions[i] = RIGHT;
 				_eventMoveDirection(_directions[i], i);
 			}
 		}
-		else
+	}
+}
+
+void ControlButton::TouchMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* e)
+{
+	for (auto touch : touches)
+	{
+		Point point = convertToNodeSpace(touch->getLocation());
+		for (size_t i = 0; i < _radioButtons.size(); i++)
 		{
-			_oldDirs[i] = _directions[i];
-			if (_directions[i] == UP && !touchButton(_upButtons[i], point))
+			if (_directions[i] == NONE)
 			{
-				_directions[i] = NONE;
-			}
-			if (_directions[i] == DOWN && !touchButton(_downButtons[i], point))
-			{
-				_directions[i] = NONE;
-			}
-			if (_directions[i] == LEFT && !touchButton(_leftButtons[i], point))
-			{
-				_directions[i] = NONE;
-			}
-			if (_directions[i] == RIGHT && !touchButton(_rightButtons[i], point))
-			{
-				_directions[i] = NONE;
-			}
-			if (_oldDirs[i] != _directions[i])
-			{
-				if (_directions[i] == NONE)
-				{
-					_eventStopDirection(_oldDirs[i], i);
-				}
-				else
+				findDirection(point, i);
+				if (_directions[i] != NONE)
 				{
 					_eventMoveDirection(_directions[i], i);
 				}
 			}
+			else
+			{
+				_oldDirs[i] = _directions[i];
+				if (_directions[i] == UP && !touchButton(_upButtons[i], point))
+				{
+					_directions[i] = NONE;
+				}
+				if (_directions[i] == DOWN && !touchButton(_downButtons[i], point))
+				{
+					_directions[i] = NONE;
+				}
+				if (_directions[i] == LEFT && !touchButton(_leftButtons[i], point))
+				{
+					_directions[i] = NONE;
+				}
+				if (_directions[i] == RIGHT && !touchButton(_rightButtons[i], point))
+				{
+					_directions[i] = NONE;
+				}
+				if (_oldDirs[i] != _directions[i])
+				{
+					if (_directions[i] == NONE)
+					{
+						_eventStopDirection(_oldDirs[i], i);
+					}
+					else
+					{
+						_eventMoveDirection(_directions[i], i);
+					}
+				}
+			}
 		}
 	}
 }
 
-void ControlButton::TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
+void ControlButton::TouchEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* e)
 {
-	Point point = convertToNodeSpace(touch->getLocation());
-	for (size_t i = 0; i < _radioButtons.size(); i++)
+	for (auto touch : touches)
 	{
-		if (touchButton(_upButtons[i], point))
+		Point point = convertToNodeSpace(touch->getLocation());
+		for (size_t i = 0; i < _radioButtons.size(); i++)
 		{
-			_eventStopDirection(UP, i);
-		}
-		if (touchButton(_downButtons[i], point))
-		{
-			_eventStopDirection(DOWN, i);
-		}
-		if (touchButton(_leftButtons[i], point))
-		{
-			_eventStopDirection(LEFT, i);
-		}
-		if (touchButton(_rightButtons[i], point))
-		{
-			_eventStopDirection(RIGHT, i);
-		}
-		if (touchButton(_createBombButtons[i], point))
-		{
-			_eventCustom(ECREATEBOMB, i);
-		}
-		if (touchButton(_radioButtons[i], point))
-		{
-			_eventCustom(EEXPLODE, i);
+			if (touchButton(_upButtons[i], point))
+			{
+				_eventStopDirection(UP, i);
+			}
+			if (touchButton(_downButtons[i], point))
+			{
+				_eventStopDirection(DOWN, i);
+			}
+			if (touchButton(_leftButtons[i], point))
+			{
+				_eventStopDirection(LEFT, i);
+			}
+			if (touchButton(_rightButtons[i], point))
+			{
+				_eventStopDirection(RIGHT, i);
+			}
+			if (touchButton(_createBombButtons[i], point))
+			{
+				_eventCustom(ECREATEBOMB, i);
+			}
+			if (touchButton(_radioButtons[i], point))
+			{
+				_eventCustom(EEXPLODE, i);
+			}
 		}
 	}
 }

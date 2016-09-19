@@ -15,17 +15,17 @@ class IControl : public cocos2d::Node
 {
 protected:
 	bool									_isSingle;
-	cocos2d::EventListenerTouchOneByOne*	_touchListener = nullptr;
+	cocos2d::EventListenerTouchAllAtOnce*	_touchListener = nullptr;
 	cocos2d::EventListenerKeyboard*			_keyboardListener = nullptr;
 
 	virtual bool initTouch(bool single)
 	{
 		if (!cocos2d::Node::init()) return false;
 		_isSingle = single;
-		_touchListener = cocos2d::EventListenerTouchOneByOne::create();
-		_touchListener->onTouchBegan = CC_CALLBACK_2(IControl::TouchBegan, this);
-		_touchListener->onTouchEnded = CC_CALLBACK_2(IControl::TouchEnded, this);
-		_touchListener->onTouchMoved = CC_CALLBACK_2(IControl::TouchMoved, this);
+		_touchListener = cocos2d::EventListenerTouchAllAtOnce::create();
+		_touchListener->onTouchesBegan = CC_CALLBACK_2(IControl::TouchBegan, this);
+		_touchListener->onTouchesEnded = CC_CALLBACK_2(IControl::TouchEnded, this);
+		_touchListener->onTouchesMoved = CC_CALLBACK_2(IControl::TouchMoved, this);
 
 		getEventDispatcher()->addEventListenerWithSceneGraphPriority(_touchListener, this);
 		return true;
@@ -57,9 +57,10 @@ public:
 
 	virtual void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) = 0;
 	virtual void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) = 0;
-	virtual bool TouchBegan(cocos2d::Touch* touch, cocos2d::Event* event) = 0;
-	virtual void TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) = 0;
-	virtual void TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) = 0;
+
+	virtual void TouchBegan(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* e) = 0;
+	virtual void TouchMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* e) = 0;
+	virtual void TouchEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* e) = 0;
 
 	virtual void showRadioButton(PlayerColor color, bool var) = 0;
 	virtual void showControlPlayer(PlayerColor color, bool isVisisble) = 0;

@@ -69,55 +69,58 @@ void ControlJoystick::setButtonParameters(cocos2d::Sprite* button, float scale, 
 	addChild(button);
 }
 
-bool ControlJoystick::TouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
+void ControlJoystick::TouchBegan(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* e)
 {
-	Point point = convertToNodeSpace(touch->getLocation());
-//	_direction = NONE;
-	for (size_t i = 0; i < _borders.size(); i++)
+	for (auto touch : touches)
 	{
-		auto border = _borders.at(i);
-		float angle = atan2(border->getPositionX() - point.x, border->getPositionY() - point.y);
-		if (touchButton(border, point))
+		Point point = convertToNodeSpace(touch->getLocation());
+		for (size_t i = 0; i < _borders.size(); i++)
 		{
-			setJoystickPosition(angle, i);
-			findDirection(angle, i);
-			if (_directions[i] != NONE)
+			auto border = _borders.at(i);
+			float angle = atan2(border->getPositionX() - point.x, border->getPositionY() - point.y);
+			if (touchButton(border, point))
 			{
-				_eventMoveDirection(_directions[i], i);
+				setJoystickPosition(angle, i);
+				findDirection(angle, i);
+				if (_directions[i] != NONE)
+				{
+					_eventMoveDirection(_directions[i], i);
+				}
 			}
 		}
 	}
-	return true;
 }
 
-void ControlJoystick::TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event)
+void ControlJoystick::TouchMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* e)
 {
-	Point point = convertToNodeSpace(touch->getLocation());
-	for (size_t i = 0; i < _borders.size(); i++)
+	for (auto touch : touches)
 	{
-		auto border = _borders.at(i);
-		float angle = atan2(border->getPositionX() - point.x, border->getPositionY() - point.y);
-		if (touchButton(border, point))
+		Point point = convertToNodeSpace(touch->getLocation());
+		for (size_t i = 0; i < _borders.size(); i++)
 		{
-			setJoystickPosition(angle, i);
-			findDirection(angle, i);
-			if (_oldDirs[i] != _directions[i])
+			auto border = _borders.at(i);
+			float angle = atan2(border->getPositionX() - point.x, border->getPositionY() - point.y);
+			if (touchButton(border, point))
 			{
-				_oldDirs[i] = _directions[i];
-				_eventMoveDirection(_directions[i], i);
+				setJoystickPosition(angle, i);
+				findDirection(angle, i);
+				if (_oldDirs[i] != _directions[i])
+				{
+					_oldDirs[i] = _directions[i];
+					_eventMoveDirection(_directions[i], i);
+				}
 			}
-		}
-		else
-		{
-			if (_oldDirs[i] != NONE)
+			else
 			{
-				_oldDirs[i] = NONE;
-				_joysticks.at(i)->setPosition(border->getPosition());
-				_eventStopDirection(_directions[i], i);
+				if (_oldDirs[i] != NONE)
+				{
+					_oldDirs[i] = NONE;
+					_joysticks.at(i)->setPosition(border->getPosition());
+					_eventStopDirection(_directions[i], i);
+				}
 			}
 		}
 	}
-
 }
 
 void ControlJoystick::setJoystickPosition(float angle, int index)
@@ -127,25 +130,28 @@ void ControlJoystick::setJoystickPosition(float angle, int index)
 	_joysticks[index]->setPosition(border->getPosition() - Point(sin(angle) * distance, cos(angle) * distance));
 }
 
-void ControlJoystick::TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
+void ControlJoystick::TouchEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* e)
 {
-	Point point = convertToNodeSpace(touch->getLocation());
-	for (size_t i = 0; i < _borders.size(); i++)
+	for (auto touch : touches)
 	{
-		auto border = _borders.at(i);
-		if (touchButton(border, point))
+		Point point = convertToNodeSpace(touch->getLocation());
+		for (size_t i = 0; i < _borders.size(); i++)
 		{
-			_joysticks.at(i)->setPosition(border->getPosition());
-			_oldDirs[i] = NONE;
-			_eventStopDirection(_directions[i], i);
-		}
-		if (touchButton(_createBombButtons[i], point))
-		{
-			_eventCustom(ECREATEBOMB, i);
-		}
-		if (touchButton(_radioButtons[i], point))
-		{
-			_eventCustom(EEXPLODE, i);
+			auto border = _borders.at(i);
+			if (touchButton(border, point))
+			{
+				_joysticks.at(i)->setPosition(border->getPosition());
+				_oldDirs[i] = NONE;
+				_eventStopDirection(_directions[i], i);
+			}
+			if (touchButton(_createBombButtons[i], point))
+			{
+				_eventCustom(ECREATEBOMB, i);
+			}
+			if (touchButton(_radioButtons[i], point))
+			{
+				_eventCustom(EEXPLODE, i);
+			}
 		}
 	}
 }
