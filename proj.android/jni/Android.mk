@@ -24,6 +24,7 @@ LOCAL_SRC_FILES := dynacpp/main.cpp \
 				   ../../Classes/Model/BrickBonus.cpp \
 				   ../../Classes/Model/BrickDoor.cpp \
 				   ../../Classes/Model/GameSettings.cpp \
+				   ../../Classes/Model/GameSounds.cpp \
 				   ../../Classes/Model/MapData.cpp \
 				   ../../Classes/Model/NPC.cpp \
 				   ../../Classes/Model/NPCData.cpp \

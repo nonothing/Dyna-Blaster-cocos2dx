@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>animations</key>
+    <dict>
+        <key>fire_center</key>
+        <dict>
+            <key>delay</key>
+            <real>0.05</real>
+            <key>frames</key>
+            <array>
+                <string>fire_center_1.png</string>
+				<string>fire_center_3.png</string>
+				<string>fire_center_4.png</string>
+				<string>fire_center_5.png</string>
+				<string>fire_center_4.png</string>
+				<string>fire_center_3.png</string>
+				<string>fire_center_2.png</string>
+            </array>
+        </dict>
+		 <key>fire_body</key>
+        <dict>
+            <key>delay</key>
+            <real>0.05</real>
+            <key>frames</key>
+            <array>
+                <string>fire_body_1.png</string>
+				<string>fire_body_2.png</string>
+				<string>fire_body_3.png</string>
+				<string>fire_body_4.png</string>
+				<string>fire_body_3.png</string>
+				<string>fire_body_2.png</string>
+				<string>fire_body_1.png</string>
+            </array>
+        </dict>
+		 <key>fire_tail</key>
+        <dict>
+            <key>delay</key>
+            <real>0.05</real>
+            <key>frames</key>
+            <array>
+                <string>fire_tail_1.png</string>
+				<string>fire_tail_2.png</string>
+				<string>fire_tail_3.png</string>
+				<string>fire_tail_4.png</string>
+				<string>fire_tail_3.png</string>
+				<string>fire_tail_2.png</string>
+				<string>fire_tail_1.png</string>
+            </array>
+        </dict>
+    </dict>
+</dict>
+</plist>

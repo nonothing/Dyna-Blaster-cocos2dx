@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>animations</key>
+    <dict>
+        <key>brush_move</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>brush_0.png</string>
+				<string>brush_2.png</string>
+				<string>brush_1.png</string>
+				<string>brush_2.png</string>
+            </array>
+        </dict>
+		<key>brush_dead</key>
+        <dict>
+            <key>delay</key>
+            <real>0.3</real>
+            <key>frames</key>
+            <array>
+                <string>brush_3.png</string>
+				<string>brush_4.png</string>
+				<string>brush_5.png</string>
+				<string>neal_5.png</string>
+				<string>neal_6.png</string>
+				<string>neal_7.png</string>
+				<string>neal_8.png</string>
+				<string>neal_9.png</string>
+            </array>
+        </dict>
+    </dict>
+</dict>
+</plist>

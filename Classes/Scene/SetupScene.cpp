@@ -298,11 +298,18 @@ void SetupScene::setPositionButtons()
 	showButtons(_currentControll);
 	for (auto button : _buttons)
 	{
-		if (button->getTag() != 8)
-		{
-			button->setScale(_sizeButton);
-			button->setOpacity(_opacity);
-		}
+		button->setScale(_sizeButton);
+		button->setOpacity(_opacity);
+	}
+	for (auto button : _borders)
+	{
+		button->setScale(_sizeButton);
+		button->setOpacity(_opacity);
+	}
+	for (auto button : _commonButtons)
+	{
+		button->setScale(_sizeButton);
+		button->setOpacity(_opacity);
 	}
 }
 
@@ -311,42 +318,43 @@ void SetupScene::createButtons()
 	for (int i = 0; i < MAX_PLAYERS; i++)
 	{
 		std::string id = myUtils::to_string(i + 1);
-		auto upButton = Sprite::create("direction_key_" + id + ".png");
+		std::string nameDirectionKey = "direction_key_" + id + ".png";
+		auto upButton = Sprite::createWithSpriteFrameName(nameDirectionKey);
 		upButton->setTag(1 + i * 10);
 		upButton->setVisible(false);
 		_buttons.push_back(upButton);
 
-		auto downButton = Sprite::create("direction_key_" + id + ".png");
+		auto downButton = Sprite::createWithSpriteFrameName(nameDirectionKey);
 		downButton->setFlippedY(true);
 		downButton->setTag(2 + i * 10);
 		downButton->setVisible(false);
 		_buttons.push_back(downButton);
 
-		auto leftButton = Sprite::create("direction_key_" + id + ".png");
+		auto leftButton = Sprite::createWithSpriteFrameName(nameDirectionKey);
 		leftButton->setRotation(-90.f);
 		leftButton->setTag(3 + i * 10);
 		leftButton->setVisible(false);
 		_buttons.push_back(leftButton);
 
-		auto rightButton = Sprite::create("direction_key_" + id + ".png");
+		auto rightButton = Sprite::createWithSpriteFrameName(nameDirectionKey);
 		rightButton->setRotation(90.f);
 		rightButton->setTag(4 + i * 10);
 		rightButton->setVisible(false);
 		_buttons.push_back(rightButton);
 
-		auto createBombButton = Sprite::create("bomb_key_" + id + ".png");
+		auto createBombButton = Sprite::createWithSpriteFrameName("bomb_key_" + id + ".png");
 		createBombButton->setTag(5 + i * 10);
 		_commonButtons.push_back(createBombButton);
 
-		auto radioButton = Sprite::create("bomb_radio_key_" + id + ".png");
+		auto radioButton = Sprite::createWithSpriteFrameName("bomb_radio_key_" + id + ".png");
 		radioButton->setTag(6 + i * 10);
 		_commonButtons.push_back(radioButton);
 
-		auto border = Sprite::create("joystick_border.png");
+		auto border = Sprite::createWithSpriteFrameName("joystick_border.png");
 		border->setTag(7 + i * 10);
 		border->setVisible(false);
 
-		auto joystick = Sprite::create("joystick_" + id + ".png");
+		auto joystick = Sprite::createWithSpriteFrameName("joystick_" + id + ".png");
 		joystick->setPosition(border->getContentSize() / 2);
 		border->addChild(joystick);
 		_borders.push_back(border);
