@@ -1,4 +1,5 @@
 #include "Model/GameSounds.h"
+#include "Model/GameSettings.h"
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 #define TYPE_EX ".ogg"
@@ -16,16 +17,22 @@ GameSounds::GameSounds()
 
 void GameSounds::playMusic(ESounds type, bool loop)
 {
-	std::string name = "music/" + sSoundsName[type] + TYPE_EX;
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic(name.c_str());
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(name.c_str(), loop);
+	if (GameSettings::Instance().isMusic())
+	{
+		std::string name = "music/" + sSoundsName[type] + TYPE_EX;
+		CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic(name.c_str());
+		CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(name.c_str(), loop);
+	}
 }
 
 void GameSounds::playSound(ESounds type, bool loop)
 {
-	std::string name = "music/" + sSoundsName[type] + TYPE_EX;
-	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(name.c_str());
-	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(name.c_str(), loop);
+	if (GameSettings::Instance().isMusic())
+	{
+		std::string name = "music/" + sSoundsName[type] + TYPE_EX;
+		CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(name.c_str());
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(name.c_str(), loop);
+	}
 }
 
 void GameSounds::stopAll()
@@ -36,8 +43,11 @@ void GameSounds::stopAll()
 
 void GameSounds::resumeAll()
 {
-	CocosDenshion::SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
-	CocosDenshion::SimpleAudioEngine::getInstance()->resumeAllEffects();
+	if (GameSettings::Instance().isMusic())
+	{
+		CocosDenshion::SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+		CocosDenshion::SimpleAudioEngine::getInstance()->resumeAllEffects();
+	}
 }
 
 void GameSounds::pauseAll()

@@ -1,6 +1,7 @@
 #include "Scene/SetupScene.h"
 #include "editor-support/cocostudio/CocoStudio.h"
 #include "Model/GameSettings.h"
+#include "Model/GameSounds.h"
 #include "Scene/MenuScene.h"
 #include "utils/Utils.h"
 
@@ -28,7 +29,7 @@ bool SetupScene::init()
 	_currentControll = GameSettings::Instance().getControlType();
 	_sizeButton = GameSettings::Instance().getScaleButtons();
 	_opacity = GameSettings::Instance().getOpacityButtons();
-	_isSound = GameSettings::Instance().getMusic();
+	_isSound = GameSettings::Instance().isMusic();
 	_countPlayer = 1;
 
 	auto rootNode = CSLoader::createNode("nodes/SetupScene.csb");
@@ -220,6 +221,14 @@ void SetupScene::changeSound()
 {
 	_isSound = !_isSound;
 	setSoundText(_isSound);
+	if (_isSound)
+	{
+		GameSounds::Instance().playMusic(ES_TITLE, true);
+	}
+	else
+	{
+		GameSounds::Instance().stopAll();
+	}
 }
 
 void SetupScene::changeOpacity()

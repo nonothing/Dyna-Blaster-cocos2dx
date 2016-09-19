@@ -60,7 +60,7 @@ float GameSettings::getOpacityButtons()
 	return UserDefault::getInstance()->getFloatForKey(OPACITY_BUTTON_KEY, 255.f);
 }
 
-bool GameSettings::getMusic()
+bool GameSettings::isMusic()
 {
 	return UserDefault::getInstance()->getBoolForKey(MUSIC_KEY, true);
 }

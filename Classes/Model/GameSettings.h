@@ -26,7 +26,7 @@ public:
 	float getScaleButtons();
 	void setOpacityButtons(float opacity);
 	float getOpacityButtons();
-	bool getMusic();
+	bool isMusic();
 	void setMusic(bool value);
 	void saveButtonPosition(cocos2d::Sprite* button, bool single);
 	cocos2d::Point getPosition(size_t tag, bool single);
