@@ -49,7 +49,8 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader, co
 		_currentData = _mapLoader->getMap(_currentLevel);
 	}
 	else
-	{
+
+		{
 		_currentData = _mapLoader->getMap(key);
 		_currentLevel = _currentData._id;
 		auto bonuses = _mapLoader->getBonuses(_currentData._id);

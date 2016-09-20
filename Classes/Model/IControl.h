@@ -9,7 +9,6 @@
 #include "enumerate/EPlayer.h"
 
 typedef EventTempl<Direction, int>					DirectionEvent;
-typedef EventTempl<EEventType, int>					CustomEvent;
 
 class IControl : public cocos2d::Node
 {

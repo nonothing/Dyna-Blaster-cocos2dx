@@ -505,7 +505,14 @@ void AbstractWorldScene::createControll(EControl type)
 
 	_directionMoveListener.set(_control->_eventMoveDirection, std::bind(&AbstractWorldScene::updateMoveDirection, this, std::placeholders::_1, std::placeholders::_2));
 	_directionStopListener.set(_control->_eventStopDirection, std::bind(&AbstractWorldScene::updateStopDirection, this, std::placeholders::_1, std::placeholders::_2));
-	_customListener.set(_control->_eventCustom, std::bind(&AbstractWorldScene::updateCustomEvent, this, std::placeholders::_1, std::placeholders::_2));
+	_customListener.set(std::bind(&AbstractWorldScene::updateCustomEvent, this, std::placeholders::_1, std::placeholders::_2));
+	_customListener += _control->_eventCustom;
+
+	for (auto player : _players)
+	{
+		_customListener += player->customEvent;
+	}
+	
 	addChild(_control, 11);
 }
 

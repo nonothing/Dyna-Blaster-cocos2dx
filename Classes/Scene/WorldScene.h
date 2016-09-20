@@ -41,7 +41,7 @@ private:
 	bool createNPC(Brick* brick, ID_NPC id);
 	void createNPCs(Brick* brick, ID_NPC, int count);
 	void createDoor(BricksVec vec, bool isBoss);
-	void updateLifeLabel();
+	void updateLifeLabel(int life);
 	void updateScoreLabel(NPC* npc);
 	Player*		getPlayer();
 	void playMusicStageClear();

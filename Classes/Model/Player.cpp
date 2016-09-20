@@ -5,6 +5,7 @@
 
 USING_NS_CC;
 #define ANIM_TAG 225 
+#define BLINK_RED_TAG 105
 const static std::string sDirAnimName[] = { "_left_3.png", "_down_3.png", "_left_3.png", "_up_3.png", "" };
 
 Player* Player::create(cocos2d::Layer* layer, PlayerColor color)
@@ -31,8 +32,12 @@ bool Player::init(cocos2d::Layer* layer, PlayerColor color)
     {
         return false;
     }
+	_modeSpeed = NORMAL;
 	_colorID = color;
 	schedule(schedule_selector(Player::update), 0.03f);
+	schedule(schedule_selector(Player::updateFast), 0.01f);
+	schedule(schedule_selector(Player::updateSlow), 0.08f);
+	
 	_sprite = Sprite::createWithSpriteFrameName("player_" + sColorName[_colorID] + "_down_3.png");
 	_sprite->setPositionY(12);
 	addChild(_sprite);
@@ -44,11 +49,13 @@ bool Player::init(cocos2d::Layer* layer, PlayerColor color)
 	_isMoveWall = GameSettings::Instance().isMoveWall();
 	_isThroughBomb = GameSettings::Instance().isTroughBomb();
 	_life = GameSettings::Instance().getPlayerLife();
-	_isImmortal = false;
+	_isImmortal = true;
 	_collisionBrick = nullptr;
 	_oldColor = _sprite->getColor();
 	_mapLayer = layer;
-	_speed = Point(6, 8) + Point(2, 2) * _speedCount;
+	_canCreateBomb = true;
+	_isBonusCreateBomb = false;
+	_oldSpeed = _speed = Point(6, 8) + Point(2, 2) * _speedCount;
 	_dir = NONE;
 	_isDestroy = false;
 	_isDead = false;
@@ -70,8 +77,7 @@ cocos2d::Point Player::getOffsetToDir()
 
 void Player::move()
 {
-
-	if (!nextMove())
+	if (_dir != NONE && !nextMove())
 	{
 		if (_collisionBrick)
 		{
@@ -121,7 +127,23 @@ bool Player::nextMove()
 
 void Player::update(float dt)
 {
-	if (_dir != NONE)
+	if (_modeSpeed == NORMAL)
+	{
+		move();
+	}
+}
+
+void Player::updateFast(float dt)
+{
+	if (_modeSpeed == FAST)
+	{
+		move();
+	}
+}
+
+void Player::updateSlow(float dt)
+{
+	if (_modeSpeed == SLOW)
 	{
 		move();
 	}
@@ -257,10 +279,14 @@ void Player::getBonus(ID_BONUS idBonus)
 	case BBomb:		_countBomb++; _maxBomb++;	break;
 	case BSpeed:	speedUp();					break;
 	case BHeart:	_isRemote = true;			break;
-	case BLife:		_life++; lifeEvent(this);   break;
+	case BLife:		_life++; lifeEvent(_life);   break;
 	case BWall:		_isMoveWall = true;			break;
 	case BEBomb:	_isThroughBomb = true;		break;
 	case BImmortal:	immortal();					break;
+	case BRFAST:	fast();						break;
+	case BRSLOW:	slow();						break;
+	case BRNOSPAWN: noSpawn();					break;
+	case BRSPAWN:	spawn();					break;
 	default:break;
 	}
 	
@@ -280,7 +306,7 @@ void Player::destroy()
 	_isImmortal = false;
 	_life--;
 	GameSettings::Instance().savePlayer(this);
-	lifeEvent(this);
+	lifeEvent(_life);
 	_isDestroy = true;
 }
 
@@ -298,9 +324,64 @@ void Player::immortal()
 	_sprite->runAction(action);
 }
 
+void Player::blinkRed()
+{
+	auto action = RepeatForever::create(Sequence::create(TintTo::create(0.3f, Color3B(255, 0, 0)), TintTo::create(0.1f, Color3B(255, 255, 255)), nullptr));
+	action->setTag(BLINK_RED_TAG);
+	_sprite->runAction(action);
+	_sprite->runAction(Sequence::create(DelayTime::create(5.0f), CallFunc::create(CC_CALLBACK_0(Player::endBonus, this)), nullptr));
+}
+
+void Player::endBonus()
+{
+	_sprite->stopActionByTag(BLINK_RED_TAG);
+	_sprite->runAction(TintTo::create(0.1f, Color3B(255, 255, 255)));
+	_modeSpeed = NORMAL; //todo
+	_speed = _oldSpeed;
+	_canCreateBomb = true;
+	_isBonusCreateBomb = false;
+}
+
+void Player::sendEventCreateBomb()
+{
+	if (hasBomb())
+	{
+		customEvent(ECREATEBOMB, _colorID);
+	}
+}
+
+void Player::fast()
+{
+	blinkRed();
+	_modeSpeed = FAST;
+}
+
+void Player::slow()
+{
+	blinkRed();
+	_oldSpeed = _speed;
+	_speed = Point(3, 4);
+	_modeSpeed = SLOW;
+}
+
+void Player::spawn()
+{
+	blinkRed();
+	_isBonusCreateBomb = true;
+	auto action = RepeatForever::create(Sequence::create(DelayTime::create(0.06f), CallFunc::create(CC_CALLBACK_0(Player::sendEventCreateBomb, this)), nullptr));
+	action->setTag(BLINK_RED_TAG);
+	_sprite->runAction(action);
+}
+
+void Player::noSpawn()
+{
+	blinkRed();
+	_canCreateBomb = false;
+}
+
 bool Player::hasBomb()
 {
-	return _countBomb != 0;
+	return _countBomb != 0 && _canCreateBomb;
 }
 
 void Player::putBomb()

@@ -6,7 +6,7 @@
 
 USING_NS_CC;
 #define ANIM_TAG 225
-#define TIME_BOMB 10
+#define TIME_BOMB 13
 
 const static Point sPoints[] = { Point(74, 0), Point(-74, 0), Point(0, -74), Point(0, 74) };
 

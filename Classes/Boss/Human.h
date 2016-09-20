@@ -31,7 +31,7 @@ private:
 public:
 	virtual bool init(const NPCData& data, BricksVec vec);
 	static HumanFire* create(const NPCData& data, BricksVec vec);
-	void update(float dt);
+	void updateTransformation(float dt);
 	virtual bool canDead();
 	virtual std::string			getAnimationName(Direction dir = NONE);
 	virtual void move();

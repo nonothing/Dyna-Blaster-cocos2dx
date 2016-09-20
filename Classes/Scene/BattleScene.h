@@ -17,11 +17,15 @@
 class BattleScene : public AbstractWorldScene
 {
 private:
+	enum BATTLE_MODE
+	{
+		NORMAL = 0, DIFFICULT
+	};
 	PreloadBattleScene*		_preloaderScene;
 	cocos2d::Node*			_borderNode;
 	std::vector<cocos2d::ui::Text*> _texts;
 	cocos2d::Layer*			_debugLayer;
-
+	BATTLE_MODE				_modeGame;
 	int						_currentIndexLevel;
 
 	void createNPCs();

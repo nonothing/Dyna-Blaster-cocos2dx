@@ -36,7 +36,7 @@ bool BattleScene::init(PreloadBattleScene* preloaderScene, std::vector<int> para
     {
         return false;
     }
-	int mode_game = parameters.at(0);
+	_modeGame = BATTLE_MODE(parameters.at(0));
 	int countPlayer = parameters.at(1) + 2;
 
 	_preloaderScene = preloaderScene;
@@ -70,7 +70,7 @@ bool BattleScene::init(PreloadBattleScene* preloaderScene, std::vector<int> para
 	}
 
 	_mapLayer->addChild(_debugLayer, 100);
-	createWalls(2, 10);
+	createWalls(2, _modeGame == NORMAL ? 10 : 16);
 	createNPCs();
 	for (auto player : _players)
 	{
@@ -193,5 +193,13 @@ std::vector<ID_BONUS> BattleScene::getBonuses()
 	std::vector<ID_BONUS> result;
 	result.push_back(BBomb);
 	result.push_back(BFire);
+
+	if (_modeGame == DIFFICULT)
+	{
+		result.push_back(BRSLOW);
+		result.push_back(BRFAST);
+		result.push_back(BRNOSPAWN);
+		result.push_back(BRSPAWN);
+	}
 	return result;
 }

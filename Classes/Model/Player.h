@@ -7,19 +7,26 @@
 #include "Model/Brick.h"
 #include "enumerate/EBonus.h"
 #include "enumerate/EPlayer.h"
+#include "enumerate/EEventType.h"
 #include "utils/Events.h"
 
-class Player;
-typedef EventTempl<Player*>					PlayerEvent;
+typedef EventTempl<int>					PlayerEvent;
+
 class Player : public WorldObject
 {
 private:
+	enum MODE_SPEED
+	{
+		NORMAL = 0, FAST, SLOW,
+	};
+	
 	PlayerColor			_colorID;
 	Direction			_dir;
 	Direction			_oldDir;
 	Direction			_animDir;
 	cocos2d::Point		_speed;
-
+	cocos2d::Point		_oldSpeed;
+	MODE_SPEED			_modeSpeed;
 	int					_countBomb;
 	int					_maxBomb;
 	int					_life;
@@ -28,8 +35,9 @@ private:
 	bool				_isDead;
 	bool				_isDestroy;
 	bool				_isStop;
-
+	bool				_canCreateBomb;
 	//bonus
+	bool				_isBonusCreateBomb;
 	int					_speedCount;
 	int					_sizeBomb;
 	bool				_isRemote;
@@ -51,8 +59,16 @@ private:
 	bool canMove(BrickType type);
 	void destroy();
 	void speedUp();
-public:
+	void blinkRed();
+	void endBonus();
+	void sendEventCreateBomb();
 	void immortal();
+	void fast();
+	void slow();
+	void spawn();
+	void noSpawn();
+public:
+	CustomEvent			customEvent;
 	PlayerEvent			lifeEvent;
 	void setBricks(BricksVec vec);
 	cocos2d::Vector<Node*> _collisions;
@@ -62,6 +78,8 @@ public:
 	Direction getDirection();
 	Direction getAnimDirection();
 	virtual void update(float dt) override;
+	virtual void updateFast(float dt);
+	virtual void updateSlow(float dt);
 	bool hasBomb();
 	void putBomb();
 	void explodeBomb();

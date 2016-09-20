@@ -89,7 +89,7 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	addChild(_mapLayer);
 	addChild(_blackLayer, 1000);
 
-	_lifeListener.set(getPlayer()->lifeEvent, std::bind(&WorldScene::updateLifeLabel, this));
+	_lifeListener.set(getPlayer()->lifeEvent, std::bind(&WorldScene::updateLifeLabel, this, std::placeholders::_1));
     return true;
 }
 
@@ -287,9 +287,9 @@ void WorldScene::createDoor(BricksVec freeBricks, bool isBoss)
  	_bricks.push_back(_doorBrick);
 }
 
-void WorldScene::updateLifeLabel()
+void WorldScene::updateLifeLabel(int life)
 {
-	_labelLife->setString(myUtils::to_string(getPlayer()->getLife()));
+	_labelLife->setString(myUtils::to_string(life));
 }
 
 void WorldScene::updateScoreLabel(NPC* npc)

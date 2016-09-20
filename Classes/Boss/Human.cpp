@@ -135,12 +135,12 @@ bool HumanFire::init(const NPCData& data, BricksVec vec)
 	_dir = RIGHT;
 	NPC::animate(_dir);
 	addChild(_sprite);
-	schedule(schedule_selector(HumanFire::update), 10.f);
+	schedule(schedule_selector(HumanFire::updateTransformation), 10.f);
 
 	return true;
 }
 
-void HumanFire::update(float dt)
+void HumanFire::updateTransformation(float dt)
 {
 	if (!_isDead)
 	{
