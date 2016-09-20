@@ -54,7 +54,7 @@ void AbstractWorldScene::onExit()
 
 void AbstractWorldScene::endGame()
 {
-	if (isEndGame())//todo count players
+	if (isEndGame())
 	{
 		if (!_players.empty())
 		{

@@ -12,7 +12,7 @@ enum MenuGameOverEnum
 class GameOverScene : public cocos2d::Layer
 {
 private:
-
+	cocos2d::EventListenerTouchOneByOne*	_touchListener;
 	LoadLevelScene*			_loadLevelScene;
 	~GameOverScene();
 
@@ -33,6 +33,11 @@ public:
 
 	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
+
+	virtual bool TouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
+	virtual void TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
+	virtual void TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
+	void moveCursor(const cocos2d::Point& point);
 };
 
 #endif // __GAME_OVER_SCENE_H__

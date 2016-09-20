@@ -3,6 +3,7 @@
 #include "Scene/LoadLevelScene.h"
 #include "Model/GameSettings.h"
 #include "Model/GameSounds.h"
+#include "utils/Utils.h"
 #include "ui/UIText.h"
 
 USING_NS_CC;
@@ -55,7 +56,15 @@ bool GameOverScene::init(LoadLevelScene* loadLevelScene)
 	_keyboardListener = EventListenerKeyboard::create();
 	_keyboardListener->onKeyPressed = CC_CALLBACK_2(GameOverScene::onKeyPressed, this);
 	_keyboardListener->onKeyReleased = CC_CALLBACK_2(GameOverScene::onKeyReleased, this);
-	getEventDispatcher()->addEventListenerWithFixedPriority(_keyboardListener, 100);
+	getEventDispatcher()->addEventListenerWithSceneGraphPriority(_keyboardListener, this);
+
+	_touchListener = EventListenerTouchOneByOne::create();
+	_touchListener->onTouchBegan = CC_CALLBACK_2(GameOverScene::TouchBegan, this);
+	_touchListener->onTouchEnded = CC_CALLBACK_2(GameOverScene::TouchEnded, this);
+	_touchListener->onTouchMoved = CC_CALLBACK_2(GameOverScene::TouchMoved, this);
+
+	getEventDispatcher()->addEventListenerWithSceneGraphPriority(_touchListener, this);
+
 	_rootNode->setOpacity(0);
 	addChild(_rootNode);
 	_rootNode->addChild(_arrow);
@@ -89,13 +98,20 @@ void GameOverScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 		setPos(MenuGameOverEnum(currentPos));
 	}
 
-	if (keyCode == EventKeyboard::KeyCode::KEY_KP_ENTER)
+	if (keyCode == EventKeyboard::KeyCode::KEY_ENTER ||
+		keyCode == EventKeyboard::KeyCode::KEY_KP_ENTER ||
+		keyCode == EventKeyboard::KeyCode::KEY_SPACE)
 	{
 		switch (_pos)
 		{
 		case CONTINUE:	continueFunc();	break;
 		case END:		endFunc();		break;
 		}
+	}
+
+	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE)
+	{
+		endFunc();
 	}
 }
 
@@ -123,6 +139,7 @@ void GameOverScene::endFunc()
 GameOverScene::~GameOverScene()
 {
 	getEventDispatcher()->removeEventListener(_keyboardListener);
+	getEventDispatcher()->removeEventListener(_touchListener);
 	CCLOG("GameOverScene::~GameOverScene()");
 }
 
@@ -136,5 +153,35 @@ void GameOverScene::onEnter()
 void GameOverScene::onExit()
 {
 	Layer::onExit();
+}
+
+bool GameOverScene::TouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
+{
+	moveCursor(touch->getLocation());
+	return true;
+}
+
+void GameOverScene::TouchMoved(cocos2d::Touch* touch, cocos2d::Event* event)
+{
+	moveCursor(touch->getLocation());
+}
+
+void GameOverScene::TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
+{
+	Point point = touch->getLocation();
+	moveCursor(point);
+	if (std::abs(point.y - _points.at(_pos).y) < 50)
+	{
+		switch (_pos)
+		{
+		case CONTINUE:	continueFunc();	break;
+		case END:		endFunc();		break;
+		}
+	}
+}
+
+void GameOverScene::moveCursor(const cocos2d::Point& p)
+{
+	setPos(MenuGameOverEnum(myUtils::getNearestIndexInVector(_points, p)));
 }
 
