@@ -46,7 +46,7 @@ void GameSettings::setScaleButtons(float scale)
 
 float GameSettings::getScaleButtons()
 {
-	return UserDefault::getInstance()->getFloatForKey(SCALE_BUTTON_KEY, 1.f);
+	return UserDefault::getInstance()->getFloatForKey(SCALE_BUTTON_KEY, 2.f);
 }
 
 void GameSettings::setOpacityButtons(float opacity)
