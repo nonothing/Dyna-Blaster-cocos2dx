@@ -13,6 +13,16 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		294D0D641D0D56D500F7F5D4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 294D0D631D0D56D500F7F5D4 /* CoreText.framework */; };
+		3F0640721D916C00001A79C5 /* SetupScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640701D916C00001A79C5 /* SetupScene.cpp */; };
+		3F06407F1D916C28001A79C5 /* ControlButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640761D916C28001A79C5 /* ControlButton.cpp */; };
+		3F0640801D916C28001A79C5 /* ControlJoystick.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640781D916C28001A79C5 /* ControlJoystick.cpp */; };
+		3F0640811D916C28001A79C5 /* ControlKeyBoard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F06407A1D916C28001A79C5 /* ControlKeyBoard.cpp */; };
+		3F0640821D916C28001A79C5 /* GameSounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F06407C1D916C28001A79C5 /* GameSounds.cpp */; };
+		3F0640831D916C36001A79C5 /* ControlKeyBoard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F06407A1D916C28001A79C5 /* ControlKeyBoard.cpp */; };
+		3F0640841D916C3A001A79C5 /* ControlJoystick.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640781D916C28001A79C5 /* ControlJoystick.cpp */; };
+		3F0640851D916C3E001A79C5 /* ControlButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640761D916C28001A79C5 /* ControlButton.cpp */; };
+		3F0640861D916C57001A79C5 /* SetupScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640701D916C00001A79C5 /* SetupScene.cpp */; };
+		3F0640871D916C74001A79C5 /* GameSounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F06407C1D916C28001A79C5 /* GameSounds.cpp */; };
 		3F45B75E1D7FA53600347493 /* 5px2bus.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F45B7521D7FA53600347493 /* 5px2bus.ttf */; };
 		3F45B75F1D7FA53600347493 /* animation in Resources */ = {isa = PBXBuildFile; fileRef = 3F45B7531D7FA53600347493 /* animation */; };
 		3F45B7601D7FA53600347493 /* atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3F45B7541D7FA53600347493 /* atlas */; };
@@ -187,6 +197,21 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		294D0D631D0D56D500F7F5D4 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
+		3F06406E1D916BEA001A79C5 /* DefPositions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefPositions.h; path = utils/DefPositions.h; sourceTree = "<group>"; };
+		3F0640701D916C00001A79C5 /* SetupScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SetupScene.cpp; path = Scene/SetupScene.cpp; sourceTree = "<group>"; };
+		3F0640711D916C00001A79C5 /* SetupScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetupScene.h; path = Scene/SetupScene.h; sourceTree = "<group>"; };
+		3F0640731D916C14001A79C5 /* EControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EControl.h; path = enumerate/EControl.h; sourceTree = "<group>"; };
+		3F0640741D916C14001A79C5 /* EEventType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EEventType.h; path = enumerate/EEventType.h; sourceTree = "<group>"; };
+		3F0640751D916C14001A79C5 /* ESounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESounds.h; path = enumerate/ESounds.h; sourceTree = "<group>"; };
+		3F0640761D916C28001A79C5 /* ControlButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ControlButton.cpp; sourceTree = "<group>"; };
+		3F0640771D916C28001A79C5 /* ControlButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlButton.h; sourceTree = "<group>"; };
+		3F0640781D916C28001A79C5 /* ControlJoystick.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ControlJoystick.cpp; sourceTree = "<group>"; };
+		3F0640791D916C28001A79C5 /* ControlJoystick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlJoystick.h; sourceTree = "<group>"; };
+		3F06407A1D916C28001A79C5 /* ControlKeyBoard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ControlKeyBoard.cpp; sourceTree = "<group>"; };
+		3F06407B1D916C28001A79C5 /* ControlKeyBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlKeyBoard.h; sourceTree = "<group>"; };
+		3F06407C1D916C28001A79C5 /* GameSounds.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSounds.cpp; sourceTree = "<group>"; };
+		3F06407D1D916C28001A79C5 /* GameSounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSounds.h; sourceTree = "<group>"; };
+		3F06407E1D916C28001A79C5 /* IControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IControl.h; sourceTree = "<group>"; };
 		3F45B7521D7FA53600347493 /* 5px2bus.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 5px2bus.ttf; sourceTree = "<group>"; };
 		3F45B7531D7FA53600347493 /* animation */ = {isa = PBXFileReference; lastKnownFileType = folder; path = animation; sourceTree = "<group>"; };
 		3F45B7541D7FA53600347493 /* atlas */ = {isa = PBXFileReference; lastKnownFileType = folder; path = atlas; sourceTree = "<group>"; };
@@ -433,6 +458,8 @@
 		3FF88E1F1D7F780B008AF66E /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				3F0640701D916C00001A79C5 /* SetupScene.cpp */,
+				3F0640711D916C00001A79C5 /* SetupScene.h */,
 				3F45B7871D809EF800347493 /* AbstractWorldScene.cpp */,
 				3F45B7881D809EF800347493 /* AbstractWorldScene.h */,
 				3FF88E7B1D7F795C008AF66E /* BattleScene.cpp */,
@@ -479,6 +506,9 @@
 		3FF88E2A1D7F78FE008AF66E /* enumerate */ = {
 			isa = PBXGroup;
 			children = (
+				3F0640731D916C14001A79C5 /* EControl.h */,
+				3F0640741D916C14001A79C5 /* EEventType.h */,
+				3F0640751D916C14001A79C5 /* ESounds.h */,
 				3FF88E5F1D7F7941008AF66E /* Direction.h */,
 				3FF88E601D7F7941008AF66E /* EBonus.h */,
 				3FF88E611D7F7941008AF66E /* ENPC.h */,
@@ -490,6 +520,7 @@
 		3FF88E581D7F7920008AF66E /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				3F06406E1D916BEA001A79C5 /* DefPositions.h */,
 				3FF88E591D7F7933008AF66E /* CSVReader.cpp */,
 				3FF88E5A1D7F7933008AF66E /* CSVReader.h */,
 				3FF88E5B1D7F7933008AF66E /* Events.h */,
@@ -501,6 +532,15 @@
 		3FF88ED01D7F807B008AF66E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3F0640761D916C28001A79C5 /* ControlButton.cpp */,
+				3F0640771D916C28001A79C5 /* ControlButton.h */,
+				3F0640781D916C28001A79C5 /* ControlJoystick.cpp */,
+				3F0640791D916C28001A79C5 /* ControlJoystick.h */,
+				3F06407A1D916C28001A79C5 /* ControlKeyBoard.cpp */,
+				3F06407B1D916C28001A79C5 /* ControlKeyBoard.h */,
+				3F06407C1D916C28001A79C5 /* GameSounds.cpp */,
+				3F06407D1D916C28001A79C5 /* GameSounds.h */,
+				3F06407E1D916C28001A79C5 /* IControl.h */,
 				3FF88ED11D7F807B008AF66E /* Bomb.cpp */,
 				3FF88ED21D7F807B008AF66E /* Bomb.h */,
 				3FF88ED31D7F807B008AF66E /* Brick.cpp */,
@@ -777,6 +817,7 @@
 				3FF88EFB1D7F807B008AF66E /* WorldObject.cpp in Sources */,
 				3FF88EEB1D7F807B008AF66E /* BrickBonus.cpp in Sources */,
 				3FF88EF91D7F807B008AF66E /* Timer.cpp in Sources */,
+				3F0640821D916C28001A79C5 /* GameSounds.cpp in Sources */,
 				3FF88EF51D7F807B008AF66E /* NPCData.cpp in Sources */,
 				3FF88E8D1D7F795C008AF66E /* BattleScene.cpp in Sources */,
 				3FF88E771D7F794E008AF66E /* Iron.cpp in Sources */,
@@ -786,18 +827,22 @@
 				3FF88E711D7F794E008AF66E /* Cyclop.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				3FF88E8F1D7F795C008AF66E /* FinalScene.cpp in Sources */,
+				3F0640811D916C28001A79C5 /* ControlKeyBoard.cpp in Sources */,
 				3FF88E951D7F795C008AF66E /* MenuScene.cpp in Sources */,
 				3FF88EF31D7F807B008AF66E /* NPC.cpp in Sources */,
 				3FF88E991D7F795C008AF66E /* PreloadBattleScene.cpp in Sources */,
 				3F45B7891D809EF800347493 /* AbstractWorldScene.cpp in Sources */,
+				3F0640801D916C28001A79C5 /* ControlJoystick.cpp in Sources */,
 				3FF88EED1D7F807B008AF66E /* BrickDoor.cpp in Sources */,
 				3FF88E911D7F795C008AF66E /* GameOverScene.cpp in Sources */,
 				3FF88E731D7F794E008AF66E /* Electro.cpp in Sources */,
 				3FF88EF11D7F807B008AF66E /* MapData.cpp in Sources */,
 				3FF88EEF1D7F807B008AF66E /* GameSettings.cpp in Sources */,
 				3FF88E931D7F795C008AF66E /* LoadLevelScene.cpp in Sources */,
+				3F0640721D916C00001A79C5 /* SetupScene.cpp in Sources */,
 				3FF88E791D7F794E008AF66E /* Snake.cpp in Sources */,
 				3FF88E5D1D7F7933008AF66E /* CSVReader.cpp in Sources */,
+				3F06407F1D916C28001A79C5 /* ControlButton.cpp in Sources */,
 				3FF88EE91D7F807B008AF66E /* Brick.cpp in Sources */,
 				3FF88E9B1D7F795C008AF66E /* StartingScene.cpp in Sources */,
 				3FF88EA11D7F7A09008AF66E /* AppDelegate.cpp in Sources */,
@@ -813,13 +858,16 @@
 			files = (
 				3FF88E921D7F795C008AF66E /* GameOverScene.cpp in Sources */,
 				3FF88E9E1D7F795C008AF66E /* WorldScene.cpp in Sources */,
+				3F0640861D916C57001A79C5 /* SetupScene.cpp in Sources */,
 				3FF88EF81D7F807B008AF66E /* Player.cpp in Sources */,
 				3FF88E741D7F794E008AF66E /* Electro.cpp in Sources */,
 				3FF88E721D7F794E008AF66E /* Cyclop.cpp in Sources */,
 				3FF88E981D7F795C008AF66E /* PasswordScene.cpp in Sources */,
+				3F0640871D916C74001A79C5 /* GameSounds.cpp in Sources */,
 				3FF88EEE1D7F807B008AF66E /* BrickDoor.cpp in Sources */,
 				3FF88E8E1D7F795C008AF66E /* BattleScene.cpp in Sources */,
 				3FF88E701D7F794E008AF66E /* BossBase.cpp in Sources */,
+				3F0640831D916C36001A79C5 /* ControlKeyBoard.cpp in Sources */,
 				3FF88E9C1D7F795C008AF66E /* StartingScene.cpp in Sources */,
 				3FF88E9A1D7F795C008AF66E /* PreloadBattleScene.cpp in Sources */,
 				3F45B78B1D809EFF00347493 /* AbstractWorldScene.cpp in Sources */,
@@ -831,11 +879,13 @@
 				3FF88E7A1D7F794E008AF66E /* Snake.cpp in Sources */,
 				3FF88E5E1D7F7933008AF66E /* CSVReader.cpp in Sources */,
 				3FF88EF41D7F807B008AF66E /* NPC.cpp in Sources */,
+				3F0640841D916C3A001A79C5 /* ControlJoystick.cpp in Sources */,
 				3FF88E941D7F795C008AF66E /* LoadLevelScene.cpp in Sources */,
 				3FF88EFA1D7F807B008AF66E /* Timer.cpp in Sources */,
 				3FF88EF01D7F807B008AF66E /* GameSettings.cpp in Sources */,
 				3FF88E901D7F795C008AF66E /* FinalScene.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
+				3F0640851D916C3E001A79C5 /* ControlButton.cpp in Sources */,
 				3FF88EF21D7F807B008AF66E /* MapData.cpp in Sources */,
 				3FF88E961D7F795C008AF66E /* MenuScene.cpp in Sources */,
 				3FF88EEC1D7F807B008AF66E /* BrickBonus.cpp in Sources */,
