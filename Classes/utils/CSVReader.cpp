@@ -11,12 +11,24 @@ CSVReader *CSVReader::getInst()
 	return m_inst;
 }
 
+unsigned char* CSVReader::getData(const std::string& path, ssize_t* size)
+{
+    cocos2d::Data d;
+    if (cocos2d::FileUtils::getInstance()->getContents(path, &d) != cocos2d::FileUtils::Status::OK) {
+        *size = 0;
+        return nullptr;
+    }
+    
+   return d.takeBuffer(size);
+}
+
 void CSVReader::parse(const char *fileName)
 {
 	m_map.clear();
 	std::string path = fileName;
 	ssize_t size;
-	const char *data = (const char*)(cocos2d::FileUtils::getInstance()->getFileData(path.c_str(), "r" , &size));
+    
+    const char *data = (const char*) getData(path, &size);
 	CCAssert(data != NULL, "File is not exist.");
 	if (data == NULL)
 		return;

@@ -101,6 +101,7 @@ void MenuScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 		case BATTLE: startBattle();					break;
 		case SETUP: startSetup();					break;
 		case PASSWORD: startPasswordScene();		break;
+            default: break;
 		}
 	}
 	if (keyCode == EventKeyboard::KeyCode::KEY_ESCAPE)
@@ -181,6 +182,7 @@ void MenuScene::TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
 		case BATTLE: startBattle();					break;
 		case SETUP: startSetup();					break;
 		case PASSWORD: startPasswordScene();		break;
+            default: break;
 		}
 	}
 }

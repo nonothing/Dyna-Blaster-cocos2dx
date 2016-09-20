@@ -17,7 +17,7 @@ public:
 
 private:
 	void readCSVLine(const char *line, int index);
-	
+    unsigned char* getData(const std::string& path, ssize_t* size);
 	StrVecMap m_map;
 	static CSVReader *m_inst;
 };

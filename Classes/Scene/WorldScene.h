@@ -52,17 +52,17 @@ public:
 	virtual bool init(LoadLevelScene* levelScene);
 	static WorldScene* create(LoadLevelScene* levelScene);
 
-	void update(float dt);
-	virtual void playStartSounds();
-	virtual void backMenu();
-	virtual bool isEndGame();
+	virtual void update(float dt) override;
+	virtual void playStartSounds() override;
+	virtual void backMenu() override;
+	virtual bool isEndGame() override;
 
-	virtual void setDefaultParametrNpc(NPC* npc, const cocos2d::Point& point, int order = 2);
-	virtual BricksVec createWalls(int divider, int countBonus);
-	virtual int getStage();
-	virtual cocos2d::Size getMapSize();
-	virtual cocos2d::Action* getRestartAction();
-	virtual bool isBoss();
+	virtual void setDefaultParametrNpc(NPC* npc, const cocos2d::Point& point, int order = 2) override;
+	virtual BricksVec createWalls(int divider, int countBonus) override;
+	virtual int getStage() override;
+	virtual cocos2d::Size getMapSize() override;
+	virtual cocos2d::Action* getRestartAction() override;
+	virtual bool isBoss() override;
 
 	virtual std::vector<ID_BONUS> getBonuses() override;
 };

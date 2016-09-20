@@ -106,6 +106,7 @@ void GameOverScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 		{
 		case CONTINUE:	continueFunc();	break;
 		case END:		endFunc();		break;
+            default: break;
 		}
 	}
 
@@ -176,6 +177,7 @@ void GameOverScene::TouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
 		{
 		case CONTINUE:	continueFunc();	break;
 		case END:		endFunc();		break;
+            default: break;
 		}
 	}
 }

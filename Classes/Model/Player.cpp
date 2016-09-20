@@ -79,14 +79,14 @@ void Player::move()
 			Point pointBrick = _collisionBrick->convertToWorldSpace(_collisionBrick->getRect().origin);
 			if (_dir == DOWN || _dir == UP)
 			{
-				if (abs(pointBrick.x - getPositionX()) > 20)
+                if (std::abs(pointBrick.x - getPositionX()) > 20)
 				{
 					_dir = (pointBrick.x > getPositionX()) ? LEFT : RIGHT;
 				}
 			}
 			else if (_dir == LEFT || _dir == RIGHT)
 			{
-				if (abs(pointBrick.y - getPositionY()) > 20)
+                if (std::abs(pointBrick.y - getPositionY()) > 20)
 				{
 					_dir = (pointBrick.y > getPositionY()) ? DOWN : UP;
 				}

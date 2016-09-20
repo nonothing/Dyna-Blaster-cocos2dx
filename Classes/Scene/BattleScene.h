@@ -30,15 +30,15 @@ public:
 	static cocos2d::Scene* createScene(PreloadBattleScene* preloaderScene, std::vector<int> parameters);
 	virtual bool init(PreloadBattleScene* preloaderScene, std::vector<int> parameters);
 	static BattleScene* create(PreloadBattleScene* preloaderScene, std::vector<int> parameters);
-	void update(float dt);
+	virtual void update(float dt) override;
 
-	virtual void playStartSounds();
-	virtual void backMenu();
-	virtual bool isEndGame();
-	virtual int getStage();
-	virtual bool isBoss();
-	virtual cocos2d::Size getMapSize();
-	virtual cocos2d::Action* getRestartAction();
+	virtual void playStartSounds() override;
+	virtual void backMenu() override;
+	virtual bool isEndGame() override;
+	virtual int getStage() override;
+	virtual bool isBoss() override;
+	virtual cocos2d::Size getMapSize() override;
+	virtual cocos2d::Action* getRestartAction() override;
 
 	virtual std::vector<ID_BONUS> getBonuses() override;
 

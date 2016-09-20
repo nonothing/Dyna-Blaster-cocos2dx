@@ -108,8 +108,8 @@ void WorldScene::update(float dt)
 	if (_doorBrick && _doorBrick->isOpenDoor() && !_players.empty()
 		&& !getPlayer()->isStop() && isCollision(_doorBrick, getPlayer(), Size(60, 60), -_mapLayer->getPosition()))
 	{
-		if (abs(getPlayer()->getPositionY() - _doorBrick->getPositionY()) < 20 &&
-			abs(getPlayer()->getPositionX() - _doorBrick->getPositionX()) < 20)
+		if (std::abs(getPlayer()->getPositionY() - _doorBrick->getPositionY()) < 20 &&
+			std::abs(getPlayer()->getPositionX() - _doorBrick->getPositionX()) < 20)
 		{
 			_doorBrick->openDoor(false);
 			getPlayer()->stopMove();
