@@ -3,13 +3,11 @@
 
 #include "cocos2d.h"
 #include "Model/Data/MapData.h"
-#include "Model/Data/NPCData.h"
 
 class LoadLevelScene : public cocos2d::Layer
 {
 private:
 	MapDataLoader*			_mapLoader;
-	NPCDataLoader*			_npcLoader;
 	int						_currentLevel;
 	MapData					_currentData;
 	cocos2d::Node*			_rootLevelNode;
@@ -28,9 +26,9 @@ private:
 	void	showFinalScene();
 
 public:
-	static cocos2d::Scene* createScene(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec, const std::string& key = "");
-	virtual bool init(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec, const std::string& key = "");
-	static LoadLevelScene* create(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec, const std::string& key = "");
+	static cocos2d::Scene* createScene(MapDataLoader* loaderMap, const std::string& key = "");
+	virtual bool init(MapDataLoader* loaderMap, const std::string& key = "");
+	static LoadLevelScene* create(MapDataLoader* loaderMap, const std::string& key = "");
 
 	void loadAnimations();
 	void loadWordScene();
@@ -39,8 +37,6 @@ public:
 	void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 
-	NPCDataVec getNPCs();
-	NPCData getNPC(ID_NPC id);
 	MapData getCurrentMap();
 
 	void playRoundMusic();

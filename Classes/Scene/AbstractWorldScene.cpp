@@ -300,6 +300,7 @@ bool AbstractWorldScene::checkPlayerWithFire(Bomb* bomb, Player* player)
 
 void AbstractWorldScene::setDefaultParametrNpc(NPC* npc, const cocos2d::Point& point, int order /* = 2 */)
 {
+	npc->setBricks(_bricks);
 	npc->setMapLayer(_mapLayer);
 	npc->setPosition(point);
 	npc->setBombs(&_bombs);

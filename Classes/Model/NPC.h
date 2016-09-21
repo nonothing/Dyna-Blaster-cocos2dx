@@ -39,12 +39,13 @@ class NPC : public WorldObject
 	virtual float getSpeed();
 	void moveBack();
 public:
+
 	NPCEvent	deadEvent;
-    virtual bool init(const NPCData& data, BricksVec vec);
-	static NPC* create(const NPCData& data, BricksVec vec);
+    virtual bool init(const NPCData& data);
 	void setMapLayer(cocos2d::Layer* layer);
 	virtual void move();
 	void nextDir();
+	void setBricks(BricksVec vec);
 	virtual void update(float dt) override;
 	virtual void moveUpdate(float dt);
 	virtual void animate(Direction dir);

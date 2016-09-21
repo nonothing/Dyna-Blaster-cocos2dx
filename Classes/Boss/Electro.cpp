@@ -3,21 +3,9 @@
 USING_NS_CC;
 #define ELECTRO_TAG 155
 
-Electro* Electro::create(const NPCData& data, BricksVec vec)
+bool Electro::init(const NPCData& data)
 {
-	Electro* npc = new Electro();
-	if (npc && npc->init(data, vec))
-	{
-		return (Electro*)npc->autorelease();
-	}
-	CC_SAFE_DELETE(npc);
-
-	return npc;
-}
-
-bool Electro::init(const NPCData& data, BricksVec vec)
-{
-	if (!BossBase::init(data, vec))
+	if (!BossBase::init(data))
 	{
 		return false;
 	}
@@ -26,13 +14,13 @@ bool Electro::init(const NPCData& data, BricksVec vec)
 	_dir = RIGHT;
 	NPC::animate(_dir);
 	addChild(_sprite);
-	schedule(schedule_selector(Electro::update), 5.f);
+	schedule(schedule_selector(Electro::updatePlazma), 5.f);
 	_isImmortal = false;
 	return true;
 }
 
 
-void Electro::update(float dt)
+void Electro::updatePlazma(float dt)
 {
 	_isImmortal = !_isImmortal;
 	if (_isImmortal)

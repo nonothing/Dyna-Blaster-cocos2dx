@@ -2,12 +2,9 @@
 #include "Model/Timer.h"
 #include "Model/GameSettings.h"
 #include "Model/GameSounds.h"
-#include "Boss/Snake.h"
-#include "Boss/Iron.h"
-#include "Boss/Cyclop.h"
-#include "Boss/Electro.h"
-#include "Boss/Human.h"
 #include "utils/Utils.h"
+#include "Manager/NPCManager.h"
+#include "Boss/Snake.h"
 
 USING_NS_CC;
 
@@ -161,94 +158,42 @@ void WorldScene::createNPCs()
 		}
 		return brick->getType() == EBACKGROUND && canCreate; }); 
 	std::random_shuffle(bricks.begin(), bricks.end());
-	auto npcVec = _data._npcVec;
+
 	int index = 0;
-	for (auto p : npcVec)
+	auto vec = NPCManager::Instance()->createNPCs(_data._npcVec);
+	int order = 2;
+	for (auto npc : vec)
 	{
-		for (int i = 0; i < p.second; i++)
+		auto snake = dynamic_cast<Snake*>(npc);
+		if (snake)
 		{
-			if (createNPC(bricks.at(index), ID_NPC(p.first)))
+			snake->setPlayer(getPlayer());
+			if (snake->isHead())
 			{
 				index++;
 			}
 		}
-	}
-}
-
-bool WorldScene::createNPC(Brick* brick, ID_NPC id)
-{
-	auto dataNPC = _levelScene->getNPC(id);
-	if (dataNPC._id != NPC_NONE){
-		switch (dataNPC._id)
+		auto iron = dynamic_cast<Iron*>(npc);
+		if (iron)
 		{
-		case snake:
-		{
-			std::vector<Snake*> snakeVec;
-			Snake* npc = Snake::create(dataNPC, _bricks, SNAKE_HEAD);
-			npc->setPlayer(getPlayer());
-			snakeVec.push_back(npc);
-			setDefaultParametrNpc(npc, brick->getPosition());
-			Snake* npcNext;
-			for (int i = 0; i <= 4; i++)
-			{
-				npcNext = Snake::create(dataNPC, _bricks, i == 4 ? SNAKE_TAIL : SNAKE_BODY);
-				setDefaultParametrNpc(npcNext, brick->getPosition());
-				npcNext->setSnake(npc);
-				npc = npcNext;
-				snakeVec.push_back(npc);
-			}
-			for (auto snake : snakeVec)
-			{
-				snake->setSnakeVec(snakeVec);
-			}
-		}
-			break;
-		case iron:
-		{
-			auto iron = Iron::create(dataNPC, _bricks);
 			_childCreateListener += iron->childCreateEvent;
-			setDefaultParametrNpc(iron, brick->getPosition(), 3);
-		}
-			break;
-		case cyclopeB:
-		case cyclopeL:
-			setDefaultParametrNpc(Cyclop::create(dataNPC, _bricks), brick->getPosition());
-			break;
-		case electro:
-			setDefaultParametrNpc(Electro::create(dataNPC, _bricks), brick->getPosition());
-			break;
-		case human: 
-			if (_npcs.empty())
-			{
-				setDefaultParametrNpc(Human::create(dataNPC, _bricks), brick->getPosition());
-			}
-			else
-			{
-				dataNPC = _levelScene->getNPC(humanFire);
-				auto npc = HumanFire::create(dataNPC, _bricks);
-				auto boss = dynamic_cast<Human*> (_npcs.at(0));
-				if (boss)
-				{
-					boss->_npcListener += npc->deadEvent;
-				}
-				setDefaultParametrNpc(npc, brick->getPosition());
-			}
-			break;
-		default:
-			setDefaultParametrNpc(NPC::create(dataNPC, _bricks), brick->getPosition());
-			break;
+			order = 3;
 		}
 		
-		return true;
+		setDefaultParametrNpc(npc, bricks[index]->getPosition(), order);
+		if (!snake)
+		{
+			index++;
+		}
 	}
-	return false;
 }
 
 void WorldScene::createNPCs(Brick* brick, ID_NPC id, int count)
 {
-	for (int i = 0; i < count; i++)
+	auto vec = NPCManager::Instance()->createNPCs(id, count);
+	for (auto npc : vec)
 	{
-		createNPC(brick, id);
+		setDefaultParametrNpc(npc, brick->getPosition());
 	}
 }
 
@@ -290,11 +235,7 @@ void WorldScene::createDoor(BricksVec freeBricks, bool isBoss)
 void WorldScene::updateScoreLabel(NPC* npc)
 {
 	int score = npc->getScore();
-	auto snake = dynamic_cast<Snake*>(npc);
-	if (snake && !snake->isHead())
-	{
-		score = 0;
-	}
+
 	if (score)
 	{
 		auto text = ui::Text::create(myUtils::to_string(npc->getScore()), "5px2bus.ttf", 18.f);
@@ -327,7 +268,16 @@ BricksVec WorldScene::createWalls(int divider, int countBonus)
 
 void WorldScene::createIronChild(const cocos2d::Point& point, unsigned int createTime)
 {
-	setDefaultParametrNpc(IronChild::create(_levelScene->getNPC(ironChild), _bricks, createTime), point);
+	auto vec = NPCManager::Instance()->createNPCs(ironChild, 1);
+	for (auto npc : vec)
+	{
+		auto iron = dynamic_cast<IronChild*>(npc);
+		if (iron)
+		{
+			iron->setTimeCreate(createTime);
+			setDefaultParametrNpc(iron, point);
+		}
+	}
 }
 
 void WorldScene::nextLevel()

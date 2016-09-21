@@ -13,8 +13,7 @@ protected:
 	cocos2d::Action*	getBlinkAction(Direction dir = NONE);
 
 public:
-    virtual bool init(const NPCData& data, BricksVec vec);
-	static BossBase* create(const NPCData& data, BricksVec vec);
+    virtual bool init(const NPCData& data);
 	virtual void dead();
 	virtual bool canDead();
 };

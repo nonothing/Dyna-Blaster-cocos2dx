@@ -2,21 +2,9 @@
 
 USING_NS_CC;
 
-Cyclop* Cyclop::create(const NPCData& data, BricksVec vec)
+bool Cyclop::init(const NPCData& data)
 {
-	Cyclop* npc = new Cyclop();
-	if (npc && npc->init(data, vec))
-	{
-		return (Cyclop*)npc->autorelease();
-	}
-	CC_SAFE_DELETE(npc);
-
-	return npc;
-}
-
-bool Cyclop::init(const NPCData& data, BricksVec vec)
-{
-	if (!BossBase::init(data, vec))
+	if (!BossBase::init(data))
 	{
 		return false;
 	}

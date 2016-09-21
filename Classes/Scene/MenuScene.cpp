@@ -63,7 +63,6 @@ bool MenuScene::init()
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/buttons.plist", "atlas/buttons.png");
 	_loaderMap = new MapDataLoader();
-	_loaderNPC = new NPCDataLoader();
 
     return true;
 }
@@ -124,17 +123,17 @@ void MenuScene::startGame()
 {
 	stopMusic();
 	GameSettings::Instance().setDefaulPlayer();
-	Director::getInstance()->pushScene(LoadLevelScene::createScene(_loaderMap, _loaderNPC));
+	Director::getInstance()->pushScene(LoadLevelScene::createScene(_loaderMap));
 }
 
 void MenuScene::startPasswordScene()
 {
-	Director::getInstance()->pushScene(PasswordScene::createScene(_loaderMap, _loaderNPC));
+	Director::getInstance()->pushScene(PasswordScene::createScene(_loaderMap));
 }
 
 void MenuScene::startBattle()
 {
-	Director::getInstance()->pushScene(PreloadBattleScene::createScene(_loaderNPC));
+	Director::getInstance()->pushScene(PreloadBattleScene::createScene());
 }
 
 void MenuScene::onExit()

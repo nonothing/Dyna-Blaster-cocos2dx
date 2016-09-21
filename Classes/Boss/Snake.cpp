@@ -6,10 +6,10 @@ USING_NS_CC;
 #define ANIM_TAG 225 
 #define BLINK_TAG 145
 
-Snake* Snake::create(const NPCData& data, BricksVec vec, ESnakeType type)
+Snake* Snake::create(const NPCData& data, ESnakeType type)
 {
 	Snake* npc = new Snake();
-	if (npc && npc->init(data, vec, type))
+	if (npc && npc->init(data, type))
 	{
 		return (Snake*)npc->autorelease();
 	}
@@ -19,9 +19,9 @@ Snake* Snake::create(const NPCData& data, BricksVec vec, ESnakeType type)
 	return npc;
 }
 
-bool Snake::init(const NPCData& data, BricksVec vec, ESnakeType type)
+bool Snake::init(const NPCData& data, ESnakeType type)
 {
-	if (!BossBase::init(data, vec))
+	if (!BossBase::init(data))
 	{
 		return false;
 	}
@@ -122,7 +122,10 @@ void Snake::move()
 		{
 			auto it = min_element(freePoints.begin(), freePoints.end(),
 				[this](std::pair< Point, Direction> p1, std::pair< Point, Direction> p2)
-			{ return p1.first.distance(_player->getPosition()) < p2.first.distance(_player->getPosition()); });
+			{ 
+				Point point = _player->getPosition() - _mapLayer->getPosition();
+				return p1.first.distance(point) < p2.first.distance(point);
+			});
 
 			point = it->first;
 			_dir = it->second;

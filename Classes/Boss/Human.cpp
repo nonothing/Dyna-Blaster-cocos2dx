@@ -4,21 +4,9 @@ USING_NS_CC;
 #define ELECTRO_TAG 155
 #define ANIM_TAG 225 
 
-Human* Human::create(const NPCData& data, BricksVec vec)
+bool Human::init(const NPCData& data)
 {
-	Human* npc = new Human();
-	if (npc && npc->init(data, vec))
-	{
-		return (Human*)npc->autorelease();
-	}
-	CC_SAFE_DELETE(npc);
-
-	return npc;
-}
-
-bool Human::init(const NPCData& data, BricksVec vec)
-{
-	if (!BossBase::init(data, vec))
+	if (!BossBase::init(data))
 	{
 		return false;
 	}
@@ -31,13 +19,13 @@ bool Human::init(const NPCData& data, BricksVec vec)
 	_dir = RIGHT;
 	animate(_dir);
 	addChild(_sprite);
-	schedule(schedule_selector(Human::update), 5.f);
+	schedule(schedule_selector(Human::updatePlazma), 5.f);
 
 	return true;
 }
 
 
-void Human::update(float dt)
+void Human::updatePlazma(float dt)
 {
 	if (!_isImmortal)
 	{
@@ -87,18 +75,6 @@ void Human::activePlazma()
 	
 }
 
-HumanFire* HumanFire::create(const NPCData& data, BricksVec vec)
-{
-	HumanFire* npc = new HumanFire();
-	if (npc && npc->init(data, vec))
-	{
-		return (HumanFire*)npc->autorelease();
-	}
-	CC_SAFE_DELETE(npc);
-
-	return npc;
-}
-
 void HumanFire::transformation(bool isFireBall)
 {
 	_isTransformation = true;
@@ -121,9 +97,9 @@ void HumanFire::transformated()
 	move();
 }
 
-bool HumanFire::init(const NPCData& data, BricksVec vec)
+bool HumanFire::init(const NPCData& data)
 {
-	if (!BossBase::init(data, vec))
+	if (!BossBase::init(data))
 	{
 		return false;
 	}

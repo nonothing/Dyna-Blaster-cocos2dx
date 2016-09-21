@@ -27,8 +27,8 @@ private:
 	void runDeadAnimation();
 	void newTimeCreate();
 public:
-    virtual bool init(const NPCData& data, BricksVec vec, ESnakeType type);
-	static Snake* create(const NPCData& data, BricksVec vec, ESnakeType type);
+    virtual bool init(const NPCData& data, ESnakeType type);
+	static Snake* create(const NPCData& data, ESnakeType type);
 	virtual void move();
 	void setPlayer(Player* player);
 	Direction getPrevDir();

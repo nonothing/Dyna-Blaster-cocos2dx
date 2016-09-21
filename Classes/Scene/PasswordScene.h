@@ -5,14 +5,12 @@
 #include "enumerate/Direction.h"
 #include "ui/UIText.h"
 #include "Model/Data/MapData.h"
-#include "Model/Data/NPCData.h"
 
 class PasswordScene : public cocos2d::Layer
 {
 private:
 	cocos2d::EventListenerTouchOneByOne*	_touchListener;
 	MapDataLoader*			_mapLoader;
-	NPCDataLoader*			_npcLoader;
 	cocos2d::Node*		_rootNode;
 	cocos2d::Sprite*	_bombSprite;
 	cocos2d::ui::Text*	_bombText;
@@ -28,9 +26,9 @@ private:
 	int _currentLabelX;
 	std::vector<cocos2d::ui::Text*>	_labels;
 public:
-	static cocos2d::Scene* createScene(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec);
-	static PasswordScene* create(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec);
-	virtual bool init(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec);
+	static cocos2d::Scene* createScene(MapDataLoader* loaderMap);
+	static PasswordScene* create(MapDataLoader* loaderMap);
+	virtual bool init(MapDataLoader* loaderMap);
 	~PasswordScene();
 
 	Direction KeyCodeToDiretion(cocos2d::EventKeyboard::KeyCode keyCode);

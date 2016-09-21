@@ -37,7 +37,6 @@ private:
 	void checkOpenDoor();
 	
 	void createNPCs();
-	bool createNPC(Brick* brick, ID_NPC id);
 	void createNPCs(Brick* brick, ID_NPC, int count);
 	void createDoor(BricksVec vec, bool isBoss);
 	Player*		getPlayer();

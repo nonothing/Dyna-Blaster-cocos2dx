@@ -3,7 +3,6 @@
 
 #include "cocos2d.h"
 #include "Model/Data/MapData.h"
-#include "Model/Data/NPCData.h"
 
 enum MenuEnum
 {
@@ -13,8 +12,6 @@ enum MenuEnum
 class MenuScene : public cocos2d::Layer
 {
 private:
-
-	NPCDataLoader*			_loaderNPC;
 	MapDataLoader*			_loaderMap;
 	cocos2d::EventListenerTouchOneByOne*	_touchListener;
 

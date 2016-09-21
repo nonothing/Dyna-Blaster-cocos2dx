@@ -12,10 +12,10 @@ static const std::string sAlphabet[3][10] = {
 { "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", },
 { "U", "V", "W", "X", "Y", "Z", "<", ">", "END", "END", }, };
 
-PasswordScene* PasswordScene::create(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec)
+PasswordScene* PasswordScene::create(MapDataLoader* loaderMap)
 {
 	PasswordScene* scene = new PasswordScene();
-	if (scene && scene->init(loaderMap, npcDataVec))
+	if (scene && scene->init(loaderMap))
 	{
 		return (PasswordScene*)scene->autorelease();
 	}
@@ -25,24 +25,22 @@ PasswordScene* PasswordScene::create(MapDataLoader* loaderMap, NPCDataLoader* np
 	return scene;
 }
 
-Scene* PasswordScene::createScene(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec)
+Scene* PasswordScene::createScene(MapDataLoader* loaderMap)
 {
     auto scene = Scene::create();
-	auto layer = PasswordScene::create(loaderMap, npcDataVec);
+	auto layer = PasswordScene::create(loaderMap);
     scene->addChild(layer);
 
     return scene;
 }
 
-bool PasswordScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcDataVec)
+bool PasswordScene::init(MapDataLoader* loaderMap)
 {
     if ( !Layer::init() )
     {
         return false;
     }
 	_mapLoader = loaderMap;
-	_npcLoader = npcDataVec;
-
 	_rootNode = CSLoader::createNode("nodes/PasswordScene.csb");
 
 	_bombSprite = static_cast<Sprite*>(_rootNode->getChildByName("bomb"));
@@ -95,7 +93,7 @@ void PasswordScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 
 void PasswordScene::startGame(const std::string& key)
 {
-	Director::getInstance()->pushScene(LoadLevelScene::createScene(_mapLoader, _npcLoader, key));
+	Director::getInstance()->pushScene(LoadLevelScene::createScene(_mapLoader, key));
 }
 
 Direction PasswordScene::KeyCodeToDiretion(EventKeyboard::KeyCode keyCode)

@@ -15,9 +15,8 @@ private:
 	void activePlazma();
 public:
 	NPCEvent::Listener			_npcListener;
-    virtual bool init(const NPCData& data, BricksVec vec);
-	static Human* create(const NPCData& data, BricksVec vec);
-	void update(float dt);
+    virtual bool init(const NPCData& data);
+	void updatePlazma(float dt);
 	virtual bool canDead();
 };
 
@@ -29,8 +28,7 @@ private:
 	void transformation(bool isFireBall);
 	void transformated();
 public:
-	virtual bool init(const NPCData& data, BricksVec vec);
-	static HumanFire* create(const NPCData& data, BricksVec vec);
+	virtual bool init(const NPCData& data);
 	void updateTransformation(float dt);
 	virtual bool canDead();
 	virtual std::string			getAnimationName(Direction dir = NONE);

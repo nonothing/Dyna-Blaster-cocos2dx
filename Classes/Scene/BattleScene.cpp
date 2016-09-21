@@ -5,6 +5,7 @@
 #include "Model/Data/MapData.h"
 #include "Model/GameSounds.h"
 #include "utils/Utils.h"
+#include "Manager/NPCManager.h"
 
 USING_NS_CC;
 
@@ -115,9 +116,11 @@ void BattleScene::createNPCs()
 		}
 		return brick->getType() == EBACKGROUND && canCreate; });
 	std::random_shuffle(freeBricks.begin(), freeBricks.end());
-	for (int i = 0; i < 4; i++)
+
+	auto vec = NPCManager::Instance()->createNPCs(accordion, 4);
+	for (size_t i = 0; i < vec.size(); i++)
 	{
-		createNPC(freeBricks.at(i), accordion);
+		setDefaultParametrNpc(vec[i], freeBricks[i]->getPosition());
 	}
 
 	BricksVec bricks;
@@ -133,20 +136,12 @@ void BattleScene::createNPCs()
 		}
 		return brick->getType() != EBRICK && canCreate; });
 	std::random_shuffle(bricks.begin(), bricks.end());
-	for (int i = 0; i < 2; i++)
-	{
-		createNPC(bricks.at(i), brush);
-	}
-}
 
-bool BattleScene::createNPC(Brick* brick, ID_NPC id)
-{
-	auto dataNPC = _preloaderScene->getNPC(id);
-	if (dataNPC._id != NPC_NONE){
-		setDefaultParametrNpc(NPC::create(dataNPC, _bricks), brick->getPosition());
-		return true;
+	vec = NPCManager::Instance()->createNPCs(brush, 2);
+	for (size_t i = 0; i < vec.size(); i++)
+	{
+		setDefaultParametrNpc(vec[i], bricks[i]->getPosition());
 	}
-	return false;
 }
 
 void BattleScene::playStartSounds()

@@ -13,10 +13,10 @@ USING_NS_CC;
 
 static const std::string sRootScenes[] = { "ModeGameScene.csb", "CountPlayerScene.csb", "CountMatchScene.csb", "StartBattleScene.csb", "WinMatchScene.csb", "WinBattleScene.csb"  };
 
-PreloadBattleScene* PreloadBattleScene::create(NPCDataLoader* npcLoader)
+PreloadBattleScene* PreloadBattleScene::create()
 {
 	PreloadBattleScene* scene = new PreloadBattleScene();
-	if (scene && scene->init(npcLoader))
+	if (scene && scene->init())
 	{
 		return (PreloadBattleScene*)scene->autorelease();
 	}
@@ -26,16 +26,16 @@ PreloadBattleScene* PreloadBattleScene::create(NPCDataLoader* npcLoader)
 	return scene;
 }
 
-Scene* PreloadBattleScene::createScene(NPCDataLoader* npcLoader)
+Scene* PreloadBattleScene::createScene()
 {
     auto scene = Scene::create();
-	auto layer = PreloadBattleScene::create(npcLoader);
+	auto layer = PreloadBattleScene::create();
     scene->addChild(layer);
 
     return scene;
 }
 
-bool PreloadBattleScene::init(NPCDataLoader* npcLoader)
+bool PreloadBattleScene::init()
 {
     if ( !Layer::init() )
     {
@@ -43,7 +43,6 @@ bool PreloadBattleScene::init(NPCDataLoader* npcLoader)
     }
 
 	_fadeLayer = LayerColor::create(Color4B(0, 0, 0, 0));
-	_npcLoader = npcLoader;
 	_isShowStartingScene = false;
 	_currentPos = 0;
 	_currentSceneID = 0;
@@ -148,28 +147,12 @@ void PreloadBattleScene::loadAnimations()
 
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/bricks.plist", "atlas/bricks.png");
 	AnimationCache::getInstance()->addAnimationsWithFile("animation/bricks.plist");
-
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/npc.plist", "atlas/npc.png");
-
-
-	for (auto data : _npcLoader->getNPCs())
-	{
-		if (data._id <= vacom)
-		{
-			AnimationCache::getInstance()->addAnimationsWithFile("animation/" + data._name + ".plist");
-		}
-	}
 }
 
 void PreloadBattleScene::restart()
 {
 	Director::getInstance()->popScene();
 	showMatchScene();
-}
-
-NPCData PreloadBattleScene::getNPC(ID_NPC id)
-{
-	return _npcLoader->getNPC(id);
 }
 
 void PreloadBattleScene::getPoints(cocos2d::Node* rootNode)

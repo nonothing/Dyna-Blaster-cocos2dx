@@ -4,25 +4,12 @@ USING_NS_CC;
 #define ANIM_TAG 225 
 #define MOVE_TAG 250
 
-NPC* NPC::create(const NPCData& data, BricksVec vec)
-{
-	NPC* npc = new NPC();
-	if (npc && npc->init(data, vec))
-	{
-		return (NPC*)npc->autorelease();
-	}
-
-	CC_SAFE_DELETE(npc);
-
-	return npc;
-}
-
 void NPC::setMapLayer(cocos2d::Layer* layer)
 {
 	_mapLayer = layer;
 }
 
-bool NPC::init(const NPCData& data, BricksVec vec)
+bool NPC::init(const NPCData& data)
 {
     if ( !Layer::init() )
     {
@@ -36,7 +23,6 @@ bool NPC::init(const NPCData& data, BricksVec vec)
 	_isBackMove = false;
 	schedule(schedule_selector(NPC::update), 0.7f);
 	schedule(schedule_selector(NPC::moveUpdate), 0.05f); 
-	_bricks = vec;
 
 	if (data._id <= vacom)
 	{
@@ -82,6 +68,11 @@ void NPC::move()
 void NPC::nextDir()
 {
 	move();
+}
+
+void NPC::setBricks(BricksVec vec)
+{
+	_bricks = vec;
 }
 
 void NPC::update(float dt)

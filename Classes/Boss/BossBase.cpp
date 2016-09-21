@@ -4,18 +4,6 @@ USING_NS_CC;
 #define ANIM_TAG 225 
 #define BLINK_TAG 145
 
-BossBase* BossBase::create(const NPCData& data, BricksVec vec)
-{
-	BossBase* npc = new BossBase();
-	if (npc && npc->init(data, vec))
-	{
-		return (BossBase*)npc->autorelease();
-	}
-	CC_SAFE_DELETE(npc);
-
-	return npc;
-}
-
 void BossBase::blink()
 {
 	_countLight++;
@@ -38,9 +26,9 @@ cocos2d::Action* BossBase::getBlinkAction(Direction dir)
 	return action;
 }
 
-bool BossBase::init(const NPCData& data, BricksVec vec)
+bool BossBase::init(const NPCData& data)
 {
-	if (!NPC::init(data, vec))
+	if (!NPC::init(data))
 	{
 		return false;
 	}

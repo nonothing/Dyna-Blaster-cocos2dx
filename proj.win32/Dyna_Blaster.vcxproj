@@ -152,6 +152,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Boss\Iron.cpp" />
     <ClCompile Include="..\Classes\Boss\Snake.cpp" />
     <ClCompile Include="..\Classes\Manager\BonusManager.cpp" />
+    <ClCompile Include="..\Classes\Manager\NPCManager.cpp" />
     <ClCompile Include="..\Classes\Model\Bomb.cpp" />
     <ClCompile Include="..\Classes\Model\Bonus\BonusImmortal.cpp" />
     <ClCompile Include="..\Classes\Model\Bonus\RandomBonus.cpp" />
@@ -203,6 +204,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\enumerate\EPlayer.h" />
     <ClInclude Include="..\Classes\enumerate\ESounds.h" />
     <ClInclude Include="..\Classes\Manager\BonusManager.h" />
+    <ClInclude Include="..\Classes\Manager\NPCManager.h" />
     <ClInclude Include="..\Classes\Model\Bomb.h" />
     <ClInclude Include="..\Classes\Model\Bonus\BonusAddCountBomb.h" />
     <ClInclude Include="..\Classes\Model\Bonus\BonusAddLife.h" />

@@ -11,9 +11,8 @@ private:
 	cocos2d::Sprite*    _plazmaSprite;
 
 public:
-    virtual bool init(const NPCData& data, BricksVec vec);
-	static Electro* create(const NPCData& data, BricksVec vec);
-	void update(float dt);
+    virtual bool init(const NPCData& data);
+	virtual void updatePlazma(float dt);
 	virtual bool canDead();
 };
 

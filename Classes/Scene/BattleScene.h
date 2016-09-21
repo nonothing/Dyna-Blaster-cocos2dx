@@ -29,7 +29,6 @@ private:
 	int						_currentIndexLevel;
 
 	void createNPCs();
-	bool createNPC(Brick* brick, ID_NPC id);
 public:
 	static cocos2d::Scene* createScene(PreloadBattleScene* preloaderScene, std::vector<int> parameters);
 	virtual bool init(PreloadBattleScene* preloaderScene, std::vector<int> parameters);

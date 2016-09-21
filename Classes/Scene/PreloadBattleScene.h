@@ -2,13 +2,11 @@
 #define __PRELOAD_BATTLE_SCENE_H__
 
 #include "cocos2d.h"
-#include "Model/Data/NPCData.h"
 
 class PreloadBattleScene : public cocos2d::Layer
 {
 private:
 	cocos2d::EventListenerTouchOneByOne*	_touchListener;
-	NPCDataLoader*			_npcLoader;
 	cocos2d::Node*			_rootNode;
 	cocos2d::LayerColor*	_fadeLayer;
 	bool					_isShowStartingScene;
@@ -34,9 +32,9 @@ private:
 	void	getPoints(cocos2d::Node* rootNode);
 
 public:
-	static cocos2d::Scene* createScene(NPCDataLoader* npcLoader);
-	virtual bool init(NPCDataLoader* npcLoader);
-	static PreloadBattleScene* create(NPCDataLoader* npcLoader);
+	static cocos2d::Scene* createScene();
+	virtual bool init();
+	static PreloadBattleScene* create();
 
 	void loadAnimations();
 	void loadBattleScene();
@@ -49,7 +47,6 @@ public:
 
 	void moveCursor(const cocos2d::Point& point);
 
-	NPCData getNPC(ID_NPC id);
 	void restart();
 	void backMenu();
 	void loadAfterStartingScene();

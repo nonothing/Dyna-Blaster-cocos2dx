@@ -4,21 +4,9 @@ USING_NS_CC;
 #define ANIM_TAG 225 
 #define MAX_CREATE 6
 
-Iron* Iron::create(const NPCData& data, BricksVec vec)
+bool Iron::init(const NPCData& data)
 {
-	Iron* npc = new Iron();
-	if (npc && npc->init(data, vec))
-	{
-		return (Iron*)npc->autorelease();
-	}
-	CC_SAFE_DELETE(npc);
-
-	return npc;
-}
-
-bool Iron::init(const NPCData& data, BricksVec vec)
-{
-	if (!BossBase::init(data, vec))
+	if (!BossBase::init(data))
 	{
 		return false;
 	}
@@ -50,10 +38,10 @@ void Iron::move()
 	NPC::move();
 }
 
-IronChild* IronChild::create(const NPCData& data, BricksVec vec, unsigned int createTime)
+IronChild* IronChild::create(const NPCData& data)
 {
 	IronChild* npc = new IronChild();
-	if (npc && npc->init(data, vec, createTime))
+	if (npc && npc->init(data))
 	{
 		return (IronChild*)npc->autorelease();
 	}
@@ -62,13 +50,18 @@ IronChild* IronChild::create(const NPCData& data, BricksVec vec, unsigned int cr
 	return npc;
 }
 
-bool IronChild::init(const NPCData& data, BricksVec vec, unsigned int createTime)
+void IronChild::setTimeCreate(unsigned int createTime)
 {
-	if (!NPC::init(data, vec))
+	_createTime = createTime;
+}
+
+bool IronChild::init(const NPCData& data)
+{
+	if (!NPC::init(data))
 	{
 		return false;
 	}
-	_createTime = createTime;
+	
 	_isCreated = false;
 	_sprite = Sprite::createWithSpriteFrameName(_data._name + "_1.png");
 	addChild(_sprite);

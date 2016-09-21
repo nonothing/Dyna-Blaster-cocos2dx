@@ -7,8 +7,7 @@
 class Cyclop : public BossBase
 {
 public:
-    virtual bool init(const NPCData& data, BricksVec vec);
-	static Cyclop* create(const NPCData& data, BricksVec vec);
+    virtual bool init(const NPCData& data);
 };
 
 #endif // __BOSS_CYCLOP_H__

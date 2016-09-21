@@ -15,8 +15,7 @@ private:
 
 public:
 	ChildCreateEvent  childCreateEvent;
-    virtual bool init(const NPCData& data, BricksVec vec);
-	static Iron* create(const NPCData& data, BricksVec vec);
+    virtual bool init(const NPCData& data);
 	virtual void move();
 };
 
@@ -27,8 +26,9 @@ private:
 	void		created();
 	void		startAnimCreated();
 public:
-	virtual bool init(const NPCData& data, BricksVec vec, unsigned int createTime);
-	static IronChild* create(const NPCData& data, BricksVec vec, unsigned int createTime);
+	void setTimeCreate(unsigned int createTime);
+	virtual bool init(const NPCData& data);
+	static IronChild* create(const NPCData& data);
 	virtual void move();
 };
 

@@ -11,10 +11,10 @@
 
 USING_NS_CC;
 
-LoadLevelScene* LoadLevelScene::create(MapDataLoader* loaderMap, NPCDataLoader* npcLoader, const std::string& key)
+LoadLevelScene* LoadLevelScene::create(MapDataLoader* loaderMap, const std::string& key)
 {
 	LoadLevelScene* scene = new LoadLevelScene();
-	if (scene && scene->init(loaderMap, npcLoader, key))
+	if (scene && scene->init(loaderMap, key))
 	{
 		return (LoadLevelScene*)scene->autorelease();
 	}
@@ -24,16 +24,16 @@ LoadLevelScene* LoadLevelScene::create(MapDataLoader* loaderMap, NPCDataLoader* 
 	return scene;
 }
 
-Scene* LoadLevelScene::createScene(MapDataLoader* loaderMap, NPCDataLoader* npcLoader, const std::string& key)
+Scene* LoadLevelScene::createScene(MapDataLoader* loaderMap, const std::string& key)
 {
     auto scene = Scene::create();
-	auto layer = LoadLevelScene::create(loaderMap, npcLoader, key);
+	auto layer = LoadLevelScene::create(loaderMap, key);
     scene->addChild(layer);
 
     return scene;
 }
 
-bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader, const std::string& key)
+bool LoadLevelScene::init(MapDataLoader* loaderMap, const std::string& key)
 {
     if ( !Layer::init() )
     {
@@ -41,16 +41,14 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, NPCDataLoader* npcLoader, co
     }
 	_isShowStartingScene = false;
 	_mapLoader = loaderMap;
-	_npcLoader = npcLoader;
-	_currentLevel = 1;
+	_currentLevel = 64;
 	
 	if (key.empty())
 	{
 		_currentData = _mapLoader->getMap(_currentLevel);
 	}
 	else
-
-		{
+	{
 		_currentData = _mapLoader->getMap(key);
 		_currentLevel = _currentData._id;
 		auto bonuses = _mapLoader->getBonuses(_currentData._id);
@@ -109,16 +107,6 @@ void LoadLevelScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 void LoadLevelScene::loadWordScene()
 {
 	Director::getInstance()->pushScene(TransitionFade::create(0.5f, WorldScene::createScene(this)));
-}
-
-NPCDataVec LoadLevelScene::getNPCs()
-{
-	return _npcLoader->getNPCs();
-}
-
-NPCData LoadLevelScene::getNPC(ID_NPC id)
-{
-	return _npcLoader->getNPC(id);
 }
 
 MapData LoadLevelScene::getCurrentMap()
@@ -261,8 +249,6 @@ void LoadLevelScene::loadAnimations()
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/snake.plist", "atlas/snake.png");
 	AnimationCache::getInstance()->addAnimationsWithFile("animation/snake.plist");
 
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/npc.plist", "atlas/npc.png");
-
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/iron.plist", "atlas/iron.png");
 	AnimationCache::getInstance()->addAnimationsWithFile("animation/iron.plist");
 
@@ -272,13 +258,6 @@ void LoadLevelScene::loadAnimations()
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("plists/electro.plist", "atlas/electro.png");
 	AnimationCache::getInstance()->addAnimationsWithFile("animation/electro.plist");
 
-	for (auto data : _npcLoader->getNPCs())
-	{
-		if (data._id <= vacom)
-		{
-			AnimationCache::getInstance()->addAnimationsWithFile("animation/" + data._name + ".plist");
-		}
-	}
 }
 
 void LoadLevelScene::showStartingScene()

@@ -162,6 +162,9 @@
     <ClCompile Include="..\Classes\Model\Bonus\RandomBonusNoSpawnBomb.cpp">
       <Filter>src\Model\Bonus</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Manager\NPCManager.cpp">
+      <Filter>src\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -349,6 +352,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Model\Bonus\BonusThroughBomb.h">
       <Filter>src\Model\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Manager\NPCManager.h">
+      <Filter>src\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
