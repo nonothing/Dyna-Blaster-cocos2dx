@@ -41,7 +41,7 @@ bool LoadLevelScene::init(MapDataLoader* loaderMap, const std::string& key)
     }
 	_isShowStartingScene = false;
 	_mapLoader = loaderMap;
-	_currentLevel = 64;
+	_currentLevel = 1;
 	
 	if (key.empty())
 	{
