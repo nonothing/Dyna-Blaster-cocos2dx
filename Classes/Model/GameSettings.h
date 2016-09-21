@@ -2,7 +2,7 @@
 #define __GAME_SETTINGS_H__
 
 #include "cocos2d.h"
-#include "Model/Player.h"
+#include "Model/Data/PlayerData.h"
 #include "enumerate/EControl.h"
 
 class GameSettings 
@@ -33,17 +33,12 @@ public:
 
 	EControl getControlType();
 	void saveControlType(EControl type);
-	void savePlayer(Player* player);
+	void savePlayer(const PlayerData& data);
+	void loadPlayerData(PlayerData& data);
 	void setPlayerLife(int value);
 	void setDefaulPlayer();
 	void setParametersPlayer(int sizeBomb, int countBomb, int speed);
-	int getSizeBomb();
-	int getCountBomb();
 	int getPlayerLife();
-	int getSpeedCount();
-	bool isRadioBomb();
-	bool isMoveWall();
-	bool isTroughBomb();
 	void clearInfoWin();
 	void addWinPlayer(PlayerColor color);
 	int getCountWinPlayer(PlayerColor color);

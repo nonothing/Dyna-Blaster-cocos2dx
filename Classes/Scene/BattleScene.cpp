@@ -2,7 +2,7 @@
 #include "editor-support/cocostudio/CocoStudio.h"
 #include "Model/Timer.h"
 #include "Model/GameSettings.h"
-#include "Model/MapData.h"
+#include "Model/Data/MapData.h"
 #include "Model/GameSounds.h"
 #include "utils/Utils.h"
 

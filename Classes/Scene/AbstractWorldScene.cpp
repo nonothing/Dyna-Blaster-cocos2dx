@@ -71,7 +71,7 @@ void AbstractWorldScene::createBomb(Player* player)
 	{
 		Size size = Size(60, 60);
 		Point offset = Point::ZERO;
-		Size playerSize = player->getSprite()->getContentSize() / 2;
+		Size playerSize = player->getSprite()->getContentSize() / 8;
 		if (player->getAnimDirection() == RIGHT)
 		{
 			offset = Point(playerSize.width, 0);
@@ -450,6 +450,7 @@ void AbstractWorldScene::updateCustomEvent(EEventType type, size_t id)
 		case EEXPLODE:		explodeBomb(player);		break;
 		case EPAUSE:		onPause();					break;
 		case EQUIT:			backMenu();					break;
+		case UPDATE_LIFE:	updateLifeLabel();			break;
 		default:
 			break;
 		}
@@ -510,7 +511,7 @@ void AbstractWorldScene::createControll(EControl type)
 
 	for (auto player : _players)
 	{
-		_customListener += player->customEvent;
+		_customListener += player->getEvent();
 	}
 	
 	addChild(_control, 11);

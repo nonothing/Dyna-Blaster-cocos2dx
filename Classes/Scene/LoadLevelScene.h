@@ -2,8 +2,8 @@
 #define __LOAD_LEVEL_SCENE_H__
 
 #include "cocos2d.h"
-#include "Model/MapData.h"
-#include "Model/NPCData.h"
+#include "Model/Data/MapData.h"
+#include "Model/Data/NPCData.h"
 
 class LoadLevelScene : public cocos2d::Layer
 {

@@ -25,6 +25,15 @@
     <Filter Include="src\enumerate">
       <UniqueIdentifier>{a779afc5-dac8-41a7-aee6-55a645d2c541}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Manager">
+      <UniqueIdentifier>{824333be-0f3f-48fc-9530-aaf891c0b11c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Model\Bonus">
+      <UniqueIdentifier>{d11ca879-866a-4b1d-9b51-4b85d87aac8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Model\Data">
+      <UniqueIdentifier>{747169e1-bd17-43c5-a006-15d772e931ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -96,13 +105,7 @@
     <ClCompile Include="..\Classes\Model\GameSettings.cpp">
       <Filter>src\Model</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Model\MapData.cpp">
-      <Filter>src\Model</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Model\NPC.cpp">
-      <Filter>src\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Model\NPCData.cpp">
       <Filter>src\Model</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Model\Player.cpp">
@@ -131,6 +134,33 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Model\GameSounds.cpp">
       <Filter>src\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Manager\BonusManager.cpp">
+      <Filter>src\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Model\Bonus\RandomBonusSlow.cpp">
+      <Filter>src\Model\Bonus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Model\Bonus\RandomBonus.cpp">
+      <Filter>src\Model\Bonus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Model\Data\MapData.cpp">
+      <Filter>src\Model\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Model\Data\NPCData.cpp">
+      <Filter>src\Model\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Model\Bonus\RandomBonusFast.cpp">
+      <Filter>src\Model\Bonus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Model\Bonus\BonusImmortal.cpp">
+      <Filter>src\Model\Bonus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Model\Bonus\RandomBonusSpawnBomb.cpp">
+      <Filter>src\Model\Bonus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Model\Bonus\RandomBonusNoSpawnBomb.cpp">
+      <Filter>src\Model\Bonus</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -203,13 +233,7 @@
     <ClInclude Include="..\Classes\Model\GameSettings.h">
       <Filter>src\Model</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Model\MapData.h">
-      <Filter>src\Model</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Model\NPC.h">
-      <Filter>src\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Model\NPCData.h">
       <Filter>src\Model</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Model\Player.h">
@@ -271,6 +295,60 @@
     </ClInclude>
     <ClInclude Include="..\Classes\enumerate\ESounds.h">
       <Filter>src\enumerate</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Manager\BonusManager.h">
+      <Filter>src\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\Bonus\RandomBonusSlow.h">
+      <Filter>src\Model\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\Bonus\RandomBonus.h">
+      <Filter>src\Model\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\Data\MapData.h">
+      <Filter>src\Model\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\Data\NPCData.h">
+      <Filter>src\Model\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\Data\PlayerData.h">
+      <Filter>src\Model\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\Bonus\RandomBonusFast.h">
+      <Filter>src\Model\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\Bonus\IBonus.h">
+      <Filter>src\Model\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\Bonus\BonusImmortal.h">
+      <Filter>src\Model\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\Bonus\RandomBonusSpawnBomb.h">
+      <Filter>src\Model\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\Bonus\RandomBonusNoSpawnBomb.h">
+      <Filter>src\Model\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\Bonus\BonusAddSizeBomb.h">
+      <Filter>src\Model\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\Bonus\BonusAddCountBomb.h">
+      <Filter>src\Model\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\Bonus\BonusRemoteBomb.h">
+      <Filter>src\Model\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\Bonus\BonusSpeedUp.h">
+      <Filter>src\Model\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\Bonus\BonusAddLife.h">
+      <Filter>src\Model\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\Bonus\BonusMoveWall.h">
+      <Filter>src\Model\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Model\Bonus\BonusThroughBomb.h">
+      <Filter>src\Model\Bonus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-#include "Model/NPCData.h"
+#include "Model/Data/NPCData.h"
 
 USING_NS_CC;
 

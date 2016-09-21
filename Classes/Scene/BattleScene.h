@@ -9,7 +9,7 @@
 #include "Model/BrickBonus.h"
 #include "ui/UIText.h"
 #include "Model/NPC.h"
-#include "Model/NPCData.h"
+#include "Model/Data/NPCData.h"
 #include "Model/Timer.h"
 #include "Scene/PreloadBattleScene.h"
 #include "ui/UIText.h"

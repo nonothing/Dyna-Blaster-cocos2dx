@@ -5,7 +5,7 @@
 
 enum  EEventType
 {
-	ECREATEBOMB = 0, EEXPLODE, EPAUSE, EQUIT,
+	ECREATEBOMB = 0, EEXPLODE, EPAUSE, EQUIT, UPDATE_LIFE,
 };
 
 typedef EventTempl<EEventType, int>					CustomEvent;

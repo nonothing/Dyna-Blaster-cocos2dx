@@ -128,16 +128,28 @@ void GameSettings::saveControlType(EControl type)
 	UserDefault::getInstance()->flush();
 }
 
-void GameSettings::savePlayer(Player* player)
+void GameSettings::savePlayer(const PlayerData& data)
 {
-	UserDefault::getInstance()->setIntegerForKey(SIZE_BOMB_KEY, player->getSizeBomb());
-	UserDefault::getInstance()->setIntegerForKey(COUNT_BOMB_KEY, player->getCountBomb());
-	UserDefault::getInstance()->setIntegerForKey(PLAYER_LIFE_KEY, player->getLife());
-	UserDefault::getInstance()->setIntegerForKey(SPEED_KEY, player->getSpeedCount());
-	UserDefault::getInstance()->setBoolForKey(RADIO_KEY, player->isRemote());
-	UserDefault::getInstance()->setBoolForKey(TROUGH_BOMB_KEY, player->isThroughBomb());
-	UserDefault::getInstance()->setBoolForKey(MOVE_WALL_KEY, player->isMoveWall());
+	UserDefault::getInstance()->setIntegerForKey(SIZE_BOMB_KEY, data._sizeBomb);
+	UserDefault::getInstance()->setIntegerForKey(COUNT_BOMB_KEY, data._countBomb);
+	UserDefault::getInstance()->setIntegerForKey(PLAYER_LIFE_KEY, data._life);
+	UserDefault::getInstance()->setIntegerForKey(SPEED_KEY, data._speedCount);
+	UserDefault::getInstance()->setBoolForKey(RADIO_KEY, data._isRemote);
+	UserDefault::getInstance()->setBoolForKey(TROUGH_BOMB_KEY, data._isThroughBomb);
+	UserDefault::getInstance()->setBoolForKey(MOVE_WALL_KEY, data._isMoveWall);
 	UserDefault::getInstance()->flush();
+}
+
+void GameSettings::loadPlayerData(PlayerData& data)
+{
+	data._speedCount = UserDefault::getInstance()->getIntegerForKey(SPEED_KEY, 0);
+	data._sizeBomb = UserDefault::getInstance()->getIntegerForKey(SIZE_BOMB_KEY, 1);
+	data._isRemote = UserDefault::getInstance()->getBoolForKey(RADIO_KEY, false);
+	data._countBomb = data._maxBomb = UserDefault::getInstance()->getIntegerForKey(COUNT_BOMB_KEY, 1);
+	data._isMoveWall = UserDefault::getInstance()->getBoolForKey(MOVE_WALL_KEY, false);
+	data._isThroughBomb = UserDefault::getInstance()->getBoolForKey(TROUGH_BOMB_KEY, false);
+	data._life = UserDefault::getInstance()->getIntegerForKey(PLAYER_LIFE_KEY, 0);
+	data.updateSpeed();
 }
 
 void GameSettings::setPlayerLife(int value)
@@ -158,7 +170,6 @@ void GameSettings::setDefaulPlayer()
 	UserDefault::getInstance()->flush();
 }
 
-
 void GameSettings::setParametersPlayer(int sizeBomb, int countBomb, int speed)
 {
 	setDefaulPlayer();
@@ -167,42 +178,10 @@ void GameSettings::setParametersPlayer(int sizeBomb, int countBomb, int speed)
 	UserDefault::getInstance()->setIntegerForKey(SPEED_KEY, speed);
 }
 
-int GameSettings::getSizeBomb()
-{
-	return UserDefault::getInstance()->getIntegerForKey(SIZE_BOMB_KEY, 1);
-}
-
-int GameSettings::getCountBomb()
-{
-	return UserDefault::getInstance()->getIntegerForKey(COUNT_BOMB_KEY, 1);
-}
-
 int GameSettings::getPlayerLife()
 {
 	return UserDefault::getInstance()->getIntegerForKey(PLAYER_LIFE_KEY, 0);
 }
-
-
-int GameSettings::getSpeedCount()
-{
-	return UserDefault::getInstance()->getIntegerForKey(SPEED_KEY, 0);
-}
-
-bool GameSettings::isRadioBomb()
-{
-	return UserDefault::getInstance()->getBoolForKey(RADIO_KEY, false);
-}
-
-bool GameSettings::isMoveWall()
-{
-	return UserDefault::getInstance()->getBoolForKey(MOVE_WALL_KEY, false);
-}
-
-bool GameSettings::isTroughBomb()
-{
-	return UserDefault::getInstance()->getBoolForKey(TROUGH_BOMB_KEY, false);
-}
-
 
 void GameSettings::clearInfoWin()
 {

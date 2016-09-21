@@ -4,8 +4,8 @@
 #include "cocos2d.h"
 #include "enumerate/Direction.h"
 #include "ui/UIText.h"
-#include "Model/MapData.h"
-#include "Model/NPCData.h"
+#include "Model/Data/MapData.h"
+#include "Model/Data/NPCData.h"
 
 class PasswordScene : public cocos2d::Layer
 {

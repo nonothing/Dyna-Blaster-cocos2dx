@@ -5,7 +5,7 @@
 #include "enumerate/Direction.h"
 #include "Model/Brick.h"
 #include "Model/WorldObject.h"
-#include "Model/NPCData.h"
+#include "Model/Data/NPCData.h"
 #include "Model/Bomb.h"
 #include "utils/Events.h"
 

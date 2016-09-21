@@ -82,6 +82,7 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	for (auto player : _players)
 	{
 		_control->showControlPlayer(player->getColorID(), true);
+		player->loadParametrs();
 		player->_collisions = _borderNode->getChildren();
 		player->setBricks(_bricks);
 	}
@@ -89,7 +90,6 @@ bool WorldScene::init(LoadLevelScene* levelScene)
 	addChild(_mapLayer);
 	addChild(_blackLayer, 1000);
 
-	_lifeListener.set(getPlayer()->lifeEvent, std::bind(&WorldScene::updateLifeLabel, this, std::placeholders::_1));
     return true;
 }
 
@@ -287,11 +287,6 @@ void WorldScene::createDoor(BricksVec freeBricks, bool isBoss)
  	_bricks.push_back(_doorBrick);
 }
 
-void WorldScene::updateLifeLabel(int life)
-{
-	_labelLife->setString(myUtils::to_string(life));
-}
-
 void WorldScene::updateScoreLabel(NPC* npc)
 {
 	int score = npc->getScore();
@@ -338,7 +333,7 @@ void WorldScene::createIronChild(const cocos2d::Point& point, unsigned int creat
 void WorldScene::nextLevel()
 {
 	//getPlayer()->setPosition(_startPosition);//todo
-	GameSettings::Instance().savePlayer(getPlayer());
+	GameSettings::Instance().savePlayer(getPlayer()->getData());
 	_levelScene->nextLevel();
 	Director::getInstance()->popScene();
 }
@@ -410,4 +405,9 @@ std::vector<ID_BONUS> WorldScene::getBonuses()
 	std::vector<ID_BONUS> result;
 	result.push_back(_data._bonus);
 	return result;
+}
+
+void WorldScene::updateLifeLabel()
+{
+	_labelLife->setString(myUtils::to_string(getPlayer()->getLife()));
 }

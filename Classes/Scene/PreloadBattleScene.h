@@ -2,7 +2,7 @@
 #define __PRELOAD_BATTLE_SCENE_H__
 
 #include "cocos2d.h"
-#include "Model/NPCData.h"
+#include "Model/Data/NPCData.h"
 
 class PreloadBattleScene : public cocos2d::Layer
 {

@@ -75,6 +75,7 @@ public:
 	virtual bool init(const std::string& name);
 	virtual void onEnter();
 	virtual void onExit();
+	virtual void updateLifeLabel() {};
 
 	virtual void playStartSounds() = 0;
 	virtual void backMenu() = 0;
