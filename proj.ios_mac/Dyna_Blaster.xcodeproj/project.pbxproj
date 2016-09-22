@@ -23,6 +23,26 @@
 		3F0640851D916C3E001A79C5 /* ControlButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640761D916C28001A79C5 /* ControlButton.cpp */; };
 		3F0640861D916C57001A79C5 /* SetupScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640701D916C00001A79C5 /* SetupScene.cpp */; };
 		3F0640871D916C74001A79C5 /* GameSounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F06407C1D916C28001A79C5 /* GameSounds.cpp */; };
+		3F0640A11D935D7E001A79C5 /* BonusImmortal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640901D935D7E001A79C5 /* BonusImmortal.cpp */; };
+		3F0640A21D935D7E001A79C5 /* RandomBonus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640971D935D7E001A79C5 /* RandomBonus.cpp */; };
+		3F0640A31D935D7E001A79C5 /* RandomBonusFast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640991D935D7E001A79C5 /* RandomBonusFast.cpp */; };
+		3F0640A41D935D7E001A79C5 /* RandomBonusNoSpawnBomb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F06409B1D935D7E001A79C5 /* RandomBonusNoSpawnBomb.cpp */; };
+		3F0640A51D935D7E001A79C5 /* RandomBonusSlow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F06409D1D935D7E001A79C5 /* RandomBonusSlow.cpp */; };
+		3F0640A61D935D7E001A79C5 /* RandomBonusSpawnBomb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F06409F1D935D7E001A79C5 /* RandomBonusSpawnBomb.cpp */; };
+		3F0640A71D935D81001A79C5 /* BonusImmortal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640901D935D7E001A79C5 /* BonusImmortal.cpp */; };
+		3F0640A81D935D85001A79C5 /* RandomBonus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640971D935D7E001A79C5 /* RandomBonus.cpp */; };
+		3F0640A91D935D87001A79C5 /* RandomBonusFast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640991D935D7E001A79C5 /* RandomBonusFast.cpp */; };
+		3F0640AA1D935D8B001A79C5 /* RandomBonusNoSpawnBomb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F06409B1D935D7E001A79C5 /* RandomBonusNoSpawnBomb.cpp */; };
+		3F0640AB1D935D8E001A79C5 /* RandomBonusSlow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F06409D1D935D7E001A79C5 /* RandomBonusSlow.cpp */; };
+		3F0640AC1D935D91001A79C5 /* RandomBonusSpawnBomb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F06409F1D935D7E001A79C5 /* RandomBonusSpawnBomb.cpp */; };
+		3F0640B31D935DA6001A79C5 /* MapData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640AE1D935DA6001A79C5 /* MapData.cpp */; };
+		3F0640B41D935DA6001A79C5 /* NPCData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640B01D935DA6001A79C5 /* NPCData.cpp */; };
+		3F0640B51D935DA9001A79C5 /* MapData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640AE1D935DA6001A79C5 /* MapData.cpp */; };
+		3F0640B61D935DAC001A79C5 /* NPCData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640B01D935DA6001A79C5 /* NPCData.cpp */; };
+		3F0640BC1D935DE0001A79C5 /* BonusManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640B81D935DE0001A79C5 /* BonusManager.cpp */; };
+		3F0640BD1D935DE0001A79C5 /* NPCManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640BA1D935DE0001A79C5 /* NPCManager.cpp */; };
+		3F0640BE1D935DE3001A79C5 /* BonusManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640B81D935DE0001A79C5 /* BonusManager.cpp */; };
+		3F0640BF1D935DE5001A79C5 /* NPCManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640BA1D935DE0001A79C5 /* NPCManager.cpp */; };
 		3F45B75E1D7FA53600347493 /* 5px2bus.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F45B7521D7FA53600347493 /* 5px2bus.ttf */; };
 		3F45B75F1D7FA53600347493 /* animation in Resources */ = {isa = PBXBuildFile; fileRef = 3F45B7531D7FA53600347493 /* animation */; };
 		3F45B7601D7FA53600347493 /* atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3F45B7541D7FA53600347493 /* atlas */; };
@@ -94,12 +114,8 @@
 		3FF88EEE1D7F807B008AF66E /* BrickDoor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FF88ED71D7F807B008AF66E /* BrickDoor.cpp */; };
 		3FF88EEF1D7F807B008AF66E /* GameSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FF88ED91D7F807B008AF66E /* GameSettings.cpp */; };
 		3FF88EF01D7F807B008AF66E /* GameSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FF88ED91D7F807B008AF66E /* GameSettings.cpp */; };
-		3FF88EF11D7F807B008AF66E /* MapData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FF88EDB1D7F807B008AF66E /* MapData.cpp */; };
-		3FF88EF21D7F807B008AF66E /* MapData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FF88EDB1D7F807B008AF66E /* MapData.cpp */; };
 		3FF88EF31D7F807B008AF66E /* NPC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FF88EDD1D7F807B008AF66E /* NPC.cpp */; };
 		3FF88EF41D7F807B008AF66E /* NPC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FF88EDD1D7F807B008AF66E /* NPC.cpp */; };
-		3FF88EF51D7F807B008AF66E /* NPCData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FF88EDF1D7F807B008AF66E /* NPCData.cpp */; };
-		3FF88EF61D7F807B008AF66E /* NPCData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FF88EDF1D7F807B008AF66E /* NPCData.cpp */; };
 		3FF88EF71D7F807B008AF66E /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FF88EE11D7F807B008AF66E /* Player.cpp */; };
 		3FF88EF81D7F807B008AF66E /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FF88EE11D7F807B008AF66E /* Player.cpp */; };
 		3FF88EF91D7F807B008AF66E /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FF88EE31D7F807B008AF66E /* Timer.cpp */; };
@@ -212,6 +228,35 @@
 		3F06407C1D916C28001A79C5 /* GameSounds.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSounds.cpp; sourceTree = "<group>"; };
 		3F06407D1D916C28001A79C5 /* GameSounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSounds.h; sourceTree = "<group>"; };
 		3F06407E1D916C28001A79C5 /* IControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IControl.h; sourceTree = "<group>"; };
+		3F06408D1D935D7E001A79C5 /* BonusAddCountBomb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusAddCountBomb.h; path = Bonus/BonusAddCountBomb.h; sourceTree = "<group>"; };
+		3F06408E1D935D7E001A79C5 /* BonusAddLife.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusAddLife.h; path = Bonus/BonusAddLife.h; sourceTree = "<group>"; };
+		3F06408F1D935D7E001A79C5 /* BonusAddSizeBomb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusAddSizeBomb.h; path = Bonus/BonusAddSizeBomb.h; sourceTree = "<group>"; };
+		3F0640901D935D7E001A79C5 /* BonusImmortal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusImmortal.cpp; path = Bonus/BonusImmortal.cpp; sourceTree = "<group>"; };
+		3F0640911D935D7E001A79C5 /* BonusImmortal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusImmortal.h; path = Bonus/BonusImmortal.h; sourceTree = "<group>"; };
+		3F0640921D935D7E001A79C5 /* BonusMoveWall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusMoveWall.h; path = Bonus/BonusMoveWall.h; sourceTree = "<group>"; };
+		3F0640931D935D7E001A79C5 /* BonusRemoteBomb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusRemoteBomb.h; path = Bonus/BonusRemoteBomb.h; sourceTree = "<group>"; };
+		3F0640941D935D7E001A79C5 /* BonusSpeedUp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusSpeedUp.h; path = Bonus/BonusSpeedUp.h; sourceTree = "<group>"; };
+		3F0640951D935D7E001A79C5 /* BonusThroughBomb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusThroughBomb.h; path = Bonus/BonusThroughBomb.h; sourceTree = "<group>"; };
+		3F0640961D935D7E001A79C5 /* IBonus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IBonus.h; path = Bonus/IBonus.h; sourceTree = "<group>"; };
+		3F0640971D935D7E001A79C5 /* RandomBonus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RandomBonus.cpp; path = Bonus/RandomBonus.cpp; sourceTree = "<group>"; };
+		3F0640981D935D7E001A79C5 /* RandomBonus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RandomBonus.h; path = Bonus/RandomBonus.h; sourceTree = "<group>"; };
+		3F0640991D935D7E001A79C5 /* RandomBonusFast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RandomBonusFast.cpp; path = Bonus/RandomBonusFast.cpp; sourceTree = "<group>"; };
+		3F06409A1D935D7E001A79C5 /* RandomBonusFast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RandomBonusFast.h; path = Bonus/RandomBonusFast.h; sourceTree = "<group>"; };
+		3F06409B1D935D7E001A79C5 /* RandomBonusNoSpawnBomb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RandomBonusNoSpawnBomb.cpp; path = Bonus/RandomBonusNoSpawnBomb.cpp; sourceTree = "<group>"; };
+		3F06409C1D935D7E001A79C5 /* RandomBonusNoSpawnBomb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RandomBonusNoSpawnBomb.h; path = Bonus/RandomBonusNoSpawnBomb.h; sourceTree = "<group>"; };
+		3F06409D1D935D7E001A79C5 /* RandomBonusSlow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RandomBonusSlow.cpp; path = Bonus/RandomBonusSlow.cpp; sourceTree = "<group>"; };
+		3F06409E1D935D7E001A79C5 /* RandomBonusSlow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RandomBonusSlow.h; path = Bonus/RandomBonusSlow.h; sourceTree = "<group>"; };
+		3F06409F1D935D7E001A79C5 /* RandomBonusSpawnBomb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RandomBonusSpawnBomb.cpp; path = Bonus/RandomBonusSpawnBomb.cpp; sourceTree = "<group>"; };
+		3F0640A01D935D7E001A79C5 /* RandomBonusSpawnBomb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RandomBonusSpawnBomb.h; path = Bonus/RandomBonusSpawnBomb.h; sourceTree = "<group>"; };
+		3F0640AE1D935DA6001A79C5 /* MapData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapData.cpp; path = Data/MapData.cpp; sourceTree = "<group>"; };
+		3F0640AF1D935DA6001A79C5 /* MapData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapData.h; path = Data/MapData.h; sourceTree = "<group>"; };
+		3F0640B01D935DA6001A79C5 /* NPCData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NPCData.cpp; path = Data/NPCData.cpp; sourceTree = "<group>"; };
+		3F0640B11D935DA6001A79C5 /* NPCData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NPCData.h; path = Data/NPCData.h; sourceTree = "<group>"; };
+		3F0640B21D935DA6001A79C5 /* PlayerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerData.h; path = Data/PlayerData.h; sourceTree = "<group>"; };
+		3F0640B81D935DE0001A79C5 /* BonusManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BonusManager.cpp; path = Manager/BonusManager.cpp; sourceTree = "<group>"; };
+		3F0640B91D935DE0001A79C5 /* BonusManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusManager.h; path = Manager/BonusManager.h; sourceTree = "<group>"; };
+		3F0640BA1D935DE0001A79C5 /* NPCManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NPCManager.cpp; path = Manager/NPCManager.cpp; sourceTree = "<group>"; };
+		3F0640BB1D935DE0001A79C5 /* NPCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NPCManager.h; path = Manager/NPCManager.h; sourceTree = "<group>"; };
 		3F45B7521D7FA53600347493 /* 5px2bus.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 5px2bus.ttf; sourceTree = "<group>"; };
 		3F45B7531D7FA53600347493 /* animation */ = {isa = PBXFileReference; lastKnownFileType = folder; path = animation; sourceTree = "<group>"; };
 		3F45B7541D7FA53600347493 /* atlas */ = {isa = PBXFileReference; lastKnownFileType = folder; path = atlas; sourceTree = "<group>"; };
@@ -277,12 +322,8 @@
 		3FF88ED81D7F807B008AF66E /* BrickDoor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrickDoor.h; sourceTree = "<group>"; };
 		3FF88ED91D7F807B008AF66E /* GameSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameSettings.cpp; sourceTree = "<group>"; };
 		3FF88EDA1D7F807B008AF66E /* GameSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSettings.h; sourceTree = "<group>"; };
-		3FF88EDB1D7F807B008AF66E /* MapData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MapData.cpp; sourceTree = "<group>"; };
-		3FF88EDC1D7F807B008AF66E /* MapData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapData.h; sourceTree = "<group>"; };
 		3FF88EDD1D7F807B008AF66E /* NPC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NPC.cpp; sourceTree = "<group>"; };
 		3FF88EDE1D7F807B008AF66E /* NPC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NPC.h; sourceTree = "<group>"; };
-		3FF88EDF1D7F807B008AF66E /* NPCData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NPCData.cpp; sourceTree = "<group>"; };
-		3FF88EE01D7F807B008AF66E /* NPCData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NPCData.h; sourceTree = "<group>"; };
 		3FF88EE11D7F807B008AF66E /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
 		3FF88EE21D7F807B008AF66E /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		3FF88EE31D7F807B008AF66E /* Timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timer.cpp; sourceTree = "<group>"; };
@@ -455,6 +496,56 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3F06408C1D935D6A001A79C5 /* Bonus */ = {
+			isa = PBXGroup;
+			children = (
+				3F06408D1D935D7E001A79C5 /* BonusAddCountBomb.h */,
+				3F06408E1D935D7E001A79C5 /* BonusAddLife.h */,
+				3F06408F1D935D7E001A79C5 /* BonusAddSizeBomb.h */,
+				3F0640901D935D7E001A79C5 /* BonusImmortal.cpp */,
+				3F0640911D935D7E001A79C5 /* BonusImmortal.h */,
+				3F0640921D935D7E001A79C5 /* BonusMoveWall.h */,
+				3F0640931D935D7E001A79C5 /* BonusRemoteBomb.h */,
+				3F0640941D935D7E001A79C5 /* BonusSpeedUp.h */,
+				3F0640951D935D7E001A79C5 /* BonusThroughBomb.h */,
+				3F0640961D935D7E001A79C5 /* IBonus.h */,
+				3F0640971D935D7E001A79C5 /* RandomBonus.cpp */,
+				3F0640981D935D7E001A79C5 /* RandomBonus.h */,
+				3F0640991D935D7E001A79C5 /* RandomBonusFast.cpp */,
+				3F06409A1D935D7E001A79C5 /* RandomBonusFast.h */,
+				3F06409B1D935D7E001A79C5 /* RandomBonusNoSpawnBomb.cpp */,
+				3F06409C1D935D7E001A79C5 /* RandomBonusNoSpawnBomb.h */,
+				3F06409D1D935D7E001A79C5 /* RandomBonusSlow.cpp */,
+				3F06409E1D935D7E001A79C5 /* RandomBonusSlow.h */,
+				3F06409F1D935D7E001A79C5 /* RandomBonusSpawnBomb.cpp */,
+				3F0640A01D935D7E001A79C5 /* RandomBonusSpawnBomb.h */,
+			);
+			name = Bonus;
+			sourceTree = "<group>";
+		};
+		3F0640AD1D935D98001A79C5 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				3F0640AE1D935DA6001A79C5 /* MapData.cpp */,
+				3F0640AF1D935DA6001A79C5 /* MapData.h */,
+				3F0640B01D935DA6001A79C5 /* NPCData.cpp */,
+				3F0640B11D935DA6001A79C5 /* NPCData.h */,
+				3F0640B21D935DA6001A79C5 /* PlayerData.h */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		3F0640B71D935DCE001A79C5 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				3F0640B81D935DE0001A79C5 /* BonusManager.cpp */,
+				3F0640B91D935DE0001A79C5 /* BonusManager.h */,
+				3F0640BA1D935DE0001A79C5 /* NPCManager.cpp */,
+				3F0640BB1D935DE0001A79C5 /* NPCManager.h */,
+			);
+			name = Manager;
+			sourceTree = "<group>";
+		};
 		3FF88E1F1D7F780B008AF66E /* Scene */ = {
 			isa = PBXGroup;
 			children = (
@@ -532,6 +623,8 @@
 		3FF88ED01D7F807B008AF66E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3F0640AD1D935D98001A79C5 /* Data */,
+				3F06408C1D935D6A001A79C5 /* Bonus */,
 				3F0640761D916C28001A79C5 /* ControlButton.cpp */,
 				3F0640771D916C28001A79C5 /* ControlButton.h */,
 				3F0640781D916C28001A79C5 /* ControlJoystick.cpp */,
@@ -551,12 +644,8 @@
 				3FF88ED81D7F807B008AF66E /* BrickDoor.h */,
 				3FF88ED91D7F807B008AF66E /* GameSettings.cpp */,
 				3FF88EDA1D7F807B008AF66E /* GameSettings.h */,
-				3FF88EDB1D7F807B008AF66E /* MapData.cpp */,
-				3FF88EDC1D7F807B008AF66E /* MapData.h */,
 				3FF88EDD1D7F807B008AF66E /* NPC.cpp */,
 				3FF88EDE1D7F807B008AF66E /* NPC.h */,
-				3FF88EDF1D7F807B008AF66E /* NPCData.cpp */,
-				3FF88EE01D7F807B008AF66E /* NPCData.h */,
 				3FF88EE11D7F807B008AF66E /* Player.cpp */,
 				3FF88EE21D7F807B008AF66E /* Player.h */,
 				3FF88EE31D7F807B008AF66E /* Timer.cpp */,
@@ -590,6 +679,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				3F0640B71D935DCE001A79C5 /* Manager */,
 				3FF88E9F1D7F7A09008AF66E /* AppDelegate.cpp */,
 				3FF88EA01D7F7A09008AF66E /* AppDelegate.h */,
 				3FF88ED01D7F807B008AF66E /* Model */,
@@ -812,31 +902,39 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F0640A21D935D7E001A79C5 /* RandomBonus.cpp in Sources */,
 				3FF88EE71D7F807B008AF66E /* Bomb.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				3F0640A11D935D7E001A79C5 /* BonusImmortal.cpp in Sources */,
 				3FF88EFB1D7F807B008AF66E /* WorldObject.cpp in Sources */,
 				3FF88EEB1D7F807B008AF66E /* BrickBonus.cpp in Sources */,
 				3FF88EF91D7F807B008AF66E /* Timer.cpp in Sources */,
 				3F0640821D916C28001A79C5 /* GameSounds.cpp in Sources */,
-				3FF88EF51D7F807B008AF66E /* NPCData.cpp in Sources */,
 				3FF88E8D1D7F795C008AF66E /* BattleScene.cpp in Sources */,
+				3F0640A51D935D7E001A79C5 /* RandomBonusSlow.cpp in Sources */,
+				3F0640B41D935DA6001A79C5 /* NPCData.cpp in Sources */,
 				3FF88E771D7F794E008AF66E /* Iron.cpp in Sources */,
 				3FF88E9D1D7F795C008AF66E /* WorldScene.cpp in Sources */,
+				3F0640A41D935D7E001A79C5 /* RandomBonusNoSpawnBomb.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				3FF88E971D7F795C008AF66E /* PasswordScene.cpp in Sources */,
 				3FF88E711D7F794E008AF66E /* Cyclop.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				3FF88E8F1D7F795C008AF66E /* FinalScene.cpp in Sources */,
 				3F0640811D916C28001A79C5 /* ControlKeyBoard.cpp in Sources */,
+				3F0640A61D935D7E001A79C5 /* RandomBonusSpawnBomb.cpp in Sources */,
 				3FF88E951D7F795C008AF66E /* MenuScene.cpp in Sources */,
 				3FF88EF31D7F807B008AF66E /* NPC.cpp in Sources */,
+				3F0640BC1D935DE0001A79C5 /* BonusManager.cpp in Sources */,
 				3FF88E991D7F795C008AF66E /* PreloadBattleScene.cpp in Sources */,
+				3F0640BD1D935DE0001A79C5 /* NPCManager.cpp in Sources */,
+				3F0640A31D935D7E001A79C5 /* RandomBonusFast.cpp in Sources */,
 				3F45B7891D809EF800347493 /* AbstractWorldScene.cpp in Sources */,
 				3F0640801D916C28001A79C5 /* ControlJoystick.cpp in Sources */,
+				3F0640B31D935DA6001A79C5 /* MapData.cpp in Sources */,
 				3FF88EED1D7F807B008AF66E /* BrickDoor.cpp in Sources */,
 				3FF88E911D7F795C008AF66E /* GameOverScene.cpp in Sources */,
 				3FF88E731D7F794E008AF66E /* Electro.cpp in Sources */,
-				3FF88EF11D7F807B008AF66E /* MapData.cpp in Sources */,
 				3FF88EEF1D7F807B008AF66E /* GameSettings.cpp in Sources */,
 				3FF88E931D7F795C008AF66E /* LoadLevelScene.cpp in Sources */,
 				3F0640721D916C00001A79C5 /* SetupScene.cpp in Sources */,
@@ -867,13 +965,18 @@
 				3FF88EEE1D7F807B008AF66E /* BrickDoor.cpp in Sources */,
 				3FF88E8E1D7F795C008AF66E /* BattleScene.cpp in Sources */,
 				3FF88E701D7F794E008AF66E /* BossBase.cpp in Sources */,
+				3F0640BE1D935DE3001A79C5 /* BonusManager.cpp in Sources */,
 				3F0640831D916C36001A79C5 /* ControlKeyBoard.cpp in Sources */,
+				3F0640AA1D935D8B001A79C5 /* RandomBonusNoSpawnBomb.cpp in Sources */,
 				3FF88E9C1D7F795C008AF66E /* StartingScene.cpp in Sources */,
 				3FF88E9A1D7F795C008AF66E /* PreloadBattleScene.cpp in Sources */,
+				3F0640A71D935D81001A79C5 /* BonusImmortal.cpp in Sources */,
 				3F45B78B1D809EFF00347493 /* AbstractWorldScene.cpp in Sources */,
 				3FF88EEA1D7F807B008AF66E /* Brick.cpp in Sources */,
 				3FF88E781D7F794E008AF66E /* Iron.cpp in Sources */,
+				3F0640A91D935D87001A79C5 /* RandomBonusFast.cpp in Sources */,
 				3FF88EFC1D7F807B008AF66E /* WorldObject.cpp in Sources */,
+				3F0640AB1D935D8E001A79C5 /* RandomBonusSlow.cpp in Sources */,
 				3FF88EA21D7F7A09008AF66E /* AppDelegate.cpp in Sources */,
 				3FF88EE81D7F807B008AF66E /* Bomb.cpp in Sources */,
 				3FF88E7A1D7F794E008AF66E /* Snake.cpp in Sources */,
@@ -882,15 +985,18 @@
 				3F0640841D916C3A001A79C5 /* ControlJoystick.cpp in Sources */,
 				3FF88E941D7F795C008AF66E /* LoadLevelScene.cpp in Sources */,
 				3FF88EFA1D7F807B008AF66E /* Timer.cpp in Sources */,
+				3F0640BF1D935DE5001A79C5 /* NPCManager.cpp in Sources */,
 				3FF88EF01D7F807B008AF66E /* GameSettings.cpp in Sources */,
 				3FF88E901D7F795C008AF66E /* FinalScene.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				3F0640851D916C3E001A79C5 /* ControlButton.cpp in Sources */,
-				3FF88EF21D7F807B008AF66E /* MapData.cpp in Sources */,
 				3FF88E961D7F795C008AF66E /* MenuScene.cpp in Sources */,
+				3F0640A81D935D85001A79C5 /* RandomBonus.cpp in Sources */,
+				3F0640B51D935DA9001A79C5 /* MapData.cpp in Sources */,
 				3FF88EEC1D7F807B008AF66E /* BrickBonus.cpp in Sources */,
+				3F0640AC1D935D91001A79C5 /* RandomBonusSpawnBomb.cpp in Sources */,
+				3F0640B61D935DAC001A79C5 /* NPCData.cpp in Sources */,
 				3FF88E761D7F794E008AF66E /* Human.cpp in Sources */,
-				3FF88EF61D7F807B008AF66E /* NPCData.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
