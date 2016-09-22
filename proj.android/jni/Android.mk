@@ -25,15 +25,23 @@ LOCAL_SRC_FILES := dynacpp/main.cpp \
 				   ../../Classes/Model/BrickDoor.cpp \
 				   ../../Classes/Model/GameSettings.cpp \
 				   ../../Classes/Model/GameSounds.cpp \
-				   ../../Classes/Model/MapData.cpp \
 				   ../../Classes/Model/NPC.cpp \
-				   ../../Classes/Model/NPCData.cpp \
 				   ../../Classes/Model/Player.cpp \
 				   ../../Classes/Model/Timer.cpp \
 				   ../../Classes/Model/WorldObject.cpp \
 				   ../../Classes/Model/ControlButton.cpp \
 				   ../../Classes/Model/ControlKeyBoard.cpp \
 				   ../../Classes/Model/ControlJoystick.cpp \
+				   ../../Classes/Model/Data/MapData.cpp \
+				   ../../Classes/Model/Data/NPCData.cpp \
+				   ../../Classes/Model/Bonus/BonusImmortal.cpp \
+				   ../../Classes/Model/Bonus/RandomBonus.cpp \
+				   ../../Classes/Model/Bonus/RandomBonusFast.cpp \
+				   ../../Classes/Model/Bonus/RandomBonusNoSpawnBomb.cpp \
+				   ../../Classes/Model/Bonus/RandomBonusSlow.cpp \
+				   ../../Classes/Model/Bonus/RandomBonusSpawnBomb.cpp \
+				   ../../Classes/Manager/NPCManager.cpp \
+				   ../../Classes/Manager/BonusManager.cpp \
 				   ../../Classes/Scene/AbstractWorldScene.cpp \
 				   ../../Classes/Scene/BattleScene.cpp \
 				   ../../Classes/Scene/FinalScene.cpp \
