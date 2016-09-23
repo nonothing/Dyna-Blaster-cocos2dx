@@ -52,6 +52,7 @@ bool Player::init(cocos2d::Layer* layer, PlayerColor color)
 void Player::loadParametrs()
 {
 	GameSettings::Instance().loadPlayerData(_data);
+	_initCountBomb = _data._maxBomb;
 }
 
 cocos2d::Point Player::getOffsetToDir()
@@ -265,6 +266,7 @@ void Player::destroy()
 	_sprite->setVisible(false);
 	_data.clearBonus();
 	_data._life--;
+	_data._countBomb = _data._maxBomb = _initCountBomb;
 	_data.updateLife();
 	GameSettings::Instance().savePlayer(_data);
 	_isDestroy = true;

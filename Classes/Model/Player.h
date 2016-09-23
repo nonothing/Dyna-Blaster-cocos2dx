@@ -24,6 +24,7 @@ private:
 	bool				_isDead;
 	bool				_isDestroy;
 	bool				_isStop;
+	int					_initCountBomb;
 	//bonus
 	
 	BricksVec			_bricks;
