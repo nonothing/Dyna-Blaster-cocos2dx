@@ -679,14 +679,14 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				3F0640B71D935DCE001A79C5 /* Manager */,
 				3FF88E9F1D7F7A09008AF66E /* AppDelegate.cpp */,
 				3FF88EA01D7F7A09008AF66E /* AppDelegate.h */,
-				3FF88ED01D7F807B008AF66E /* Model */,
-				3FF88E581D7F7920008AF66E /* utils */,
-				3FF88E2A1D7F78FE008AF66E /* enumerate */,
 				3FF88E291D7F78F2008AF66E /* Boss */,
+				3FF88E2A1D7F78FE008AF66E /* enumerate */,
+				3F0640B71D935DCE001A79C5 /* Manager */,
+				3FF88ED01D7F807B008AF66E /* Model */,
 				3FF88E1F1D7F780B008AF66E /* Scene */,
+				3FF88E581D7F7920008AF66E /* utils */,
 			);
 			name = Classes;
 			path = ../Classes;
