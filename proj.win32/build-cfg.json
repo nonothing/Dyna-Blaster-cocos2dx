@@ -3,6 +3,10 @@
         {
             "from": "../Resources",
             "to": ""
+        },
+		{
+            "from": "../ExternalDll",
+            "to": ""
         }
     ]
 }
