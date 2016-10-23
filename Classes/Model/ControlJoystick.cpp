@@ -21,7 +21,7 @@ bool ControlJoystick::init(bool single)
 {
 	if (!IControl::initKeyBoard(single) || !IControl::initTouch(single)) return false;
 
-	float scale = GameSettings::Instance().getScaleButtons();
+	_scale = GameSettings::Instance().getScaleButtons();
 	float opacity = GameSettings::Instance().getOpacityButtons();
 
 	for (int i = 0; i < 4; i++)
@@ -29,7 +29,7 @@ bool ControlJoystick::init(bool single)
 		auto border = Sprite::createWithSpriteFrameName("joystick_border.png");
 		border->setTag(7 + i * 10);
 		border->setVisible(false);
-		setButtonParameters(border, scale, opacity);
+		setButtonParameters(border, _scale, opacity);
 		_borders.push_back(border);
 
 		std::string id = myUtils::to_string(i + 1);
@@ -37,7 +37,7 @@ bool ControlJoystick::init(bool single)
 		auto joystick = Sprite::createWithSpriteFrameName("joystick_" + id + ".png");
 		joystick->setTag(8 + i * 10);
 		joystick->setVisible(false);
-		joystick->setScale(scale);
+		joystick->setScale(_scale);
 		joystick->setOpacity(opacity);
 		joystick->setPosition(_borders.at(i)->getPosition());
 		addChild(joystick);
@@ -48,13 +48,13 @@ bool ControlJoystick::init(bool single)
 		auto createBombButton = Sprite::createWithSpriteFrameName("bomb_key_" + id + ".png");
 		createBombButton->setTag(5 + i * 10);
 		createBombButton->setVisible(false);
-		setButtonParameters(createBombButton, scale, opacity);
+		setButtonParameters(createBombButton, _scale, opacity);
 		_createBombButtons.push_back(createBombButton);
 
 		auto radioButton = Sprite::createWithSpriteFrameName("bomb_radio_key_" + id + ".png");
 		radioButton->setTag(6);
 		radioButton->setVisible(false);
-		setButtonParameters(radioButton, scale, opacity);
+		setButtonParameters(radioButton, _scale, opacity);
 		_radioButtons.push_back(radioButton);
 	}
 
@@ -126,8 +126,10 @@ void ControlJoystick::TouchMoved(const std::vector<cocos2d::Touch*>& touches, co
 void ControlJoystick::setJoystickPosition(float angle, int index)
 {
 	auto border = _borders.at(index);
-	float distance = border->getPosition().getDistance(border->getPosition() + (border->getContentSize() / 2));
-	_joysticks[index]->setPosition(border->getPosition() - Point(sin(angle) * distance, cos(angle) * distance));
+	auto joystick = _joysticks[index];
+	auto farPoint = border->getPosition() + ((border->getContentSize() * _scale) / 2) - (joystick->getContentSize() * _scale);
+	float distance = border->getPosition().getDistance(farPoint);
+	joystick->setPosition(border->getPosition() - Point(sin(angle) * distance, cos(angle) * distance));
 }
 
 void ControlJoystick::TouchEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* e)

@@ -13,6 +13,7 @@ private:
 	std::vector< cocos2d::Sprite*>	_joysticks;
 	std::vector<Direction>			_directions;
 	std::vector<Direction>			_oldDirs;
+	float							_scale;
 
 	bool touchButton(cocos2d::Sprite* button, const cocos2d::Point& point);
 	void findDirection(float angle, int index);
