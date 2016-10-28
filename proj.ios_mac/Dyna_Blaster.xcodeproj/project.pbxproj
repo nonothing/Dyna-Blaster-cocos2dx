@@ -69,7 +69,6 @@
 		3F45B7751D7FA54400347493 /* 5px2bus.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F45B7521D7FA53600347493 /* 5px2bus.ttf */; };
 		3F45B7891D809EF800347493 /* AbstractWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F45B7871D809EF800347493 /* AbstractWorldScene.cpp */; };
 		3F45B78B1D809EFF00347493 /* AbstractWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F45B7871D809EF800347493 /* AbstractWorldScene.cpp */; };
-		3FF88E0E1D7F7502008AF66E /* Scene in Resources */ = {isa = PBXBuildFile; fileRef = 3FF88E0D1D7F7502008AF66E /* Scene */; };
 		3FF88E5D1D7F7933008AF66E /* CSVReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FF88E591D7F7933008AF66E /* CSVReader.cpp */; };
 		3FF88E5E1D7F7933008AF66E /* CSVReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FF88E591D7F7933008AF66E /* CSVReader.cpp */; };
 		3FF88E6F1D7F794E008AF66E /* BossBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FF88E631D7F794E008AF66E /* BossBase.cpp */; };
@@ -209,7 +208,7 @@
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D6058910D05DD3D006BFB54 /* Dyna_Blaster-mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dyna_Blaster-mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* Dyna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dyna.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		294D0D631D0D56D500F7F5D4 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
@@ -257,6 +256,7 @@
 		3F0640B91D935DE0001A79C5 /* BonusManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BonusManager.h; path = Manager/BonusManager.h; sourceTree = "<group>"; };
 		3F0640BA1D935DE0001A79C5 /* NPCManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NPCManager.cpp; path = Manager/NPCManager.cpp; sourceTree = "<group>"; };
 		3F0640BB1D935DE0001A79C5 /* NPCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NPCManager.h; path = Manager/NPCManager.h; sourceTree = "<group>"; };
+		3F0640F51DC30B2F001A79C5 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/GameKit.framework; sourceTree = DEVELOPER_DIR; };
 		3F45B7521D7FA53600347493 /* 5px2bus.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 5px2bus.ttf; sourceTree = "<group>"; };
 		3F45B7531D7FA53600347493 /* animation */ = {isa = PBXFileReference; lastKnownFileType = folder; path = animation; sourceTree = "<group>"; };
 		3F45B7541D7FA53600347493 /* atlas */ = {isa = PBXFileReference; lastKnownFileType = folder; path = atlas; sourceTree = "<group>"; };
@@ -271,7 +271,6 @@
 		3F45B75D1D7FA53600347493 /* starting scene */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "starting scene"; sourceTree = "<group>"; };
 		3F45B7871D809EF800347493 /* AbstractWorldScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AbstractWorldScene.cpp; path = Scene/AbstractWorldScene.cpp; sourceTree = "<group>"; };
 		3F45B7881D809EF800347493 /* AbstractWorldScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AbstractWorldScene.h; path = Scene/AbstractWorldScene.h; sourceTree = "<group>"; };
-		3FF88E0D1D7F7502008AF66E /* Scene */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Scene; path = "/Users/name/Downloads/cocos2d-x-3.13/tools/cocos2d-console/bin/Dyna_Blaster/Classes/Scene"; sourceTree = "<absolute>"; };
 		3FF88E591D7F7933008AF66E /* CSVReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSVReader.cpp; path = utils/CSVReader.cpp; sourceTree = "<group>"; };
 		3FF88E5A1D7F7933008AF66E /* CSVReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSVReader.h; path = utils/CSVReader.h; sourceTree = "<group>"; };
 		3FF88E5B1D7F7933008AF66E /* Events.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Events.h; path = utils/Events.h; sourceTree = "<group>"; };
@@ -439,7 +438,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* Dyna_Blaster-mobile.app */,
+				1D6058910D05DD3D006BFB54 /* Dyna.app */,
 				5087E76F17EB910900C73F5D /* Dyna_Blaster-desktop.app */,
 			);
 			name = Products;
@@ -472,6 +471,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3F0640F51DC30B2F001A79C5 /* GameKit.framework */,
 				294D0D631D0D56D500F7F5D4 /* CoreText.framework */,
 				ED545A7D1B68A1FA00C3958E /* libiconv.dylib */,
 				ED545A7B1B68A1F400C3958E /* libiconv.dylib */,
@@ -757,7 +757,7 @@
 			);
 			name = "Dyna_Blaster-mobile";
 			productName = iphone;
-			productReference = 1D6058910D05DD3D006BFB54 /* Dyna_Blaster-mobile.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* Dyna.app */;
 			productType = "com.apple.product-type.application";
 		};
 		5087E73D17EB910900C73F5D /* Dyna_Blaster-desktop */ = {
@@ -785,6 +785,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0500;
+				TargetAttributes = {
+					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = PP7FX97VX8;
+					};
+				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Dyna_Blaster" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -846,7 +851,6 @@
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
 				5087E78617EB970100C73F5D /* Icon-76.png in Resources */,
 				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
-				3FF88E0E1D7F7502008AF66E /* Scene in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
@@ -1021,6 +1025,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -1034,7 +1039,7 @@
 					"CC_ENABLE_CHIPMUNK_INTEGRATION=1",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = "";
@@ -1042,6 +1047,8 @@
 					"$(_COCOS_LIB_IOS_BEGIN)",
 					"$(_COCOS_LIB_IOS_END)",
 				);
+				PRODUCT_NAME = Dyna;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1055,6 +1062,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -1066,7 +1074,7 @@
 					"CC_ENABLE_CHIPMUNK_INTEGRATION=1",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = "";
@@ -1074,6 +1082,8 @@
 					"$(_COCOS_LIB_IOS_BEGIN)",
 					"$(_COCOS_LIB_IOS_END)",
 				);
+				PRODUCT_NAME = Dyna;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";

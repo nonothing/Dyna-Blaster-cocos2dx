@@ -115,6 +115,8 @@ EControl GameSettings::getControlType()
 	{
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 		result = (int)EBUTTON;
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+        result = (int)EJOYSTICK;
 #else
 		result = (int)EKEYBOARD;
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
