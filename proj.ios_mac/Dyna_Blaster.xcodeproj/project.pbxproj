@@ -43,7 +43,6 @@
 		3F0640BD1D935DE0001A79C5 /* NPCManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640BA1D935DE0001A79C5 /* NPCManager.cpp */; };
 		3F0640BE1D935DE3001A79C5 /* BonusManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640B81D935DE0001A79C5 /* BonusManager.cpp */; };
 		3F0640BF1D935DE5001A79C5 /* NPCManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F0640BA1D935DE0001A79C5 /* NPCManager.cpp */; };
-		3F45B75E1D7FA53600347493 /* 5px2bus.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F45B7521D7FA53600347493 /* 5px2bus.ttf */; };
 		3F45B75F1D7FA53600347493 /* animation in Resources */ = {isa = PBXBuildFile; fileRef = 3F45B7531D7FA53600347493 /* animation */; };
 		3F45B7601D7FA53600347493 /* atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3F45B7541D7FA53600347493 /* atlas */; };
 		3F45B7611D7FA53600347493 /* backgrounds in Resources */ = {isa = PBXBuildFile; fileRef = 3F45B7551D7FA53600347493 /* backgrounds */; };
@@ -66,7 +65,6 @@
 		3F45B7721D7FA54100347493 /* nodes in Resources */ = {isa = PBXBuildFile; fileRef = 3F45B75B1D7FA53600347493 /* nodes */; };
 		3F45B7731D7FA54100347493 /* plists in Resources */ = {isa = PBXBuildFile; fileRef = 3F45B75C1D7FA53600347493 /* plists */; };
 		3F45B7741D7FA54100347493 /* starting scene in Resources */ = {isa = PBXBuildFile; fileRef = 3F45B75D1D7FA53600347493 /* starting scene */; };
-		3F45B7751D7FA54400347493 /* 5px2bus.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F45B7521D7FA53600347493 /* 5px2bus.ttf */; };
 		3F45B7891D809EF800347493 /* AbstractWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F45B7871D809EF800347493 /* AbstractWorldScene.cpp */; };
 		3F45B78B1D809EFF00347493 /* AbstractWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F45B7871D809EF800347493 /* AbstractWorldScene.cpp */; };
 		3FF88E5D1D7F7933008AF66E /* CSVReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FF88E591D7F7933008AF66E /* CSVReader.cpp */; };
@@ -257,7 +255,6 @@
 		3F0640BA1D935DE0001A79C5 /* NPCManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NPCManager.cpp; path = Manager/NPCManager.cpp; sourceTree = "<group>"; };
 		3F0640BB1D935DE0001A79C5 /* NPCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NPCManager.h; path = Manager/NPCManager.h; sourceTree = "<group>"; };
 		3F0640F51DC30B2F001A79C5 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/GameKit.framework; sourceTree = DEVELOPER_DIR; };
-		3F45B7521D7FA53600347493 /* 5px2bus.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 5px2bus.ttf; sourceTree = "<group>"; };
 		3F45B7531D7FA53600347493 /* animation */ = {isa = PBXFileReference; lastKnownFileType = folder; path = animation; sourceTree = "<group>"; };
 		3F45B7541D7FA53600347493 /* atlas */ = {isa = PBXFileReference; lastKnownFileType = folder; path = atlas; sourceTree = "<group>"; };
 		3F45B7551D7FA53600347493 /* backgrounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = backgrounds; sourceTree = "<group>"; };
@@ -659,7 +656,6 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				3F45B7521D7FA53600347493 /* 5px2bus.ttf */,
 				3F45B7531D7FA53600347493 /* animation */,
 				3F45B7541D7FA53600347493 /* atlas */,
 				3F45B7551D7FA53600347493 /* backgrounds */,
@@ -867,7 +863,6 @@
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
-				3F45B75E1D7FA53600347493 /* 5px2bus.ttf in Resources */,
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,
 				521A8E6419F0C34300D177D7 /* Default-667h@2x.png in Resources */,
 				50EF629717ECD46A001EB2F8 /* Icon-58.png in Resources */,
@@ -888,7 +883,6 @@
 				3F45B76D1D7FA54100347493 /* bricks in Resources */,
 				3F45B76B1D7FA54100347493 /* atlas in Resources */,
 				3F45B7731D7FA54100347493 /* plists in Resources */,
-				3F45B7751D7FA54400347493 /* 5px2bus.ttf in Resources */,
 				503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */,
 				3F45B7711D7FA54100347493 /* music in Resources */,
 				3F45B76E1D7FA54100347493 /* fonts in Resources */,
@@ -1047,6 +1041,7 @@
 					"$(_COCOS_LIB_IOS_BEGIN)",
 					"$(_COCOS_LIB_IOS_END)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dose.dyna;
 				PRODUCT_NAME = Dyna;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -1082,6 +1077,7 @@
 					"$(_COCOS_LIB_IOS_BEGIN)",
 					"$(_COCOS_LIB_IOS_END)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.dose.dyna;
 				PRODUCT_NAME = Dyna;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;

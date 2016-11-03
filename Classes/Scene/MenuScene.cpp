@@ -36,7 +36,7 @@ bool MenuScene::init()
 		if (node->getTag() == 15)
 		{
 			auto text = static_cast<ui::Text*>(node);
-			text->setFontName("5px2bus.ttf");
+			text->setFontName("fonts/5px2bus.ttf");
 			text->enableOutline(Color4B::BLACK, 2);
 			text->setFontSize(40.f);
 		}
